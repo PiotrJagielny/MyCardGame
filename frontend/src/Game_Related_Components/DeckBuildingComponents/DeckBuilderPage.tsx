@@ -1,9 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
+
+interface Cards{
+    names: string[];
+}
 
 const DeckBuilderPage = () => {
-  return (
-    <div>DeckBuilderPage</div>
-  )
+    const [CardsData, setCardsData] = useState<Cards>();
+
+
+    return (
+        <div>DeckBuilderPage</div>
+    )
 }
 
 export default DeckBuilderPage
