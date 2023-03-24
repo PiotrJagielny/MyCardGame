@@ -13,9 +13,9 @@ const MainPage = () => {
 
   return (
     <div>
-      This is game main page
-      <button onClick={RedirectToDeckBuilder}>Build your deck</button>
-      <button onClick={RedirectToDuel}>Duel</button>
+      This is game main page <br />
+      <button onClick={RedirectToDeckBuilder}>Build your deck</button> <br />
+      <button onClick={RedirectToDuel}>Duel</button> <br />
     </div>
     
   )
