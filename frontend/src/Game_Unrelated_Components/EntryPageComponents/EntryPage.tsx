@@ -10,7 +10,7 @@ const EntryPage = () => {
 
   return (
     <div>
-        Welcome to my card game!
+        Welcome to my card game! <br />
         <button onClick={RedirectToMainPage}>Press to enter</button>
     </div>
     
