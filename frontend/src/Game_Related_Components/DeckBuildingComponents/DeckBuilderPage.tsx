@@ -17,10 +17,33 @@ const DeckBuilderPage = () => {
         setCardsData(cardsData);
       })
       .catch(console.error);
-
-    console.log(cardsData);
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
+      .then((res) => res.json())
+      .then((cardsInDeck: Card[]) => {
+        setCardsInDeck(cardsInDeck);
+      })
+      .catch(console.error);
+  }, []);
+
+
+
+
+  const ChangeDecksState = async (cardNameToPost: string, PostURL: string) =>{
+    const response = await fetch(PostURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardNameToPost)
+    });
+    console.log(response.body);
+    if(!response.ok){
+      throw new Error('Failed to change deck state');
+    }
+  };
 
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
@@ -32,73 +55,89 @@ const DeckBuilderPage = () => {
     let allCards = cardsData;
     let allCardsInDeck = cardsInDeck;
 
-    if(source.droppableId === "AllCards"){
-      add=allCards[source.index];
-      allCards.splice(source.index, 1);
+
+    let PostURL:string = '';
+
+    if(destination.droppableId === "AllCards"){
+      PostURL = "http://localhost:8000/DeckBuilder/PutCardFromDeckBack"
     }
-    else if(source.droppableId === "CardsInDeck"){
-      add=allCardsInDeck[source.index];
-      allCardsInDeck.splice(source.index, 1);
+    else if(destination.droppableId === "CardsInDeck"){
+      PostURL = "http://localhost:8000/DeckBuilder/PutCardToDeck"
     }
 
-    if(destination.droppableId === "CardsInDeck"){
-      allCardsInDeck.splice(destination.index,0,add);
-    }
-    else{
-      allCards.splice(destination.index,0,add);
-    }
+    ChangeDecksState(result.draggableId, PostURL);
+
+    // if(source.droppableId === "AllCards"){
+    //   add=allCards[source.index];
+    //   allCards.splice(source.index, 1);
+    // }
+    // else if(source.droppableId === "CardsInDeck"){
+    //   add=allCardsInDeck[source.index];
+    //   allCardsInDeck.splice(source.index, 1);
+    // }
+
+    // if(destination.droppableId === "CardsInDeck"){
+    //   allCardsInDeck.splice(destination.index,0,add);
+    // }
+    // else{
+    //   allCards.splice(destination.index,0,add);
+    // }
 
     setCardsData(allCards);
     setCardsInDeck(allCardsInDeck);
   }
 
   return (
-    <div>
-      DeckBuilderPage <br />
+    <div className="DeckBuilderPage">
+      <h2>DeckBuilderPage</h2>
 
-      <p>All Cards:</p>
+      
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="AllCards">
-          {(provided) => (
-            <div className="AllCards" ref={provided.innerRef} {...provided.droppableProps}>
-              <ul>
-                {cardsData.map((item, index) => (
-                  <Draggable key={item.name} draggableId={item.name} index={index}>
-                    {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        <div>{item.name} </div>
-                        <br />
-                      </li>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </ul>
-            </div>
-          )}
-        </Droppable>
+      <div className="Decks">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="AllCards">
+            {(provided) => (
+              <div className="AllCards" ref={provided.innerRef} {...provided.droppableProps}>
+                <p>All Cards:</p>
+                <ul>
+                  {cardsData.map((item, index) => (
+                    <Draggable key={item.name} draggableId={item.name} index={index}>
+                      {(provided) => (
+                        <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                          <div>{item.name} </div>
+                          <br />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              </div>
+            )}
+          </Droppable>
 
-        <Droppable droppableId="CardsInDeck">
-          {(provided) => (
-            <div className="AllCardsInDeck" ref={provided.innerRef} {...provided.droppableProps}>
-              <ul>
-                {cardsInDeck.map((item, index) => (
-                  <Draggable key={item.name} draggableId={item.name} index={index}>
-                    {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">
-                        <div>{item.name} </div>
-                        <br />
-                      </li>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </ul>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+          <Droppable droppableId="CardsInDeck">
+            {(provided) => (
+              <div className="AllCardsInDeck" ref={provided.innerRef} {...provided.droppableProps}>
+                <p>Cards In Your Deck:</p>
+                <ul>
+                  {cardsInDeck.map((item, index) => (
+                    <Draggable key={item.name} draggableId={item.name} index={index}>
+                      {(provided) => (
+                        <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">
+                          <div>{item.name} </div>
+                          <br />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     </div>
   );
 };

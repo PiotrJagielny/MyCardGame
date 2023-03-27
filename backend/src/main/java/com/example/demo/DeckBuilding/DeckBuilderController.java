@@ -1,15 +1,13 @@
 package com.example.demo.DeckBuilding;
 
 
-import Cards.Card;
+import com.example.demo.Cards.Card;
+import com.example.demo.Cards.Deck;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
 import com.example.demo.DeckBuilding.Services.DeckBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +26,24 @@ public class DeckBuilderController {
     @GetMapping(path ="GetAllCards")
     @CrossOrigin
     public List<Card> GetAllCards(){
-        return DeckBuilderService.GetAllCards();
+        return DeckBuilderService.GetCardsPossibleToAdd();
+    }
+
+    @GetMapping(path = "GetCardsInDeck")
+    @CrossOrigin
+    public List<Card> GetCardsInDeck(){return DeckBuilderService.GetPlayerDeck();}
+
+    @PostMapping(path = "PutCardToDeck")
+    @CrossOrigin
+    public void AddCardToDeck(String CardName){
+        DeckBuilderService.AddCardToDeck(CardName);
+        System.out.println("DZIALA");
+    }
+
+    @PostMapping(path = "PutCardFromDeckBack")
+    @CrossOrigin
+    public void PutCardFromDeckBack(String CardName){
+        DeckBuilderService.PutCardFromDeckBack(CardName);
     }
 
 }

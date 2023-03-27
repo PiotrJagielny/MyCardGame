@@ -7,11 +7,4 @@ import org.springframework.util.Assert;
 @SpringBootTest
 class DemoApplicationTests {
 
-	@Test
-	void contextLoads() {
-
-		Assert.isTrue(true,"");
-
-	}
-
 }

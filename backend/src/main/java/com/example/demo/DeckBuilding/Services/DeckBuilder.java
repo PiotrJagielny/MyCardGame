@@ -1,9 +1,17 @@
 package com.example.demo.DeckBuilding.Services;
 
-import Cards.Card;
+import com.example.demo.Cards.Card;
 
 import java.util.List;
 
 public interface DeckBuilder {
-    public List<Card> GetAllCards();
+    List<Card> GetCardsPossibleToAdd();
+
+    void AddCardToDeck(String CardName);
+
+    void PutCardFromDeckBack(String CardName);
+
+    List<Card> GetPlayerDeck();
+
+
 }

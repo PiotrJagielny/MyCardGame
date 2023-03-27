@@ -1,9 +1,22 @@
-.AllCards{
+.AllCards {
     background-color: green;
     color: bisque;
-}
-
-.AllCardsInDeck{
+    width: 40%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0; 
+  }
+  
+  .AllCardsInDeck {
     background-color: blueviolet;
     color: bisque;
-}
+    width: 40%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0; 
+  }
+  
+  .Decks {
+    display: flex;
+  }
+  
