@@ -1,4 +1,9 @@
-.ggg{
+.AllCards{
     background-color: green;
+    color: bisque;
+}
+
+.AllCardsInDeck{
+    background-color: blueviolet;
     color: bisque;
 }
