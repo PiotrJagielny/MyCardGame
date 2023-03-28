@@ -37,7 +37,7 @@ const DeckBuilderPage = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(cardNameToPost)
+      body: cardNameToPost
     });
     console.log(response.body);
     if(!response.ok){
@@ -51,11 +51,6 @@ const DeckBuilderPage = () => {
     if(!destination){return;}
     if(destination.droppableId === source.droppableId && destination.index === source.index){return;}
 
-    let add: Card = {name:"Nothing"};
-    let allCards = cardsData;
-    let allCardsInDeck = cardsInDeck;
-
-
     let PostURL:string = '';
 
     if(destination.droppableId === "AllCards"){
@@ -67,24 +62,19 @@ const DeckBuilderPage = () => {
 
     ChangeDecksState(result.draggableId, PostURL);
 
-    // if(source.droppableId === "AllCards"){
-    //   add=allCards[source.index];
-    //   allCards.splice(source.index, 1);
-    // }
-    // else if(source.droppableId === "CardsInDeck"){
-    //   add=allCardsInDeck[source.index];
-    //   allCardsInDeck.splice(source.index, 1);
-    // }
+    fetch('http://localhost:8000/DeckBuilder/GetAllCards')
+      .then((res) => res.json())
+      .then((cardsData: Card[]) => {
+        setCardsData(cardsData);
+      })
+      .catch(console.error);
 
-    // if(destination.droppableId === "CardsInDeck"){
-    //   allCardsInDeck.splice(destination.index,0,add);
-    // }
-    // else{
-    //   allCards.splice(destination.index,0,add);
-    // }
-
-    setCardsData(allCards);
-    setCardsInDeck(allCardsInDeck);
+    fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
+      .then((res) => res.json())
+      .then((cardsInDeck: Card[]) => {
+        setCardsInDeck(cardsInDeck);
+      })
+      .catch(console.error);
   }
 
   return (
