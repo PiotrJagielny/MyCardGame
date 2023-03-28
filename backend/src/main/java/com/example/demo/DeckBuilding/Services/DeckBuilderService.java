@@ -40,9 +40,6 @@ public class DeckBuilderService implements DeckBuilder {
 
         PlayerDeck.AddCard(card);
         CardsPossibleToAdd.removeIf(c -> c.getName() == card.getName());
-
-        System.out.println(CardsPossibleToAdd);
-        System.out.println(PlayerDeck.getCardsInDeck());
     }
 
     @Override
@@ -53,9 +50,6 @@ public class DeckBuilderService implements DeckBuilder {
 
         CardsPossibleToAdd.add(card);
         PlayerDeck.getCardsInDeck().removeIf(c -> c.getName() == card.getName());
-
-        System.out.println(CardsPossibleToAdd);
-        System.out.println(PlayerDeck.getCardsInDeck());
     }
 
     @Override

@@ -37,7 +37,6 @@ public class DeckBuilderController {
     @CrossOrigin
     public void AddCardToDeck(@RequestBody String CardName){
         DeckBuilderService.AddCardToDeck(CardName);
-        System.out.println("DZIALA");
     }
 
     @PostMapping(path = "PutCardFromDeckBack")
