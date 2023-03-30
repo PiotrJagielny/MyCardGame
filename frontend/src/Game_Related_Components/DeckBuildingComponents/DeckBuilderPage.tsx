@@ -6,6 +6,8 @@ interface Card {
   name: string;
 }
 
+let Messages: string[] = [];
+
 const DeckBuilderPage = () => {
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
@@ -32,6 +34,7 @@ const DeckBuilderPage = () => {
 
 
   const ChangeDecksState = async (cardNameToPost: string, PostURL: string) =>{
+    console.log(PostURL);
     const response = await fetch(PostURL, {
       method: 'POST',
       headers: {
@@ -39,10 +42,28 @@ const DeckBuilderPage = () => {
       },
       body: cardNameToPost
     });
+
+    Messages.push(await response.text());
+    
+
     console.log(response.body);
     if(!response.ok){
       throw new Error('Failed to change deck state');
     }
+
+    fetch('http://localhost:8000/DeckBuilder/GetAllCards')
+      .then((res) => res.json())
+      .then((cardsData: Card[]) => {
+        setCardsData(cardsData);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
+      .then((res) => res.json())
+      .then((cardsInDeck: Card[]) => {
+        setCardsInDeck(cardsInDeck);
+      })
+      .catch(console.error);
   };
 
   const onDragEnd = (result:DropResult) => {
@@ -60,21 +81,7 @@ const DeckBuilderPage = () => {
       PostURL = "http://localhost:8000/DeckBuilder/PutCardToDeck"
     }
 
-    ChangeDecksState(result.draggableId, PostURL);
-
-    fetch('http://localhost:8000/DeckBuilder/GetAllCards')
-      .then((res) => res.json())
-      .then((cardsData: Card[]) => {
-        setCardsData(cardsData);
-      })
-      .catch(console.error);
-
-    fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
-      .then((res) => res.json())
-      .then((cardsInDeck: Card[]) => {
-        setCardsInDeck(cardsInDeck);
-      })
-      .catch(console.error);
+    ChangeDecksState(result.draggableId, PostURL); 
   }
 
   return (
@@ -127,6 +134,13 @@ const DeckBuilderPage = () => {
             )}
           </Droppable>
         </DragDropContext>
+      </div>
+      <div className="Messages">
+        {Messages.filter(message => message.length !== 0).map(message =>(
+          <ul>
+            <li>{message}</li>
+          </ul>
+        ))}
       </div>
     </div>
   );

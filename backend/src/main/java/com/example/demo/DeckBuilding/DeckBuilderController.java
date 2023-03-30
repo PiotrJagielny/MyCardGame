@@ -35,13 +35,14 @@ public class DeckBuilderController {
 
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
-    public void AddCardToDeck(@RequestBody String CardName){
-        DeckBuilderService.AddCardToDeck(CardName);
+    public String AddCardToDeck(@RequestBody String CardName) {
+        String ResponseMessage = DeckBuilderService.AddCardToDeck(CardName);
+        return ResponseMessage;
     }
 
     @PostMapping(path = "PutCardFromDeckBack")
     @CrossOrigin
-    public void PutCardFromDeckBack(String CardName){
+    public void PutCardFromDeckBack(@RequestBody String CardName){
         DeckBuilderService.PutCardFromDeckBack(CardName);
     }
 

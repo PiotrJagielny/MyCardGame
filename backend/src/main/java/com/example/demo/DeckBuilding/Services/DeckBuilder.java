@@ -7,7 +7,7 @@ import java.util.List;
 public interface DeckBuilder {
     List<Card> GetCardsPossibleToAdd();
 
-    void AddCardToDeck(String CardName);
+    String AddCardToDeck(String CardName);
 
     void PutCardFromDeckBack(String CardName);
 
