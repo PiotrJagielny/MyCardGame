@@ -7,8 +7,8 @@ public class Deck {
     private List<Card> CardsInDeck;
     private String DeckName;
 
-    public Deck() {
-        DeckName = "";
+    public Deck(String deckName) {
+        DeckName = deckName;
         CardsInDeck = new ArrayList<Card>();
     }
 
@@ -29,5 +29,9 @@ public class Deck {
 
     public void setCardsInDeck(List<Card> cardsInDeck) {
         CardsInDeck = cardsInDeck;
+    }
+
+    public String GetDeckName() {
+        return DeckName;
     }
 }

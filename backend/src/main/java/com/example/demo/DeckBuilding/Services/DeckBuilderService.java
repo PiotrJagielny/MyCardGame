@@ -16,10 +16,11 @@ public class DeckBuilderService implements DeckBuilder {
     private List<Card> CardsPossibleToAdd;
     private Deck PlayerDeck;
 
-
+    private List<Deck> PlayerDecks;
     public DeckBuilderService() {
         InitAllCards();
-        PlayerDeck = new Deck();
+        PlayerDeck = new Deck("nothing");
+        PlayerDecks = new ArrayList<Deck>();
     }
 
     private void InitAllCards() {
@@ -61,5 +62,21 @@ public class DeckBuilderService implements DeckBuilder {
     @Override
     public List<Card> GetPlayerDeck() {
         return PlayerDeck.getCardsInDeck();
+    }
+
+    @Override
+    public List<String> GetDecksNames() {
+        List<String> Result = new ArrayList<String>();
+
+        for(int i = 0 ; i < PlayerDecks.size() ; ++i){
+            Result.add(PlayerDecks.get(i).GetDeckName());
+        }
+
+        return Result;
+    }
+
+    @Override
+    public void CreateDeck(String deckName) {
+        PlayerDecks.add(new Deck(deckName));
     }
 }

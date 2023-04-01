@@ -11,6 +11,17 @@ let Messages: string[] = [];
 const DeckBuilderPage = () => {
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
+  const [decksNames, setDecksNames] = useState<string[]>([]);
+
+
+  useEffect(() => {
+    fetch('http://localhost:8000/DeckBuilder/GetAllCards')
+      .then((res) => res.json())
+      .then((cardsData: Card[]) => {
+        setCardsData(cardsData);
+      })
+      .catch(console.error);
+  }, []);
 
   useEffect(() => {
     fetch('http://localhost:8000/DeckBuilder/GetAllCards')
@@ -91,6 +102,7 @@ const DeckBuilderPage = () => {
       
 
       <div className="Decks">
+
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="AllCards">
             {(provided) => (
@@ -133,7 +145,11 @@ const DeckBuilderPage = () => {
               </div>
             )}
           </Droppable>
+
         </DragDropContext>
+        <div className="PlayersDecks">
+            
+        </div>
       </div>
       <div className="Messages">
         {Messages.filter(message => message.length !== 0).map(message =>(

@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestDeckBuilder {
@@ -52,6 +54,13 @@ class TestDeckBuilder {
         String ResponseMessage = deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
         assertEquals(Consts.MaxDeckSize, deckBuilder.GetPlayerDeck().size(), "Can add cards after reaching max cards amount");
         assertEquals(Consts.DeckFullMessage, ResponseMessage, "Can add cards after reaching max cards amount");
+    }
+
+    @Test
+    public void TestDeckCreation(){
+        
+        deckBuilder.CreateDeck("FirstDeck");
+        assertEquals(List.of("FirstDeck"), deckBuilder.GetDecksNames());
     }
 
 }

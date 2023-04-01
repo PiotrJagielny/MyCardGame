@@ -14,4 +14,7 @@ public interface DeckBuilder {
     List<Card> GetPlayerDeck();
 
 
+    List<String> GetDecksNames();
+
+    void CreateDeck(String deckName);
 }

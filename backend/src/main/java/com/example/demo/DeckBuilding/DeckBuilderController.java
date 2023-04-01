@@ -33,6 +33,10 @@ public class DeckBuilderController {
     @CrossOrigin
     public List<Card> GetCardsInDeck(){return DeckBuilderService.GetPlayerDeck();}
 
+    @GetMapping(path = "GetDecksNames")
+    @CrossOrigin
+    public List<String> GetDecksNames(){return DeckBuilderService.GetDecksNames();}
+
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
     public String AddCardToDeck(@RequestBody String CardName) {
