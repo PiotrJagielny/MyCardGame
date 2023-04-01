@@ -15,14 +15,14 @@ import java.util.stream.IntStream;
 public class DeckBuilderService implements DeckBuilder {
 
     private List<Card> CardsPossibleToAdd;
-
     private String SelectedDeck;
-
     private List<Deck> PlayerDecks;
+
+
     public DeckBuilderService() {
         InitAllCards();
         PlayerDecks = new ArrayList<Deck>();
-        PlayerDecks.add(new Deck("Deck"));
+        PlayerDecks.add(new Deck(CardsPossibleToAdd,"Deck"));
         SelectedDeck = "Deck";
     }
 
@@ -35,21 +35,19 @@ public class DeckBuilderService implements DeckBuilder {
 
     @Override
     public List<Card> GetCardsPossibleToAdd() {
-        return CardsPossibleToAdd;
+        return PlayerDecks.get(GetSelectedDeckIndex()).GetCardsPossibleToAdd();
     }
 
     @Override
     public String AddCardToDeck(String CardName) {
-        int deckIndex = IntStream.range(0,PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
-        String ResponseMessage="";
-        Card card = CardsPossibleToAdd.stream().filter(c -> c.getName().equals(CardName)).findFirst().orElse(null);
-        if (card == null || PlayerDecks.get(deckIndex).getCardsInDeck().size() == Consts.MaxDeckSize) {
-            ResponseMessage = Consts.DeckFullMessage;
-            return ResponseMessage;
-        }
-        PlayerDecks.get(deckIndex).AddCard(card);
-        CardsPossibleToAdd.removeIf(c -> c.getName() == card.getName());
-        return ResponseMessage;
+        return PlayerDecks.get(GetSelectedDeckIndex()).AddCard(CardName);
+
+    }
+
+    @Override
+    public void PutCardFromDeckBack(String cardName) {
+        PlayerDecks.get(GetSelectedDeckIndex()).PutCardFromDeckBack(cardName);
+
     }
 
 
@@ -66,14 +64,13 @@ public class DeckBuilderService implements DeckBuilder {
 
     @Override
     public List<Card> GetPlayerDeck() {
-        int deckIndex = IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
-        return PlayerDecks.get(deckIndex).getCardsInDeck();
+        return PlayerDecks.get(GetSelectedDeckIndex()).getCardsInDeck();
     }
 
     @Override
     public void CreateDeck(String deckName) {
         if(GetDecksNames().contains(deckName) == false)
-            PlayerDecks.add(new Deck(deckName));
+            PlayerDecks.add(new Deck(CardsPossibleToAdd, deckName));
     }
 
     @Override
@@ -81,14 +78,7 @@ public class DeckBuilderService implements DeckBuilder {
         SelectedDeck = deckName;
     }
 
-    @Override
-    public void PutCardFromDeckBack(String cardName) {
-        int deckIndex = IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
-        Card card = PlayerDecks.get(deckIndex).GetCardBy(cardName);
-
-        if(card == null) return;
-
-        CardsPossibleToAdd.add(card);
-        PlayerDecks.get(deckIndex).RemoveCardFromDeck(card);
+    private int GetSelectedDeckIndex(){
+        return IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
     }
 }

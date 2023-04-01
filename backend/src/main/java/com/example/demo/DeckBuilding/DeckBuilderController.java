@@ -48,7 +48,6 @@ public class DeckBuilderController {
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName) {
         DeckBuilderService.CreateDeck(deckName);
-        System.out.println(deckName);
     }
 
     @PostMapping(path = "SelectDeck")
