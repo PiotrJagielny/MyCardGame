@@ -39,9 +39,22 @@ public class DeckBuilderController {
 
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
-    public String AddCardToDeck(@RequestBody String CardName) {
-        String ResponseMessage = DeckBuilderService.AddCardToDeck(CardName);
+    public String AddCardToDeck(@RequestBody String cardName) {
+        String ResponseMessage = DeckBuilderService.AddCardToDeck(cardName);
         return ResponseMessage;
+    }
+
+    @PostMapping(path = "CreateDeck")
+    @CrossOrigin
+    public void CreateDeck(@RequestBody String deckName) {
+        DeckBuilderService.CreateDeck(deckName);
+        System.out.println(deckName);
+    }
+
+    @PostMapping(path = "SelectDeck")
+    @CrossOrigin
+    public void SelectDeck(@RequestBody String deckName){
+        DeckBuilderService.SelectDeck(deckName);
     }
 
     @PostMapping(path = "PutCardFromDeckBack")

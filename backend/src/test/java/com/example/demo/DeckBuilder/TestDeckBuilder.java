@@ -28,6 +28,9 @@ class TestDeckBuilder {
     @Test
     public void TestAddingCardToPlayerDeck() {
 
+        deckBuilder.CreateDeck("First");
+        deckBuilder.SelectDeck("First");
+
         int PossibleCardsToAddBeforeAddingToDeck = deckBuilder.GetCardsPossibleToAdd().size();
         deckBuilder.AddCardToDeck(deckBuilder.GetCardsPossibleToAdd().get(0).getName());
         int PossibleCardsToAddAfterAddingToDeck = deckBuilder.GetCardsPossibleToAdd().size();
@@ -39,6 +42,9 @@ class TestDeckBuilder {
     @Test
     public void TestAddingBackCardFromDeck() {
 
+        deckBuilder.CreateDeck("First");
+        deckBuilder.SelectDeck("First");
+
         deckBuilder.AddCardToDeck(deckBuilder.GetCardsPossibleToAdd().get(0).getName());
         deckBuilder.PutCardFromDeckBack(deckBuilder.GetPlayerDeck().get(0).getName());
 
@@ -48,7 +54,10 @@ class TestDeckBuilder {
     @Test
     public void TestAddingCardToFullDeck() {
 
-        for(int i = 1; i <= Consts.MaxDeckSize +1 ; ++i){
+        deckBuilder.CreateDeck("First");
+        deckBuilder.SelectDeck("First");
+
+        for(int i = 1; i <= Consts.MaxDeckSize ; ++i){
             deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
         }
         String ResponseMessage = deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
@@ -60,7 +69,69 @@ class TestDeckBuilder {
     public void TestDeckCreation(){
         
         deckBuilder.CreateDeck("FirstDeck");
-        assertEquals(List.of("FirstDeck"), deckBuilder.GetDecksNames());
+        assertTrue(deckBuilder.GetDecksNames().contains("FirstDeck"));
+    }
+
+    @Test
+    public void TestAddingDeckWithExistingName(){
+
+        int InitalDecksNumber = deckBuilder.GetDecksNames().size();
+
+        String singleName = "NewDeck";
+        deckBuilder.CreateDeck(singleName);
+        deckBuilder.CreateDeck(singleName);
+
+
+        assertEquals(1 + InitalDecksNumber, deckBuilder.GetDecksNames().size(), "there are two decks with same names");
+    }
+
+    @Test
+    public void TestAddingCardsToDifferentDecks(){
+
+        deckBuilder.CreateDeck("First");
+        deckBuilder.CreateDeck("Second");
+
+        deckBuilder.SelectDeck("First");
+        deckBuilder.AddCardToDeck("Thunder");
+        assertEquals(deckBuilder.GetPlayerDeck().get(0).getName(), "Thunder");
+
+        deckBuilder.SelectDeck("Second");
+        deckBuilder.AddCardToDeck("Knight");
+        assertEquals(deckBuilder.GetPlayerDeck().get(0).getName(), "Knight");
+    }
+
+    @Test
+    public void TestPuttingCardFromCorrectDeckBack(){
+
+        deckBuilder.CreateDeck("First");
+        deckBuilder.CreateDeck("Second");
+
+        deckBuilder.SelectDeck("First");
+        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName());
+        deckBuilder.SelectDeck("Second");
+        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName());
+        deckBuilder.SelectDeck("First");
+        deckBuilder.PutCardFromDeckBack( deckBuilder.GetPlayerDeck().get(0).getName() );
+        assertEquals(0, deckBuilder.GetPlayerDeck().size());
+
+        deckBuilder.SelectDeck("Second");
+        assertEquals(1, deckBuilder.GetPlayerDeck().size());
+        deckBuilder.PutCardFromDeckBack( deckBuilder.GetPlayerDeck().get(0).getName() );
+        assertEquals(0, deckBuilder.GetPlayerDeck().size());
+    }
+
+    @Test
+    public void TestCardsPossibleToAddWhenSwitchingDecks(){
+
+        int InitalCardsPossibleToAdd = deckBuilder.GetCardsPossibleToAdd().size();
+
+        deckBuilder.CreateDeck("First");
+        deckBuilder.CreateDeck("Second");
+        deckBuilder.SelectDeck("First");
+        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
+        deckBuilder.SelectDeck("Second");
+
+        assertEquals(InitalCardsPossibleToAdd, deckBuilder.GetCardsPossibleToAdd().size());
     }
 
 }
