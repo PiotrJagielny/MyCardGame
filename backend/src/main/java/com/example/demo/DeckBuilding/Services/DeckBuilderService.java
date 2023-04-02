@@ -35,12 +35,12 @@ public class DeckBuilderService implements DeckBuilder {
 
     @Override
     public List<Card> GetCardsPossibleToAdd() {
-        return PlayerDecks.get(GetSelectedDeckIndex()).GetCardsPossibleToAdd();
+        return PlayerDecks.get( GetSelectedDeckIndex() ).GetCardsPossibleToAdd();
     }
 
     @Override
     public String AddCardToDeck(String CardName) {
-        return PlayerDecks.get(GetSelectedDeckIndex()).AddCard(CardName);
+        return PlayerDecks.get( GetSelectedDeckIndex() ).AddCard(CardName);
 
     }
 
@@ -48,6 +48,24 @@ public class DeckBuilderService implements DeckBuilder {
     public void PutCardFromDeckBack(String cardName) {
         PlayerDecks.get(GetSelectedDeckIndex()).PutCardFromDeckBack(cardName);
 
+    }
+
+    @Override
+    public String DeleteCurrentDeck() {
+        String ResponseMessage = "";
+        if(IsAbleToDeleteDeck() == false){
+            ResponseMessage = "Cannot delete last deck";
+            return ResponseMessage;
+        }
+        DeleteDeck();
+        return ResponseMessage;
+    }
+
+    private Boolean IsAbleToDeleteDeck(){return PlayerDecks.size() != 1;}
+
+    private void DeleteDeck(){
+        PlayerDecks.removeIf(d -> d.GetDeckName().equals(SelectedDeck));
+        SelectedDeck = GetDecksNames().get(0);
     }
 
 
@@ -78,7 +96,13 @@ public class DeckBuilderService implements DeckBuilder {
         SelectedDeck = deckName;
     }
 
-    private int GetSelectedDeckIndex(){
-        return IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
+    private int GetSelectedDeckIndex() {
+        int deckIndex = IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
+        if(deckIndex == -1)
+            throw new SelectedDeckUnrecognized();
+        return deckIndex;
+    }
+
+    public class SelectedDeckUnrecognized extends RuntimeException{
     }
 }

@@ -18,4 +18,6 @@ public interface DeckBuilder {
     void SelectDeck(String deckName);
 
     void PutCardFromDeckBack(String cardName);
+
+    String DeleteCurrentDeck();
 }

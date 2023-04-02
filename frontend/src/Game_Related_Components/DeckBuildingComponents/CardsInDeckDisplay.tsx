@@ -5,9 +5,10 @@ import {Card} from './../Interfaces/Card';
 
 interface Props{
     Cards: Card[];
+    refresh: boolean;
 }
 
-export const CardsInDeckDisplay: React.FC<Props> = ({Cards}) => {
+export const CardsInDeckDisplay: React.FC<Props> = ({Cards, refresh}) => {
   return (
     <div>
         <Droppable droppableId="CardsInDeck">

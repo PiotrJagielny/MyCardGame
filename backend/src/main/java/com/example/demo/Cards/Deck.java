@@ -36,7 +36,7 @@ public class Deck {
             return ResponseMessage;
         }
         CardsInDeck.add(card);
-        AllCardsPossibleToAdd.removeIf(c -> c.getName() == card.getName());
+        AllCardsPossibleToAdd.removeIf(c -> c.getName().equals(card.getName()));
         return ResponseMessage;
     }
 

@@ -4,18 +4,16 @@ import {AllCardsDisplay} from './AllCardsDisplay';
 import {CardsInDeckDisplay} from './CardsInDeckDisplay';
 import {DecksManager} from './DecksManager';
 import {Card} from './../Interfaces/Card';
+import {MessagesComponent} from './../../Game_Unrelated_Components/UIComponents/MessagesComponent';
 import  './DeckBuilderPage.css';
 
 
-let Messages: string[] = [];
 
 const DeckBuilderPage = () => {
+  const [refresh, setRefresh] = useState(false);
+  const [messages, setMessages] = useState<string[]>([]);
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
-
-  useEffect(() => {
-    fetchCardsData();
-  }, []);
 
   const fetchCardsData = () => {
     fetch('http://localhost:8000/DeckBuilder/GetAllCards')
@@ -31,11 +29,13 @@ const DeckBuilderPage = () => {
         setCardsInDeck(cardsInDeck);
       })
       .catch(console.error);
+
+      setRefresh(true);
   }
 
-  const fetchCardsCollection = () => {
-    
-  }
+  useEffect(() => {
+    fetchCardsData();
+  }, []);
 
   const ChangeDecksState = async (cardNameToPost: string, PostURL: string) =>{
     
@@ -47,16 +47,21 @@ const DeckBuilderPage = () => {
       body: cardNameToPost
     });
 
-    Messages.push(await response.text());
     
+    addMessage(await response.text());
 
-    console.log(response.body);
     if(!response.ok){
       throw new Error('Failed to change deck state');
     }
 
     fetchCardsData();
   };
+
+  const addMessage = (message: string) => {
+    messages.push(message);
+    setMessages(messages);
+    setRefresh(true);
+  }
 
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
@@ -90,22 +95,18 @@ const DeckBuilderPage = () => {
 
         <DragDropContext onDragEnd={onDragEnd}>
           <div className = "AllCards">
-            <AllCardsDisplay Cards={cardsData}></AllCardsDisplay>
+            <AllCardsDisplay Cards={cardsData} refresh={refresh}></AllCardsDisplay>
           </div>
           <div className = "AllCardsInDeck">
-            <CardsInDeckDisplay Cards={cardsInDeck}></CardsInDeckDisplay>
+            <CardsInDeckDisplay Cards={cardsInDeck} refresh={refresh}></CardsInDeckDisplay>
           </div>
         </DragDropContext>
         <div className="PlayersDecks">
-          <DecksManager OnDecksSwitched={handleDecksSwitch}></DecksManager>
+          <DecksManager OnDecksSwitched={handleDecksSwitch} addMessage={addMessage}></DecksManager>
         </div>
       </div>
       <div className="Messages">
-        {Messages.filter(message => message.length !== 0).map(message =>(
-          <ul>
-            <li>{message}</li>
-          </ul>
-        ))}
+        <MessagesComponent Messages = {messages} refresh={refresh}></MessagesComponent>
       </div>
     </div>
   );

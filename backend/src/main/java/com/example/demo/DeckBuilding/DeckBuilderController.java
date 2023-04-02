@@ -56,6 +56,12 @@ public class DeckBuilderController {
         DeckBuilderService.SelectDeck(deckName);
     }
 
+    @PostMapping(path = "DeleteDeck")
+    @CrossOrigin
+    public String DeleteDeck() {
+        return DeckBuilderService.DeleteCurrentDeck();
+    }
+
     @PostMapping(path = "PutCardFromDeckBack")
     @CrossOrigin
     public void PutCardFromDeckBack(@RequestBody String CardName){
