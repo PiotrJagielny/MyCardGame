@@ -14,23 +14,21 @@ import java.util.stream.IntStream;
 @Service
 public class DeckBuilderService implements DeckBuilder {
 
-    private List<Card> CardsPossibleToAdd;
     private String SelectedDeck;
     private List<Deck> PlayerDecks;
 
-
     public DeckBuilderService() {
-        InitAllCards();
         PlayerDecks = new ArrayList<Deck>();
-        PlayerDecks.add(new Deck(CardsPossibleToAdd,"Deck"));
+        PlayerDecks.add(new Deck(InitAllCards(),"Deck"));
         SelectedDeck = "Deck";
     }
 
-    private void InitAllCards() {
-        CardsPossibleToAdd = new ArrayList<Card>(Arrays.asList(
+    private List<Card> InitAllCards() {
+        List<Card> result = new ArrayList<Card>(Arrays.asList(
             new Card("Knight"), new Card("Witch"), new Card("Thunder"), new Card("Warrior"),
             new Card("Viking"), new Card("Capitan"), new Card("Armageddon"))
         );
+        return result;
     }
 
     @Override
@@ -88,7 +86,7 @@ public class DeckBuilderService implements DeckBuilder {
     @Override
     public void CreateDeck(String deckName) {
         if(GetDecksNames().contains(deckName) == false)
-            PlayerDecks.add(new Deck(CardsPossibleToAdd, deckName));
+            PlayerDecks.add(new Deck(InitAllCards(), deckName));
     }
 
     @Override
@@ -98,11 +96,7 @@ public class DeckBuilderService implements DeckBuilder {
 
     private int GetSelectedDeckIndex() {
         int deckIndex = IntStream.range(0, PlayerDecks.size()).filter(i -> SelectedDeck.equals(PlayerDecks.get(i).GetDeckName())).findFirst().orElse(-1);
-        if(deckIndex == -1)
-            throw new SelectedDeckUnrecognized();
         return deckIndex;
     }
 
-    public class SelectedDeckUnrecognized extends RuntimeException{
-    }
 }

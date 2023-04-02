@@ -4,7 +4,7 @@ package com.example.demo.DeckBuilding;
 import com.example.demo.Cards.Card;
 import com.example.demo.Cards.Deck;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
-import com.example.demo.DeckBuilding.Services.DeckBuilderFactory;
+import com.example.demo.DeckBuilding.Services.DeckBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class DeckBuilderController {
 
     @Autowired
     public DeckBuilderController() {
-        DeckBuilderService = DeckBuilderFactory.GetDeckBuilderService();
+        DeckBuilderService = new DeckBuilderService();
     }
 
     @GetMapping(path ="GetAllCards")
