@@ -24,9 +24,8 @@ public class Deck {
     }
 
     public String AddCard(String cardName){
-
         String ResponseMessage="";
-        Card card = GetCardBy_From(cardName, AllCardsPossibleToAdd);
+        Card card = AllCardsPossibleToAdd.stream().filter(c -> c.getName().equals(cardName)).findFirst().orElse(null);
 
         if(CardsInDeck.size() == Consts.MaxDeckSize) {
             ResponseMessage = Consts.DeckFullMessage;
@@ -34,15 +33,15 @@ public class Deck {
         }
 
         CardsInDeck.add(card);
-        RemoveCardFrom(card, AllCardsPossibleToAdd);
+        AllCardsPossibleToAdd.removeIf(c -> c.getName().equals(card.getName()) );
         return ResponseMessage;
     }
 
     public void PutCardFromDeckBack(String cardName){
-        Card card = GetCardBy_From(cardName, CardsInDeck);
+        Card card = CardsInDeck.stream().filter(c -> c.getName().equals(cardName)).findFirst().orElse(null);
 
         AllCardsPossibleToAdd.add(card);
-        RemoveCardFrom(card, CardsInDeck);
+        CardsInDeck.removeIf(c -> c.getName().equals(card.getName()) );
     }
 
     public List<Card> getCardsInDeck() {
@@ -57,11 +56,4 @@ public class Deck {
         return AllCardsPossibleToAdd;
     }
 
-    public void RemoveCardFrom(Card card, List<Card> CardsCollection){
-        CardsCollection.removeIf(c -> c.getName() == card.getName());
-    }
-
-    public Card GetCardBy_From(String Name, List<Card> CardsCollection){
-        return CardsCollection.stream().filter(c -> c.getName().equals(Name)).findFirst().orElse(null);
-    }
 }
