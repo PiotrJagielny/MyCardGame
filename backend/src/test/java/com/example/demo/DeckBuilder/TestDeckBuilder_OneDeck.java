@@ -21,7 +21,7 @@ class TestDeckBuilder_OneDeck {
     @Test
     public void testAddingCardToPlayerDeck() {
         int cardsToAdd_BeforeAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
-        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
         int cardsToAdd_AfterAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
 
         assertEquals(1,deckBuilder.getPlayerDeck().size(), "Deck doens have 1 card after adding ");
@@ -30,15 +30,15 @@ class TestDeckBuilder_OneDeck {
 
     @Test
     public void testAddingBackCardFromDeck() {
-        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getName());
-        deckBuilder.putCardFromDeckBack(deckBuilder.getPlayerDeck().get(0).getName());
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
+        deckBuilder.putCardFromDeckBack(deckBuilder.getPlayerDeck().get(0).getDisplay());
         assertTrue(deckBuilder.getPlayerDeck().isEmpty(), "Player deck is not empty after adding and removing card from deck");
     }
 
     @Test
     public void testAddingCardToFullDeck() {
         for(int i = 1; i <= Consts.MaxDeckSize + 1 ; ++i){
-            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName() );
+            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay() );
         }
         assertEquals(Consts.MaxDeckSize, deckBuilder.getPlayerDeck().size(), "Can add cards after reaching max cards amount");
     }

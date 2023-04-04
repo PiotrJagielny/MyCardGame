@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CardsParser {
     List<Card> getParsedCards();
+
+    void addCardsToParse(List<String> cardDisplays);
 }

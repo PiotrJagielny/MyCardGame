@@ -3,6 +3,7 @@ package com.example.demo.DeckBuilding.Services;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.NormalCard;
 import com.example.demo.CardsServices.Deck;
+import com.example.demo.CardsServices.Factory.CardsFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,18 +17,14 @@ public class DeckBuilderService implements DeckBuilder {
     private String selectedDeck;
     private List<Deck> playerDecks;
 
+    private CardsFactory factory;
+
     public DeckBuilderService() {
         playerDecks = new ArrayList<Deck>();
-        playerDecks.add(new Deck(initAllCards(),"Deck"));
-        selectedDeck = "Deck";
-    }
+        factory = new CardsFactory();
 
-    private List<Card> initAllCards() {
-        List<Card> result = new ArrayList<Card>(Arrays.asList(
-            new NormalCard("Knight"), new NormalCard("Witch"), new NormalCard("Thunder"), new NormalCard("Warrior"),
-            new NormalCard("Viking"), new NormalCard("Capitan"), new NormalCard("Armageddon"))
-        );
-        return result;
+        playerDecks.add(new Deck(factory.createAllCards(),"Deck"));
+        selectedDeck = "Deck";
     }
 
     @Override
@@ -36,14 +33,14 @@ public class DeckBuilderService implements DeckBuilder {
     }
 
     @Override
-    public String addCardToDeck(String CardName) {
-        return playerDecks.get( GetSelectedDeckIndex() ).addCard(CardName);
+    public String addCardToDeck(String cardDisplay) {
+        return playerDecks.get( GetSelectedDeckIndex() ).addCard(cardDisplay);
 
     }
 
     @Override
-    public void putCardFromDeckBack(String cardName) {
-        playerDecks.get(GetSelectedDeckIndex()).putCardFromDeckBack(cardName);
+    public void putCardFromDeckBack(String cardDisplay) {
+        playerDecks.get(GetSelectedDeckIndex()).putCardFromDeckBack(cardDisplay);
 
     }
 
@@ -85,7 +82,7 @@ public class DeckBuilderService implements DeckBuilder {
     @Override
     public void createDeck(String deckName) {
         if(getDecksNames().contains(deckName) == false)
-            playerDecks.add(new Deck(initAllCards(), deckName));
+            playerDecks.add(new Deck(factory.createAllCards(), deckName));
     }
 
     @Override

@@ -38,8 +38,8 @@ public class DeckBuilderController {
 
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
-    public String AddCardToDeck(@RequestBody String cardName) {
-        String ResponseMessage = DeckBuilderService.addCardToDeck(cardName);
+    public String AddCardToDeck(@RequestBody String cardDisplay) {
+        String ResponseMessage = DeckBuilderService.addCardToDeck(cardDisplay);
         return ResponseMessage;
     }
 
@@ -63,8 +63,8 @@ public class DeckBuilderController {
 
     @PostMapping(path = "PutCardFromDeckBack")
     @CrossOrigin
-    public void PutCardFromDeckBack(@RequestBody String cardName){
-        DeckBuilderService.putCardFromDeckBack(cardName);
+    public void PutCardFromDeckBack(@RequestBody String cardDisplay){
+        DeckBuilderService.putCardFromDeckBack(cardDisplay);
     }
 
 }

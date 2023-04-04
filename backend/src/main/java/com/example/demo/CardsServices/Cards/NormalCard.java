@@ -2,14 +2,14 @@ package com.example.demo.CardsServices.Cards;
 
 public class NormalCard implements Card {
 
-    private String name;
+    private String display;
 
-    public NormalCard(String name) {
-        this.name = name;
+    public NormalCard(String display) {
+        this.display = display;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplay() {
+        return display;
     }
 
 

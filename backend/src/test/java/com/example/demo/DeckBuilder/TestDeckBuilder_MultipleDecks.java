@@ -39,33 +39,33 @@ class TestDeckBuilder_MultipleDecks {
     @Test
     public void testAddingCardsToDifferentDecks(){
         deckBuilder.addCardToDeck("Thunder");
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Thunder");
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getDisplay(), "Thunder");
 
         deckBuilder.selectDeck("Second");
         deckBuilder.addCardToDeck("Knight");
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Knight");
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getDisplay(), "Knight");
     }
 
     @Test
     public void testPuttingCardFromCorrectDeckBack(){
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
         deckBuilder.selectDeck("Second");
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
         deckBuilder.selectDeck("First");
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getName() );
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getDisplay() );
 
         assertEquals(0, deckBuilder.getPlayerDeck().size());
         deckBuilder.selectDeck("Second");
         assertEquals(1, deckBuilder.getPlayerDeck().size());
 
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getName() );
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getDisplay() );
         assertEquals(0, deckBuilder.getPlayerDeck().size());
     }
 
     @Test
     public void testCardsPossibleToAddWhenSwitchingDecks(){
         int initalCardsPossibleToAdd = deckBuilder.getCardsPossibleToAdd().size();
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName() );
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay() );
         deckBuilder.selectDeck("Second");
 
         assertEquals(initalCardsPossibleToAdd, deckBuilder.getCardsPossibleToAdd().size());

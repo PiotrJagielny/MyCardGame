@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface DeckBuilder {
     List<Card> getCardsPossibleToAdd();
-    String addCardToDeck(String CardName);
+    String addCardToDeck(String cardDisplay);
     List<String> getDecksNames();
     List<Card> getPlayerDeck();
     void createDeck(String deckName);
     void selectDeck(String deckName);
-    void putCardFromDeckBack(String cardName);
+    void putCardFromDeckBack(String cardDisplay);
     String deleteCurrentDeck();
 }
