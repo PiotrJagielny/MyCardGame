@@ -12,45 +12,45 @@ class TestDeckBuilder_OneDeck {
 
     private DeckBuilder deckBuilder;
     @BeforeEach
-    public void Init() {
+    public void init() {
         deckBuilder = new DeckBuilderService();
-        deckBuilder.CreateDeck("First");
-        deckBuilder.SelectDeck("First");
+        deckBuilder.createDeck("First");
+        deckBuilder.selectDeck("First");
     }
 
     @Test
-    public void TestAddingCardToPlayerDeck() {
-        int CardsToAdd_BeforeAddingToDeck = deckBuilder.GetCardsPossibleToAdd().size();
-        deckBuilder.AddCardToDeck(deckBuilder.GetCardsPossibleToAdd().get(0).getName());
-        int CardsToAdd_AfterAddingToDeck = deckBuilder.GetCardsPossibleToAdd().size();
+    public void testAddingCardToPlayerDeck() {
+        int cardsToAdd_BeforeAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        int cardsToAdd_AfterAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
 
-        assertEquals(1,deckBuilder.GetPlayerDeck().size(), "Deck doens have 1 card after adding ");
-        assertEquals(CardsToAdd_AfterAddingToDeck + 1, CardsToAdd_BeforeAddingToDeck, "Card is still in cardsPossibleToAdd after adding to deck ");
+        assertEquals(1,deckBuilder.getPlayerDeck().size(), "Deck doens have 1 card after adding ");
+        assertEquals(cardsToAdd_AfterAddingToDeck + 1, cardsToAdd_BeforeAddingToDeck, "Card is still in cardsPossibleToAdd after adding to deck ");
     }
 
     @Test
-    public void TestAddingBackCardFromDeck() {
-        deckBuilder.AddCardToDeck(deckBuilder.GetCardsPossibleToAdd().get(0).getName());
-        deckBuilder.PutCardFromDeckBack(deckBuilder.GetPlayerDeck().get(0).getName());
-        assertTrue(deckBuilder.GetPlayerDeck().isEmpty(), "Player deck is not empty after adding and removing card from deck");
+    public void testAddingBackCardFromDeck() {
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.putCardFromDeckBack(deckBuilder.getPlayerDeck().get(0).getName());
+        assertTrue(deckBuilder.getPlayerDeck().isEmpty(), "Player deck is not empty after adding and removing card from deck");
     }
 
     @Test
-    public void TestAddingCardToFullDeck() {
+    public void testAddingCardToFullDeck() {
         for(int i = 1; i <= Consts.MaxDeckSize + 1 ; ++i){
-            deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
+            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName() );
         }
-        assertEquals(Consts.MaxDeckSize, deckBuilder.GetPlayerDeck().size(), "Can add cards after reaching max cards amount");
+        assertEquals(Consts.MaxDeckSize, deckBuilder.getPlayerDeck().size(), "Can add cards after reaching max cards amount");
     }
 
     @Test
-    public void TestImpossiblityOfDeletingLastDeck(){
+    public void testImpossibilityOfDeletingLastDeck(){
 
         //Making sure that i cant delete last deck
-        deckBuilder.DeleteCurrentDeck();
-        deckBuilder.DeleteCurrentDeck();
-        deckBuilder.DeleteCurrentDeck();
-        assertEquals(1, deckBuilder.GetDecksNames().size());
+        deckBuilder.deleteCurrentDeck();
+        deckBuilder.deleteCurrentDeck();
+        deckBuilder.deleteCurrentDeck();
+        assertEquals(1, deckBuilder.getDecksNames().size());
     }
 
 }

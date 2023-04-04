@@ -1,8 +1,7 @@
 package com.example.demo.DeckBuilding;
 
 
-import com.example.demo.Cards.Card;
-import com.example.demo.Cards.Deck;
+import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
 import com.example.demo.DeckBuilding.Services.DeckBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,46 +25,46 @@ public class DeckBuilderController {
     @GetMapping(path ="GetAllCards")
     @CrossOrigin
     public List<Card> GetAllCards(){
-        return DeckBuilderService.GetCardsPossibleToAdd();
+        return DeckBuilderService.getCardsPossibleToAdd();
     }
 
     @GetMapping(path = "GetCardsInDeck")
     @CrossOrigin
-    public List<Card> GetCardsInDeck(){return DeckBuilderService.GetPlayerDeck();}
+    public List<Card> GetCardsInDeck(){return DeckBuilderService.getPlayerDeck();}
 
     @GetMapping(path = "GetDecksNames")
     @CrossOrigin
-    public List<String> GetDecksNames(){return DeckBuilderService.GetDecksNames();}
+    public List<String> GetDecksNames(){return DeckBuilderService.getDecksNames();}
 
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
     public String AddCardToDeck(@RequestBody String cardName) {
-        String ResponseMessage = DeckBuilderService.AddCardToDeck(cardName);
+        String ResponseMessage = DeckBuilderService.addCardToDeck(cardName);
         return ResponseMessage;
     }
 
     @PostMapping(path = "CreateDeck")
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName) {
-        DeckBuilderService.CreateDeck(deckName);
+        DeckBuilderService.createDeck(deckName);
     }
 
     @PostMapping(path = "SelectDeck")
     @CrossOrigin
     public void SelectDeck(@RequestBody String deckName){
-        DeckBuilderService.SelectDeck(deckName);
+        DeckBuilderService.selectDeck(deckName);
     }
 
     @PostMapping(path = "DeleteDeck")
     @CrossOrigin
     public String DeleteDeck() {
-        return DeckBuilderService.DeleteCurrentDeck();
+        return DeckBuilderService.deleteCurrentDeck();
     }
 
     @PostMapping(path = "PutCardFromDeckBack")
     @CrossOrigin
-    public void PutCardFromDeckBack(@RequestBody String CardName){
-        DeckBuilderService.PutCardFromDeckBack(CardName);
+    public void PutCardFromDeckBack(@RequestBody String cardName){
+        DeckBuilderService.putCardFromDeckBack(cardName);
     }
 
 }

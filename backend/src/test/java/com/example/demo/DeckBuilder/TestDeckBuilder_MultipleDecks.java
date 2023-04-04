@@ -11,83 +11,83 @@ class TestDeckBuilder_MultipleDecks {
 
     private DeckBuilder deckBuilder;
     @BeforeEach
-    public void Init() {
+    public void init() {
         deckBuilder = new DeckBuilderService();
-        deckBuilder.CreateDeck("First");
-        deckBuilder.CreateDeck("Second");
-        deckBuilder.SelectDeck("First");
+        deckBuilder.createDeck("First");
+        deckBuilder.createDeck("Second");
+        deckBuilder.selectDeck("First");
     }
 
     @Test
-    public void TestDeckCreation(){
-        deckBuilder.CreateDeck("FirstDeck");
-        assertTrue(deckBuilder.GetDecksNames().contains("FirstDeck"));
+    public void testDeckCreation(){
+        deckBuilder.createDeck("FirstDeck");
+        assertTrue(deckBuilder.getDecksNames().contains("FirstDeck"));
     }
 
     @Test
-    public void TestAddingDeckWithExistingName(){
+    public void testAddingDeckWithExistingName(){
 
-        int DecksBeforeCreating = deckBuilder.GetDecksNames().size();
+        int decksBeforeCreating = deckBuilder.getDecksNames().size();
         String singleName = "NewDeck";
-        deckBuilder.CreateDeck(singleName);
-        deckBuilder.CreateDeck(singleName);
-        int DecksAfterCreating = deckBuilder.GetDecksNames().size();
+        deckBuilder.createDeck(singleName);
+        deckBuilder.createDeck(singleName);
+        int decksAfterCreating = deckBuilder.getDecksNames().size();
 
-        assertEquals(DecksAfterCreating, DecksBeforeCreating + 1, "there are two decks with same names");
+        assertEquals(decksAfterCreating, decksBeforeCreating + 1, "there are two decks with same names");
     }
 
     @Test
-    public void TestAddingCardsToDifferentDecks(){
-        deckBuilder.AddCardToDeck("Thunder");
-        assertEquals(deckBuilder.GetPlayerDeck().get(0).getName(), "Thunder");
+    public void testAddingCardsToDifferentDecks(){
+        deckBuilder.addCardToDeck("Thunder");
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Thunder");
 
-        deckBuilder.SelectDeck("Second");
-        deckBuilder.AddCardToDeck("Knight");
-        assertEquals(deckBuilder.GetPlayerDeck().get(0).getName(), "Knight");
+        deckBuilder.selectDeck("Second");
+        deckBuilder.addCardToDeck("Knight");
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Knight");
     }
 
     @Test
-    public void TestPuttingCardFromCorrectDeckBack(){
-        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName());
-        deckBuilder.SelectDeck("Second");
-        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName());
-        deckBuilder.SelectDeck("First");
-        deckBuilder.PutCardFromDeckBack( deckBuilder.GetPlayerDeck().get(0).getName() );
+    public void testPuttingCardFromCorrectDeckBack(){
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.selectDeck("Second");
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName());
+        deckBuilder.selectDeck("First");
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getName() );
 
-        assertEquals(0, deckBuilder.GetPlayerDeck().size());
-        deckBuilder.SelectDeck("Second");
-        assertEquals(1, deckBuilder.GetPlayerDeck().size());
+        assertEquals(0, deckBuilder.getPlayerDeck().size());
+        deckBuilder.selectDeck("Second");
+        assertEquals(1, deckBuilder.getPlayerDeck().size());
 
-        deckBuilder.PutCardFromDeckBack( deckBuilder.GetPlayerDeck().get(0).getName() );
-        assertEquals(0, deckBuilder.GetPlayerDeck().size());
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getName() );
+        assertEquals(0, deckBuilder.getPlayerDeck().size());
     }
 
     @Test
-    public void TestCardsPossibleToAddWhenSwitchingDecks(){
-        int InitalCardsPossibleToAdd = deckBuilder.GetCardsPossibleToAdd().size();
-        deckBuilder.AddCardToDeck( deckBuilder.GetCardsPossibleToAdd().get(0).getName() );
-        deckBuilder.SelectDeck("Second");
+    public void testCardsPossibleToAddWhenSwitchingDecks(){
+        int initalCardsPossibleToAdd = deckBuilder.getCardsPossibleToAdd().size();
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getName() );
+        deckBuilder.selectDeck("Second");
 
-        assertEquals(InitalCardsPossibleToAdd, deckBuilder.GetCardsPossibleToAdd().size());
+        assertEquals(initalCardsPossibleToAdd, deckBuilder.getCardsPossibleToAdd().size());
     }
 
     @Test
-    public void TestDeckDelete(){
+    public void testDeckDelete(){
 
-        int DecksNumber = deckBuilder.GetDecksNames().size();
-        deckBuilder.DeleteCurrentDeck();
-        int DecksNumberAfterDelete = deckBuilder.GetDecksNames().size();
+        int decksNumber = deckBuilder.getDecksNames().size();
+        deckBuilder.deleteCurrentDeck();
+        int decksNumberAfterDelete = deckBuilder.getDecksNames().size();
 
-        assertEquals(1 + DecksNumberAfterDelete, DecksNumber, "Cant delete a deck");
+        assertEquals(1 + decksNumberAfterDelete, decksNumber, "Cant delete a deck");
     }
 
     @Test
-    public void TestDeckSelectionAfterDeckDelete(){
-        deckBuilder.SelectDeck("Second");
-        deckBuilder.DeleteCurrentDeck();
+    public void testDeckSelectionAfterDeckDelete(){
+        deckBuilder.selectDeck("Second");
+        deckBuilder.deleteCurrentDeck();
 
         assertDoesNotThrow(() -> {
-            deckBuilder.GetPlayerDeck();
+            deckBuilder.getPlayerDeck();
         });
     }
 
