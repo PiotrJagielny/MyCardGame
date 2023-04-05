@@ -1,15 +1,17 @@
 package com.example.demo.CardsServices.Cards;
 
+import com.example.demo.CardsServices.CardDisplay;
+
 public class NormalCard implements Card {
 
-    private String display;
+    private String name;
 
     public NormalCard(String display) {
-        this.display = display;
+        this.name = display;
     }
 
-    public String getDisplay() {
-        return display;
+    public CardDisplay getDisplay() {
+        return new CardDisplay(name);
     }
 
 

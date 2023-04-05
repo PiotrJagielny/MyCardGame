@@ -1,5 +1,6 @@
 package com.example.demo.DeckBuilding.Services;
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.NormalCard;
 import com.example.demo.CardsServices.Deck;
@@ -28,18 +29,18 @@ public class DeckBuilderService implements DeckBuilder {
     }
 
     @Override
-    public List<Card> getCardsPossibleToAdd() {
+    public List<CardDisplay> getCardsPossibleToAdd() {
         return playerDecks.get( GetSelectedDeckIndex() ).getCardsPossibleToAdd();
     }
 
     @Override
-    public String addCardToDeck(String cardDisplay) {
+    public String addCardToDeck(CardDisplay cardDisplay) {
         return playerDecks.get( GetSelectedDeckIndex() ).addCard(cardDisplay);
 
     }
 
     @Override
-    public void putCardFromDeckBack(String cardDisplay) {
+    public void putCardFromDeckBack(CardDisplay cardDisplay) {
         playerDecks.get(GetSelectedDeckIndex()).putCardFromDeckBack(cardDisplay);
 
     }
@@ -75,7 +76,7 @@ public class DeckBuilderService implements DeckBuilder {
     }
 
     @Override
-    public List<Card> getPlayerDeck() {
+    public List<CardDisplay> getPlayerDeck() {
         return playerDecks.get(GetSelectedDeckIndex()).getCardsInDeck();
     }
 

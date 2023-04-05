@@ -1,6 +1,7 @@
 package com.example.demo.DeckBuilding;
 
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
 import com.example.demo.DeckBuilding.Services.DeckBuilderService;
@@ -24,13 +25,13 @@ public class DeckBuilderController {
 
     @GetMapping(path ="GetAllCards")
     @CrossOrigin
-    public List<Card> GetAllCards(){
+    public List<CardDisplay> GetAllCards(){
         return DeckBuilderService.getCardsPossibleToAdd();
     }
 
     @GetMapping(path = "GetCardsInDeck")
     @CrossOrigin
-    public List<Card> GetCardsInDeck(){return DeckBuilderService.getPlayerDeck();}
+    public List<CardDisplay> GetCardsInDeck(){return DeckBuilderService.getPlayerDeck();}
 
     @GetMapping(path = "GetDecksNames")
     @CrossOrigin
@@ -38,9 +39,15 @@ public class DeckBuilderController {
 
     @PostMapping(path = "PutCardToDeck")
     @CrossOrigin
-    public String AddCardToDeck(@RequestBody String cardDisplay) {
+    public String AddCardToDeck(@RequestBody CardDisplay cardDisplay) {
         String ResponseMessage = DeckBuilderService.addCardToDeck(cardDisplay);
         return ResponseMessage;
+    }
+
+    @PostMapping(path = "PutCardFromDeckBack")
+    @CrossOrigin
+    public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay){
+        DeckBuilderService.putCardFromDeckBack(cardDisplay);
     }
 
     @PostMapping(path = "CreateDeck")
@@ -61,10 +68,5 @@ public class DeckBuilderController {
         return DeckBuilderService.deleteCurrentDeck();
     }
 
-    @PostMapping(path = "PutCardFromDeckBack")
-    @CrossOrigin
-    public void PutCardFromDeckBack(@RequestBody String cardDisplay){
-        DeckBuilderService.putCardFromDeckBack(cardDisplay);
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Duel.Services;
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Parser.CardsParser;
 import com.example.demo.CardsServices.Parser.NormalCardsParser;
@@ -10,10 +11,15 @@ import java.util.List;
 public class NormalDuel implements CardDuel{
 
     private Boolean areCardsAdded;
-    private List<Card> playerBattleDeck;
+    private List<Card> playerCardsInDeck;
+    private List<Card> playerCardsInHand;
+
+    private CardsParser parser;
 
     public NormalDuel() {
-        playerBattleDeck = new ArrayList<Card>();
+        parser = new NormalCardsParser();
+        playerCardsInDeck = new ArrayList<Card>();
+        playerCardsInHand = new ArrayList<Card>();
         this.areCardsAdded = false;
     }
 
@@ -23,16 +29,27 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
-    public List<String> getPlayerCardsDisplay() {
-        CardsParser parser = new NormalCardsParser();
-        return parser.getCardsDisplays(playerBattleDeck);
+    public List<CardDisplay> getPlayerCardsInDeckDisplay() {
+        return parser.getCardsDisplay(playerCardsInDeck);
     }
 
     @Override
-    public void parseCards(List<String> cardsDisplay) {
+    public void parseCards(List<CardDisplay> cardsDisplay) {
         areCardsAdded = true;
-        CardsParser parser = new NormalCardsParser();
         parser.addCardsToParse(cardsDisplay);
-        playerBattleDeck = parser.getParsedCards();
+        playerCardsInDeck = parser.getParsedCards();
+    }
+
+    @Override
+    public List<CardDisplay> getPlayerCardsInHand() {
+        return parser.getCardsDisplay(playerCardsInHand);
+    }
+
+    @Override
+    public void DealCards() {
+        Card toDeal = playerCardsInDeck.get(0);
+
+        playerCardsInDeck.remove(0);
+        playerCardsInHand.add(toDeal);
     }
 }

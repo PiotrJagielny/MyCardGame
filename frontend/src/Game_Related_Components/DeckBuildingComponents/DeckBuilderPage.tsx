@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import {AllCardsDisplay} from './AllCardsDisplay';
 import {CardsInDeckDisplay} from './CardsInDeckDisplay';
 import {DecksManager} from './DecksManager';
@@ -37,14 +37,14 @@ const DeckBuilderPage = () => {
     fetchCardsData();
   }, []);
 
-  const ChangeDecksState = async (cardNameToPost: string, PostURL: string) =>{
-    
+  const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
+    let data = {name: cardToPost.name};
     const response = await fetch(PostURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: cardNameToPost
+      body: JSON.stringify(data.name)
     });
 
     
@@ -78,7 +78,9 @@ const DeckBuilderPage = () => {
       PostURL = "http://localhost:8000/DeckBuilder/PutCardToDeck"
     }
 
-    ChangeDecksState(result.draggableId, PostURL); 
+    let cardDragged: Card = {name: result.draggableId};
+    
+    ChangeDecksState(cardDragged, PostURL); 
   }
 
   const handleDecksSwitch = () => {

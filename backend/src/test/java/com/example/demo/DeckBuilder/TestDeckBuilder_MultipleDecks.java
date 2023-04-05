@@ -1,5 +1,6 @@
 package com.example.demo.DeckBuilder;
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
 import com.example.demo.DeckBuilding.Services.DeckBuilderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,37 +39,37 @@ class TestDeckBuilder_MultipleDecks {
 
     @Test
     public void testAddingCardsToDifferentDecks(){
-        deckBuilder.addCardToDeck("Thunder");
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getDisplay(), "Thunder");
+        deckBuilder.addCardToDeck(new CardDisplay("Thunder"));
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Thunder");
 
         deckBuilder.selectDeck("Second");
-        deckBuilder.addCardToDeck("Knight");
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getDisplay(), "Knight");
+        deckBuilder.addCardToDeck(new CardDisplay("Knight"));
+        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Knight");
     }
 
     @Test
     public void testPuttingCardFromCorrectDeckBack(){
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0));
         deckBuilder.selectDeck("Second");
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay());
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0));
         deckBuilder.selectDeck("First");
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getDisplay() );
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0) );
 
         assertEquals(0, deckBuilder.getPlayerDeck().size());
         deckBuilder.selectDeck("Second");
         assertEquals(1, deckBuilder.getPlayerDeck().size());
 
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0).getDisplay() );
+        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0) );
         assertEquals(0, deckBuilder.getPlayerDeck().size());
     }
 
     @Test
     public void testCardsPossibleToAddWhenSwitchingDecks(){
-        int initalCardsPossibleToAdd = deckBuilder.getCardsPossibleToAdd().size();
-        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0).getDisplay() );
+        int initialCardsPossibleToAdd = deckBuilder.getCardsPossibleToAdd().size();
+        deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0) );
         deckBuilder.selectDeck("Second");
 
-        assertEquals(initalCardsPossibleToAdd, deckBuilder.getCardsPossibleToAdd().size());
+        assertEquals(initialCardsPossibleToAdd, deckBuilder.getCardsPossibleToAdd().size());
     }
 
     @Test
