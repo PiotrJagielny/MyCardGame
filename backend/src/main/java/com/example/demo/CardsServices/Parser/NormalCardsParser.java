@@ -30,4 +30,14 @@ public class NormalCardsParser implements CardsParser {
     public void addCardsToParse(List<String> cardDisplays) {
         cardsToParse.addAll(cardDisplays);
     }
+
+    @Override
+    public List<String> getCardsDisplays(List<Card> cards) {
+        List<String> result = new ArrayList<String>();
+        for(int i = 0 ; i < cards.size() ; ++i){
+            result.add(cards.get(i).getDisplay());
+        }
+        return result;
+
+    }
 }

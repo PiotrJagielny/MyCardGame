@@ -8,4 +8,6 @@ public interface CardsParser {
     List<Card> getParsedCards();
 
     void addCardsToParse(List<String> cardDisplays);
+
+    List<String> getCardsDisplays(List<Card> cards);
 }

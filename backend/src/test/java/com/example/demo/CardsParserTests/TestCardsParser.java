@@ -1,6 +1,7 @@
 package com.example.demo.CardsParserTests;
 
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.Cards.NormalCard;
 import com.example.demo.CardsServices.Parser.CardsParser;
 import com.example.demo.CardsServices.Parser.NormalCardsParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,17 @@ class TestCardsParser {
 
         for(int i = 0 ; i < cases.size() ; ++i){
             assertEquals(cases.get(i), cards.get(i).getDisplay());
+        }
+    }
+
+    @Test
+    public void testCardsDisplayParse(){
+        List<Card> cases = List.of(new NormalCard("Knight"));
+        List<String> displays = parser.getCardsDisplays(cases);
+
+        assertEquals(cases.size(), displays.size());
+        for(int i = 0 ; i < displays.size() ; ++i){
+            assertEquals(cases.get(i).getDisplay(), displays.get(i));
         }
     }
 
