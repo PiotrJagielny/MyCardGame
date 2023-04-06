@@ -23,6 +23,7 @@ public class NormalCardsParser implements CardsParser {
             Card createdCard = new NormalCard(cardsToParse.get(i).getName());
             result.add(createdCard);
         }
+        cardsToParse.clear();
         return result;
     }
 

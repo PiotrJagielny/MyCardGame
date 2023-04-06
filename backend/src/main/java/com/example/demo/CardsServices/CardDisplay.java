@@ -9,6 +9,8 @@ public class CardDisplay {
         this.name = name;
     }
 
+    public CardDisplay() {}
+
     public String getName() {
         return name;
     }
@@ -21,7 +23,7 @@ public class CardDisplay {
     public boolean equals(Object obj) {
         if(obj instanceof CardDisplay){
             CardDisplay dis = (CardDisplay) obj;
-            return dis.getName() == name;
+            return dis.getName().equals(name);
         }
         else
             return false;

@@ -24,5 +24,4 @@ public class NormalCard implements Card {
         return points;
     }
 
-
 }

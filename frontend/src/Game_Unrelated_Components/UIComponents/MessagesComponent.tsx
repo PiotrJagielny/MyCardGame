@@ -8,11 +8,13 @@ interface Props{
 export const MessagesComponent: React.FC<Props> = ({Messages, refresh}) => {
   return (
     <div>
-        {Messages.filter(message => message.length !== 0).map(message =>(
-          <ul>
-            <li>{message}</li>
-          </ul>
-        ))}
+        <ul>
+          {Messages.filter(message => message.length !== 0).map(message =>(
+            
+              <li>{message}</li>
+            
+          ))}
+        </ul>
     </div>
   )
 }

@@ -40,6 +40,7 @@ public class NormalDuel implements CardDuel{
         areCardsAdded = true;
         parser.addCardsToParse(cardsDisplay);
         playerCardsInDeck = parser.getParsedCards();
+        
     }
 
     @Override
@@ -71,7 +72,6 @@ public class NormalDuel implements CardDuel{
 
     @Override
     public int getBoardPoints() {
-        if(cardsOnBoard.isEmpty()) return 0;
-        else return 1;
+        return cardsOnBoard.size();
     }
 }

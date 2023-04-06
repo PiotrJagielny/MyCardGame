@@ -3,10 +3,7 @@ package com.example.demo.Duel;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.Services.CardDuel;
 import com.example.demo.Duel.Services.NormalDuel;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,18 @@ public class NormalDuelController {
     @CrossOrigin
     public List<CardDisplay> getCardsOnBoard(){
         return duel.getCardsOnBoardDisplay();
+    }
+
+    @GetMapping(path = "GetBoardPoints")
+    @CrossOrigin
+    public int getPointsOnBoard(){
+        return duel.getBoardPoints();
+    }
+
+    @PostMapping(path = "SetupDeck")
+    @CrossOrigin
+    public void SetupDeck(@RequestBody List<CardDisplay> cardsInDeck){
+        duel.parseCards(cardsInDeck);
     }
 
 

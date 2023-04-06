@@ -57,5 +57,12 @@ class TestCardsParser {
         }
     }
 
+    @Test
+    public void afterGettingParsedCards_CardsToParseAreEmpty(){
+        parser.addCardsToParse(List.of(new CardDisplay("Knight")));
+        parser.getParsedCards();
+        assertTrue(parser.getParsedCards().isEmpty());
+    }
+
 
 }
