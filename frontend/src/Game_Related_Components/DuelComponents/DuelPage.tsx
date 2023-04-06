@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 import {Card} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
@@ -14,24 +14,36 @@ const DuelPage = () => {
 
 
   useEffect(() => {
+    const controller = new AbortController();
     fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
       .then((res) => res.json())
       .then((deckData: Card[]) => {
         setDeckData(deckData);
       })
       .catch(console.error);
+
+      return () => {
+        controller.abort();
+      };
   }, []);
   
   useEffect(() => {
+    const controller = new AbortController();
     if (deckData.length > 0) {
       fetch('http://localhost:8000/Duel/SetupDeck', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(deckData)
+        body: JSON.stringify(deckData),
+        signal: controller.signal
       });
     }
+
+    return () => {
+      controller.abort();
+    };
+
   }, [deckData]);
 
   const fetchCardsData = () => {
@@ -76,18 +88,17 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === source.droppableId && destination.index === source.index){return;}
 
-    let PostURL:string = '';
 
-    if(destination.droppableId === "Hand"){
-      PostURL = "http://localhost:8000/Duel/PutCardFromDeckBack"
-    }
-    else if(destination.droppableId === "Board"){
-      PostURL = "http://localhost:8000/Duel/PutCardToDeck"
-    }
-
+    console.log("GFSAGSDG");
     let cardDragged: Card = {name: result.draggableId};
-    
-    
+    fetch('http://localhost:8000/Duel/PlayCard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      });
+    fetchCardsData();
   }
 
   return (
@@ -106,7 +117,7 @@ const DuelPage = () => {
       </ul>
       </div>
       
-      <DragDropContext onDragEnd = {onDragEnd}>
+      <DragDropContext onDragEnd = {(onDragEnd)}>
         
           
         <div>
@@ -114,14 +125,16 @@ const DuelPage = () => {
           <ul>
             {cardsInHand.map((card, index) =>(
               <Draggable key={card.name} draggableId={card.name} index={index}>
+                {/* Na pewno jest z tym problem */}
                 {(provided) => (
-                  <li {...provided.draggableProps} {...provided.dragHandleProps} ref = {provided.innerRef}>
+                  <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                     {card.name}
                   </li>    
                 )}  
               </Draggable>
             ))}
           </ul>
+
         </div>
           
         

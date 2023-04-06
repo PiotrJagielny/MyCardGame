@@ -22,7 +22,11 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
   }
 
   useEffect(() => {
+    const controller = new AbortController();
     fetchDecksNames();
+    return () => {
+      controller.abort();
+    };
   }, []);
 
 

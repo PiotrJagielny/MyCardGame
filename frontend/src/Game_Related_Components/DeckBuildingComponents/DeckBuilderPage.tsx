@@ -34,7 +34,11 @@ const DeckBuilderPage = () => {
   }
 
   useEffect(() => {
+    const controller = new AbortController();
     fetchCardsData();
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
