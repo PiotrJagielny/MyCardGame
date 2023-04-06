@@ -4,14 +4,24 @@ import com.example.demo.CardsServices.CardDisplay;
 
 public class NormalCard implements Card {
 
+
+
     private String name;
 
-    public NormalCard(String display) {
-        this.name = display;
+    private int points;
+
+    public NormalCard(String name) {
+        points = 1;
+        this.name = name;
     }
 
     public CardDisplay getDisplay() {
         return new CardDisplay(name);
+    }
+
+    @Override
+    public int getPoints() {
+        return points;
     }
 
 

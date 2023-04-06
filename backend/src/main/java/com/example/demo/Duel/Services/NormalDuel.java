@@ -13,11 +13,13 @@ public class NormalDuel implements CardDuel{
     private Boolean areCardsAdded;
     private List<Card> playerCardsInDeck;
     private List<Card> playerCardsInHand;
+    private List<Card> cardsOnBoard;
 
     private CardsParser parser;
 
     public NormalDuel() {
         parser = new NormalCardsParser();
+        cardsOnBoard = new ArrayList<Card>();
         playerCardsInDeck = new ArrayList<Card>();
         playerCardsInHand = new ArrayList<Card>();
         this.areCardsAdded = false;
@@ -41,15 +43,35 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
-    public List<CardDisplay> getPlayerCardsInHand() {
+    public List<CardDisplay> getPlayerCardsInHandDisplay() {
         return parser.getCardsDisplay(playerCardsInHand);
     }
 
     @Override
-    public void DealCards() {
+    public void dealCards() {
         Card toDeal = playerCardsInDeck.get(0);
 
         playerCardsInDeck.remove(0);
         playerCardsInHand.add(toDeal);
+    }
+
+    @Override
+    public List<CardDisplay> getCardsOnBoardDisplay() {
+        return parser.getCardsDisplay(cardsOnBoard);
+    }
+
+    @Override
+    public void playCard(CardDisplay cardToPlayDisplay) {
+        Card cardToPlay = playerCardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
+
+
+        playerCardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
+        cardsOnBoard.add(cardToPlay);
+    }
+
+    @Override
+    public int getBoardPoints() {
+        if(cardsOnBoard.isEmpty()) return 0;
+        else return 1;
     }
 }

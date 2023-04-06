@@ -6,5 +6,6 @@ public interface Card {
 
     CardDisplay getDisplay();
 
+    int getPoints();
 
 }
