@@ -2,7 +2,6 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.Services.CardDuel;
-import com.example.demo.Duel.Services.NormalDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,30 +18,31 @@ class TestDealingCardsBeforePlayingAny {
     public void setUp(){
         cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
         duel = CardDuel.createDuel();
-        duel.parseCards(cardsDisplay);
+        duel.parseCards_forPlayer1(cardsDisplay);
+        duel.parseCards_forPlayer2(cardsDisplay);
     }
 
     @Test
     public void afterAddingCardsDisplaysToParse_deckIsFilled() {
-        assertEquals(cardsDisplay.size() , duel.getPlayerCardsInDeckDisplay().size());
+        assertEquals(cardsDisplay.size() , duel.getCardsInDeckDisplay_player1().size());
         for(int i = 0 ; i < cardsDisplay.size() ; ++i){
-            assertEquals(cardsDisplay.get(i).getName(), duel.getPlayerCardsInDeckDisplay().get(i).getName());
+            assertEquals(cardsDisplay.get(i).getName(), duel.getCardsInDeckDisplay_player1().get(i).getName());
         }
     }
 
     @Test
     public void beforeDealingCards_handIsEmpty(){
-        assertTrue(duel.getPlayerCardsInHandDisplay().isEmpty());
+        assertTrue(duel.getCardsInHandDisplay_player1().isEmpty());
     }
 
     @Test
     public void afterDealingCards_handIsNotEmpty(){
-        int cardsInDeck_beforeDeal = duel.getPlayerCardsInDeckDisplay().size();
+        int cardsInDeck_beforeDeal = duel.getCardsInDeckDisplay_player1().size();
         duel.dealCards();
-        int cardsInDeck_afterDeal = duel.getPlayerCardsInDeckDisplay().size();
+        int cardsInDeck_afterDeal = duel.getCardsInDeckDisplay_player1().size();
 
         assertNotEquals(cardsInDeck_beforeDeal, cardsInDeck_afterDeal);
-        assertFalse(duel.getPlayerCardsInHandDisplay().isEmpty());
+        assertFalse(duel.getCardsInHandDisplay_player1().isEmpty());
     }
 
 }

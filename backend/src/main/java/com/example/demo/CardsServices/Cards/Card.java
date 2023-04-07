@@ -4,9 +4,9 @@ import com.example.demo.CardsServices.CardDisplay;
 
 public class Card {
 
-    protected String name;
+    private String name;
 
-    protected int points;
+    private int points;
 
     public Card(String name){
         this.name = name;

@@ -9,19 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NormalDuel implements CardDuel{
+    private OnePlayerDuel firstPlayer;
+    private OnePlayerDuel secondPlayer;
 
-    private List<Card> playerCardsInDeck;
-    private List<Card> playerCardsInHand;
-    private List<Card> cardsOnBoard;
-
-    private CardsParser parser;
 
     public NormalDuel() {
-        parser = new NormalCardsParser();
-        cardsOnBoard = new ArrayList<Card>();
-        playerCardsInDeck = new ArrayList<Card>();
-        playerCardsInHand = new ArrayList<Card>();
-
+        firstPlayer = new OnePlayerDuel();
+        secondPlayer = new OnePlayerDuel();
     }
 
     @Override
@@ -30,46 +24,64 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
-    public List<CardDisplay> getPlayerCardsInDeckDisplay() {
-        return parser.getCardsDisplay(playerCardsInDeck);
+    public List<CardDisplay> getCardsInDeckDisplay_player1() {
+        return firstPlayer.getCardsInDeck();
+    }
+    @Override
+    public List<CardDisplay> getCardsInDeckDisplay_player2() {
+        return secondPlayer.getCardsInDeck();
     }
 
     @Override
-    public void parseCards(List<CardDisplay> cardsDisplay) {
-        parser.addCardsToParse(cardsDisplay);
-        playerCardsInDeck = parser.getParsedCards();
+    public void parseCards_forPlayer1(List<CardDisplay> cardsDisplay) {
+        firstPlayer.parseCards(cardsDisplay);
 
+    }
+    @Override
+    public void parseCards_forPlayer2(List<CardDisplay> cardsDisplay) {
+        secondPlayer.parseCards(cardsDisplay);
     }
 
     @Override
-    public List<CardDisplay> getPlayerCardsInHandDisplay() {
-        return parser.getCardsDisplay(playerCardsInHand);
+    public List<CardDisplay> getCardsInHandDisplay_player1() {
+        return firstPlayer.getCardsInHand();
+    }
+    @Override
+    public List<CardDisplay> getCardsInHandDisplay_player2() {
+        return secondPlayer.getCardsInHand();
     }
 
     @Override
     public void dealCards() {
-        Card toDeal = playerCardsInDeck.get(0);
-
-        playerCardsInDeck.remove(0);
-        playerCardsInHand.add(toDeal);
+        firstPlayer.dealCards();
+        secondPlayer.dealCards();
     }
 
     @Override
-    public List<CardDisplay> getCardsOnBoardDisplay() {
-        return parser.getCardsDisplay(cardsOnBoard);
+    public List<CardDisplay> getCardsOnBoardDisplay_player1() {
+        return firstPlayer.getCardsOnBoard();
+    }
+    @Override
+    public List<CardDisplay> getCardsOnBoardDisplay_player2() {
+        return secondPlayer.getCardsOnBoard();
     }
 
     @Override
-    public void playCard(CardDisplay cardToPlayDisplay) {
-        Card cardToPlay = playerCardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
-
-
-        playerCardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
-        cardsOnBoard.add(cardToPlay);
+    public void playCard_asPlayer1(CardDisplay cardToPlayDisplay) {
+        firstPlayer.playCard(cardToPlayDisplay);
+    }
+    @Override
+    public void playCard_asPlayer2(CardDisplay cardToPlayDisplay) {
+        secondPlayer.playCard(cardToPlayDisplay);
     }
 
     @Override
-    public int getBoardPoints() {
-        return cardsOnBoard.size();
+    public int getBoardPoints_player1() {
+        return firstPlayer.getCardsOnBoard().size();
+    }
+
+    @Override
+    public int getBoardPoints_player2() {
+        return secondPlayer.getCardsOnBoard().size();
     }
 }

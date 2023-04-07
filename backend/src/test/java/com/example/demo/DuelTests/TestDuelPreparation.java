@@ -1,7 +1,6 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.Duel.Services.CardDuel;
-import com.example.demo.Duel.Services.NormalDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +22,9 @@ class TestDuelPreparation {
     }
 
     @Test
-    public void afterCreatingDuel_DeckIsEmpty() {
-        assertTrue(duel.getPlayerCardsInDeckDisplay().isEmpty());
+    public void afterCreatingDuel_twoPlayersDecksAreEmpty() {
+        assertTrue(duel.getCardsInDeckDisplay_player1().isEmpty());
     }
+
 
 }
