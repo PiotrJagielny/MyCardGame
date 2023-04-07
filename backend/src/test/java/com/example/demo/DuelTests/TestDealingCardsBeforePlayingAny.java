@@ -18,7 +18,7 @@ class TestDealingCardsBeforePlayingAny {
     @BeforeEach
     public void setUp(){
         cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
-        duel = new NormalDuel();
+        duel = CardDuel.createDuel();
         duel.parseCards(cardsDisplay);
     }
 

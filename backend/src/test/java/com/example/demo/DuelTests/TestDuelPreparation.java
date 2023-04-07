@@ -14,7 +14,7 @@ class TestDuelPreparation {
 
     @BeforeEach
     public void setUp(){
-        duel = new NormalDuel();
+        duel = CardDuel.createDuel();
     }
 
     @Test

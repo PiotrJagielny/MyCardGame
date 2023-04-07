@@ -11,4 +11,8 @@ public interface CardsParser {
     void addCardsToParse(List<CardDisplay> cardDisplays);
 
     List<CardDisplay> getCardsDisplay(List<Card> cards);
+
+    public static CardsParser creatrParser(){
+        return new NormalCardsParser();
+    }
 }

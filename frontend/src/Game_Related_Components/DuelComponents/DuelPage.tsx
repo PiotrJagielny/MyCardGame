@@ -46,9 +46,9 @@ const DuelPage = () => {
 
   }, [deckData]);
 
-  const fetchCardsData = () => {
+  const fetchCardsData = async () => {
 
-    fetch('http://localhost:8000/Duel/GetHandCards')
+    await fetch('http://localhost:8000/Duel/GetHandCards')
       .then((res) => res.json())
       .then((cardsInHand: Card[]) => {
         setCardsInHand(cardsInHand);
@@ -102,6 +102,7 @@ const DuelPage = () => {
   }
 
   return (
+    
     <div>
       <h2>Let the battle begin</h2>
       <div>
@@ -119,23 +120,26 @@ const DuelPage = () => {
       
       <DragDropContext onDragEnd = {(onDragEnd)}>
         
-          
-        <div>
-          <h1>Hand</h1>
-          <ul>
-            {cardsInHand.map((card, index) =>(
-              <Draggable key={card.name} draggableId={card.name} index={index}>
-                {/* Na pewno jest z tym problem */}
-                {(provided) => (
-                  <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                    {card.name}
-                  </li>    
-                )}  
-              </Draggable>
-            ))}
-          </ul>
-
-        </div>
+        <Droppable droppableId="Hand">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <h1>Hand</h1>
+              <ul>
+                {cardsInHand.map((card, index) =>(
+                  <Draggable key={card.name} draggableId={card.name} index={index}>
+                    {/* Na pewno jest z tym problem */}
+                    {(provided) => (
+                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                        {card.name}
+                      </li>    
+                    )}  
+                  </Draggable>
+                ))}
+              </ul>
+              {provided.placeholder}  
+            </div>
+          )}
+        </Droppable>
           
         
         <Droppable droppableId="Board">
@@ -147,6 +151,7 @@ const DuelPage = () => {
                   <li>{card.name}</li>    
                 ))}
               </ul>
+              {provided.placeholder}    
             </div>
           )}
         </Droppable>

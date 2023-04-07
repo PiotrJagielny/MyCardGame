@@ -18,14 +18,13 @@ public class NormalDuelController {
 
 
     public NormalDuelController() {
-        duel = new NormalDuel();
+        duel = CardDuel.createDuel();
     }
 
     @GetMapping(path = "GetHandCards")
     @CrossOrigin
     public List<CardDisplay> getPlayerHand(){
-        return List.of(new CardDisplay("Normalny"));
-        //return duel.getPlayerCardsInHandDisplay();
+        return duel.getPlayerCardsInHandDisplay();
     }
 
     @GetMapping(path = "GetDeckCards")
@@ -52,7 +51,7 @@ public class NormalDuelController {
     @CrossOrigin
     public void SetupDeck(@RequestBody List<CardDisplay> cardsInDeck){
         duel.parseCards(cardsInDeck);
-        //duel.dealCards();
+        duel.dealCards();
     }
 
     @PostMapping(path = "PlayCard")

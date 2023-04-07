@@ -20,4 +20,9 @@ public interface CardDuel {
     void playCard(CardDisplay cardToPlayDisplay);
 
     int getBoardPoints();
+
+
+    public static CardDuel createDuel(){
+        return new NormalDuel();
+    }
 }
