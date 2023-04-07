@@ -2,7 +2,6 @@ package com.example.demo.CardsServices.Parser;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.NormalCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class NormalCardsParser implements CardsParser {
         List<Card> result = new ArrayList<Card>();
 
         for(int i = 0; i < cardsToParse.size() ; ++i){
-            Card createdCard = new NormalCard(cardsToParse.get(i).getName());
+            Card createdCard = Card.createCard(cardsToParse.get(i).getName());
             result.add(createdCard);
         }
         cardsToParse.clear();

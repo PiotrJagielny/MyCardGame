@@ -2,13 +2,22 @@ package com.example.demo.CardsServices.Cards;
 
 import com.example.demo.CardsServices.CardDisplay;
 
-public interface Card {
+public class Card {
 
-    CardDisplay getDisplay();
-    int getPoints();
+    protected String name;
+
+    protected int points;
+
+    public Card(String name){
+        this.name = name;
+        points = 1;
+    }
+
+    public CardDisplay getDisplay(){return new CardDisplay(name);}
+    public int getPoints(){return points;}
 
     public static Card createCard(String name){
-        return new NormalCard(name);
+        return new Card(name);
     }
 
 }

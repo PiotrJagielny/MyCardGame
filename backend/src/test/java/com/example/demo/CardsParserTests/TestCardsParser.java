@@ -2,7 +2,6 @@ package com.example.demo.CardsParserTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.NormalCard;
 import com.example.demo.CardsServices.Parser.CardsParser;
 import com.example.demo.CardsServices.Parser.NormalCardsParser;
 import org.junit.jupiter.api.BeforeEach;
