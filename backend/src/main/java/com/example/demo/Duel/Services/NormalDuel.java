@@ -6,16 +6,20 @@ import com.example.demo.CardsServices.Parser.CardsParser;
 import com.example.demo.CardsServices.Parser.NormalCardsParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NormalDuel implements CardDuel{
-    private OnePlayerDuel firstPlayer;
-    private OnePlayerDuel secondPlayer;
+    private PlayerNumber whosTurn;
+    private Map<PlayerNumber, OnePlayerDuel> players;
 
 
     public NormalDuel() {
-        firstPlayer = new OnePlayerDuel();
-        secondPlayer = new OnePlayerDuel();
+        players = new HashMap<PlayerNumber, OnePlayerDuel>();
+        players.put(PlayerNumber.FirstPlayer, new OnePlayerDuel());
+        players.put(PlayerNumber.SecondPlayer, new OnePlayerDuel());
+        whosTurn = PlayerNumber.FirstPlayer;
     }
 
     @Override
@@ -23,65 +27,46 @@ public class NormalDuel implements CardDuel{
         return false;
     }
 
+
     @Override
-    public List<CardDisplay> getCardsInDeckDisplay_player1() {
-        return firstPlayer.getCardsInDeck();
-    }
-    @Override
-    public List<CardDisplay> getCardsInDeckDisplay_player2() {
-        return secondPlayer.getCardsInDeck();
+    public void parseCardsFor(List<CardDisplay> cardsDisplay, PlayerNumber player) {
+        players.get(player).parseCards(cardsDisplay);
     }
 
     @Override
-    public void parseCards_forPlayer1(List<CardDisplay> cardsDisplay) {
-        firstPlayer.parseCards(cardsDisplay);
-
-    }
-    @Override
-    public void parseCards_forPlayer2(List<CardDisplay> cardsDisplay) {
-        secondPlayer.parseCards(cardsDisplay);
+    public List<CardDisplay> getCardsInDeckDisplayOf(PlayerNumber player) {
+        return players.get(player).getCardsInDeck();
     }
 
     @Override
-    public List<CardDisplay> getCardsInHandDisplay_player1() {
-        return firstPlayer.getCardsInHand();
+    public List<CardDisplay> getCardsInHandDisplayOf(PlayerNumber player) {
+        return players.get(player).getCardsInHand();
     }
+
     @Override
-    public List<CardDisplay> getCardsInHandDisplay_player2() {
-        return secondPlayer.getCardsInHand();
+    public List<CardDisplay> getCardsOnBoardDisplayOf(PlayerNumber player) {
+        return players.get(player).getCardsOnBoard();
+    }
+
+    @Override
+    public int getBoardPointsOf(PlayerNumber player) {
+        return players.get(player).getCardsOnBoard().size();
+    }
+
+    @Override
+    public void playCardAs(CardDisplay cardToPlayDisplay, PlayerNumber player) {
+        if(player == whosTurn)
+            players.get(player).playCard(cardToPlayDisplay);
     }
 
     @Override
     public void dealCards() {
-        firstPlayer.dealCards();
-        secondPlayer.dealCards();
+        players.get(PlayerNumber.FirstPlayer).dealCards();
+        players.get(PlayerNumber.SecondPlayer).dealCards();
     }
 
     @Override
-    public List<CardDisplay> getCardsOnBoardDisplay_player1() {
-        return firstPlayer.getCardsOnBoard();
-    }
-    @Override
-    public List<CardDisplay> getCardsOnBoardDisplay_player2() {
-        return secondPlayer.getCardsOnBoard();
-    }
-
-    @Override
-    public void playCard_asPlayer1(CardDisplay cardToPlayDisplay) {
-        firstPlayer.playCard(cardToPlayDisplay);
-    }
-    @Override
-    public void playCard_asPlayer2(CardDisplay cardToPlayDisplay) {
-        secondPlayer.playCard(cardToPlayDisplay);
-    }
-
-    @Override
-    public int getBoardPoints_player1() {
-        return firstPlayer.getCardsOnBoard().size();
-    }
-
-    @Override
-    public int getBoardPoints_player2() {
-        return secondPlayer.getCardsOnBoard().size();
+    public void setTurnTo(PlayerNumber player) {
+        whosTurn = player;
     }
 }

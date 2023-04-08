@@ -2,6 +2,7 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.Services.CardDuel;
+import com.example.demo.Duel.Services.PlayerNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,33 +17,40 @@ class TestDuelAfterDeal {
     public void setUp(){
         cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
         duel = CardDuel.createDuel();
-        duel.parseCards_forPlayer1(cardsDisplay);
-        duel.parseCards_forPlayer2(cardsDisplay);
+        duel.parseCardsFor(cardsDisplay, PlayerNumber.FirstPlayer);
+        duel.parseCardsFor(cardsDisplay, PlayerNumber.SecondPlayer);
         duel.dealCards();
     }
 
     @Test
     public void beforePlayingCard_boardIsEmpty(){
-        assertTrue(duel.getCardsOnBoardDisplay_player1().isEmpty());
+        assertTrue(duel.getCardsOnBoardDisplayOf(PlayerNumber.FirstPlayer).isEmpty());
     }
 
     @Test
     public void afterPlayingCard_boardIsNotEmpty(){
-        int cardsInHandBeforePlaying = duel.getCardsInHandDisplay_player1().size();
-        duel.playCard_asPlayer1( duel.getCardsInHandDisplay_player1().get(0) );
-        assertFalse(duel.getCardsOnBoardDisplay_player1().isEmpty());
-        assertNotEquals(cardsInHandBeforePlaying, duel.getCardsInHandDisplay_player1().size());
+        int cardsInHandBeforePlaying = duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).size();
+        duel.playCardAs( duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).get(0), PlayerNumber.FirstPlayer );
+        assertFalse(duel.getCardsOnBoardDisplayOf(PlayerNumber.FirstPlayer).isEmpty());
+        assertNotEquals(cardsInHandBeforePlaying, duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).size());
     }
 
     @Test
     public void clearBoard_hasNoPoints(){
-        assertEquals(0, duel.getBoardPoints_player1());
+        assertEquals(0, duel.getBoardPointsOf(PlayerNumber.FirstPlayer));
     }
 
     @Test
     public void afterPlayingCard_boardHasSomePoints(){
-        duel.playCard_asPlayer1( duel.getCardsInHandDisplay_player1().get(0) );
-        assertNotEquals(0, duel.getBoardPoints_player1());
+        duel.playCardAs( duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).get(0), PlayerNumber.FirstPlayer );
+        assertNotEquals(0, duel.getBoardPointsOf(PlayerNumber.FirstPlayer));
+    }
+
+    @Test
+    public void afterSettingFirstPlayerTurn_player2CantPlayCard(){
+        duel.setTurnTo(PlayerNumber.FirstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(PlayerNumber.SecondPlayer).get(0), PlayerNumber.SecondPlayer);
+        assertTrue(duel.getCardsOnBoardDisplayOf(PlayerNumber.SecondPlayer).isEmpty());
     }
 
 }

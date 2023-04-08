@@ -2,6 +2,7 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.Services.CardDuel;
+import com.example.demo.Duel.Services.PlayerNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,31 +19,31 @@ class TestDealingCardsBeforePlayingAny {
     public void setUp(){
         cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
         duel = CardDuel.createDuel();
-        duel.parseCards_forPlayer1(cardsDisplay);
-        duel.parseCards_forPlayer2(cardsDisplay);
+        duel.parseCardsFor(cardsDisplay, PlayerNumber.FirstPlayer);
+        duel.parseCardsFor(cardsDisplay, PlayerNumber.SecondPlayer);
     }
 
     @Test
     public void afterAddingCardsDisplaysToParse_deckIsFilled() {
-        assertEquals(cardsDisplay.size() , duel.getCardsInDeckDisplay_player1().size());
+        assertEquals(cardsDisplay.size() , duel.getCardsInDeckDisplayOf(PlayerNumber.FirstPlayer).size());
         for(int i = 0 ; i < cardsDisplay.size() ; ++i){
-            assertEquals(cardsDisplay.get(i).getName(), duel.getCardsInDeckDisplay_player1().get(i).getName());
+            assertEquals(cardsDisplay.get(i).getName(), duel.getCardsInDeckDisplayOf(PlayerNumber.FirstPlayer).get(i).getName());
         }
     }
 
     @Test
     public void beforeDealingCards_handIsEmpty(){
-        assertTrue(duel.getCardsInHandDisplay_player1().isEmpty());
+        assertTrue(duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).isEmpty());
     }
 
     @Test
     public void afterDealingCards_handIsNotEmpty(){
-        int cardsInDeck_beforeDeal = duel.getCardsInDeckDisplay_player1().size();
+        int cardsInDeck_beforeDeal = duel.getCardsInDeckDisplayOf(PlayerNumber.FirstPlayer).size();
         duel.dealCards();
-        int cardsInDeck_afterDeal = duel.getCardsInDeckDisplay_player1().size();
+        int cardsInDeck_afterDeal = duel.getCardsInDeckDisplayOf(PlayerNumber.FirstPlayer).size();
 
         assertNotEquals(cardsInDeck_beforeDeal, cardsInDeck_afterDeal);
-        assertFalse(duel.getCardsInHandDisplay_player1().isEmpty());
+        assertFalse(duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer).isEmpty());
     }
 
 }

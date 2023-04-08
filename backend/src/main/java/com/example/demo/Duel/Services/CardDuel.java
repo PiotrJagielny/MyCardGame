@@ -7,30 +7,19 @@ import java.util.List;
 public interface CardDuel {
     boolean whoWon();
 
-    void parseCards_forPlayer1(List<CardDisplay> cardsDisplay);
-    void parseCards_forPlayer2(List<CardDisplay> cardsDisplay);
-
-    List<CardDisplay> getCardsInDeckDisplay_player1();
-    List<CardDisplay> getCardsInDeckDisplay_player2();
-
-    List<CardDisplay> getCardsInHandDisplay_player1();
-    List<CardDisplay> getCardsInHandDisplay_player2();
-
-    List<CardDisplay> getCardsOnBoardDisplay_player1();
-    List<CardDisplay> getCardsOnBoardDisplay_player2();
+    void parseCardsFor(List<CardDisplay> cardsDisplay, PlayerNumber player);
+    List<CardDisplay> getCardsInDeckDisplayOf(PlayerNumber player);
+    List<CardDisplay> getCardsInHandDisplayOf(PlayerNumber player);
+    List<CardDisplay> getCardsOnBoardDisplayOf(PlayerNumber player);
+    int getBoardPointsOf(PlayerNumber forPlayer);
+    void playCardAs(CardDisplay cardToPlayDisplay, PlayerNumber player);
 
     void dealCards();
-
-    void playCard_asPlayer1(CardDisplay cardToPlayDisplay);
-    void playCard_asPlayer2(CardDisplay cardToPlayDisplay);
-
-    int getBoardPoints_player1();
-    int getBoardPoints_player2();
-
-
+    void setTurnTo(PlayerNumber player);
 
 
     public static CardDuel createDuel(){
         return new NormalDuel();
     }
+
 }
