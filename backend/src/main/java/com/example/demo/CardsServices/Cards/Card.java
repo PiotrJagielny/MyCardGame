@@ -8,16 +8,16 @@ public class Card {
 
     private int points;
 
-    public Card(String name){
+    public Card(String name, int points){
         this.name = name;
-        points = 1;
+        this.points = points;
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name);}
+    public CardDisplay getDisplay(){return new CardDisplay(name, points);}
     public int getPoints(){return points;}
 
-    public static Card createCard(String name){
-        return new Card(name);
+    public static Card createCard(CardDisplay cardDisplay){
+        return new Card(cardDisplay.getName(), cardDisplay.getPoints());
     }
 
 }

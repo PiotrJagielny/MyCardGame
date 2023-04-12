@@ -16,7 +16,6 @@ public class NormalDuel implements CardDuel{
     public NormalDuel() {
         whosTurn = "";
         players = new HashMap<String, OnePlayerDuel>();
-        whosTurn = PlayerNumber.FirstPlayer.toString();
     }
 
 
@@ -49,7 +48,7 @@ public class NormalDuel implements CardDuel{
 
     @Override
     public int getBoardPointsOf(String player) {
-        return players.get(player).getCardsOnBoard().size();
+        return players.get(player).getBoardPoints();
     }
 
     @Override
@@ -74,6 +73,5 @@ public class NormalDuel implements CardDuel{
     @Override
     public void registerPlayerToDuel(String player) {
         players.put(player, new OnePlayerDuel());
-
     }
 }

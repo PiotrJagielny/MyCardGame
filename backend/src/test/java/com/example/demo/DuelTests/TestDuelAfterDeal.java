@@ -2,7 +2,6 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.Services.CardDuel;
-import com.example.demo.Duel.Services.PlayerNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ class TestDuelAfterDeal {
     @BeforeEach
     public void setUp(){
 
-        cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
+        cardsDisplay = List.of(new CardDisplay("Knight",5),new CardDisplay( "Viking",7));
         duel = CardDuel.createDuel();
         duel.registerPlayerToDuel(firstPlayer);
         duel.registerPlayerToDuel(secondPlayer);
@@ -59,6 +58,16 @@ class TestDuelAfterDeal {
         duel.setTurnTo(firstPlayer);
         duel.playCardAs(duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
         assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer).isEmpty());
+    }
+
+    @Test
+    public void afterPlayingCardsWithPoints_theSamePointsAreOnBoard(){
+        duel.dealCards();
+        CardDisplay cardToPlay1 = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
+        CardDisplay cardToPlay2 = duel.getCardsInHandDisplayOf(firstPlayer).get(1);
+        duel.playCardAs(cardToPlay1, firstPlayer);
+        duel.playCardAs(cardToPlay2, firstPlayer);
+        assertEquals(cardToPlay1.getPoints() + cardToPlay2.getPoints(), duel.getBoardPointsOf(firstPlayer));
     }
 
 }

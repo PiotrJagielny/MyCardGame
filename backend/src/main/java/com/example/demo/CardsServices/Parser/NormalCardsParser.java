@@ -19,7 +19,7 @@ public class NormalCardsParser implements CardsParser {
         List<Card> result = new ArrayList<Card>();
 
         for(int i = 0; i < cardsToParse.size() ; ++i){
-            Card createdCard = Card.createCard(cardsToParse.get(i).getName());
+            Card createdCard = Card.createCard(cardsToParse.get(i));
             result.add(createdCard);
         }
         cardsToParse.clear();
@@ -35,7 +35,7 @@ public class NormalCardsParser implements CardsParser {
     public List<CardDisplay> getCardsDisplay(List<Card> cards) {
         List<CardDisplay> result = new ArrayList<CardDisplay>();
         for(int i = 0 ; i < cards.size() ; ++i){
-            result.add(new CardDisplay( cards.get(i).getDisplay().getName() ));
+            result.add(cards.get(i).getDisplay());
         }
         return result;
 

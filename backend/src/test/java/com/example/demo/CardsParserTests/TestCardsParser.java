@@ -47,7 +47,7 @@ class TestCardsParser {
 
     @Test
     public void testCardsDisplayParse(){
-        List<Card> cases = List.of(Card.createCard("Knight"));
+        List<Card> cases = List.of(Card.createCard(new CardDisplay("Knight", 3)));
         List<CardDisplay> displays = parser.getCardsDisplay(cases);
 
         assertEquals(cases.size(), displays.size());

@@ -1,8 +1,8 @@
 package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Consts;
 import com.example.demo.Duel.Services.CardDuel;
-import com.example.demo.Duel.Services.PlayerNumber;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,59 +17,59 @@ public class NormalDuelController {
     @GetMapping(path = "getHandCards_player1")
     @CrossOrigin
     public List<CardDisplay> getHand_player1(){
-        return duel.getCardsInHandDisplayOf(PlayerNumber.FirstPlayer.toString());
+        return duel.getCardsInHandDisplayOf(Consts.firstPlayer);
     }
     @GetMapping(path = "getHandCards_player2")
     @CrossOrigin
     public List<CardDisplay> getHand_player2(){
-        return duel.getCardsInHandDisplayOf(PlayerNumber.SecondPlayer.toString());
+        return duel.getCardsInHandDisplayOf(Consts.secondPlayer);
     }
 
 
     @GetMapping(path = "getDeckCards_player1")
     @CrossOrigin
     public List<CardDisplay> getDeck_player1() {
-        return duel.getCardsInDeckDisplayOf(PlayerNumber.FirstPlayer.toString());
+        return duel.getCardsInDeckDisplayOf(Consts.firstPlayer);
     }
     @GetMapping(path = "getDeckCards_player2")
     @CrossOrigin
     public List<CardDisplay> getDeck_player2() {
-        return duel.getCardsInDeckDisplayOf(PlayerNumber.SecondPlayer.toString());
+        return duel.getCardsInDeckDisplayOf(Consts.secondPlayer);
     }
 
     @GetMapping(path = "getBoardCards_player1")
     @CrossOrigin
     public List<CardDisplay> getBoard_player1(){
-        return duel.getCardsOnBoardDisplayOf(PlayerNumber.FirstPlayer.toString());
+        return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer);
     }
     @GetMapping(path = "getBoardCards_player2")
     @CrossOrigin
     public List<CardDisplay> getBoard_player2(){
-        return duel.getCardsOnBoardDisplayOf(PlayerNumber.SecondPlayer.toString());
+        return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer);
     }
 
 
     @GetMapping(path = "getBoardPoints_player1")
     @CrossOrigin
     public int getPointsOnBoard_player1(){
-        return duel.getBoardPointsOf(PlayerNumber.FirstPlayer.toString());
+        return duel.getBoardPointsOf(Consts.firstPlayer);
     }
     @GetMapping(path = "getBoardPoints_player2")
     @CrossOrigin
     public int getPointsOnBoard_player2(){
-        return duel.getBoardPointsOf(PlayerNumber.SecondPlayer.toString());
+        return duel.getBoardPointsOf(Consts.secondPlayer);
     }
 
 
     @PostMapping(path = "playCard_player1")
     @CrossOrigin
     public void playCard_player1(@RequestBody CardDisplay cardPlayed){
-        duel.playCardAs(cardPlayed, PlayerNumber.FirstPlayer.toString());
+        duel.playCardAs(cardPlayed, Consts.firstPlayer);
     }
     @PostMapping(path = "playCard_player2")
     @CrossOrigin
     public void playCard_player2(@RequestBody CardDisplay cardPlayed){
-        duel.playCardAs(cardPlayed, PlayerNumber.SecondPlayer.toString());
+        duel.playCardAs(cardPlayed, Consts.secondPlayer);
     }
 
 
@@ -77,8 +77,10 @@ public class NormalDuelController {
     @CrossOrigin
     public void SetupDeck(@RequestBody List<CardDisplay> cardsInDeck){
         duel = CardDuel.createDuel();
-        duel.parseCardsFor(cardsInDeck, PlayerNumber.FirstPlayer.toString());
-        duel.parseCardsFor(cardsInDeck, PlayerNumber.SecondPlayer.toString());
+        duel.registerPlayerToDuel(Consts.firstPlayer);
+        duel.registerPlayerToDuel(Consts.secondPlayer);
+        duel.parseCardsFor(cardsInDeck, Consts.firstPlayer);
+        duel.parseCardsFor(cardsInDeck, Consts.secondPlayer);
         duel.dealCards();
         duel.dealCards();
     }

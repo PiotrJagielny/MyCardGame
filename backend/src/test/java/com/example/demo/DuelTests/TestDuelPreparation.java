@@ -2,7 +2,6 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.Duel.Services.CardDuel;
 import com.example.demo.Duel.Services.NormalDuel;
-import com.example.demo.Duel.Services.PlayerNumber;
 import com.example.demo.TestsData.TestConsts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

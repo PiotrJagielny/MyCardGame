@@ -35,6 +35,14 @@ public class OnePlayerDuel {
         return parser.getCardsDisplay(cardsOnBoard);
     }
 
+    public int getBoardPoints(){
+        int result = 0;
+        for(int i = 0 ; i < cardsOnBoard.size() ; ++i){
+            result += cardsOnBoard.get(i).getPoints();
+        }
+        return result;
+    }
+
     public void parseCards(List<CardDisplay> cardsDisplay) {
         parser.addCardsToParse(cardsDisplay);
         cardsInDeck = parser.getParsedCards();
