@@ -58,10 +58,17 @@ public class NormalDuel implements CardDuel{
     }
 
     private void changeTurn(){
+        String opponent = getOpponentOf(whosTurn);
+        if(players.get(opponent).didEndRound() == false) {
+            whosTurn = opponent;
+        }
+    }
+
+    private String getOpponentOf(String player){
         List<String> playersNames = new ArrayList<>(players.keySet());
-        int indexOfPlayerWhoHasTurn = playersNames.indexOf(whosTurn);
-        int nextPlayerIndex = (indexOfPlayerWhoHasTurn + 1)%playersNames.size();
-        whosTurn = playersNames.get(nextPlayerIndex);
+        int indexOfPlayerWhoHasTurn = playersNames.indexOf(player);
+        int nextPlayerIndex = (indexOfPlayerWhoHasTurn + 1) % playersNames.size();
+        return playersNames.get(nextPlayerIndex);
     }
 
     @Override
@@ -80,5 +87,41 @@ public class NormalDuel implements CardDuel{
     @Override
     public void registerPlayerToDuel(String player) {
         players.put(player, new OnePlayerDuel());
+    }
+
+    @Override
+    public void endRoundFor(String player) {
+        changeTurn();
+        players.get(player).endRound();
+        if(didPlayersEndedRound()) startNewRound();
+    }
+
+    private boolean didPlayersEndedRound() {
+        for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
+            OnePlayerDuel obj = entry.getValue();
+            if(obj.didEndRound() == false)
+                return false;
+        }
+        return true;
+    }
+
+    private void startNewRound() {
+        for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
+            OnePlayerDuel obj = entry.getValue();
+
+            String opponent = getOpponentOf(entry.getKey());
+            int opponentBoardPoints = players.get(opponent).getBoardPoints();
+            obj.startNewRound(opponentBoardPoints);
+        }
+    }
+
+    @Override
+    public boolean didEndRound(String player) {
+        return players.get(player).didEndRound();
+    }
+
+    @Override
+    public int getWonRoundsOf(String player) {
+        return players.get(player).getWonRounds();
     }
 }

@@ -84,4 +84,61 @@ class TestDuelAfterDeal {
 
     }
 
+    @Test
+    public void playerCanEndRound(){
+        duel.endRoundFor(firstPlayer);
+        assertTrue(duel.didEndRound(firstPlayer));
+    }
+
+    @Test
+    public void atStartOfGame_nobodyEndedRound(){
+        assertFalse(duel.didEndRound(firstPlayer));
+        assertFalse(duel.didEndRound(secondPlayer));
+    }
+
+    @Test
+    public void afterOnePlayerEndsRound_turnsDontSwitch() {
+        duel.dealCards();
+        duel.setTurnTo(secondPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        int expectedNumberOfCardsOnBoard = 2;
+        assertEquals(expectedNumberOfCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+    }
+
+    @Test
+    public void afterTwoPlayerEndRound_newRoundStarts(){
+        duel.endRoundFor(firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        assertFalse(duel.didEndRound(firstPlayer));
+        assertFalse(duel.didEndRound(secondPlayer));
+    }
+
+    @Test
+    public void afterEndingFirstRound_newCardsAreDealt() {
+        int cardsInHandBeforeNewTurn = duel.getCardsInHandDisplayOf(firstPlayer).size();
+        duel.endRoundFor(firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        int cardsInHandAfterNewTurn = duel.getCardsInHandDisplayOf(firstPlayer).size();
+        assertNotEquals(cardsInHandAfterNewTurn, cardsInHandBeforeNewTurn);
+    }
+
+    @Test
+    public void atTheGameStart_noOneWonRound(){
+        assertEquals(0, duel.getWonRoundsOf(firstPlayer));
+        assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+    }
+
+    @Test
+    public void afterWinningTurn_onePlayerScoresPoints(){
+        duel.setTurnTo(firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        assertEquals(1, duel.getWonRoundsOf(firstPlayer));
+        assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+    }
+
+
 }

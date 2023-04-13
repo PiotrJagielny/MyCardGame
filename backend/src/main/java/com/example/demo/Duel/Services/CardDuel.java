@@ -19,8 +19,15 @@ public interface CardDuel {
     void registerPlayerToDuel(String player);
 
 
+    void endRoundFor(String player);
+
+    boolean didEndRound(String player);
+
+
+
     public static CardDuel createDuel(){
         return new NormalDuel();
     }
 
+    int getWonRoundsOf(String player);
 }

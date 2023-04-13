@@ -13,6 +13,8 @@ public class OnePlayerDuel {
     private List<Card> cardsInDeck;
     private List<Card> cardsInHand;
     private List<Card> cardsOnBoard;
+    private boolean isRoundOverForPlayer;
+    private int wonRounds;
 
     private CardsParser parser;
 
@@ -21,6 +23,8 @@ public class OnePlayerDuel {
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
         parser = new NormalCardsParser();
+        isRoundOverForPlayer = false;
+        wonRounds = 0;
     }
 
     public List<CardDisplay> getCardsInDeck() {
@@ -61,5 +65,24 @@ public class OnePlayerDuel {
 
         cardsInDeck.remove(0);
         cardsInHand.add(toDeal);
+    }
+
+    public void endRound(){
+        isRoundOverForPlayer = true;
+    }
+
+    public boolean didEndRound(){
+        return isRoundOverForPlayer;
+    }
+
+    public void startNewRound(int opponentBoardPoints) {
+        isRoundOverForPlayer = false;
+        dealCards();
+
+        if(getBoardPoints() > opponentBoardPoints) ++wonRounds;
+    }
+
+    public int getWonRounds(){
+        return wonRounds;
     }
 }
