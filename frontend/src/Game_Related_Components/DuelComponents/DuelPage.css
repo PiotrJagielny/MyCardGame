@@ -1,0 +1,61 @@
+.BoardContainerP2 {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .leftBoardContentP2 {
+    float: left;
+    width: 30%;
+  }
+  
+  .rightBoardContentP2 {
+    float: right;
+    width: 70%;
+  }
+
+  .BoardContainerP1 {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .leftBoardContentP1 {
+    float: left;
+    width: 30%;
+  }
+  
+  .rightBoardContentP1 {
+    float: right;
+    width: 70%;
+  }
+
+
+
+  .HandContainerP1 {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .leftHandContentP1 {
+    float: left;
+    width: 30%;
+  }
+  
+  .rightHandContentP1 {
+    float: right;
+    width: 70%;
+  }
+
+  .HandContainerP2 {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .leftHandContentP2 {
+    float: left;
+    width: 30%;
+  }
+  
+  .rightHandContentP2 {
+    float: right;
+    width: 70%;
+  }

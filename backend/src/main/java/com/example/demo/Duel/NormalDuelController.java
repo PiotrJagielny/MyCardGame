@@ -83,6 +83,7 @@ public class NormalDuelController {
         duel.parseCardsFor(cardsInDeck, Consts.secondPlayer);
         duel.dealCards();
         duel.dealCards();
+        duel.setTurnTo(Consts.firstPlayer);
     }
 
 }

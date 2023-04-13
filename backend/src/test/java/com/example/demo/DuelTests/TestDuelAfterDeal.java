@@ -55,7 +55,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterSettingFirstPlayerTurn_player2CantPlayCard(){
-        duel.setTurnTo(firstPlayer);
         duel.playCardAs(duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
         assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer).isEmpty());
     }
@@ -63,11 +62,26 @@ class TestDuelAfterDeal {
     @Test
     public void afterPlayingCardsWithPoints_theSamePointsAreOnBoard(){
         duel.dealCards();
-        CardDisplay cardToPlay1 = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
-        CardDisplay cardToPlay2 = duel.getCardsInHandDisplayOf(firstPlayer).get(1);
-        duel.playCardAs(cardToPlay1, firstPlayer);
-        duel.playCardAs(cardToPlay2, firstPlayer);
-        assertEquals(cardToPlay1.getPoints() + cardToPlay2.getPoints(), duel.getBoardPointsOf(firstPlayer));
+        CardDisplay cardToPlay = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
+        duel.playCardAs(cardToPlay, firstPlayer);
+        assertEquals(cardToPlay.getPoints(), duel.getBoardPointsOf(firstPlayer));
+    }
+
+    @Test
+    public void afterPlayingCard_turnSwitch(){
+        duel.dealCards();
+
+        int expectedCardsOnBoard = 1;
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+
+        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
+        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(secondPlayer).size());
+
     }
 
 }

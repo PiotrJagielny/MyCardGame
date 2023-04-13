@@ -2,9 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NormalDuel implements CardDuel{
 
@@ -53,8 +51,17 @@ public class NormalDuel implements CardDuel{
 
     @Override
     public void playCardAs(CardDisplay cardToPlayDisplay, String player) {
-        if(player.equals(whosTurn))
+        if(player.equals(whosTurn)){
             players.get(player).playCard(cardToPlayDisplay);
+            changeTurn();
+        }
+    }
+
+    private void changeTurn(){
+        List<String> playersNames = new ArrayList<>(players.keySet());
+        int indexOfPlayerWhoHasTurn = playersNames.indexOf(whosTurn);
+        int nextPlayerIndex = (indexOfPlayerWhoHasTurn + 1)%playersNames.size();
+        whosTurn = playersNames.get(nextPlayerIndex);
     }
 
     @Override

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Card} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import './DuelPage.css';
 
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
@@ -122,7 +123,7 @@ const DuelPage = () => {
 
 
   const onDragEnd_player1 = (result:DropResult) => {
-    const {source, destination} = result;
+    const {destination} = result;
     
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
@@ -139,7 +140,7 @@ const DuelPage = () => {
   }
 
   const onDragEnd_player2 = (result:DropResult) => {
-    const {source, destination} = result;
+    const {destination} = result;
     
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
@@ -158,15 +159,16 @@ const DuelPage = () => {
   return (
     
     <div>
-      <h2>Let the battle begin</h2>
+      
       <div>
+        <label>Let the battle begin</label>
         <button onClick={fetchCardsData}>Load data</button>
       </div>
 
 
       {/* |||||||||||||||| TO JEST GRACZ 1 |||||||||||||||| */}
       <div>
-      <h1>Cards in deck remaining</h1>
+      <h4>Cards in deck remaining</h4>
       <ul>
        {cardsInDeck.map(card =>(
             <li>{card.name}</li>
@@ -178,19 +180,23 @@ const DuelPage = () => {
         
         <Droppable droppableId="Hand">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <h1>Hand</h1>
-              <ul>
-                {cardsInHand.map((card, index) =>(
-                  <Draggable key={card.name} draggableId={card.name} index={index}>
-                    {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        {card.name}
-                      </li>    
-                    )}  
-                  </Draggable>
-                ))}
-              </ul>
+            <div className = "HandContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftHandContentP1">
+                <h3>Hand</h3>
+              </div>
+              <div className="rightHandContainerP1">
+                <ul>
+                  {cardsInHand.map((card, index) =>(
+                    <Draggable key={card.name} draggableId={card.name} index={index}>
+                      {(provided) => (
+                        <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                          {card.name}
+                        </li>    
+                      )}  
+                    </Draggable>
+                  ))}
+                </ul>
+              </div>
               {provided.placeholder}  
             </div>
           )}
@@ -199,13 +205,17 @@ const DuelPage = () => {
         
         <Droppable droppableId="Board">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <h1>Board: {pointsOnBoard} points</h1>
-              <ul>
-                {cardsOnBoard.map((card, index) =>(
-                  <li>{card.name}</li>    
-                ))}
-              </ul>
+            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP1">
+                <h3>Board: {pointsOnBoard} points</h3>
+              </div>
+              <div className="rightBoardContentP1">
+                <ul>
+                  {cardsOnBoard.map((card, index) =>(
+                    <li>{card.name}</li>    
+                  ))}
+                </ul>
+              </div>
               {provided.placeholder}    
             </div>
           )}
@@ -219,13 +229,17 @@ const DuelPage = () => {
 
       <Droppable droppableId="Board">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <h1>Board: {pointsOnBoard2} points</h1>
-              <ul>
-                {cardsOnBoard2.map((card, index) =>(
-                  <li>{card.name}</li>    
-                ))}
-              </ul>
+            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP2">
+                <h3>Board: {pointsOnBoard2} points</h3>
+              </div>
+              <div className="rightBoardContentP2">
+                <ul>
+                  {cardsOnBoard2.map((card, index) =>(
+                    <li>{card.name}</li>    
+                  ))}
+                </ul>
+              </div>
               {provided.placeholder}    
             </div>
           )}
@@ -233,8 +247,11 @@ const DuelPage = () => {
 
         <Droppable droppableId="Hand">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <h1>Hand</h1>
+            <div className = "HandContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
+            <div className="leftHandContentP2">
+              <h3>Hand</h3>
+            </div>
+            <div className="rightHandContainerP2">
               <ul>
                 {cardsInHand2.map((card, index) =>(
                   <Draggable key={card.name} draggableId={card.name} index={index}>
@@ -246,6 +263,7 @@ const DuelPage = () => {
                   </Draggable>
                 ))}
               </ul>
+            </div>
               {provided.placeholder}  
             </div>
           )}
@@ -255,7 +273,7 @@ const DuelPage = () => {
 
 
       <div>
-      <h1>Cards in deck remaining</h1>
+      <h4>Cards in deck remaining</h4>
       <ul>
        {cardsInDeck2.map(card =>(
             <li>{card.name}</li>
