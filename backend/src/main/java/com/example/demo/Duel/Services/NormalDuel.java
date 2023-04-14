@@ -45,6 +45,11 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
+    public List<CardDisplay> getCardsOnCemeteryDisplayOf(String player) {
+        return players.get(player).getCardsOnCemetery();
+    }
+
+    @Override
     public int getBoardPointsOf(String player) {
         return players.get(player).getBoardPoints();
     }

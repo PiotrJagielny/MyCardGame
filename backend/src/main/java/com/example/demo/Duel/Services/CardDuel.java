@@ -2,6 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface CardDuel {
@@ -11,6 +12,7 @@ public interface CardDuel {
     List<CardDisplay> getCardsInDeckDisplayOf(String player);
     List<CardDisplay> getCardsInHandDisplayOf(String player);
     List<CardDisplay> getCardsOnBoardDisplayOf(String player);
+    List<CardDisplay> getCardsOnCemeteryDisplayOf(String player);
     int getBoardPointsOf(String player);
     void playCardAs(CardDisplay cardToPlayDisplay, String player);
 
@@ -30,4 +32,5 @@ public interface CardDuel {
     }
 
     int getWonRoundsOf(String player);
+
 }

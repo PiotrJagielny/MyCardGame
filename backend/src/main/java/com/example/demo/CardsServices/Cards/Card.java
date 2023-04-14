@@ -13,6 +13,11 @@ public class Card {
         this.points = points;
     }
 
+    public Card(Card cardToCopy) {
+        this.name = cardToCopy.name;
+        this.points = cardToCopy.points;
+    }
+
     public CardDisplay getDisplay(){return new CardDisplay(name, points);}
     public int getPoints(){return points;}
 

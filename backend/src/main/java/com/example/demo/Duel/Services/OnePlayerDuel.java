@@ -13,6 +13,7 @@ public class OnePlayerDuel {
     private List<Card> cardsInDeck;
     private List<Card> cardsInHand;
     private List<Card> cardsOnBoard;
+    private List<Card> cardsOnCemetery;
     private boolean isRoundOverForPlayer;
     private int wonRounds;
 
@@ -20,6 +21,7 @@ public class OnePlayerDuel {
 
     public OnePlayerDuel() {
         cardsOnBoard = new ArrayList<Card>();
+        cardsOnCemetery = new ArrayList<Card>();
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
         parser = new NormalCardsParser();
@@ -38,6 +40,7 @@ public class OnePlayerDuel {
     public List<CardDisplay> getCardsOnBoard() {
         return parser.getCardsDisplay(cardsOnBoard);
     }
+    public List<CardDisplay> getCardsOnCemetery(){return parser.getCardsDisplay(cardsOnCemetery);}
 
     public int getBoardPoints(){
         int result = 0;
@@ -76,10 +79,19 @@ public class OnePlayerDuel {
     }
 
     public void startNewRound(int opponentBoardPoints) {
+        int playerBoardPoints = getBoardPoints();
         isRoundOverForPlayer = false;
         dealCards();
+        moveCardsFromBoardToCemetery();
 
-        if(getBoardPoints() > opponentBoardPoints) ++wonRounds;
+        if (playerBoardPoints > opponentBoardPoints) ++wonRounds;
+    }
+
+    private void moveCardsFromBoardToCemetery(){
+        for(int i = 0 ; i < cardsOnBoard.size() ; ++i){
+            cardsOnCemetery.add(new Card(cardsOnBoard.get(i)));
+        }
+        cardsOnBoard.clear();
     }
 
     public int getWonRounds(){

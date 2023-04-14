@@ -140,5 +140,28 @@ class TestDuelAfterDeal {
         assertEquals(0, duel.getWonRoundsOf(secondPlayer));
     }
 
+    @Test
+    public void afterNewRound_boardIsEmpty(){
+        duel.setTurnTo(firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer).isEmpty());
+    }
+
+    @Test
+    public void atStart_noCardsAreOnCemetery(){
+        assertTrue(duel.getCardsOnCemeteryDisplayOf(firstPlayer).isEmpty());
+    }
+
+    @Test
+    public void afterFirstRound_cardsAreMovedFromBoardToCemetery(){
+        duel.setTurnTo(firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        assertFalse(duel.getCardsOnCemeteryDisplayOf(firstPlayer).isEmpty());
+    }
+
 
 }
