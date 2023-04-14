@@ -61,11 +61,14 @@ public class NormalDuel implements CardDuel{
         }
     }
 
+
     private void changeTurn(){
         String opponent = getOpponentOf(whosTurn);
+        String g = whosTurn;
         if(players.get(opponent).didEndRound() == false) {
-            whosTurn = opponent;
+            whosTurn = opponent;;
         }
+
     }
 
     private String getOpponentOf(String player){
@@ -97,7 +100,8 @@ public class NormalDuel implements CardDuel{
     public void endRoundFor(String player) {
         changeTurn();
         players.get(player).endRound();
-        if(didPlayersEndedRound()) startNewRound();
+        if (didPlayersEndedRound()) startNewRound();
+
     }
 
     private boolean didPlayersEndedRound() {

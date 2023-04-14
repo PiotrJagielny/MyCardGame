@@ -73,7 +73,6 @@ class TestDuelAfterDeal {
         duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
         duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
         assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(secondPlayer).size());
-
     }
 
     @Test
@@ -100,8 +99,17 @@ class TestDuelAfterDeal {
     }
 
     @Test
+    public void afterEndingRound_turnsSwitch(){
+        duel.dealCards();
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        assertEquals(2, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+    }
+
+    @Test
     public void afterTwoPlayerEndRound_newRoundStarts(){
-        endRound();
+        startNextRound();
         assertFalse(duel.didEndRound(firstPlayer));
         assertFalse(duel.didEndRound(secondPlayer));
     }
@@ -109,7 +117,7 @@ class TestDuelAfterDeal {
     @Test
     public void afterEndingFirstRound_newCardsAreDealt() {
         int cardsInHandBeforeNewTurn = duel.getCardsInHandDisplayOf(firstPlayer).size();
-        endRound();
+        startNextRound();
         int cardsInHandAfterNewTurn = duel.getCardsInHandDisplayOf(firstPlayer).size();
         assertNotEquals(cardsInHandAfterNewTurn, cardsInHandBeforeNewTurn);
     }
@@ -153,10 +161,10 @@ class TestDuelAfterDeal {
 
     public void playCardAsFirstPlayer_startNextRound(){
         duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
-        endRound();
+        startNextRound();
     }
 
-    public void endRound(){
+    public void startNextRound(){
         duel.endRoundFor(secondPlayer);
         duel.endRoundFor(firstPlayer);
     }
