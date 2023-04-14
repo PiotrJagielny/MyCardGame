@@ -17,10 +17,9 @@ public class NormalDuel implements CardDuel{
     }
 
 
-
     @Override
-    public boolean whoWon() {
-        return false;
+    public boolean didWon(String player) {
+        return players.get(player).didWon();
     }
 
 

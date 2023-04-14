@@ -97,4 +97,5 @@ public class OnePlayerDuel {
     public int getWonRounds(){
         return wonRounds;
     }
+    public boolean didWon(){return wonRounds == 2;}
 }

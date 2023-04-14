@@ -2,11 +2,10 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface CardDuel {
-    boolean whoWon();
+    boolean didWon(String player);
 
     void parseCardsFor(List<CardDisplay> cardsDisplay, String player);
     List<CardDisplay> getCardsInDeckDisplayOf(String player);
