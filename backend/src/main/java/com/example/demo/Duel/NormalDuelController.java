@@ -48,6 +48,17 @@ public class NormalDuelController {
         return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer);
     }
 
+    @GetMapping(path = "getCemeteryCards_player1")
+    @CrossOrigin
+    public List<CardDisplay> getCemetery_player1(){
+        return duel.getCardsOnCemeteryDisplayOf(Consts.firstPlayer);
+    }
+    @GetMapping(path = "getCemeteryCards_player2")
+    @CrossOrigin
+    public List<CardDisplay> getCemetery_player2(){
+        return duel.getCardsOnCemeteryDisplayOf(Consts.secondPlayer);
+    }
+
 
     @GetMapping(path = "getBoardPoints_player1")
     @CrossOrigin
@@ -61,6 +72,16 @@ public class NormalDuelController {
     }
 
 
+    @GetMapping(path = "getWonRounds_player1")
+    @CrossOrigin
+    public int getWonRounds_player1(){
+        return duel.getWonRoundsOf(Consts.firstPlayer);
+    }
+    @GetMapping(path = "getWonRounds_player2")
+    @CrossOrigin
+    public int getWonRounds_player2(){return duel.getWonRoundsOf(Consts.secondPlayer);}
+
+
     @PostMapping(path = "playCard_player1")
     @CrossOrigin
     public void playCard_player1(@RequestBody CardDisplay cardPlayed){
@@ -70,6 +91,17 @@ public class NormalDuelController {
     @CrossOrigin
     public void playCard_player2(@RequestBody CardDisplay cardPlayed){
         duel.playCardAs(cardPlayed, Consts.secondPlayer);
+    }
+
+    @PostMapping(path = "endRound_player1")
+    @CrossOrigin
+    public void endRound_player1(){
+        duel.endRoundFor(Consts.firstPlayer);
+    }
+    @PostMapping(path = "endRound_player2")
+    @CrossOrigin
+    public void endRound_player2(){
+        duel.endRoundFor(Consts.secondPlayer);
     }
 
 

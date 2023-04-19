@@ -156,6 +156,26 @@ const DuelPage = () => {
     fetchCardsData();
   }
 
+  const endRound_player1 = () => {
+      fetch('http://localhost:8000/Duel/endRound_player1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: null
+      });
+  }
+
+  const endRound_player2 = () => {
+    fetch('http://localhost:8000/Duel/endRound_player2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: null
+      });
+  }
+
   return (
     
     <div>
@@ -167,15 +187,15 @@ const DuelPage = () => {
 
 
       {/* |||||||||||||||| TO JEST GRACZ 1 |||||||||||||||| */}
-      <div>
+      {/* <div>
       <h4>Cards in deck remaining</h4>
       <ul>
        {cardsInDeck.map(card =>(
             <li>{card.name}</li>
         ))}
       </ul>
-      </div>
-      
+      </div> */}
+      <button onClick={endRound_player1}>End round</button>
       <DragDropContext onDragEnd = {(onDragEnd_player1)}>
         
         <Droppable droppableId="Hand">
@@ -271,15 +291,16 @@ const DuelPage = () => {
           
       </DragDropContext>
 
+      <button onClick={endRound_player2}>End round</button>
 
-      <div>
+      {/* <div>
       <h4>Cards in deck remaining</h4>
       <ul>
        {cardsInDeck2.map(card =>(
             <li>{card.name}</li>
         ))}
       </ul>
-      </div>
+      </div> */}
     </div>
   )
 }
