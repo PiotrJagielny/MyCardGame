@@ -8,7 +8,11 @@ const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
+
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
+  const [cardsOnSecondRow, setCardsOnSecondRow] = useState<Card[]>([]);
+  const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
+
   const [pointsOnBoard, setPointsOnBoard] = useState<number>();
   const [wonRounds, setWonRounds] = useState<number>();
   const [isTurnOfPlayer1, setIsTurnOfPlayer1] = useState<boolean>(false);
@@ -16,7 +20,11 @@ const DuelPage = () => {
 
   const [cardsInHand2, setCardsInHand2] = useState<Card[]>([]);
   const [cardsInDeck2, setCardsInDeck2] = useState<Card[]>([]);
+
   const [cardsOnBoard2, setCardsOnBoard2] = useState<Card[]>([]);
+  const [cardsOnSecondRow2, setCardsOnSecondRow2] = useState<Card[]>([]);
+  const [cardsOnThirdRow2, setCardsOnThirdRow2] = useState<Card[]>([]);
+
   const [pointsOnBoard2, setPointsOnBoard2] = useState<number>();
   const [wonRounds2, setWonRounds2] = useState<number>();
   const [isTurnOfPlayer2, setIsTurnOfPlayer2] = useState<boolean>(false);
@@ -83,6 +91,21 @@ const DuelPage = () => {
       })
       .catch(console.error);
 
+    fetch('http://localhost:8000/Duel/getBoardCardsOnSecondRow_player1')
+      .then((res) => res.json())
+      .then((cardsOnSecondRow: Card[]) => {
+        setCardsOnSecondRow(cardsOnSecondRow);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/getBoardCardsOnThirdRow_player1')
+      .then((res) => res.json())
+      .then((cardsOnThirdRow: Card[]) => {
+        setCardsOnThirdRow(cardsOnThirdRow);
+      })
+      .catch(console.error);
+
+
     fetch('http://localhost:8000/Duel/getBoardPoints_player1')
       .then((res) => res.json())
       .then((pointsOnBoard: number) => {
@@ -131,6 +154,20 @@ const DuelPage = () => {
       .then((res) => res.json())
       .then((cardsOnBoard2: Card[]) => {
         setCardsOnBoard2(cardsOnBoard2);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/getBoardCardsOnSecondRow_player2')
+      .then((res) => res.json())
+      .then((cardsOnSecondRow2: Card[]) => {
+        setCardsOnSecondRow2(cardsOnSecondRow2);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/getBoardCardsOnThirdRow_player2')
+      .then((res) => res.json())
+      .then((cardsOnThirdRow2: Card[]) => {
+        setCardsOnThirdRow2(cardsOnThirdRow2);
       })
       .catch(console.error);
 

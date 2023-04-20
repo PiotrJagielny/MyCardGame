@@ -42,10 +42,31 @@ public class NormalDuelController {
     public List<CardDisplay> getBoard_player1(){
         return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer, Consts.firstRow);
     }
+    @GetMapping(path = "getBoardCardsOnSecondRow_player1")
+    @CrossOrigin
+    public List<CardDisplay> getBoardCardsOnSecondRow_player1(){
+        return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer, Consts.secondRow);
+    }
+    @GetMapping(path = "getBoardCardsOnThirdRow_player1")
+    @CrossOrigin
+    public List<CardDisplay> getBoardCardsOnThirdRow_player1(){
+        return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer, Consts.thirdRow);
+    }
+
     @GetMapping(path = "getBoardCards_player2")
     @CrossOrigin
     public List<CardDisplay> getBoard_player2(){
         return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer, Consts.firstRow);
+    }
+    @GetMapping(path = "getBoardCardsOnSecondRow_player2")
+    @CrossOrigin
+    public List<CardDisplay> getBoardCardsOnSecondRow_player2(){
+        return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer, Consts.secondRow);
+    }
+    @GetMapping(path = "getBoardCardsOnThirdRow_player2")
+    @CrossOrigin
+    public List<CardDisplay> getBoardCardsOnThirdRow_player2(){
+        return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer, Consts.thirdRow);
     }
 
 
@@ -76,10 +97,31 @@ public class NormalDuelController {
     public void playCard_player1(@RequestBody CardDisplay cardPlayed){
         duel.playCardAs(cardPlayed, Consts.firstPlayer, Consts.firstRow);
     }
+    @PostMapping(path = "playCardOnSecondRow_player1")
+    @CrossOrigin
+    public void playCardOnSecondRow_player1(@RequestBody CardDisplay cardPlayed){
+        duel.playCardAs(cardPlayed, Consts.firstPlayer, Consts.secondRow);
+    }
+    @PostMapping(path = "playCardOnThirdRow_player1")
+    @CrossOrigin
+    public void playCardOnThirdRow_player1(@RequestBody CardDisplay cardPlayed){
+        duel.playCardAs(cardPlayed, Consts.firstPlayer, Consts.thirdRow);
+    }
+
     @PostMapping(path = "playCard_player2")
     @CrossOrigin
     public void playCard_player2(@RequestBody CardDisplay cardPlayed){
         duel.playCardAs(cardPlayed, Consts.secondPlayer, Consts.firstRow);
+    }
+    @PostMapping(path = "playCardOnSecondRow_player2")
+    @CrossOrigin
+    public void playCardOnSecondRow_player2(@RequestBody CardDisplay cardPlayed){
+        duel.playCardAs(cardPlayed, Consts.secondPlayer, Consts.secondRow);
+    }
+    @PostMapping(path = "playCardOnThirdRow_player2")
+    @CrossOrigin
+    public void playCardOnThirdRow_player2(@RequestBody CardDisplay cardPlayed){
+        duel.playCardAs(cardPlayed, Consts.secondPlayer, Consts.thirdRow);
     }
 
     @PostMapping(path = "endRound_player1")
