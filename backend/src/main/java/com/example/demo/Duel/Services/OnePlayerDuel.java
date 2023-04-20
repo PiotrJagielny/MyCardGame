@@ -64,8 +64,9 @@ public class OnePlayerDuel {
     }
 
     public void dealCards() {
-        Card toDeal = cardsInDeck.get(0);
+        if(cardsInDeck.isEmpty()) return;
 
+        Card toDeal = cardsInDeck.get(0);
         cardsInDeck.remove(0);
         cardsInHand.add(toDeal);
     }

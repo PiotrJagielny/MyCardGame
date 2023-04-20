@@ -16,20 +16,19 @@ public interface CardDuel {
     void playCardAs(CardDisplay cardToPlayDisplay, String player);
 
     void dealCards();
-    void setTurnTo(String player);
     void registerPlayerToDuel(String player);
 
 
     void endRoundFor(String player);
 
+    boolean isTurnOf(String player);
     boolean didEndRound(String player);
 
+    int getWonRoundsOf(String player);
 
 
     public static CardDuel createDuel(){
         return new NormalDuel();
     }
-
-    int getWonRoundsOf(String player);
 
 }

@@ -104,6 +104,28 @@ public class NormalDuelController {
         duel.endRoundFor(Consts.secondPlayer);
     }
 
+    @GetMapping(path = "isTurnOf_player1")
+    @CrossOrigin
+    public boolean isTurnOf_player1(){
+        return duel.isTurnOf(Consts.firstPlayer);
+    }
+    @GetMapping(path = "isTurnOf_player2")
+    @CrossOrigin
+    public boolean isTurnOf_player2(){
+        return duel.isTurnOf(Consts.secondPlayer);
+    }
+
+    @GetMapping(path = "didWon_player1")
+    @CrossOrigin
+    public boolean didWon_player1(){
+        return duel.didWon(Consts.firstPlayer);
+    }
+    @GetMapping(path = "didWon_player2")
+    @CrossOrigin
+    public boolean didWon_player2(){
+        return duel.didWon(Consts.secondPlayer);
+    }
+
 
     @PostMapping(path = "SetupDecks")
     @CrossOrigin
@@ -115,7 +137,6 @@ public class NormalDuelController {
         duel.parseCardsFor(cardsInDeck, Consts.secondPlayer);
         duel.dealCards();
         duel.dealCards();
-        duel.setTurnTo(Consts.firstPlayer);
     }
 
 }

@@ -55,10 +55,24 @@ public class NormalDuel implements CardDuel{
 
     @Override
     public void playCardAs(CardDisplay cardToPlayDisplay, String player) {
-        if(player.equals(whosTurn)){
+        if(isTurnOf(player)){
             players.get(player).playCard(cardToPlayDisplay);
             changeTurn();
         }
+    }
+
+    @Override
+    public boolean isTurnOf(String player) {
+        return whosTurn.equals(player) && hasGameEnded() == false;
+    }
+
+    private boolean hasGameEnded(){
+        for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
+            if(didWon(entry.getKey()) == true){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -87,13 +101,9 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
-    public void setTurnTo(String player) {
-        whosTurn = player;
-    }
-
-    @Override
     public void registerPlayerToDuel(String player) {
         players.put(player, new OnePlayerDuel());
+        whosTurn = player;
     }
 
     @Override
@@ -101,7 +111,6 @@ public class NormalDuel implements CardDuel{
         changeTurn();
         players.get(player).endRound();
         if (didPlayersEndedRound()) startNewRound();
-
     }
 
     private boolean didPlayersEndedRound() {
@@ -114,13 +123,20 @@ public class NormalDuel implements CardDuel{
     }
 
     private void startNewRound() {
+        Map<String, Integer> playerNameToBoardPointsMap = getPlayersNameToBoardPointsMap();
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
-
             String opponent = getOpponentOf(entry.getKey());
-            int opponentBoardPoints = players.get(opponent).getBoardPoints();
-            obj.startNewRound(opponentBoardPoints);
+            obj.startNewRound(playerNameToBoardPointsMap.get(opponent));
         }
+    }
+    private Map<String, Integer> getPlayersNameToBoardPointsMap(){
+        Map<String, Integer> result = new HashMap<>();
+        for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
+            OnePlayerDuel obj = entry.getValue();
+            result.put(entry.getKey(), obj.getBoardPoints());
+        }
+        return result;
     }
 
     @Override

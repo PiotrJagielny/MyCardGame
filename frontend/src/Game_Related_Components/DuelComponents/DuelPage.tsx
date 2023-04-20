@@ -10,11 +10,17 @@ const DuelPage = () => {
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
   const [pointsOnBoard, setPointsOnBoard] = useState<number>();
+  const [wonRounds, setWonRounds] = useState<number>();
+  const [isTurnOfPlayer1, setIsTurnOfPlayer1] = useState<boolean>(false);
+  const [didWon, setDidWon] = useState<boolean>(false);
 
   const [cardsInHand2, setCardsInHand2] = useState<Card[]>([]);
   const [cardsInDeck2, setCardsInDeck2] = useState<Card[]>([]);
   const [cardsOnBoard2, setCardsOnBoard2] = useState<Card[]>([]);
   const [pointsOnBoard2, setPointsOnBoard2] = useState<number>();
+  const [wonRounds2, setWonRounds2] = useState<number>();
+  const [isTurnOfPlayer2, setIsTurnOfPlayer2] = useState<boolean>(false);
+  const [didWon2, setDidWon2] = useState<boolean>(false);
 
 
 
@@ -84,6 +90,27 @@ const DuelPage = () => {
       })
       .catch(console.error);
 
+    fetch('http://localhost:8000/Duel/isTurnOf_player1')
+      .then((res) => res.json())
+      .then((isTurnOfPlayer1: boolean) => {
+        setIsTurnOfPlayer1(isTurnOfPlayer1);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/getWonRounds_player1')
+      .then((res) => res.json())
+      .then((wonRounds: number) => {
+        setWonRounds(wonRounds);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/didWon_player1')
+      .then((res) => res.json())
+      .then((didWon: boolean) => {
+        setDidWon(didWon);
+      })
+      .catch(console.error);
+
       // PLAYER 2
 
       fetch('http://localhost:8000/Duel/getHandCards_player2')
@@ -114,6 +141,27 @@ const DuelPage = () => {
       })
       .catch(console.error);
 
+    fetch('http://localhost:8000/Duel/isTurnOf_player2')
+      .then((res) => res.json())
+      .then((isTurnOfPlayer2: boolean) => {
+        setIsTurnOfPlayer2(isTurnOfPlayer2);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/getWonRounds_player2')
+      .then((res) => res.json())
+      .then((wonRounds2: number) => {
+        setWonRounds2(wonRounds2);
+      })
+      .catch(console.error);
+
+    fetch('http://localhost:8000/Duel/didWon_player2')
+      .then((res) => res.json())
+      .then((didWon2: boolean) => {
+        setDidWon2(didWon2);
+      })
+      .catch(console.error);
+
     setRefresh(true);
   }
 
@@ -128,7 +176,7 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    let cardDragged: Card = {name: result.draggableId};
+    let cardDragged: Card = {name: result.draggableId, points: 0};
     fetch('http://localhost:8000/Duel/playCard_player1', {
         method: 'POST',
         headers: {
@@ -145,7 +193,7 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    let cardDragged: Card = {name: result.draggableId};
+    let cardDragged: Card = {name: result.draggableId, points: 0};
     fetch('http://localhost:8000/Duel/playCard_player2', {
         method: 'POST',
         headers: {
@@ -176,6 +224,8 @@ const DuelPage = () => {
       });
   }
 
+
+
   return (
     
     <div>
@@ -184,18 +234,12 @@ const DuelPage = () => {
         <label>Let the battle begin</label>
         <button onClick={fetchCardsData}>Load data</button>
       </div>
-
-
-      {/* |||||||||||||||| TO JEST GRACZ 1 |||||||||||||||| */}
-      {/* <div>
-      <h4>Cards in deck remaining</h4>
-      <ul>
-       {cardsInDeck.map(card =>(
-            <li>{card.name}</li>
-        ))}
-      </ul>
-      </div> */}
+      
       <button onClick={endRound_player1}>End round</button>
+      <p>Did you won {didWon.toString()}</p>
+      <p>Won rounds {wonRounds}</p>
+      <label>Is your turn: {isTurnOfPlayer1.toString()}</label>
+
       <DragDropContext onDragEnd = {(onDragEnd_player1)}>
         
         <Droppable droppableId="Hand">
@@ -210,7 +254,7 @@ const DuelPage = () => {
                     <Draggable key={card.name} draggableId={card.name} index={index}>
                       {(provided) => (
                         <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          {card.name}
+                          {card.name}, {card.points}
                         </li>    
                       )}  
                     </Draggable>
@@ -232,7 +276,7 @@ const DuelPage = () => {
               <div className="rightBoardContentP1">
                 <ul>
                   {cardsOnBoard.map((card, index) =>(
-                    <li>{card.name}</li>    
+                    <li>{card.name}, {card.points}</li>    
                   ))}
                 </ul>
               </div>
@@ -256,7 +300,7 @@ const DuelPage = () => {
               <div className="rightBoardContentP2">
                 <ul>
                   {cardsOnBoard2.map((card, index) =>(
-                    <li>{card.name}</li>    
+                    <li>{card.name}, {card.points}</li>    
                   ))}
                 </ul>
               </div>
@@ -277,7 +321,7 @@ const DuelPage = () => {
                   <Draggable key={card.name} draggableId={card.name} index={index}>
                     {(provided) => (
                       <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        {card.name}
+                        {card.name}, {card.points}
                       </li>    
                     )}  
                   </Draggable>
@@ -290,17 +334,11 @@ const DuelPage = () => {
         </Droppable>
           
       </DragDropContext>
-
+      
+      <label>Is your turn: {isTurnOfPlayer2.toString()}</label>
+      <p>Won rounds {wonRounds2}</p>
+      <p>Did you won {didWon2.toString()}</p>
       <button onClick={endRound_player2}>End round</button>
-
-      {/* <div>
-      <h4>Cards in deck remaining</h4>
-      <ul>
-       {cardsInDeck2.map(card =>(
-            <li>{card.name}</li>
-        ))}
-      </ul>
-      </div> */}
     </div>
   )
 }
