@@ -40,23 +40,12 @@ public class NormalDuelController {
     @GetMapping(path = "getBoardCards_player1")
     @CrossOrigin
     public List<CardDisplay> getBoard_player1(){
-        return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer);
+        return duel.getCardsOnBoardDisplayOf(Consts.firstPlayer, Consts.firstRow);
     }
     @GetMapping(path = "getBoardCards_player2")
     @CrossOrigin
     public List<CardDisplay> getBoard_player2(){
-        return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer);
-    }
-
-    @GetMapping(path = "getCemeteryCards_player1")
-    @CrossOrigin
-    public List<CardDisplay> getCemetery_player1(){
-        return duel.getCardsOnCemeteryDisplayOf(Consts.firstPlayer);
-    }
-    @GetMapping(path = "getCemeteryCards_player2")
-    @CrossOrigin
-    public List<CardDisplay> getCemetery_player2(){
-        return duel.getCardsOnCemeteryDisplayOf(Consts.secondPlayer);
+        return duel.getCardsOnBoardDisplayOf(Consts.secondPlayer, Consts.firstRow);
     }
 
 
@@ -85,12 +74,12 @@ public class NormalDuelController {
     @PostMapping(path = "playCard_player1")
     @CrossOrigin
     public void playCard_player1(@RequestBody CardDisplay cardPlayed){
-        duel.playCardAs(cardPlayed, Consts.firstPlayer);
+        duel.playCardAs(cardPlayed, Consts.firstPlayer, Consts.firstRow);
     }
     @PostMapping(path = "playCard_player2")
     @CrossOrigin
     public void playCard_player2(@RequestBody CardDisplay cardPlayed){
-        duel.playCardAs(cardPlayed, Consts.secondPlayer);
+        duel.playCardAs(cardPlayed, Consts.secondPlayer, Consts.firstRow);
     }
 
     @PostMapping(path = "endRound_player1")

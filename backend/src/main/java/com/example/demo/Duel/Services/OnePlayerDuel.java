@@ -4,6 +4,7 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Parser.CardsParser;
 import com.example.demo.CardsServices.Parser.NormalCardsParser;
+import com.example.demo.Consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +13,18 @@ public class OnePlayerDuel {
 
     private List<Card> cardsInDeck;
     private List<Card> cardsInHand;
-    private List<Card> cardsOnBoard;
-    private List<Card> cardsOnCemetery;
+    private List<Row> rows;
     private boolean isRoundOverForPlayer;
     private int wonRounds;
 
     private CardsParser parser;
 
     public OnePlayerDuel() {
-        cardsOnBoard = new ArrayList<Card>();
-        cardsOnCemetery = new ArrayList<Card>();
+        rows = new ArrayList<>();
+        rows.add(new Row());
+        rows.add(new Row());
+        rows.add(new Row());
+
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
         parser = new NormalCardsParser();
@@ -37,15 +40,15 @@ public class OnePlayerDuel {
         return parser.getCardsDisplay(cardsInHand);
     }
 
-    public List<CardDisplay> getCardsOnBoard() {
-        return parser.getCardsDisplay(cardsOnBoard);
+    public List<CardDisplay> getCardsOnBoardOnRow(int number) {
+
+        return parser.getCardsDisplay(rows.get(number).getCards());
     }
-    public List<CardDisplay> getCardsOnCemetery(){return parser.getCardsDisplay(cardsOnCemetery);}
 
     public int getBoardPoints(){
         int result = 0;
-        for(int i = 0 ; i < cardsOnBoard.size() ; ++i){
-            result += cardsOnBoard.get(i).getPoints();
+        for(int i = 0 ; i < Consts.rowsNumber ; ++i){
+            result += rows.get(i).getRowPoints();
         }
         return result;
     }
@@ -56,11 +59,11 @@ public class OnePlayerDuel {
 
     }
 
-    public void playCard(CardDisplay cardToPlayDisplay) {
+    public void playCard(CardDisplay cardToPlayDisplay, int rowNumber) {
         Card cardToPlay = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
 
         cardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
-        cardsOnBoard.add(cardToPlay);
+        rows.get(rowNumber).play(cardToPlay);
     }
 
     public void dealCards() {
@@ -83,16 +86,9 @@ public class OnePlayerDuel {
         int playerBoardPoints = getBoardPoints();
         isRoundOverForPlayer = false;
         dealCards();
-        moveCardsFromBoardToCemetery();
+        rows.get(Consts.firstRow).clearBoard();
 
         if (playerBoardPoints > opponentBoardPoints) ++wonRounds;
-    }
-
-    private void moveCardsFromBoardToCemetery(){
-        for(int i = 0 ; i < cardsOnBoard.size() ; ++i){
-            cardsOnCemetery.add(new Card(cardsOnBoard.get(i)));
-        }
-        cardsOnBoard.clear();
     }
 
     public int getWonRounds(){

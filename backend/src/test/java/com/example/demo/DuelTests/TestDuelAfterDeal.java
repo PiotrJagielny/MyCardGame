@@ -1,6 +1,7 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Consts;
 import com.example.demo.Duel.Services.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,14 +32,14 @@ class TestDuelAfterDeal {
 
     @Test
     public void beforePlayingCard_boardIsEmpty(){
-        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer).isEmpty());
+        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).isEmpty());
     }
 
     @Test
     public void afterPlayingCard_boardIsNotEmpty(){
         int cardsInHandBeforePlaying = duel.getCardsInHandDisplayOf(firstPlayer).size();
-        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
-        assertFalse(duel.getCardsOnBoardDisplayOf(firstPlayer).isEmpty());
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow );
+        assertFalse(duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).isEmpty());
         assertNotEquals(cardsInHandBeforePlaying, duel.getCardsInHandDisplayOf(firstPlayer).size());
     }
 
@@ -49,15 +50,19 @@ class TestDuelAfterDeal {
 
     @Test
     public void onFirstPlayerTurn_player2CantPlayCard(){
-        duel.playCardAs(duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
-        assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer).isEmpty());
+        duel.playCardAs(duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer, Consts.firstRow);
+        assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer, Consts.firstRow).isEmpty());
     }
 
     @Test
     public void afterPlayingCardsWithPoints_theSamePointsAreOnBoard(){
-        CardDisplay cardToPlay = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
-        duel.playCardAs(cardToPlay, firstPlayer);
-        assertEquals(cardToPlay.getPoints(), duel.getBoardPointsOf(firstPlayer));
+        duel.dealCards();
+        CardDisplay cardToPlay_first = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
+        CardDisplay cardToPlay_second = duel.getCardsInHandDisplayOf(firstPlayer).get(1);
+        duel.playCardAs(cardToPlay_first, firstPlayer, Consts.firstRow);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer, Consts.firstRow);
+        duel.playCardAs(cardToPlay_second, firstPlayer, Consts.secondRow);
+        assertEquals(cardToPlay_first.getPoints() + cardToPlay_second.getPoints(), duel.getBoardPointsOf(firstPlayer));
     }
 
     @Test
@@ -65,15 +70,15 @@ class TestDuelAfterDeal {
         duel.dealCards();
 
         int expectedCardsOnBoard = 1;
-        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
-        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow );
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size());
 
-        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
-        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow );
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size());
 
-        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
-        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer);
-        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(secondPlayer).size());
+        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer, Consts.firstRow);
+        duel.playCardAs( duel.getCardsInHandDisplayOf(secondPlayer).get(0), secondPlayer, Consts.firstRow);
+        assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(secondPlayer, Consts.firstRow).size());
     }
 
     @Test
@@ -92,21 +97,21 @@ class TestDuelAfterDeal {
     public void afterOnePlayerEndsRound_turnsDontSwitch() {
         duel.dealCards();
         duel.dealCards();
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         duel.endRoundFor(secondPlayer);
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         int expectedNumberOfCardsOnBoard = 3;
-        assertEquals(expectedNumberOfCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+        assertEquals(expectedNumberOfCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size());
     }
 
     @Test
     public void afterEndingRound_turnsSwitch(){
         duel.dealCards();
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         duel.endRoundFor(secondPlayer);
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
-        assertEquals(2, duel.getCardsOnBoardDisplayOf(firstPlayer).size());
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
+        assertEquals(2, duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size());
     }
 
     @Test
@@ -140,18 +145,7 @@ class TestDuelAfterDeal {
     @Test
     public void afterNewRound_boardIsEmpty(){
         playCardAsFirstPlayer_startNextRound();
-        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer).isEmpty());
-    }
-
-    @Test
-    public void atStart_noCardsAreOnCemetery(){
-        assertTrue(duel.getCardsOnCemeteryDisplayOf(firstPlayer).isEmpty());
-    }
-
-    @Test
-    public void afterFirstRound_cardsAreMovedFromBoardToCemetery(){
-        playCardAsFirstPlayer_startNextRound();
-        assertFalse(duel.getCardsOnCemeteryDisplayOf(firstPlayer).isEmpty());
+        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).isEmpty());
     }
 
     @Test
@@ -165,15 +159,14 @@ class TestDuelAfterDeal {
     public void afterWonGame_cantPlayCard(){
         playCardAsFirstPlayer_startNextRound();
         playCardAsFirstPlayer_startNextRound();
-        //assertFalse(duel.isTurnOf(firstPlayer));
-        int cardsOnBoard_beforePlay = duel.getCardsOnBoardDisplayOf(firstPlayer).size();
-        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer );
-        int cardsOnBoard_afterPlay = duel.getCardsOnBoardDisplayOf(firstPlayer).size();
+        int cardsOnBoard_beforePlay = duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size();
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer , Consts.firstRow);
+        int cardsOnBoard_afterPlay = duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size();
         assertEquals(cardsOnBoard_afterPlay, cardsOnBoard_beforePlay);
     }
 
     public void playCardAsFirstPlayer_startNextRound(){
-        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer);
+        duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         startNextRound_secondPlayerFirst();
     }
 
@@ -191,8 +184,8 @@ class TestDuelAfterDeal {
         CardDisplay lessPointsCard = Collections.min(
                 duel.getCardsInHandDisplayOf(firstPlayer), Comparator.comparingInt(CardDisplay::getPoints)
         );
-        duel.playCardAs(morePointsCard, firstPlayer);
-        duel.playCardAs(lessPointsCard, secondPlayer);
+        duel.playCardAs(morePointsCard, firstPlayer, Consts.firstRow);
+        duel.playCardAs(lessPointsCard, secondPlayer, Consts.firstRow);
         duel.endRoundFor(firstPlayer);
         duel.endRoundFor(secondPlayer);
 

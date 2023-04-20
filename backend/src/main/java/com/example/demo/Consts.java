@@ -6,4 +6,9 @@ public class Consts {
 
     public static final String firstPlayer = "first";
     public static final String secondPlayer = "second";
+
+    public static final int firstRow = 0;
+    public static final int secondRow = 1;
+    public static final int thirdRow = 2;
+    public static final int rowsNumber = 3;
 }

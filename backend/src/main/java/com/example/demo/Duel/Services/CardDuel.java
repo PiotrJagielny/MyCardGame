@@ -10,10 +10,10 @@ public interface CardDuel {
     void parseCardsFor(List<CardDisplay> cardsDisplay, String player);
     List<CardDisplay> getCardsInDeckDisplayOf(String player);
     List<CardDisplay> getCardsInHandDisplayOf(String player);
-    List<CardDisplay> getCardsOnBoardDisplayOf(String player);
-    List<CardDisplay> getCardsOnCemeteryDisplayOf(String player);
+
+    List<CardDisplay> getCardsOnBoardDisplayOf(String player, int rowNumber);
     int getBoardPointsOf(String player);
-    void playCardAs(CardDisplay cardToPlayDisplay, String player);
+    void playCardAs(CardDisplay cardToPlayDisplay, String player, int onRow);
 
     void dealCards();
     void registerPlayerToDuel(String player);

@@ -38,15 +38,12 @@ public class NormalDuel implements CardDuel{
         return players.get(player).getCardsInHand();
     }
 
-    @Override
-    public List<CardDisplay> getCardsOnBoardDisplayOf(String player) {
-        return players.get(player).getCardsOnBoard();
-    }
 
     @Override
-    public List<CardDisplay> getCardsOnCemeteryDisplayOf(String player) {
-        return players.get(player).getCardsOnCemetery();
+    public List<CardDisplay> getCardsOnBoardDisplayOf(String player, int rowNumber) {
+        return players.get(player).getCardsOnBoardOnRow(rowNumber);
     }
+
 
     @Override
     public int getBoardPointsOf(String player) {
@@ -54,9 +51,9 @@ public class NormalDuel implements CardDuel{
     }
 
     @Override
-    public void playCardAs(CardDisplay cardToPlayDisplay, String player) {
+    public void playCardAs(CardDisplay cardToPlayDisplay, String player, int onRow) {
         if(isTurnOf(player)){
-            players.get(player).playCard(cardToPlayDisplay);
+            players.get(player).playCard(cardToPlayDisplay, onRow);
             changeTurn();
         }
     }
