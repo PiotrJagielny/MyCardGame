@@ -53,7 +53,7 @@ const DuelPage = () => {
   useEffect(() => {
     const controller = new AbortController();
     if (deckData.length > 0) {
-      fetch(`http://localhost:8000/Duel/SetupDecks?firstUser=${firstPlayer}&secondUser=${secondPlayer}`, {
+      fetch(`http://localhost:8000/Duel/SetupDecks?firstUser=${"first"}&secondUser=${"second"}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -78,28 +78,28 @@ const DuelPage = () => {
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getDeckCards_player1')
+    fetch(`http://localhost:8000/Duel/getDeckCards/${firstPlayer}`)
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCards_player1')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${0}`)
       .then((res) => res.json())
       .then((cardsOnBoard: Card[]) => {
         setCardsOnBoard(cardsOnBoard);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCardsOnSecondRow_player1')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${1}`)
       .then((res) => res.json())
       .then((cardsOnSecondRow: Card[]) => {
         setCardsOnSecondRow(cardsOnSecondRow);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCardsOnThirdRow_player1')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${2}`)
       .then((res) => res.json())
       .then((cardsOnThirdRow: Card[]) => {
         setCardsOnThirdRow(cardsOnThirdRow);
@@ -107,28 +107,28 @@ const DuelPage = () => {
       .catch(console.error);
 
 
-    fetch('http://localhost:8000/Duel/getBoardPoints_player1')
+    fetch(`http://localhost:8000/Duel/getBoardPoints/${firstPlayer}`)
       .then((res) => res.json())
       .then((pointsOnBoard: number) => {
         setPointsOnBoard(pointsOnBoard);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/isTurnOf_player1')
+    fetch(`http://localhost:8000/Duel/isTurnOf/${firstPlayer}`)
       .then((res) => res.json())
       .then((isTurnOfPlayer1: boolean) => {
         setIsTurnOfPlayer1(isTurnOfPlayer1);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getWonRounds_player1')
+    fetch(`http://localhost:8000/Duel/getWonRounds/${firstPlayer}`)
       .then((res) => res.json())
       .then((wonRounds: number) => {
         setWonRounds(wonRounds);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/didWon_player1')
+    fetch(`http://localhost:8000/Duel/didWon/${firstPlayer}`)
       .then((res) => res.json())
       .then((didWon: boolean) => {
         setDidWon(didWon);
@@ -137,63 +137,64 @@ const DuelPage = () => {
 
       // PLAYER 2
 
-      fetch('http://localhost:8000/Duel/getHandCards_player2')
+      fetch(`http://localhost:8000/Duel/getHandCards/${secondPlayer}`)
       .then((res) => res.json())
       .then((cardsInHand2: Card[]) => {
         setCardsInHand2(cardsInHand2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getDeckCards_player2')
+    fetch(`http://localhost:8000/Duel/getDeckCards/${secondPlayer}`)
       .then((res) => res.json())
       .then((cardsInDeck2: Card[]) => {
         setCardsInDeck2(cardsInDeck2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCards_player2')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${0}`)
       .then((res) => res.json())
       .then((cardsOnBoard2: Card[]) => {
         setCardsOnBoard2(cardsOnBoard2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCardsOnSecondRow_player2')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${1}`)
       .then((res) => res.json())
       .then((cardsOnSecondRow2: Card[]) => {
         setCardsOnSecondRow2(cardsOnSecondRow2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardCardsOnThirdRow_player2')
+    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${2}`)
       .then((res) => res.json())
       .then((cardsOnThirdRow2: Card[]) => {
         setCardsOnThirdRow2(cardsOnThirdRow2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getBoardPoints_player2')
+
+    fetch(`http://localhost:8000/Duel/getBoardPoints/${secondPlayer}`)
       .then((res) => res.json())
       .then((pointsOnBoard2: number) => {
         setPointsOnBoard2(pointsOnBoard2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/isTurnOf_player2')
+    fetch(`http://localhost:8000/Duel/isTurnOf/${secondPlayer}`)
       .then((res) => res.json())
       .then((isTurnOfPlayer2: boolean) => {
         setIsTurnOfPlayer2(isTurnOfPlayer2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/getWonRounds_player2')
+    fetch(`http://localhost:8000/Duel/getWonRounds/${secondPlayer}`)
       .then((res) => res.json())
       .then((wonRounds2: number) => {
         setWonRounds2(wonRounds2);
       })
       .catch(console.error);
 
-    fetch('http://localhost:8000/Duel/didWon_player2')
+    fetch(`http://localhost:8000/Duel/didWon/${secondPlayer}`)
       .then((res) => res.json())
       .then((didWon2: boolean) => {
         setDidWon2(didWon2);
@@ -216,7 +217,7 @@ const DuelPage = () => {
 
     let cardDragged: Card = {name: result.draggableId, points: 0};
     if(destination.droppableId === "Board"){
-      fetch('http://localhost:8000/Duel/playCard_player1', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${0}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -225,7 +226,7 @@ const DuelPage = () => {
       });
     }
     else if(destination.droppableId === "BoardRow2"){
-      fetch('http://localhost:8000/Duel/playCardOnSecondRow_player1', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${1}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -234,7 +235,7 @@ const DuelPage = () => {
       });
     }
     else if(destination.droppableId === "BoardRow3"){
-      fetch('http://localhost:8000/Duel/playCardOnThirdRow_player1', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${3}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -254,7 +255,7 @@ const DuelPage = () => {
 
     let cardDragged: Card = {name: result.draggableId, points: 0};
     if(destination.droppableId === "Board"){
-      fetch('http://localhost:8000/Duel/playCard_player2', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${0}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -263,7 +264,7 @@ const DuelPage = () => {
       });
     }
     else if(destination.droppableId === "BoardRow2"){
-      fetch('http://localhost:8000/Duel/playCardOnSecondRow_player2', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${1}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -272,7 +273,7 @@ const DuelPage = () => {
       });
     }
     else if(destination.droppableId === "BoardRow3"){
-      fetch('http://localhost:8000/Duel/playCardOnThirdRow_player2', {
+      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${3}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -284,7 +285,7 @@ const DuelPage = () => {
   }
 
   const endRound_player1 = () => {
-      fetch('http://localhost:8000/Duel/endRound_player1', {
+      fetch(`http://localhost:8000/Duel/endRound?userName=${firstPlayer}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -294,7 +295,7 @@ const DuelPage = () => {
   }
 
   const endRound_player2 = () => {
-    fetch('http://localhost:8000/Duel/endRound_player2', {
+    fetch(`http://localhost:8000/Duel/endRound?userName=${secondPlayer}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -425,7 +426,7 @@ const DuelPage = () => {
           {(provided) => (
             <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
               <div className="leftBoardContentP2">
-                <h3>Row 2: {pointsOnBoard} points</h3>
+                <h3>Row 2: {pointsOnBoard2} points</h3>
               </div>
               <div className="rightBoardContentP2">
                 <ul>
@@ -442,7 +443,7 @@ const DuelPage = () => {
           {(provided) => (
             <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
               <div className="leftBoardContentP2">
-                <h3>Row 3: {pointsOnBoard} points</h3>
+                <h3>Row 3: {pointsOnBoard2} points</h3>
               </div>
               <div className="rightBoardContentP2">
                 <ul>
