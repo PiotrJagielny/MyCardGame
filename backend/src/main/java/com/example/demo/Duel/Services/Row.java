@@ -13,7 +13,7 @@ public class Row {
         cards = new ArrayList<>();
     }
 
-    public void clearBoard(){
+    public void clearRow(){
         cards.clear();
     }
 

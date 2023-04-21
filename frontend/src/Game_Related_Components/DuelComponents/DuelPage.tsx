@@ -48,11 +48,12 @@ const DuelPage = () => {
         controller.abort();
       };
   }, []);
-  
+  let firstPlayer:string = "first";
+  let secondPlayer:string = "second";
   useEffect(() => {
     const controller = new AbortController();
     if (deckData.length > 0) {
-      fetch('http://localhost:8000/Duel/SetupDecks', {
+      fetch(`http://localhost:8000/Duel/SetupDecks?firstUser=${firstPlayer}&secondUser=${secondPlayer}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -70,7 +71,7 @@ const DuelPage = () => {
 
   const fetchCardsData = () => {
 
-    fetch('http://localhost:8000/Duel/getHandCards_player1')
+    fetch(`http://localhost:8000/Duel/getHandCards/${firstPlayer}`)
       .then((res) => res.json())
       .then((cardsInHand: Card[]) => {
         setCardsInHand(cardsInHand);
@@ -214,13 +215,34 @@ const DuelPage = () => {
     if(destination.droppableId === "Hand"){return;}
 
     let cardDragged: Card = {name: result.draggableId, points: 0};
-    fetch('http://localhost:8000/Duel/playCard_player1', {
+    if(destination.droppableId === "Board"){
+      fetch('http://localhost:8000/Duel/playCard_player1', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(cardDragged)
       });
+    }
+    else if(destination.droppableId === "BoardRow2"){
+      fetch('http://localhost:8000/Duel/playCardOnSecondRow_player1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      });
+    }
+    else if(destination.droppableId === "BoardRow3"){
+      fetch('http://localhost:8000/Duel/playCardOnThirdRow_player1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      });
+    }
+    
     fetchCardsData();
   }
 
@@ -231,13 +253,33 @@ const DuelPage = () => {
     if(destination.droppableId === "Hand"){return;}
 
     let cardDragged: Card = {name: result.draggableId, points: 0};
-    fetch('http://localhost:8000/Duel/playCard_player2', {
+    if(destination.droppableId === "Board"){
+      fetch('http://localhost:8000/Duel/playCard_player2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(cardDragged)
       });
+    }
+    else if(destination.droppableId === "BoardRow2"){
+      fetch('http://localhost:8000/Duel/playCardOnSecondRow_player2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      });
+    }
+    else if(destination.droppableId === "BoardRow3"){
+      fetch('http://localhost:8000/Duel/playCardOnThirdRow_player2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      });
+    }
     fetchCardsData();
   }
 
@@ -302,8 +344,40 @@ const DuelPage = () => {
             </div>
           )}
         </Droppable>
-          
-        
+        <Droppable droppableId="BoardRow3">
+          {(provided) => (
+            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP1">
+                <h3>Row 3: {pointsOnBoard} points</h3>
+              </div>
+              <div className="rightBoardContentP1">
+                <ul>
+                  {cardsOnThirdRow.map((card, index) =>(
+                    <li>{card.name}, {card.points}</li>    
+                  ))}
+                </ul>
+              </div>
+              {provided.placeholder}    
+            </div>
+          )}
+        </Droppable>
+        <Droppable droppableId="BoardRow2">
+          {(provided) => (
+            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP1">
+                <h3>Row 2: {pointsOnBoard} points</h3>
+              </div>
+              <div className="rightBoardContentP1">
+                <ul>
+                  {cardsOnSecondRow.map((card, index) =>(
+                    <li>{card.name}, {card.points}</li>    
+                  ))}
+                </ul>
+              </div>
+              {provided.placeholder}    
+            </div>
+          )}
+        </Droppable>
         <Droppable droppableId="Board">
           {(provided) => (
             <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
@@ -321,13 +395,14 @@ const DuelPage = () => {
             </div>
           )}
         </Droppable>
-      </DragDropContext>
+      </DragDropContext>  
+        
 
       {/* |||||||||||||||| TO JEST GRACZ 2 |||||||||||||||| */}
       
       <DragDropContext onDragEnd = {(onDragEnd_player2)}>
         
-
+              
       <Droppable droppableId="Board">
           {(provided) => (
             <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
@@ -337,6 +412,41 @@ const DuelPage = () => {
               <div className="rightBoardContentP2">
                 <ul>
                   {cardsOnBoard2.map((card, index) =>(
+                    <li>{card.name}, {card.points}</li>    
+                  ))}
+                </ul>
+              </div>
+              {provided.placeholder}    
+            </div>
+          )}
+        </Droppable>
+
+        <Droppable droppableId="BoardRow2">
+          {(provided) => (
+            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP2">
+                <h3>Row 2: {pointsOnBoard} points</h3>
+              </div>
+              <div className="rightBoardContentP2">
+                <ul>
+                  {cardsOnSecondRow2.map((card, index) =>(
+                    <li>{card.name}, {card.points}</li>    
+                  ))}
+                </ul>
+              </div>
+              {provided.placeholder}    
+            </div>
+          )}
+        </Droppable>
+        <Droppable droppableId="BoardRow3">
+          {(provided) => (
+            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="leftBoardContentP2">
+                <h3>Row 3: {pointsOnBoard} points</h3>
+              </div>
+              <div className="rightBoardContentP2">
+                <ul>
+                  {cardsOnThirdRow2.map((card, index) =>(
                     <li>{card.name}, {card.points}</li>    
                   ))}
                 </ul>

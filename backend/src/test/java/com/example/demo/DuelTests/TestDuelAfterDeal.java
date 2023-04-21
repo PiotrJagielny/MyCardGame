@@ -144,8 +144,16 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterNewRound_boardIsEmpty(){
-        playCardAsFirstPlayer_startNextRound();
-        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).isEmpty());
+        duel.dealCards();
+        duel.dealCards();
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.secondRow);
+        duel.endRoundFor(secondPlayer);
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.thirdRow);
+        duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
+        duel.endRoundFor(firstPlayer);
+        for(int row = 0 ; row < Consts.rowsNumber ; ++row){
+            assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, row).isEmpty());
+        }
     }
 
     @Test

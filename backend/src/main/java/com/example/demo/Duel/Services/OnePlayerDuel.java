@@ -86,9 +86,15 @@ public class OnePlayerDuel {
         int playerBoardPoints = getBoardPoints();
         isRoundOverForPlayer = false;
         dealCards();
-        rows.get(Consts.firstRow).clearBoard();
+        clearRows();
 
         if (playerBoardPoints > opponentBoardPoints) ++wonRounds;
+    }
+
+    private void clearRows(){
+        for(int row = 0 ; row < Consts.rowsNumber ; ++row){
+            rows.get(row).clearRow();
+        }
     }
 
     public int getWonRounds(){
