@@ -2,8 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Parser.CardsParser;
-import com.example.demo.CardsServices.Parser.NormalCardsParser;
+import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class OnePlayerDuel {
     private boolean isRoundOverForPlayer;
     private int wonRounds;
 
-    private CardsParser parser;
+
 
     public OnePlayerDuel() {
         rows = new ArrayList<>();
@@ -27,22 +26,21 @@ public class OnePlayerDuel {
 
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
-        parser = new NormalCardsParser();
         isRoundOverForPlayer = false;
         wonRounds = 0;
     }
 
     public List<CardDisplay> getCardsInDeck() {
-        return parser.getCardsDisplay(cardsInDeck);
+        return CardsParser.getCardsDisplay(cardsInDeck);
     }
 
     public List<CardDisplay> getCardsInHand() {
-        return parser.getCardsDisplay(cardsInHand);
+        return CardsParser.getCardsDisplay(cardsInHand);
     }
 
     public List<CardDisplay> getCardsOnBoardOnRow(int number) {
 
-        return parser.getCardsDisplay(rows.get(number).getCards());
+        return CardsParser.getCardsDisplay(rows.get(number).getCards());
     }
 
     public int getBoardPoints(){
@@ -54,9 +52,7 @@ public class OnePlayerDuel {
     }
 
     public void parseCards(List<CardDisplay> cardsDisplay) {
-        parser.addCardsToParse(cardsDisplay);
-        cardsInDeck = parser.getParsedCards();
-
+        cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);
     }
 
     public void playCard(CardDisplay cardToPlayDisplay, int rowNumber) {
@@ -101,4 +97,5 @@ public class OnePlayerDuel {
         return wonRounds;
     }
     public boolean didWon(){return wonRounds == 2;}
+
 }

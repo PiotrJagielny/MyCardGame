@@ -1,8 +1,6 @@
 package com.example.demo.CardsServices;
 
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Parser.CardsParser;
-import com.example.demo.CardsServices.Parser.NormalCardsParser;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
@@ -48,8 +46,7 @@ public class Deck {
     }
 
     public List<CardDisplay> getCardsInDeck() {
-        CardsParser parser = new NormalCardsParser();
-        return parser.getCardsDisplay(cardsInDeck);
+        return CardsParser.getCardsDisplay(cardsInDeck);
     }
 
     public String getDeckName() {
@@ -57,8 +54,7 @@ public class Deck {
     }
 
     public List<CardDisplay> getCardsPossibleToAdd() {
-        CardsParser parser = new NormalCardsParser();
-        return parser.getCardsDisplay(allCardsPossibleToAdd);
+        return CardsParser.getCardsDisplay(allCardsPossibleToAdd);
     }
 
 }
