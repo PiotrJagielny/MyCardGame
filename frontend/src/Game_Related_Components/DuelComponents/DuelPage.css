@@ -1,72 +1,34 @@
-.BoardContainerP2 {
+.BoardContainer {
   outline: 2px solid wheat;
     width: 100%;
     overflow: hidden;
   }
   
-  .leftBoardContentP2 {
+  .leftBoardContent {
     outline: 2px solid wheat;
     float: left;
     width: 30%;
   }
   
-  .rightBoardContentP2 {
+  .rightBoardContent {
     outline: 2px solid wheat;
     float: right;
     width: 70%;
   }
 
-  .BoardContainerP1 {
+  .HandContainer {
     outline: 2px solid wheat;
     width: 100%;
     overflow: hidden;
   }
   
-  .leftBoardContentP1 {
+  .leftHandContent {
     outline: 2px solid wheat;
     float: left;
     width: 30%;
   }
   
-  .rightBoardContentP1 {
-    outline: 2px solid wheat;
-    float: right;
-    width: 70%;
-  }
-
-
-
-  .HandContainerP1 {
-    outline: 2px solid wheat;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .leftHandContentP1 {
-    outline: 2px solid wheat;
-    float: left;
-    width: 30%;
-  }
-  
-  .rightHandContentP1 {
-    outline: 2px solid wheat;
-    float: right;
-    width: 70%;
-  }
-
-  .HandContainerP2 {
-    outline: 2px solid wheat;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .leftHandContentP2 {
-    outline: 2px solid wheat;
-    float: left;
-    width: 30%;
-  }
-  
-  .rightHandContentP2 {
+  .rightHandContent {
     outline: 2px solid wheat;
     float: right;
     width: 70%;

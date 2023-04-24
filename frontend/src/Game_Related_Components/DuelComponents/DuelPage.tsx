@@ -2,31 +2,31 @@ import React, {useState, useEffect} from 'react';
 import {Card} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import HandComponent from './HandComponent';
+import RowComponent from './RowComponent';
 import './DuelPage.css';
 
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
-  const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
 
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
   const [cardsOnSecondRow, setCardsOnSecondRow] = useState<Card[]>([]);
   const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
 
-  const [pointsOnBoard, setPointsOnBoard] = useState<number>();
-  const [wonRounds, setWonRounds] = useState<number>();
+  const [pointsOnBoard, setPointsOnBoard] = useState<number>(0);
+  const [wonRounds, setWonRounds] = useState<number>(0);
   const [isTurnOfPlayer1, setIsTurnOfPlayer1] = useState<boolean>(false);
   const [didWon, setDidWon] = useState<boolean>(false);
 
   const [cardsInHand2, setCardsInHand2] = useState<Card[]>([]);
-  const [cardsInDeck2, setCardsInDeck2] = useState<Card[]>([]);
 
   const [cardsOnBoard2, setCardsOnBoard2] = useState<Card[]>([]);
   const [cardsOnSecondRow2, setCardsOnSecondRow2] = useState<Card[]>([]);
   const [cardsOnThirdRow2, setCardsOnThirdRow2] = useState<Card[]>([]);
 
-  const [pointsOnBoard2, setPointsOnBoard2] = useState<number>();
-  const [wonRounds2, setWonRounds2] = useState<number>();
+  const [pointsOnBoard2, setPointsOnBoard2] = useState<number>(0);
+  const [wonRounds2, setWonRounds2] = useState<number>(0);
   const [isTurnOfPlayer2, setIsTurnOfPlayer2] = useState<boolean>(false);
   const [didWon2, setDidWon2] = useState<boolean>(false);
 
@@ -69,147 +69,53 @@ const DuelPage = () => {
 
   }, [deckData]);
 
+  const fetchCollection = <T,>(url: string,data: T[] ,setter: React.Dispatch<React.SetStateAction<T[]>>) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data: T[]) => {
+        setter(data);
+      })
+      .catch(console.error);
+  }
+
+  const fetchElement = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data: T) => {
+        setter(data);
+      })
+      .catch(console.error);
+  }
+  
   const fetchCardsData = () => {
 
-    fetch(`http://localhost:8000/Duel/getHandCards/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((cardsInHand: Card[]) => {
-        setCardsInHand(cardsInHand);
-      })
-      .catch(console.error);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getHandCards/${firstPlayer}`, cardsInHand ,setCardsInHand);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${0}`,cardsOnBoard ,setCardsOnBoard);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${1}`, cardsOnSecondRow ,setCardsOnSecondRow);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${2}`, cardsOnThirdRow ,setCardsOnThirdRow);
 
-    fetch(`http://localhost:8000/Duel/getDeckCards/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((cardsInDeck: Card[]) => {
-        setCardsInDeck(cardsInDeck);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${0}`)
-      .then((res) => res.json())
-      .then((cardsOnBoard: Card[]) => {
-        setCardsOnBoard(cardsOnBoard);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${1}`)
-      .then((res) => res.json())
-      .then((cardsOnSecondRow: Card[]) => {
-        setCardsOnSecondRow(cardsOnSecondRow);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${2}`)
-      .then((res) => res.json())
-      .then((cardsOnThirdRow: Card[]) => {
-        setCardsOnThirdRow(cardsOnThirdRow);
-      })
-      .catch(console.error);
+    fetchElement<number>(`http://localhost:8000/Duel/getBoardPoints/${firstPlayer}`, pointsOnBoard ,setPointsOnBoard);
+    fetchElement<boolean>(`http://localhost:8000/Duel/isTurnOf/${firstPlayer}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
+    fetchElement<number>(`http://localhost:8000/Duel/getWonRounds/${firstPlayer}`, wonRounds ,setWonRounds);
+    fetchElement<boolean>(`http://localhost:8000/Duel/didWon/${firstPlayer}`, didWon ,setDidWon);
 
 
-    fetch(`http://localhost:8000/Duel/getBoardPoints/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((pointsOnBoard: number) => {
-        setPointsOnBoard(pointsOnBoard);
-      })
-      .catch(console.error);
 
-    fetch(`http://localhost:8000/Duel/isTurnOf/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((isTurnOfPlayer1: boolean) => {
-        setIsTurnOfPlayer1(isTurnOfPlayer1);
-      })
-      .catch(console.error);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getHandCards/${secondPlayer}`, cardsInHand2 ,setCardsInHand2);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${0}`,cardsOnBoard2 ,setCardsOnBoard2);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${1}`, cardsOnSecondRow2 ,setCardsOnSecondRow2);
+    fetchCollection<Card>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${2}`, cardsOnThirdRow2 ,setCardsOnThirdRow2);
 
-    fetch(`http://localhost:8000/Duel/getWonRounds/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((wonRounds: number) => {
-        setWonRounds(wonRounds);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/didWon/${firstPlayer}`)
-      .then((res) => res.json())
-      .then((didWon: boolean) => {
-        setDidWon(didWon);
-      })
-      .catch(console.error);
-
-      // PLAYER 2
-
-      fetch(`http://localhost:8000/Duel/getHandCards/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((cardsInHand2: Card[]) => {
-        setCardsInHand2(cardsInHand2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getDeckCards/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((cardsInDeck2: Card[]) => {
-        setCardsInDeck2(cardsInDeck2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${0}`)
-      .then((res) => res.json())
-      .then((cardsOnBoard2: Card[]) => {
-        setCardsOnBoard2(cardsOnBoard2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${1}`)
-      .then((res) => res.json())
-      .then((cardsOnSecondRow2: Card[]) => {
-        setCardsOnSecondRow2(cardsOnSecondRow2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${2}`)
-      .then((res) => res.json())
-      .then((cardsOnThirdRow2: Card[]) => {
-        setCardsOnThirdRow2(cardsOnThirdRow2);
-      })
-      .catch(console.error);
-
-
-    fetch(`http://localhost:8000/Duel/getBoardPoints/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((pointsOnBoard2: number) => {
-        setPointsOnBoard2(pointsOnBoard2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/isTurnOf/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((isTurnOfPlayer2: boolean) => {
-        setIsTurnOfPlayer2(isTurnOfPlayer2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/getWonRounds/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((wonRounds2: number) => {
-        setWonRounds2(wonRounds2);
-      })
-      .catch(console.error);
-
-    fetch(`http://localhost:8000/Duel/didWon/${secondPlayer}`)
-      .then((res) => res.json())
-      .then((didWon2: boolean) => {
-        setDidWon2(didWon2);
-      })
-      .catch(console.error);
+    fetchElement<number>(`http://localhost:8000/Duel/getBoardPoints/${secondPlayer}`, pointsOnBoard2 ,setPointsOnBoard2);
+    fetchElement<boolean>(`http://localhost:8000/Duel/isTurnOf/${secondPlayer}`, isTurnOfPlayer2 ,setIsTurnOfPlayer2);
+    fetchElement<number>(`http://localhost:8000/Duel/getWonRounds/${secondPlayer}`, wonRounds2 ,setWonRounds2);
+    fetchElement<boolean>(`http://localhost:8000/Duel/didWon/${secondPlayer}`, didWon2 ,setDidWon2);
 
     setRefresh(true);
   }
 
 
-
-
-
-
-  const onDragEnd_player1 = (result:DropResult) => {
+  const onDragEndOf = (result:DropResult, player:string) => {
     const {destination} = result;
     
     if(!destination){return;}
@@ -217,94 +123,37 @@ const DuelPage = () => {
 
     let cardDragged: Card = {name: result.draggableId, points: 0};
     if(destination.droppableId === "Board"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${0}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      });
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${0}`, cardDragged);
     }
     else if(destination.droppableId === "BoardRow2"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${1}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      });
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${1}`, cardDragged);
     }
     else if(destination.droppableId === "BoardRow3"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${firstPlayer}&rowNumber=${3}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      });
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${2}`, cardDragged);
     }
     
     fetchCardsData();
   }
 
-  const onDragEnd_player2 = (result:DropResult) => {
-    const {destination} = result;
-    
-    if(!destination){return;}
-    if(destination.droppableId === "Hand"){return;}
-
-    let cardDragged: Card = {name: result.draggableId, points: 0};
-    if(destination.droppableId === "Board"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${0}`, {
+  const playDraggedCard = (postURL: string, cardDragged:Card) =>{
+    fetch(postURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(cardDragged)
       });
-    }
-    else if(destination.droppableId === "BoardRow2"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${1}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      });
-    }
-    else if(destination.droppableId === "BoardRow3"){
-      fetch(`http://localhost:8000/Duel/playCard?userName=${secondPlayer}&rowNumber=${3}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      });
-    }
-    fetchCardsData();
   }
 
-  const endRound_player1 = () => {
-      fetch(`http://localhost:8000/Duel/endRound?userName=${firstPlayer}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: null
-      });
-  }
-
-  const endRound_player2 = () => {
-    fetch(`http://localhost:8000/Duel/endRound?userName=${secondPlayer}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: null
-      });
-  }
-
-
+  const endRoundFor = (player:string) => {
+    fetch(`http://localhost:8000/Duel/endRound?userName=${player}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: null
+    });
+}
 
   return (
     
@@ -315,178 +164,32 @@ const DuelPage = () => {
         <button onClick={fetchCardsData}>Load data</button>
       </div>
       
-      <button onClick={endRound_player1}>End round</button>
+      <button onClick={() => endRoundFor(firstPlayer)}>End round</button>
       <p>Did you won {didWon.toString()}</p>
       <p>Won rounds {wonRounds}</p>
       <label>Is your turn: {isTurnOfPlayer1.toString()}</label>
 
-      <DragDropContext onDragEnd = {(onDragEnd_player1)}>
-        
-        <Droppable droppableId="Hand">
-          {(provided) => (
-            <div className = "HandContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftHandContentP1">
-                <h3>Hand</h3>
-              </div>
-              <div className="rightHandContainerP1">
-                <ul>
-                  {cardsInHand.map((card, index) =>(
-                    <Draggable key={card.name} draggableId={card.name} index={index}>
-                      {(provided) => (
-                        <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          {card.name}, {card.points}
-                        </li>    
-                      )}  
-                    </Draggable>
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}  
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="BoardRow3">
-          {(provided) => (
-            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP1">
-                <h3>Row 3: {pointsOnBoard} points</h3>
-              </div>
-              <div className="rightBoardContentP1">
-                <ul>
-                  {cardsOnThirdRow.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="BoardRow2">
-          {(provided) => (
-            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP1">
-                <h3>Row 2: {pointsOnBoard} points</h3>
-              </div>
-              <div className="rightBoardContentP1">
-                <ul>
-                  {cardsOnSecondRow.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="Board">
-          {(provided) => (
-            <div className="BoardContainerP1" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP1">
-                <h3>Board: {pointsOnBoard} points</h3>
-              </div>
-              <div className="rightBoardContentP1">
-                <ul>
-                  {cardsOnBoard.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
+      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
+        <HandComponent cardsInHand = {cardsInHand}></HandComponent>
+
+        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow3"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow2"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnBoard} rowDroppableId={"Board"}></RowComponent>
       </DragDropContext>  
         
-
-      {/* |||||||||||||||| TO JEST GRACZ 2 |||||||||||||||| */}
       
-      <DragDropContext onDragEnd = {(onDragEnd_player2)}>
+      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, secondPlayer)}>
+        <RowComponent cardsOnRow = {cardsOnBoard2} pointsOnRow={pointsOnBoard2} rowDroppableId={"Board"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnSecondRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow2"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnThirdRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow3"}></RowComponent>
         
-              
-      <Droppable droppableId="Board">
-          {(provided) => (
-            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP2">
-                <h3>Board: {pointsOnBoard2} points</h3>
-              </div>
-              <div className="rightBoardContentP2">
-                <ul>
-                  {cardsOnBoard2.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
-
-        <Droppable droppableId="BoardRow2">
-          {(provided) => (
-            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP2">
-                <h3>Row 2: {pointsOnBoard2} points</h3>
-              </div>
-              <div className="rightBoardContentP2">
-                <ul>
-                  {cardsOnSecondRow2.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="BoardRow3">
-          {(provided) => (
-            <div className="BoardContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContentP2">
-                <h3>Row 3: {pointsOnBoard2} points</h3>
-              </div>
-              <div className="rightBoardContentP2">
-                <ul>
-                  {cardsOnThirdRow2.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
-                  ))}
-                </ul>
-              </div>
-              {provided.placeholder}    
-            </div>
-          )}
-        </Droppable>
-
-        <Droppable droppableId="Hand">
-          {(provided) => (
-            <div className = "HandContainerP2" ref={provided.innerRef} {...provided.droppableProps}>
-            <div className="leftHandContentP2">
-              <h3>Hand</h3>
-            </div>
-            <div className="rightHandContainerP2">
-              <ul>
-                {cardsInHand2.map((card, index) =>(
-                  <Draggable key={card.name} draggableId={card.name} index={index}>
-                    {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        {card.name}, {card.points}
-                      </li>    
-                    )}  
-                  </Draggable>
-                ))}
-              </ul>
-            </div>
-              {provided.placeholder}  
-            </div>
-          )}
-        </Droppable>
-          
+        <HandComponent cardsInHand = {cardsInHand2}></HandComponent>
       </DragDropContext>
       
       <label>Is your turn: {isTurnOfPlayer2.toString()}</label>
       <p>Won rounds {wonRounds2}</p>
       <p>Did you won {didWon2.toString()}</p>
-      <button onClick={endRound_player2}>End round</button>
+      <button onClick={() => endRoundFor(secondPlayer)}>End round</button>
     </div>
   )
 }
