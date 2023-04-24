@@ -2,7 +2,6 @@ package com.example.demo.DeckBuilder;
 
 import com.example.demo.Consts;
 import com.example.demo.DeckBuilding.Services.DeckBuilder;
-import com.example.demo.DeckBuilding.Services.DeckBuilderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ class TestDeckBuilder_OneDeck {
     private DeckBuilder deckBuilder;
     @BeforeEach
     public void init() {
-        deckBuilder = new DeckBuilderService();
+        deckBuilder = new DeckBuilder();
         deckBuilder.createDeck("First");
         deckBuilder.selectDeck("First");
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CardsFactory {
     
-    public List<Card> createAllCards(){
+    public static List<Card> createAllCards(){
         List<Card> result = new ArrayList<Card>(Arrays.asList(
                 Card.createCard(new CardDisplay("Knight", 2)),
                 Card.createCard(new CardDisplay("Witch", 3)),
