@@ -62,12 +62,34 @@ public class OnePlayerDuel {
         rows.get(rowNumber).play(cardToPlay);
     }
 
-    public void dealCards() {
-        if(cardsInDeck.isEmpty()) return;
+    public void playCard(CardDisplay cardToPlayDisplay, int rowNumber, CardDisplay playedOnCard) {
+        Card cardToPlay = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
+        Card playedOn = rows.get(0).getCards().stream().filter(c -> c.getDisplay().equals(playedOnCard)).findFirst().orElse(null);
 
-        Card toDeal = cardsInDeck.get(0);
-        cardsInDeck.remove(0);
-        cardsInHand.add(toDeal);
+        if(cardToPlay.getDisplay().getName().equals("Booster")){
+            rows.get(0).boost(playedOn);
+        }
+
+        cardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
+        rows.get(rowNumber).play(cardToPlay, playedOn);
+    }
+
+    public void dealCards(String howToDeal) {
+        if(howToDeal.equals(Consts.roundStartDealStrategy)){
+            if(cardsInDeck.isEmpty()) return;
+
+            Card toDeal = cardsInDeck.get(0);
+            cardsInDeck.remove(0);
+            cardsInHand.add(toDeal);
+        }
+        else if(howToDeal.equals(Consts.gameStartDealStrategy)) {
+            for(int i = 0 ; i < 3 && cardsInDeck.isEmpty() == false ; ++i){
+                Card toDeal = cardsInDeck.get(0);
+                cardsInDeck.remove(0);
+                cardsInHand.add(toDeal);
+            }
+        }
+
     }
 
     public void endRound(){
@@ -81,10 +103,10 @@ public class OnePlayerDuel {
     public void startNewRound(int opponentBoardPoints) {
         int playerBoardPoints = getBoardPoints();
         isRoundOverForPlayer = false;
-        dealCards();
+        dealCards(Consts.roundStartDealStrategy);
         clearRows();
 
-        if (playerBoardPoints > opponentBoardPoints) ++wonRounds;
+        if (playerBoardPoints >= opponentBoardPoints) ++wonRounds;
     }
 
     private void clearRows(){

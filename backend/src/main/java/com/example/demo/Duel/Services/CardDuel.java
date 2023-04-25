@@ -1,6 +1,7 @@
 package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Consts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +61,13 @@ public class CardDuel {
         }
     }
 
+    public void playCardAs(CardDisplay cardToPlayDisplay, String player, int onRow, CardDisplay playedOnCard) {
+        if(isTurnOf(player)){
+            players.get(player).playCard(cardToPlayDisplay, onRow, playedOnCard);
+            changeTurn();
+        }
+    }
+
 
     public boolean isTurnOf(String player) {
         return whosTurn.equals(player) && hasGameEnded() == false;
@@ -95,7 +103,7 @@ public class CardDuel {
     public void dealCards() {
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
-            obj.dealCards();
+            obj.dealCards(Consts.gameStartDealStrategy);
         }
     }
 

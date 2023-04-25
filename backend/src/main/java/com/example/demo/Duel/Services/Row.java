@@ -18,7 +18,26 @@ public class Row {
     }
 
     public void play(Card aCard){
+        if(aCard.getDisplay().getName().equals("Leader")){
+            for(Card card: cards){
+                card.boostPointsBy(2);
+            }
+        }
         cards.add(aCard);
+    }
+
+    public void play(Card aCard, Card playedOnCard){
+        if(aCard.getDisplay().getName().equals("Leader")){
+            for(Card card: cards){
+                card.boostPointsBy(2);
+            }
+        }
+        cards.add(aCard);
+    }
+
+    public void boost(Card aCard){
+        int cardIndex = cards.indexOf(aCard);
+        cards.get(cardIndex).boostPointsBy(3);
     }
 
     public int getRowPoints(){

@@ -20,9 +20,12 @@ public class Card {
 
     public CardDisplay getDisplay(){return new CardDisplay(name, points);}
     public int getPoints(){return points;}
+    public void boostPointsBy(int amount){
+        points += amount;
+    }
+
 
     public static Card createCard(CardDisplay cardDisplay){
         return new Card(cardDisplay.getName(), cardDisplay.getPoints());
     }
-
 }

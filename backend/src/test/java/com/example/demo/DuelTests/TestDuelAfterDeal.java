@@ -1,6 +1,8 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 import com.example.demo.Duel.Services.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,18 +17,15 @@ import static com.example.demo.TestsData.TestConsts.*;
 
 class TestDuelAfterDeal {
     CardDuel duel;
-    List<CardDisplay> cardsDisplay;
 
 
     @BeforeEach
     public void setUp(){
-
-        cardsDisplay = List.of(new CardDisplay("Knight",5),new CardDisplay( "Viking",7), new CardDisplay("which", 6));
         duel = CardDuel.createDuel();
         duel.registerPlayerToDuel(secondPlayer);
         duel.registerPlayerToDuel(firstPlayer);
-        duel.parseCardsFor(cardsDisplay, firstPlayer);
-        duel.parseCardsFor(cardsDisplay, secondPlayer);
+        duel.parseCardsFor(CardsParser.getCardsDisplay( CardsFactory.createAllCards() ), firstPlayer);
+        duel.parseCardsFor(CardsParser.getCardsDisplay( CardsFactory.createAllCards() ), secondPlayer);
         duel.dealCards();
     }
 
@@ -56,7 +55,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterPlayingCardsWithPoints_theSamePointsAreOnBoard(){
-        duel.dealCards();
         CardDisplay cardToPlay_first = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
         CardDisplay cardToPlay_second = duel.getCardsInHandDisplayOf(firstPlayer).get(1);
         duel.playCardAs(cardToPlay_first, firstPlayer, Consts.firstRow);
@@ -67,8 +65,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterPlayingCard_cantPlayAnother(){
-        duel.dealCards();
-
         int expectedCardsOnBoard = 1;
         duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow );
         assertEquals(expectedCardsOnBoard, duel.getCardsOnBoardDisplayOf(firstPlayer, Consts.firstRow).size());
@@ -95,8 +91,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterOnePlayerEndsRound_turnsDontSwitch() {
-        duel.dealCards();
-        duel.dealCards();
         duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         duel.endRoundFor(secondPlayer);
         duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
@@ -107,7 +101,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterEndingRound_turnsSwitch(){
-        duel.dealCards();
         duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
         duel.endRoundFor(secondPlayer);
         duel.playCardAs(duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.firstRow);
@@ -144,8 +137,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void afterNewRound_boardIsEmpty(){
-        duel.dealCards();
-        duel.dealCards();
         duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.secondRow);
         duel.endRoundFor(secondPlayer);
         duel.playCardAs( duel.getCardsInHandDisplayOf(firstPlayer).get(0), firstPlayer, Consts.thirdRow);
@@ -185,7 +176,6 @@ class TestDuelAfterDeal {
 
     @Test
     public void testCalculatingWonRounds(){
-        duel.dealCards();
         CardDisplay morePointsCard = Collections.max(
                 duel.getCardsInHandDisplayOf(firstPlayer), Comparator.comparingInt(CardDisplay::getPoints)
         );
@@ -199,6 +189,21 @@ class TestDuelAfterDeal {
 
         assertEquals(1, duel.getWonRoundsOf(firstPlayer));
         assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+    }
+
+    @Test
+    public void afterTie_bothPlayersScoresPoint(){
+        CardDisplay theSamePoints_firstPlayer = duel.getCardsInHandDisplayOf(firstPlayer).get(0);
+        CardDisplay theSamePoints_secondPlayer = duel.getCardsInHandDisplayOf(secondPlayer).stream()
+                .filter(c -> c.getPoints() == theSamePoints_firstPlayer.getPoints())
+                .findFirst().orElse(null);
+        duel.playCardAs(theSamePoints_firstPlayer, firstPlayer, Consts.firstRow);
+        duel.playCardAs(theSamePoints_secondPlayer, secondPlayer, Consts.firstRow);
+        duel.endRoundFor(firstPlayer);
+        duel.endRoundFor(secondPlayer);
+
+        assertEquals(1, duel.getWonRoundsOf(firstPlayer));
+        assertEquals(1, duel.getWonRoundsOf(secondPlayer));
     }
 
 

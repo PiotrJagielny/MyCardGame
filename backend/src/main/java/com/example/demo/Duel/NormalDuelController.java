@@ -79,7 +79,6 @@ public class NormalDuelController {
         duel.parseCardsFor(cardsInDeck, firstUser);
         duel.parseCardsFor(cardsInDeck, secondUser);
         duel.dealCards();
-        duel.dealCards();
     }
 
 }
