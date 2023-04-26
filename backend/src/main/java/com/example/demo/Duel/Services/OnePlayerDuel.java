@@ -4,6 +4,7 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
+import com.example.demo.Duel.DataStructures.PlayerPlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,41 +56,53 @@ public class OnePlayerDuel {
         cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);
     }
 
-    public void playCard(CardDisplay cardToPlayDisplay, int rowNumber) {
-        Card cardToPlay = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
+    public void playCard(PlayerPlay playMade) {
+        Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
+        Card cardAffected = rows.get(playMade.getAffectedCardRowNum()).getCards().stream().filter(c -> c.getDisplay().equals(playMade.getCardThatGotEffect())).findFirst().orElse(null);
 
-        cardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
-        rows.get(rowNumber).play(cardToPlay);
-    }
-
-    public void playCard(CardDisplay cardToPlayDisplay, int rowNumber, CardDisplay playedOnCard) {
-        Card cardToPlay = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToPlayDisplay)).findFirst().orElse(null);
-        Card playedOn = rows.get(0).getCards().stream().filter(c -> c.getDisplay().equals(playedOnCard)).findFirst().orElse(null);
-
-        if(cardToPlay.getDisplay().getName().equals("Booster")){
-            rows.get(0).boost(playedOn);
+        if(playedCard.getDisplay().getName().equals("Booster")){
+            rows.get(playMade.getAffectedCardRowNum()).boostCardBy(cardAffected);
+        }
+        else if(playedCard.getDisplay().getName().equals("Leader")){
+            rows.get(playMade.getPlayedCardRowNum()).boostRowBy(2);
+        }
+        else if(playedCard.getDisplay().getName().equals("WoodTheHealer")){
+            for(Row row : rows){
+                for(Card cardOnRow : row.getCards()){
+                    if(cardOnRow.getDisplay().getPoints() < 3){
+                        cardOnRow.boostPointsBy(2);
+                    }
+                }
+            }
         }
 
-        cardsInHand.removeIf(c -> c.getDisplay().equals(cardToPlay.getDisplay()));
-        rows.get(rowNumber).play(cardToPlay, playedOn);
+        cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+        rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
     }
 
     public void dealCards(String howToDeal) {
         if(howToDeal.equals(Consts.roundStartDealStrategy)){
-            if(cardsInDeck.isEmpty()) return;
+            dealCardsOnNewRoundStart();
+        }
+        else if(howToDeal.equals(Consts.gameStartDealStrategy)) {
+            dealCardsOnGameStart();
+        }
+    }
 
+    private void dealCardsOnGameStart(){
+        for(int i = 0 ; i < 4 && cardsInDeck.isEmpty() == false ; ++i){
             Card toDeal = cardsInDeck.get(0);
             cardsInDeck.remove(0);
             cardsInHand.add(toDeal);
         }
-        else if(howToDeal.equals(Consts.gameStartDealStrategy)) {
-            for(int i = 0 ; i < 3 && cardsInDeck.isEmpty() == false ; ++i){
-                Card toDeal = cardsInDeck.get(0);
-                cardsInDeck.remove(0);
-                cardsInHand.add(toDeal);
-            }
-        }
+    }
 
+    private void dealCardsOnNewRoundStart(){
+        if(cardsInDeck.isEmpty()) return;
+
+        Card toDeal = cardsInDeck.get(0);
+        cardsInDeck.remove(0);
+        cardsInHand.add(toDeal);
     }
 
     public void endRound(){

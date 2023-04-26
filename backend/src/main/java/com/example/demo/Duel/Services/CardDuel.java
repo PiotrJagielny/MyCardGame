@@ -2,6 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Consts;
+import com.example.demo.Duel.DataStructures.PlayerPlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,21 +54,12 @@ public class CardDuel {
         return players.get(player).getBoardPoints();
     }
 
-
-    public void playCardAs(CardDisplay cardToPlayDisplay, String player, int onRow) {
+    public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-            players.get(player).playCard(cardToPlayDisplay, onRow);
+            players.get(player).playCard(playMade);
             changeTurn();
         }
     }
-
-    public void playCardAs(CardDisplay cardToPlayDisplay, String player, int onRow, CardDisplay playedOnCard) {
-        if(isTurnOf(player)){
-            players.get(player).playCard(cardToPlayDisplay, onRow, playedOnCard);
-            changeTurn();
-        }
-    }
-
 
     public boolean isTurnOf(String player) {
         return whosTurn.equals(player) && hasGameEnded() == false;

@@ -2,6 +2,7 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Consts;
+import com.example.demo.Duel.DataStructures.PlayerPlay;
 import com.example.demo.Duel.Services.CardDuel;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class NormalDuelController {
     @PostMapping(path = "playCard")
     @CrossOrigin
     public void playCard(@RequestBody CardDisplay cardPlayed, @RequestParam String userName, @RequestParam int rowNumber){
-        duel.playCardAs(cardPlayed, userName, rowNumber);
+        duel.playCardAs(new PlayerPlay(cardPlayed, rowNumber), userName);
     }
 
     @PostMapping(path = "endRound")
