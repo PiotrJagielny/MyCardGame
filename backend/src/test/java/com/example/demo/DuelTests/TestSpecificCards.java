@@ -35,7 +35,7 @@ class TestSpecificCards {
         WoodTheHealer = new CardDisplay("WoodTheHealer", 2);
         Paper = new CardDisplay("Paper", 1);
         Minion = new CardDisplay("Minion", 2);
-        Fireball = new CardDisplay("Fireball", 0);
+        Fireball = new CardDisplay("Fireball", 1);
     }
 
     public void playCard(CardDisplay playedCard, int onRow, CardDisplay cardThatGotEffect, int affectedCardRow, String player){
@@ -116,8 +116,10 @@ class TestSpecificCards {
 
         CardDisplay strikedVikingDisplay = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0);
 
-        int fireballStrikeAmoint = 3;
-        assertEquals(4 - fireballStrikeAmoint,  Viking.getPoints());
+        int fireballStrikeAmount = 3;
+        assertEquals(4 - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
+        assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).contains(Fireball));
+        assertEquals(1, duel.getBoardPointsOf(secondPlayer));
     }
 
 }

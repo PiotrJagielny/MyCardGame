@@ -56,7 +56,12 @@ public class CardDuel {
 
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-            players.get(player).playCard(playMade);
+            if(playMade.getPlayedCard().getName().equals("Fireball")){
+                players.get( getOpponentOf(player) ).playCard(playMade, true);
+            }
+
+            players.get(player).playCard(playMade, false);
+
             changeTurn();
         }
     }

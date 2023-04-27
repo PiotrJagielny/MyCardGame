@@ -56,11 +56,14 @@ public class OnePlayerDuel {
         cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);
     }
 
-    public void playCard(PlayerPlay playMade) {
+    public void playCard(PlayerPlay playMade, boolean isAffected) {
         Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
         Card cardAffected = rows.get(playMade.getAffectedCardRowNum()).getCards().stream().filter(c -> c.getDisplay().equals(playMade.getCardThatGotEffect())).findFirst().orElse(null);
 
-        if(playedCard.getDisplay().getName().equals("Booster")){
+        if(playMade.getPlayedCard().getName().equals("Fireball") && isAffected == true){
+            rows.get(playMade.getAffectedCardRowNum()).strikeCardBy(cardAffected);
+        }
+        else if(playedCard.getDisplay().getName().equals("Booster")){
             rows.get(playMade.getAffectedCardRowNum()).boostCardBy(cardAffected);
         }
         else if(playedCard.getDisplay().getName().equals("Leader")){
@@ -75,9 +78,10 @@ public class OnePlayerDuel {
                 }
             }
         }
-
-        cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
-        rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
+        if(isAffected == false){
+            cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+            rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
+        }
     }
 
     public void dealCards(String howToDeal) {

@@ -26,6 +26,11 @@ public class Row {
         cards.get(cardIndex).boostPointsBy(3);
     }
 
+    public void strikeCardBy(Card aCard){
+        int cardIndex = cards.indexOf(aCard);
+        cards.get(cardIndex).strikeBy(3);
+    }
+
     public void boostRowBy(int amount){
         for(Card card: cards){
             card.boostPointsBy(amount);

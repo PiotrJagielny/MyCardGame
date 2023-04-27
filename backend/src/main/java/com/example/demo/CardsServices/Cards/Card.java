@@ -23,6 +23,9 @@ public class Card {
     public void boostPointsBy(int amount){
         points += amount;
     }
+    public void strikeBy(int amount) {
+        points -= amount;
+    }
 
 
     public static Card createCard(CardDisplay cardDisplay){
