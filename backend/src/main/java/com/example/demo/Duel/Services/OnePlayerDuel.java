@@ -84,29 +84,12 @@ public class OnePlayerDuel {
         }
     }
 
-    public void dealCards(String howToDeal) {
-        if(howToDeal.equals(Consts.roundStartDealStrategy)){
-            dealCardsOnNewRoundStart();
-        }
-        else if(howToDeal.equals(Consts.gameStartDealStrategy)) {
-            dealCardsOnGameStart();
-        }
-    }
-
-    private void dealCardsOnGameStart(){
-        for(int i = 0 ; i < 4 && cardsInDeck.isEmpty() == false ; ++i){
+    public void dealCards(int howMany) {
+        for(int i = 0 ; i < howMany && cardsInDeck.isEmpty() == false ; ++i){
             Card toDeal = cardsInDeck.get(0);
             cardsInDeck.remove(0);
             cardsInHand.add(toDeal);
         }
-    }
-
-    private void dealCardsOnNewRoundStart(){
-        if(cardsInDeck.isEmpty()) return;
-
-        Card toDeal = cardsInDeck.get(0);
-        cardsInDeck.remove(0);
-        cardsInHand.add(toDeal);
     }
 
     public void endRound(){
@@ -120,7 +103,7 @@ public class OnePlayerDuel {
     public void startNewRound(int opponentBoardPoints) {
         int playerBoardPoints = getBoardPoints();
         isRoundOverForPlayer = false;
-        dealCards(Consts.roundStartDealStrategy);
+        dealCards(1);
         clearRows();
 
         if (playerBoardPoints >= opponentBoardPoints) ++wonRounds;

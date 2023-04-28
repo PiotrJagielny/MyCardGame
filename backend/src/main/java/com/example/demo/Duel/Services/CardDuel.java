@@ -100,7 +100,7 @@ public class CardDuel {
     public void dealCards() {
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
-            obj.dealCards(Consts.gameStartDealStrategy);
+            obj.dealCards(4);
         }
     }
 
