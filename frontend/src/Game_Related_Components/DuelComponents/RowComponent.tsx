@@ -16,7 +16,7 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
           {(provided) => (
             <div className="BoardContainer" ref={provided.innerRef} {...provided.droppableProps}>
               <div className="leftBoardContent">
-                <h3>Row 2: {pointsOnRow} points</h3>
+                <h3>{rowDroppableId}: {pointsOnRow} points</h3>
               </div>
               <div className="rightBoardContent">
                 <ul>

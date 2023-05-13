@@ -112,7 +112,7 @@ const DuelPage = () => {
     let cardDragged: Card = {name: result.draggableId, points: 0};
     let postOnRowNumberOf:number = -1;
 
-    if(destination.droppableId === "Board"){
+    if(destination.droppableId === "BoardRow1"){
       postOnRowNumberOf = 0;
     }
     else if(destination.droppableId === "BoardRow2"){
@@ -165,12 +165,12 @@ const DuelPage = () => {
 
         <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow3"}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow2"}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnBoard} rowDroppableId={"Board"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow1"}></RowComponent>
       </DragDropContext>  
         
       
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, secondPlayer)}>
-        <RowComponent cardsOnRow = {cardsOnBoard2} pointsOnRow={pointsOnBoard2} rowDroppableId={"Board"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow1"}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnSecondRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow2"}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnThirdRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow3"}></RowComponent>
         
