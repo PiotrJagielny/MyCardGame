@@ -1,6 +1,7 @@
 package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.DataStructures.PlayerPlay;
 
@@ -56,11 +57,26 @@ public class CardDuel {
 
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-            if(playMade.getPlayedCard().getName().equals("Fireball")){
+
+//            if(CardsFactory.cardsAffectingPlayerAndEnemy.contains(playMade.getPlayedCard())){
+//                if(playMade.getPlayedCard().getName().equals("Fireball")){
+//                    players.get( getOpponentOf(player) ).playCard(playMade, true);
+//                }
+//
+//                players.get(player).playCard(playMade, false);
+//            }
+//            else if(CardsFactory.cardsAffectingOnlyPlayer.contains(playMade.getPlayedCard())){
+//                players.get(player).playCard(playMade, true);
+//            }
+//            else if(CardsFactory.cardsAffectingOnlyEnemy.contains(playMade.getPlayedCard())){
+//                players.get( getOpponentOf(player) ).playCard(playMade, true);
+//            }
+            if(playMade.getPlayedCard().getName().equals( CardsFactory.fireball.getName() )){
                 players.get( getOpponentOf(player) ).playCard(playMade, true);
             }
 
             players.get(player).playCard(playMade, false);
+
 
             changeTurn();
         }

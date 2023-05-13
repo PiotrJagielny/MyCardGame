@@ -66,7 +66,7 @@ public class OnePlayerDuel {
         else if(playedCard.getDisplay().getName().equals("Booster")){
             rows.get(playMade.getAffectedCardRowNum()).boostCardBy(cardAffected);
         }
-        else if(playedCard.getDisplay().getName().equals("Leader")){
+        else if(playedCard.getDisplay().getName().equals("CardsFactory.leader")){
             rows.get(playMade.getPlayedCardRowNum()).boostRowBy(2);
         }
         else if(playedCard.getDisplay().getName().equals("WoodTheHealer")){
@@ -78,10 +78,25 @@ public class OnePlayerDuel {
                 }
             }
         }
+
         if(isAffected == false){
             cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
             rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
         }
+    }
+
+    public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
+        int cardRow = findCardRow(cardToStrike);
+        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike)).findFirst().orElse(null);
+        cardAffected.strikeBy(strikeAmount);
+    }
+
+    private int findCardRow(CardDisplay card){
+        for(int i = 0 ; i <  Consts.rowsNumber ; ++i){
+            if(rows.get(i).getCards().contains(card))
+                return i;
+        }
+        return -1;
     }
 
     public void dealCards(int howMany) {
