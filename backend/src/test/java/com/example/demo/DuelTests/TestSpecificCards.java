@@ -63,7 +63,7 @@ class TestSpecificCards {
         playCard(deck.get(0), secondRow,deck.get(1), firstRow, firstPlayer);
         int singleCardBoostAmount = 3;
         CardDisplay boostedCard = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).stream().filter(c -> c.getName().equals("Viking")).findFirst().orElse(null);
-        assertEquals(boostedCard.getPoints(), CardsFactory.viking.getPoints() + singleCardBoostAmount);
+        assertEquals(CardsFactory.viking.getPoints() + singleCardBoostAmount, boostedCard.getPoints());
     }
 
     @Test

@@ -58,22 +58,23 @@ public class OnePlayerDuel {
 
     public void playCard(PlayerPlay playMade, boolean isAffected) {
         Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
-        Card cardAffected = rows.get(playMade.getAffectedCardRowNum()).getCards().stream().filter(c -> c.getDisplay().equals(playMade.getCardThatGotEffect())).findFirst().orElse(null);
 
         if(playMade.getPlayedCard().getName().equals("Fireball") && isAffected == true){
-            rows.get(playMade.getAffectedCardRowNum()).strikeCardBy(cardAffected);
+            strikeCard(playMade.getAffectedCard(), 3);
         }
         else if(playedCard.getDisplay().getName().equals("Booster")){
-            rows.get(playMade.getAffectedCardRowNum()).boostCardBy(cardAffected);
+            boostCard(playMade.getAffectedCard(), 3);
         }
-        else if(playedCard.getDisplay().getName().equals("CardsFactory.leader")){
-            rows.get(playMade.getPlayedCardRowNum()).boostRowBy(2);
+        else if(playedCard.getDisplay().getName().equals("leader")){
+            for(CardDisplay cardOnRow: getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
+                boostCard(cardOnRow, 2);
+            }
         }
         else if(playedCard.getDisplay().getName().equals("WoodTheHealer")){
-            for(Row row : rows){
-                for(Card cardOnRow : row.getCards()){
-                    if(cardOnRow.getDisplay().getPoints() < 3){
-                        cardOnRow.boostPointsBy(2);
+            for (int i = 0; i < Consts.rowsNumber; i++) {
+                for(CardDisplay cardOnRow : getCardsOnBoardOnRow(i)){
+                    if(cardOnRow.getPoints() < 3){
+                        boostCard(cardOnRow, 2);
                     }
                 }
             }
@@ -88,12 +89,18 @@ public class OnePlayerDuel {
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         int cardRow = findCardRow(cardToStrike);
         Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike)).findFirst().orElse(null);
-        cardAffected.strikeBy(strikeAmount);
+        rows.get(cardRow).strikeCardBy(cardAffected);
+    }
+
+    public void boostCard(CardDisplay cardToBoost, int boostAmount){
+        int cardRow = findCardRow(cardToBoost);
+        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost)).findFirst().orElse(null);
+        rows.get(cardRow).boostCardBy(cardAffected, boostAmount);
     }
 
     private int findCardRow(CardDisplay card){
         for(int i = 0 ; i <  Consts.rowsNumber ; ++i){
-            if(rows.get(i).getCards().contains(card))
+            if(rows.get(i).getCardsDisplays().contains(card))
                 return i;
         }
         return -1;

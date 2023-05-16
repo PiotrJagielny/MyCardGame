@@ -15,41 +15,30 @@ public class CardDuel {
 
     private Map<String, OnePlayerDuel> players;
 
-
     public CardDuel() {
         whosTurn = "";
         players = new HashMap<String, OnePlayerDuel>();
     }
 
-
-
     public boolean didWon(String player) {
         return players.get(player).didWon();
     }
-
-
 
     public void parseCardsFor(List<CardDisplay> cardsDisplay, String player) {
         players.get(player).parseCards(cardsDisplay);
     }
 
-
     public List<CardDisplay> getCardsInDeckDisplayOf(String player) {
         return players.get(player).getCardsInDeck();
     }
-
 
     public List<CardDisplay> getCardsInHandDisplayOf(String player) {
         return players.get(player).getCardsInHand();
     }
 
-
-
     public List<CardDisplay> getCardsOnBoardDisplayOf(String player, int rowNumber) {
         return players.get(player).getCardsOnBoardOnRow(rowNumber);
     }
-
-
 
     public int getBoardPointsOf(String player) {
         return players.get(player).getBoardPoints();
@@ -58,24 +47,16 @@ public class CardDuel {
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
 
-//            if(CardsFactory.cardsAffectingPlayerAndEnemy.contains(playMade.getPlayedCard())){
-//                if(playMade.getPlayedCard().getName().equals("Fireball")){
-//                    players.get( getOpponentOf(player) ).playCard(playMade, true);
-//                }
-//
-//                players.get(player).playCard(playMade, false);
-//            }
-//            else if(CardsFactory.cardsAffectingOnlyPlayer.contains(playMade.getPlayedCard())){
-//                players.get(player).playCard(playMade, true);
-//            }
-//            else if(CardsFactory.cardsAffectingOnlyEnemy.contains(playMade.getPlayedCard())){
-//                players.get( getOpponentOf(player) ).playCard(playMade, true);
-//            }
-            if(playMade.getPlayedCard().getName().equals( CardsFactory.fireball.getName() )){
+            if(CardsFactory.cardsAffectingPlayerAndEnemy.contains(playMade.getPlayedCard())){
                 players.get( getOpponentOf(player) ).playCard(playMade, true);
+                players.get(player).playCard(playMade, false);
             }
-
-            players.get(player).playCard(playMade, false);
+            else if(CardsFactory.cardsAffectingOnlyPlayer.contains(playMade.getPlayedCard())){
+                players.get(player).playCard(playMade, false);
+            }
+            else if(CardsFactory.cardsAffectingOnlyEnemy.contains(playMade.getPlayedCard())){
+                players.get( getOpponentOf(player) ).playCard(playMade, false);
+            }
 
 
             changeTurn();

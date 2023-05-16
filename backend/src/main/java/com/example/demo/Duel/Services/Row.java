@@ -1,6 +1,8 @@
 package com.example.demo.Duel.Services;
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.CardsParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,9 @@ public class Row {
         cards.add(aCard);
     }
 
-    public void boostCardBy(Card aCard){
+    public void boostCardBy(Card aCard, int boostAmount){
         int cardIndex = cards.indexOf(aCard);
-        cards.get(cardIndex).boostPointsBy(3);
+        cards.get(cardIndex).boostPointsBy(boostAmount);
     }
 
     public void strikeCardBy(Card aCard){
@@ -47,6 +49,9 @@ public class Row {
 
     public List<Card> getCards() {
         return cards;
+    }
+    public List<CardDisplay> getCardsDisplays() {
+        return CardsParser.getCardsDisplay( cards);
     }
 
     public Card get(int cardId){

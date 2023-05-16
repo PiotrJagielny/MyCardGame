@@ -31,7 +31,7 @@ public class PlayerPlay {
     }
 
 
-    public CardDisplay getCardThatGotEffect() {
+    public CardDisplay getAffectedCard() {
         return cardThatGotEffect;
     }
 
