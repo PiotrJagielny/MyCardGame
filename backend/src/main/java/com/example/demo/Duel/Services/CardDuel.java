@@ -46,33 +46,32 @@ public class CardDuel {
 
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-
-            if(CardsFactory.cardsAffectingPlayerAndEnemy.contains(playMade.getPlayedCard())){
+            if(playMade.getPlayedCard().getName().equals("Booster")){
+                players.get(player).boostCard(playMade.getAffectedCard(), 3);
                 players.get( player ).placeCardOnBoard(playMade);
-                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
             }
-            else if(CardsFactory.cardsAffectingOnlyPlayer.contains(playMade.getPlayedCard())){
-                if(playMade.getPlayedCard().getName().equals("Booster")){
-                    players.get(player).boostCard(playMade.getAffectedCard(), 3);
+            else if(playMade.getPlayedCard().getName().equals("leader")){
+                for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
+                    players.get(player).boostCard(cardOnRow, 2);
                 }
-                else if(playMade.getPlayedCard().getName().equals("leader")){
-                    for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
-                        players.get(player).boostCard(cardOnRow, 2);
-                    }
-                }
-                else if(playMade.getPlayedCard().getName().equals("WoodTheHealer")){
-                    for (int i = 0; i < Consts.rowsNumber; i++) {
-                        for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
-                            if(cardOnRow.getPoints() < 3){
-                                players.get(player).boostCard(cardOnRow, 2);
-                            }
+                players.get( player ).placeCardOnBoard(playMade);
+            }
+            else if(playMade.getPlayedCard().getName().equals("WoodTheHealer")){
+                for (int i = 0; i < Consts.rowsNumber; i++) {
+                    for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
+                        if(cardOnRow.getPoints() < 3){
+                            players.get(player).boostCard(cardOnRow, 2);
                         }
                     }
                 }
                 players.get( player ).placeCardOnBoard(playMade);
             }
-            else if(CardsFactory.cardsAffectingOnlyEnemy.contains(playMade.getPlayedCard())){
-                //players.get( getOpponentOf(player) ).playCard(playMade, false);
+            else if(playMade.getPlayedCard().equals( CardsFactory.fireball )){
+                players.get( player ).placeCardOnBoard(playMade);
+                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
+            }
+            else{
+                players.get( player ).placeCardOnBoard(playMade);
             }
 
 

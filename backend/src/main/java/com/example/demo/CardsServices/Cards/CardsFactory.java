@@ -25,12 +25,6 @@ public class CardsFactory {
     public static final CardDisplay minion = new CardDisplay("Minion", 2);
     public static final CardDisplay fireball = new CardDisplay("Fireball", 1);
 
-    public static final List<CardDisplay> cardsAffectingOnlyPlayer = Arrays.asList(
-            paper, minion, knight, thunder, warrior, viking, capitan, armageddon, witch, leader, woodTheHealer, booster
-    );
-    public static final List<CardDisplay> cardsAffectingOnlyEnemy = Arrays.asList();
-    public static final List<CardDisplay> cardsAffectingPlayerAndEnemy = Arrays.asList(fireball);
-
     public static List<Card> createAllCards(){
         List<Card> result = new ArrayList<Card>(Arrays.asList(
                 Card.createCard(new CardDisplay("Knight", 2)),
