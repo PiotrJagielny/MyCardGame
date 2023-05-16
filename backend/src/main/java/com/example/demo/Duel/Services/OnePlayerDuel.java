@@ -56,34 +56,10 @@ public class OnePlayerDuel {
         cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);
     }
 
-    public void playCard(PlayerPlay playMade, boolean isAffected) {
+    public void placeCardOnBoard(PlayerPlay playMade){
         Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
-
-        if(playMade.getPlayedCard().getName().equals("Fireball") && isAffected == true){
-            strikeCard(playMade.getAffectedCard(), 3);
-        }
-        else if(playedCard.getDisplay().getName().equals("Booster")){
-            boostCard(playMade.getAffectedCard(), 3);
-        }
-        else if(playedCard.getDisplay().getName().equals("leader")){
-            for(CardDisplay cardOnRow: getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
-                boostCard(cardOnRow, 2);
-            }
-        }
-        else if(playedCard.getDisplay().getName().equals("WoodTheHealer")){
-            for (int i = 0; i < Consts.rowsNumber; i++) {
-                for(CardDisplay cardOnRow : getCardsOnBoardOnRow(i)){
-                    if(cardOnRow.getPoints() < 3){
-                        boostCard(cardOnRow, 2);
-                    }
-                }
-            }
-        }
-
-        if(isAffected == false){
-            cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
-            rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
-        }
+        cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+        rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){

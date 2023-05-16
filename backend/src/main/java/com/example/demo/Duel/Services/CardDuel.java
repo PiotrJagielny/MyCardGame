@@ -48,14 +48,31 @@ public class CardDuel {
         if(isTurnOf(player)){
 
             if(CardsFactory.cardsAffectingPlayerAndEnemy.contains(playMade.getPlayedCard())){
-                players.get( getOpponentOf(player) ).playCard(playMade, true);
-                players.get(player).playCard(playMade, false);
+                players.get( player ).placeCardOnBoard(playMade);
+                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
             }
             else if(CardsFactory.cardsAffectingOnlyPlayer.contains(playMade.getPlayedCard())){
-                players.get(player).playCard(playMade, false);
+                if(playMade.getPlayedCard().getName().equals("Booster")){
+                    players.get(player).boostCard(playMade.getAffectedCard(), 3);
+                }
+                else if(playMade.getPlayedCard().getName().equals("leader")){
+                    for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
+                        players.get(player).boostCard(cardOnRow, 2);
+                    }
+                }
+                else if(playMade.getPlayedCard().getName().equals("WoodTheHealer")){
+                    for (int i = 0; i < Consts.rowsNumber; i++) {
+                        for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
+                            if(cardOnRow.getPoints() < 3){
+                                players.get(player).boostCard(cardOnRow, 2);
+                            }
+                        }
+                    }
+                }
+                players.get( player ).placeCardOnBoard(playMade);
             }
             else if(CardsFactory.cardsAffectingOnlyEnemy.contains(playMade.getPlayedCard())){
-                players.get( getOpponentOf(player) ).playCard(playMade, false);
+                //players.get( getOpponentOf(player) ).playCard(playMade, false);
             }
 
 
