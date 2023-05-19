@@ -2,6 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.CardsServices.CardsEffects.*;
 import com.example.demo.Consts;
 import com.example.demo.Duel.DataStructures.PlayerPlay;
 
@@ -47,28 +48,36 @@ public class CardDuel {
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             if(playMade.getPlayedCard().getName().equals("Booster")){
-                players.get(player).boostCard(playMade.getAffectedCard(), 3);
-                players.get( player ).placeCardOnBoard(playMade);
+//                players.get(player).boostCard(playMade.getAffectedCard(), 3);
+//                players.get( player ).placeCardOnBoard(playMade);
+                CardEffect effect = new BoostCard(players.get( player ), playMade, 2);
+                effect.invokeEffect();
             }
             else if(playMade.getPlayedCard().getName().equals("leader")){
-                for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
-                    players.get(player).boostCard(cardOnRow, 2);
-                }
-                players.get( player ).placeCardOnBoard(playMade);
+//                for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
+//                    players.get(player).boostCard(cardOnRow, 2);
+//                }
+//                players.get( player ).placeCardOnBoard(playMade);
+                CardEffect effect = new BoostRow(players.get( player ), playMade, 2);
+                effect.invokeEffect();
             }
             else if(playMade.getPlayedCard().getName().equals("WoodTheHealer")){
-                for (int i = 0; i < Consts.rowsNumber; i++) {
-                    for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
-                        if(cardOnRow.getPoints() < 3){
-                            players.get(player).boostCard(cardOnRow, 2);
-                        }
-                    }
-                }
-                players.get( player ).placeCardOnBoard(playMade);
+//                for (int i = 0; i < Consts.rowsNumber; i++) {
+//                    for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
+//                        if(cardOnRow.getPoints() < 3){
+//                            players.get(player).boostCard(cardOnRow, 2);
+//                        }
+//                    }
+//                }
+//                players.get( player ).placeCardOnBoard(playMade);
+                CardEffect effect = new BoostAllCardsWithCriteria(players.get( player ), playMade, 2);
+                effect.invokeEffect();
             }
             else if(playMade.getPlayedCard().equals( CardsFactory.fireball )){
-                players.get( player ).placeCardOnBoard(playMade);
-                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
+//                players.get( player ).placeCardOnBoard(playMade);
+//                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
+                CardEffect effect = new StrikeAndPlaceCard(players.get( getOpponentOf(player) ),players.get( player ) , playMade, 3);
+                effect.invokeEffect();
             }
             else{
                 players.get( player ).placeCardOnBoard(playMade);
