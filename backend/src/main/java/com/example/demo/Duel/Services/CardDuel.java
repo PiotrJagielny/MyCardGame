@@ -46,22 +46,21 @@ public class CardDuel {
     }
 
     public void playCardAs(PlayerPlay playMade, String player) {
+
         if(isTurnOf(player)){
-            if(playMade.getPlayedCard().getName().equals("Booster")){
+            CardEffect effect = new CardEffect(players.get(player), players.get(getOpponentOf(player)), playMade);
+//            if(playMade.getPlayedCard().equals(CardsFactory.booster)){
 //                players.get(player).boostCard(playMade.getAffectedCard(), 3);
 //                players.get( player ).placeCardOnBoard(playMade);
-                CardEffect effect = new BoostCard(players.get( player ), playMade, 2);
-                effect.invokeEffect();
-            }
-            else if(playMade.getPlayedCard().getName().equals("leader")){
+//            }
+//            else if(playMade.getPlayedCard().equals(CardsFactory.leader)){
 //                for(CardDisplay cardOnRow: players.get(player).getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
 //                    players.get(player).boostCard(cardOnRow, 2);
 //                }
 //                players.get( player ).placeCardOnBoard(playMade);
-                CardEffect effect = new BoostRow(players.get( player ), playMade, 2);
-                effect.invokeEffect();
-            }
-            else if(playMade.getPlayedCard().getName().equals("WoodTheHealer")){
+//                effect.boostRowBy(2);
+//            }
+//            else if(playMade.getPlayedCard().equals(CardsFactory.woodTheHealer)){
 //                for (int i = 0; i < Consts.rowsNumber; i++) {
 //                    for(CardDisplay cardOnRow : players.get(player).getCardsOnBoardOnRow(i)){
 //                        if(cardOnRow.getPoints() < 3){
@@ -70,18 +69,18 @@ public class CardDuel {
 //                    }
 //                }
 //                players.get( player ).placeCardOnBoard(playMade);
-                CardEffect effect = new BoostAllCardsWithCriteria(players.get( player ), playMade, 2);
-                effect.invokeEffect();
-            }
-            else if(playMade.getPlayedCard().equals( CardsFactory.fireball )){
+//                effect.woodTheHealerBoost(2);
+//
+//            }
+//            else if(playMade.getPlayedCard().equals( CardsFactory.fireball )){
 //                players.get( player ).placeCardOnBoard(playMade);
 //                players.get( getOpponentOf(player) ).strikeCard(playMade.getAffectedCard(), 3);
-                CardEffect effect = new StrikeAndPlaceCard(players.get( getOpponentOf(player) ),players.get( player ) , playMade, 3);
-                effect.invokeEffect();
-            }
-            else{
-                players.get( player ).placeCardOnBoard(playMade);
-            }
+//
+//            }
+//            else{
+//                players.get( player ).placeCardOnBoard(playMade);
+//            }
+            effect.invokeEffect();
 
 
             changeTurn();
