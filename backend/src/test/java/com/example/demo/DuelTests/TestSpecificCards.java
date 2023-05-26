@@ -4,12 +4,8 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Duel.DataStructures.PlayerPlay;
 import com.example.demo.Duel.Services.CardDuel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.demo.Consts.*;
@@ -29,7 +25,7 @@ class TestSpecificCards {
         duel.playCardAs(new PlayerPlay(playedCard, onRow), player);
     }
 
-    public CardDuel getCreatedDuel(List<CardDisplay> deck){
+    public CardDuel createDuel(List<CardDisplay> deck){
         CardDuel result = CardDuel.createDuel();
         result.registerPlayerToDuel(secondPlayer);
         result.registerPlayerToDuel(firstPlayer);
@@ -43,20 +39,20 @@ class TestSpecificCards {
     public void testBoostingSingleRow(){
         List<CardDisplay> deck = List.of(CardsFactory.leader, CardsFactory.viking);
 
-
-        duel  = getCreatedDuel(deck);
+        duel  = createDuel(deck);
 
         playCard(deck.get(1), firstRow, firstPlayer); 
         playCard(deck.get(1), firstRow, secondPlayer);
         playCard(deck.get(0), firstRow, firstPlayer);
         int leaderRowBoostAmount = 2;
-        assertEquals(5 + leaderRowBoostAmount, duel.getBoardPointsOf(firstPlayer));
+        int expectedPoints = CardsFactory.viking.getPoints() + leaderRowBoostAmount + CardsFactory.leader.getPoints();
+        assertEquals(expectedPoints , duel.getBoardPointsOf(firstPlayer));
     }
 
     @Test
     public void testBoostingSingleCard(){
         List<CardDisplay> deck = List.of(CardsFactory.booster, CardsFactory.viking);
-        duel  = getCreatedDuel(deck);
+        duel = createDuel(deck);
 
         playCard(deck.get(1), firstRow, firstPlayer);
         playCard(deck.get(1), firstRow, secondPlayer);
@@ -69,7 +65,7 @@ class TestSpecificCards {
     @Test
     public void testBoostingWholeBoard(){
         List<CardDisplay> deck = List.of(CardsFactory.woodTheHealer, CardsFactory.paper, CardsFactory.minion, CardsFactory.viking);
-        duel  = getCreatedDuel(deck);
+        duel  = createDuel(deck);
 
         playCard(CardsFactory.paper, firstRow, firstPlayer);
         playCard(CardsFactory.paper, firstRow, secondPlayer);
@@ -81,11 +77,10 @@ class TestSpecificCards {
         playCard(CardsFactory.woodTheHealer, thirdRow, firstPlayer);
 
         int woodTheHealerBoostAmount = 2;
-        //CardsFactory.woodTheHealer heals only cards with points less than 3
-        int expectedminionPoints = CardsFactory.minion.getPoints() + woodTheHealerBoostAmount;
-        int expectedpaperPoints = CardsFactory.paper.getPoints() + woodTheHealerBoostAmount;
-        int expectedvikingPoints = CardsFactory.viking.getPoints();
-        int expectedBoardPoints = expectedminionPoints + expectedpaperPoints + expectedvikingPoints + CardsFactory.woodTheHealer.getPoints();
+        int expectedMinionPoints = CardsFactory.minion.getPoints() + woodTheHealerBoostAmount;
+        int expectedPaperPoints = CardsFactory.paper.getPoints() + woodTheHealerBoostAmount;
+        int expectedVikingPoints = CardsFactory.viking.getPoints();
+        int expectedBoardPoints = expectedMinionPoints + expectedPaperPoints + expectedVikingPoints + CardsFactory.woodTheHealer.getPoints();
 
         assertEquals(expectedBoardPoints, duel.getBoardPointsOf(firstPlayer));
     }
@@ -93,15 +88,15 @@ class TestSpecificCards {
     @Test
     public void testStrikingEnemyCard(){
         List<CardDisplay> deck = List.of(CardsFactory.fireball, CardsFactory.viking);
-        duel  = getCreatedDuel(deck);
+        duel  = createDuel(deck);
 
         playCard(CardsFactory.viking, firstRow, firstPlayer);
         playCard(CardsFactory.fireball, firstRow, CardsFactory.viking, firstRow, secondPlayer);
 
-        CardDisplay strikedvikingDisplay = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0);
+        CardDisplay strikedVikingDisplay = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0);
 
         int fireballStrikeAmount = 3;
-        assertEquals(CardsFactory.viking.getPoints() - fireballStrikeAmount,  strikedvikingDisplay.getPoints());
+        assertEquals(CardsFactory.viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
         assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).contains(CardsFactory.fireball));
         assertEquals(1, duel.getBoardPointsOf(secondPlayer));
     }

@@ -21,7 +21,7 @@ public class CardEffect {
         for(CardDisplay cardOnRow: player.getCardsOnBoardOnRow(playMade.getAffectedCardRowNum())){
             player.boostCard(cardOnRow, amount);
         }
-        player.placeCardOnBoard(playMade);
+
     }
 
     public void woodTheHealerBoost(int boostAmount){
@@ -32,14 +32,13 @@ public class CardEffect {
                 }
             }
         }
-        player.placeCardOnBoard(playMade);
+
     }
 
     public void invokeEffect(){
         CardDisplay p = playMade.getPlayedCard();
         if(p.equals(CardsFactory.booster)){
             player.boostCard(playMade.getAffectedCard(), 3);
-            player.placeCardOnBoard(playMade);
         }
         else if(p.equals(CardsFactory.leader)){
             boostRowBy(2);
@@ -48,11 +47,9 @@ public class CardEffect {
             woodTheHealerBoost(2);
         }
         else if(p.equals(CardsFactory.fireball)){
-            player.placeCardOnBoard(playMade);
             enemy.strikeCard(playMade.getAffectedCard(), 3);
         }
-        else{
-            player.placeCardOnBoard(playMade);
-        }
+
+        player.placeCardOnBoard(playMade);
     }
 }
