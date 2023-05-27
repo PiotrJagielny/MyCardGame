@@ -80,4 +80,10 @@ public class DuelController {
         duel.dealCards();
     }
 
+    @PostMapping(path = "getPossibleTargets/{userName}")
+    @CrossOrigin
+    public List<CardDisplay> getTargetableCards(@PathVariable String userName, @RequestBody CardDisplay cardPlayed){
+        return duel.getPossibleTargetsOf(cardPlayed, userName);
+    }
+
 }

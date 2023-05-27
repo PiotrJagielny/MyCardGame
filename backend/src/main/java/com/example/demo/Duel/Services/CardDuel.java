@@ -149,9 +149,15 @@ public class CardDuel {
     }
 
     public List<CardDisplay> getPossibleTargetsOf(CardDisplay cardPlayed, String player) {
-        if(whosTurn.equals(player)){
+        if(whosTurn.equals(player) == true){
+
+            if(cardPlayed.getName().equals("Witch")){
+                return List.of(CardsFactory.viking, CardsFactory.paper);
+            }
+
             List<List<CardDisplay>> enemyBoard = players.get( getOpponentOf(player) ).getWholeBoard();
             List<List<CardDisplay>> playerBoard = players.get( player ).getWholeBoard();
+
             CardTargeting targeting = CardTargeting.getTargetingStrategy(cardPlayed);
             return targeting.getPossibleTargets(playerBoard,enemyBoard);
         }

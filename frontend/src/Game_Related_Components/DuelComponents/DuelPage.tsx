@@ -5,6 +5,7 @@ import HandComponent from './HandComponent';
 import RowComponent from './RowComponent';
 import './DuelPage.css';
 import Modal from 'react-modal';
+import CardComponent from '../CardComponent';
 
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
@@ -31,6 +32,8 @@ const DuelPage = () => {
   const [wonRounds2, setWonRounds2] = useState<number>(0);
   const [isTurnOfPlayer2, setIsTurnOfPlayer2] = useState<boolean>(false);
   const [didWon2, setDidWon2] = useState<boolean>(false);
+
+  const [targetableCards, setTargetableCards] = useState<Card[]>([]);
 
 
 
@@ -115,8 +118,7 @@ const DuelPage = () => {
     setRefresh(true);
   }
 
-
-  const onDragEndOf = (result:DropResult, player:string) => {
+  const onDragEndOf = async (result:DropResult, player:string) => {
     const {destination} = result;
     
     if(!destination){return;}
@@ -135,14 +137,32 @@ const DuelPage = () => {
       postOnRowNumberOf = 2;
     }
 
+    const response = await fetch(`http://localhost:8000/Duel/getPossibleTargets/${player}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardDragged)
+    });
+
+    if(response.ok) {
+      setTargetableCards(await response.json());
+      console.log(targetableCards);
+    }
+
     playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged);
     fetchCardsData();
 
-    handleModalOpen();
+    // handleModalOpen();
   }
 
-  const playDraggedCard = (postURL: string, cardDragged:Card) =>{
-    fetch(postURL, {
+  useEffect( () => {
+    handleModalOpen();
+    console.log(targetableCards);
+  }, [targetableCards])
+
+  const playDraggedCard = async (postURL: string, cardDragged:Card) =>{
+    await fetch(postURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +199,9 @@ const DuelPage = () => {
       </div>
       
       <Modal isOpen={isModalOpen} onRequestClose={handleModalClose}>
-        <p>This is some info</p>
+        {targetableCards.map((card, index) =>(
+          <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+        ))}
         <button onClick={handleModalClose}>Close</button>
       </Modal>
 
