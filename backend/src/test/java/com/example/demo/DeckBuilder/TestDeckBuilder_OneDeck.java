@@ -52,4 +52,12 @@ class TestDeckBuilder_OneDeck {
         assertEquals(1, deckBuilder.getDecksNames().size());
     }
 
+    @Test
+    public void testPuttingCardBackFromEmptyDeck(){
+        int initialAllCardsSize = deckBuilder.getCardsPossibleToAdd().size();
+        deckBuilder.putCardFromDeckBack(null);
+        int afterPuttingBackAllCardsSize = deckBuilder.getCardsPossibleToAdd().size();
+        assertEquals(initialAllCardsSize, afterPuttingBackAllCardsSize);
+    }
+
 }

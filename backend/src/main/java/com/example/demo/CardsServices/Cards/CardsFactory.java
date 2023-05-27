@@ -27,13 +27,15 @@ public class CardsFactory {
 
     public static List<Card> createAllCards(){
         List<Card> result = new ArrayList<Card>(Arrays.asList(
-                Card.createCard(new CardDisplay("Knight", 2)),
-                Card.createCard(new CardDisplay("Witch", 3)),
-                Card.createCard(new CardDisplay("Thunder", 4)),
-                Card.createCard(new CardDisplay("Warrior",5)),
-                Card.createCard(new CardDisplay("Viking",6)),
-                Card.createCard(new CardDisplay("Capitan",7)),
-                Card.createCard(new CardDisplay("Armageddon",8))
+                Card.createCard(knight),
+                Card.createCard(witch),
+                Card.createCard(thunder),
+                Card.createCard(warrior),
+                Card.createCard(viking),
+                Card.createCard(capitan),
+                Card.createCard(armageddon),
+                Card.createCard(minion),
+                Card.createCard(paper)
         ));
         return result;
     }

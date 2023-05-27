@@ -41,8 +41,10 @@ public class Deck {
     public void putCardFromDeckBack(CardDisplay cardDisplay){
         Card card = cardsInDeck.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
 
-        allCardsPossibleToAdd.add(card);
-        cardsInDeck.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
+        if(card != null){
+            allCardsPossibleToAdd.add(card);
+            cardsInDeck.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
+        }
     }
 
     public List<CardDisplay> getCardsInDeck() {

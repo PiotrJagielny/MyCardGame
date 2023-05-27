@@ -24,6 +24,7 @@ public class DeckBuilderController {
     @GetMapping(path ="GetAllCards")
     @CrossOrigin
     public List<CardDisplay> GetAllCards(){
+
         return deckBuilder.getCardsPossibleToAdd();
     }
 
