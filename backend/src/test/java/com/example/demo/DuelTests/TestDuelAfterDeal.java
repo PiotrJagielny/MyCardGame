@@ -203,5 +203,4 @@ class TestDuelAfterDeal {
         assertEquals(1, duel.getWonRoundsOf(secondPlayer));
     }
 
-
 }

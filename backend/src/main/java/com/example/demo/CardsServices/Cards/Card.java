@@ -22,7 +22,6 @@ public class Card {
         points -= amount;
     }
 
-
     public static Card createCard(CardDisplay cardDisplay){
         return new Card(cardDisplay.getName(), cardDisplay.getPoints());
     }

@@ -4,9 +4,12 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import HandComponent from './HandComponent';
 import RowComponent from './RowComponent';
 import './DuelPage.css';
+import Modal from 'react-modal';
 
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
@@ -28,6 +31,16 @@ const DuelPage = () => {
   const [wonRounds2, setWonRounds2] = useState<number>(0);
   const [isTurnOfPlayer2, setIsTurnOfPlayer2] = useState<boolean>(false);
   const [didWon2, setDidWon2] = useState<boolean>(false);
+
+
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
 
 
@@ -124,6 +137,8 @@ const DuelPage = () => {
 
     playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged);
     fetchCardsData();
+
+    handleModalOpen();
   }
 
   const playDraggedCard = (postURL: string, cardDragged:Card) =>{
@@ -163,7 +178,10 @@ const DuelPage = () => {
         <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
       </div>
       
-      
+      <Modal isOpen={isModalOpen} onRequestClose={handleModalClose}>
+        <p>This is some info</p>
+        <button onClick={handleModalClose}>Close</button>
+      </Modal>
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
         <HandComponent cardsInHand = {cardsInHand}></HandComponent>

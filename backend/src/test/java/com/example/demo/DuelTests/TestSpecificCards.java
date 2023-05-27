@@ -4,6 +4,7 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Duel.DataStructures.PlayerPlay;
 import com.example.demo.Duel.Services.CardDuel;
+import com.sun.source.tree.AssertTree;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -99,6 +100,29 @@ class TestSpecificCards {
         assertEquals(CardsFactory.viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
         assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).contains(CardsFactory.fireball));
         assertEquals(1, duel.getBoardPointsOf(secondPlayer));
+    }
+
+    @Test
+    public void testBoosterPossibleBoostTargets(){
+        List<CardDisplay> deck = List.of(CardsFactory.viking, CardsFactory.paper, CardsFactory.minion, CardsFactory.warrior);
+        duel = createDuel(deck);
+
+        playCard(CardsFactory.viking, firstRow, firstPlayer);
+        playCard(CardsFactory.warrior, firstRow, secondPlayer);
+
+        playCard(CardsFactory.paper, secondRow, firstPlayer);
+        playCard(CardsFactory.minion, secondRow, secondPlayer);
+
+        List<CardDisplay> possibleTargetsOfBooster = duel.getPossibleTargetsOf(CardsFactory.booster, firstPlayer);
+        assertTrue(possibleTargetsOfBooster.contains(CardsFactory.viking));
+        assertTrue(possibleTargetsOfBooster.contains(CardsFactory.paper));
+
+        possibleTargetsOfBooster = duel.getPossibleTargetsOf(CardsFactory.booster, secondPlayer);
+        assertTrue(possibleTargetsOfBooster.isEmpty());
+
+        List<CardDisplay> possibleTargetsOfFireball = duel.getPossibleTargetsOf(CardsFactory.fireball, firstPlayer);
+        assertTrue(possibleTargetsOfFireball.contains(CardsFactory.warrior));
+        assertTrue(possibleTargetsOfFireball.contains(CardsFactory.minion));
     }
 
 }

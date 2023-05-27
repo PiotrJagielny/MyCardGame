@@ -1,6 +1,9 @@
 package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.CardTargetStrattegies.AllPlayerCardsTargetable;
+import com.example.demo.CardsServices.CardTargetStrattegies.CardTargeting;
+import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.*;
 import com.example.demo.Consts;
@@ -145,4 +148,17 @@ public class CardDuel {
         return new CardDuel();
     }
 
+    public List<CardDisplay> getPossibleTargetsOf(CardDisplay cardPlayed, String player) {
+        if(whosTurn.equals(player)){
+            List<List<CardDisplay>> enemyBoard = players.get( getOpponentOf(player) ).getWholeBoard();
+            List<List<CardDisplay>> playerBoard = players.get( player ).getWholeBoard();
+            CardTargeting targeting = CardTargeting.getTargetingStrategy(cardPlayed);
+            return targeting.getPossibleTargets(playerBoard,enemyBoard);
+        }
+        else
+            return List.of();
+
+
+
+    }
 }

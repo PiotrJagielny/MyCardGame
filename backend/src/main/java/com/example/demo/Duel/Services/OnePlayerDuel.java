@@ -2,6 +2,7 @@ package com.example.demo.Duel.Services;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 import com.example.demo.Duel.DataStructures.PlayerPlay;
@@ -42,6 +43,14 @@ public class OnePlayerDuel {
     public List<CardDisplay> getCardsOnBoardOnRow(int number) {
 
         return CardsParser.getCardsDisplay(rows.get(number).getCards());
+    }
+
+    public List<List<CardDisplay>> getWholeBoard(){
+        List<List<CardDisplay>> wholeBoard = new ArrayList<>();
+        for (int i = 0; i < Consts.rowsNumber; i++) {
+            wholeBoard.add(CardsParser.getCardsDisplay(rows.get(i).getCards()) );
+        }
+        return wholeBoard;
     }
 
     public int getBoardPoints(){
@@ -117,5 +126,4 @@ public class OnePlayerDuel {
         return wonRounds;
     }
     public boolean didWon(){return wonRounds == 2;}
-
 }
