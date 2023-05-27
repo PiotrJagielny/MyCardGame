@@ -2,6 +2,7 @@ import React from 'react';
 import {Card} from './../Interfaces/Card';
 import { Droppable } from 'react-beautiful-dnd';
 import './DuelPage.css';
+import CardComponent from '../CardComponent';
 
 interface Props{
     cardsOnRow: Card[];
@@ -18,12 +19,10 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
               <div className="leftBoardContent">
                 <h3>{rowDroppableId}: {pointsOnRow} points</h3>
               </div>
-              <div className="rightBoardContent">
-                <ul>
+              <div className="rightBoardContent" style={{display: 'flex'}}>
                   {cardsOnRow.map((card, index) =>(
-                    <li>{card.name}, {card.points}</li>    
+                    <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
                   ))}
-                </ul>
               </div>
               {provided.placeholder}    
             </div>

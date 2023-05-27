@@ -150,15 +150,20 @@ const DuelPage = () => {
     
     <div>
       
+
       <div>
         <label>Let the battle begin</label>
         <button onClick={fetchCardsData}>Load data</button>
       </div>
+
+      <div>
+        <button onClick={() => endRoundFor(firstPlayer)}>End round</button>
+        <label> |Did you won: {didWon.toString()}|</label>
+        <label> |Won rounds: {wonRounds}| </label>
+        <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
+      </div>
       
-      <button onClick={() => endRoundFor(firstPlayer)}>End round</button>
-      <p>Did you won {didWon.toString()}</p>
-      <p>Won rounds {wonRounds}</p>
-      <label>Is your turn: {isTurnOfPlayer1.toString()}</label>
+      
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
         <HandComponent cardsInHand = {cardsInHand}></HandComponent>
@@ -177,10 +182,13 @@ const DuelPage = () => {
         <HandComponent cardsInHand = {cardsInHand2}></HandComponent>
       </DragDropContext>
       
-      <label>Is your turn: {isTurnOfPlayer2.toString()}</label>
-      <p>Won rounds {wonRounds2}</p>
-      <p>Did you won {didWon2.toString()}</p>
-      <button onClick={() => endRoundFor(secondPlayer)}>End round</button>
+      
+      <div>
+        <button onClick={() => endRoundFor(secondPlayer)}>End round</button>
+        <label> |Did you won: {didWon2.toString()}|</label>
+        <label> |Won rounds: {wonRounds2}| </label>
+        <label> |Is your turn: {isTurnOfPlayer2.toString()}| </label>
+      </div>
     </div>
   )
 }

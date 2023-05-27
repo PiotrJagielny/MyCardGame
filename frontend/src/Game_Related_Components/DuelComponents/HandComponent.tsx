@@ -2,9 +2,9 @@ import React from 'react';
 import {Card} from './../Interfaces/Card';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import './DuelPage.css';
+import CardComponent from '../CardComponent';
 
 interface Props{
-    
     cardsInHand: Card[];
 }
 
@@ -17,18 +17,16 @@ export const HandComponent: React.FC<Props> = ({cardsInHand}) => {
             <div className="leftHandContent">
               <h3>Hand</h3>
             </div>
-            <div className="rightHandContainer">
-              <ul>
+            <div className="rightHandContainer" style={{display: 'flex'}}>
                 {cardsInHand.map((card, index) =>(
                   <Draggable key={card.name} draggableId={card.name} index={index}>
                     {(provided) => (
-                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        {card.name}, {card.points}
-                      </li>    
+                      <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                        <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+                      </p>    
                     )}  
                   </Draggable>
                 ))}
-              </ul>
             </div>
               {provided.placeholder}  
             </div>
