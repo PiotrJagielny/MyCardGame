@@ -1,4 +1,4 @@
-This is a project where i make a card game.
+This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript
 
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c23f819-ac07-4168-bbc0-80d65682688b)
