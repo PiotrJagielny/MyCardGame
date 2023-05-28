@@ -1,5 +1,4 @@
 This is a project where i make a card game.
-I am i the really early stage of developing this project.
 
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c23f819-ac07-4168-bbc0-80d65682688b)
