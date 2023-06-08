@@ -9,6 +9,7 @@ Conflagration - Burns all cards with maximum points. <br>
 Healer - Boosts every card on the player's board that has no more than 2 points. <br>
 Booster - Boosts a single player card. <br>
 Leader - Boosts every card in one row. <br>
+Doubler - Doubles chosen card points. <br>
 (Some of these cards are implemented inside the CardGame_JavaFX repository for now.) <br>
 
 There is deck builder where you can add and remove cards from deck, add and remove decks
