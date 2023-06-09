@@ -21,7 +21,6 @@ export const AllCardsDisplay: React.FC<Props> = ({Cards, refresh}) => {
                       {(provided) => (
                         <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">  
                           <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
-                          
                         </p>
                       )}
                     </Draggable>
