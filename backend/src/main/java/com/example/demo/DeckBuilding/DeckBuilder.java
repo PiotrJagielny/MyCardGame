@@ -1,9 +1,7 @@
-package com.example.demo.DeckBuilding.Services;
+package com.example.demo.DeckBuilding;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
-import com.example.demo.CardsServices.Deck;
 
 import java.util.ArrayList;
 import java.util.List;

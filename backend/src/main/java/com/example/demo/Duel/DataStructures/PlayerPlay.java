@@ -7,13 +7,12 @@ public class PlayerPlay {
     private int playedOnRow;
 
     private CardDisplay cardThatGotEffect;
-    private int affectedCardOnRow;
 
-    public PlayerPlay(CardDisplay playedCard, int playedOnRow, CardDisplay cardThatGotEffect, int affectedCardOnRow) {
+
+    public PlayerPlay(CardDisplay playedCard, int playedOnRow, CardDisplay cardThatGotEffect) {
         this.playedCard = playedCard;
         this.playedOnRow = playedOnRow;
         this.cardThatGotEffect = cardThatGotEffect;
-        this.affectedCardOnRow = affectedCardOnRow;
     }
 
     public PlayerPlay(CardDisplay playedCard, int playedOnRow) {
@@ -33,10 +32,6 @@ public class PlayerPlay {
 
     public CardDisplay getAffectedCard() {
         return cardThatGotEffect;
-    }
-
-    public int getAffectedCardRowNum() {
-        return affectedCardOnRow;
     }
 
 }

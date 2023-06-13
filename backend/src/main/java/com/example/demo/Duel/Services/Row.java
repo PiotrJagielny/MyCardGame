@@ -20,7 +20,8 @@ public class Row {
     }
 
     public void play(Card aCard){
-        cards.add(aCard);
+        if(aCard.getPoints() > 0)
+            cards.add(aCard);
     }
 
     public void boostCardBy(Card aCard, int boostAmount){
@@ -28,14 +29,13 @@ public class Row {
         cards.get(cardIndex).boostPointsBy(boostAmount);
     }
 
-    public void strikeCardBy(Card aCard){
+    public void strikeCardBy(Card aCard, int strikeAmount){
         int cardIndex = cards.indexOf(aCard);
-        cards.get(cardIndex).strikeBy(3);
-    }
-
-    public void boostRowBy(int amount){
-        for(Card card: cards){
-            card.boostPointsBy(amount);
+        if(cards.get(cardIndex).getPoints() - strikeAmount < 1) {
+            cards.remove(cardIndex);
+        }
+        else {
+            cards.get(cardIndex).strikeBy(strikeAmount);
         }
     }
 
@@ -45,6 +45,10 @@ public class Row {
             result += cards.get(i).getPoints();
         }
         return result;
+    }
+
+    public void burnCard(Card card){
+        cards.remove(card);
     }
 
     public List<Card> getCards() {

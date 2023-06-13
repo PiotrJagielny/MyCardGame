@@ -73,14 +73,21 @@ public class OnePlayerDuel {
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         int cardRow = findCardRow(cardToStrike);
+        if(cardRow == -1) return;
         Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike)).findFirst().orElse(null);
-        rows.get(cardRow).strikeCardBy(cardAffected);
+        rows.get(cardRow).strikeCardBy(cardAffected, strikeAmount);
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
         int cardRow = findCardRow(cardToBoost);
+        if(cardRow == -1) return;
         Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost)).findFirst().orElse(null);
         rows.get(cardRow).boostCardBy(cardAffected, boostAmount);
+    }
+
+    public void burnCard(CardDisplay card, int cardRow) {
+        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(card)).findFirst().orElse(null);
+        rows.get(cardRow).burnCard(cardAffected);
     }
 
     private int findCardRow(CardDisplay card){
