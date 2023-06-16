@@ -61,4 +61,16 @@ public class Row {
     public Card get(int cardId){
         return cards.get(cardId);
     }
+
+    private void toJestDoWywaleni(int max, int min) {
+        int maxx = max;
+        int minn = min;
+        int costam = Math.max(minn, maxx);
+        String nazwa = "to jest trenowanie z vimem";
+        String nowaNazwa = nazwa;
+
+
+
+
+    }
 }
