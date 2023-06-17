@@ -37,11 +37,7 @@ const DuelPage = () => {
 
 
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
+  const handleModalClose = (card: Card) => {
     setIsModalOpen(false);
   };
 
@@ -150,16 +146,14 @@ const DuelPage = () => {
       console.log(targetableCards);
     }
 
+    setIsModalOpen(true);
+    console.log(targetableCards);
+
     playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged);
     fetchCardsData();
 
-    // handleModalOpen();
   }
 
-  useEffect( () => {
-    handleModalOpen();
-    console.log(targetableCards);
-  }, [targetableCards])
 
   const playDraggedCard = async (postURL: string, cardDragged:Card) =>{
     await fetch(postURL, {
@@ -198,11 +192,11 @@ const DuelPage = () => {
         <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
       </div>
       
-      <Modal isOpen={isModalOpen} onRequestClose={handleModalClose}>
+      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}>
         {targetableCards.map((card, index) =>(
-          <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+          <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
         ))}
-        <button onClick={handleModalClose}>Close</button>
+        {/* <button onClick={handleModalClose}>Close</button> */}
       </Modal>
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
