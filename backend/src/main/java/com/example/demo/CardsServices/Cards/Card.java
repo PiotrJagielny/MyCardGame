@@ -1,6 +1,9 @@
 package com.example.demo.CardsServices.Cards;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.CardTargetStrattegies.CardTargeting;
+
+import java.util.List;
 
 public class Card {
 
@@ -21,6 +24,9 @@ public class Card {
     public void strikeBy(int amount) {
         points -= amount;
     }
+
+
+
 
     public static Card createCard(CardDisplay cardDisplay){
         return new Card(cardDisplay.getName(), cardDisplay.getPoints());

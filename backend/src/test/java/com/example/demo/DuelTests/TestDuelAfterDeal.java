@@ -4,14 +4,13 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
-import com.example.demo.Duel.Services.CardDuel;
+import com.example.demo.Duel.PlayerPlay;
+import com.example.demo.Duel.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.example.demo.TestsData.TestConsts.*;

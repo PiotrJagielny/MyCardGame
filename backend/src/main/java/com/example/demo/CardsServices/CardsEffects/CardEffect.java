@@ -3,8 +3,8 @@ package com.example.demo.CardsServices.CardsEffects;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
-import com.example.demo.Duel.Services.OnePlayerDuel;
+import com.example.demo.Duel.PlayerPlay;
+import com.example.demo.Duel.OnePlayerDuel;
 
 import java.util.List;
 

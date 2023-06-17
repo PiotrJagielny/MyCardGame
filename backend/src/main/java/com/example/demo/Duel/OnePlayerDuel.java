@@ -1,11 +1,9 @@
-package com.example.demo.Duel.Services;
+package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
 
 import java.util.ArrayList;
 import java.util.List;

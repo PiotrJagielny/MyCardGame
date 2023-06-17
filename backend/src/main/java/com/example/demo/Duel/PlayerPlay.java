@@ -1,4 +1,4 @@
-package com.example.demo.Duel.DataStructures;
+package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 

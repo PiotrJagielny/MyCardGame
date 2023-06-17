@@ -1,8 +1,6 @@
 package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
-import com.example.demo.Duel.Services.CardDuel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

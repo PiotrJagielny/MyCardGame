@@ -1,13 +1,8 @@
-package com.example.demo.Duel.Services;
+package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardTargetStrattegies.AllPlayerCardsTargetable;
-import com.example.demo.CardsServices.CardTargetStrattegies.CardTargeting;
-import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.*;
-import com.example.demo.Consts;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,14 +112,14 @@ public class CardDuel {
     }
 
     private void startNewRound() {
-        Map<String, Integer> playerNameToBoardPointsMap = getPlayersNameToBoardPointsMap();
+        Map<String, Integer> playerNameToBoardPointsMap = getPlayersBoardPoints();
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
             String opponent = getOpponentOf(entry.getKey());
             obj.startNewRound(playerNameToBoardPointsMap.get(opponent));
         }
     }
-    private Map<String, Integer> getPlayersNameToBoardPointsMap(){
+    private Map<String, Integer> getPlayersBoardPoints(){
         Map<String, Integer> result = new HashMap<>();
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
@@ -153,8 +148,7 @@ public class CardDuel {
             List<List<CardDisplay>> enemyBoard = players.get( getOpponentOf(player) ).getWholeBoard();
             List<List<CardDisplay>> playerBoard = players.get( player ).getWholeBoard();
 
-            CardTargeting targeting = CardsFactory.getTargetingStrategy(cardPlayed);
-            return targeting.getPossibleTargets(playerBoard,enemyBoard);
+            return CardsFactory.getPossibleTargetsOf(cardPlayed, playerBoard, enemyBoard);
         }
         else
             return List.of();

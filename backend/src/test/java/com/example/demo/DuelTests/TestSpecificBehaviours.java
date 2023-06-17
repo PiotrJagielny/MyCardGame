@@ -2,8 +2,8 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
-import com.example.demo.Duel.DataStructures.PlayerPlay;
-import com.example.demo.Duel.Services.CardDuel;
+import com.example.demo.Duel.PlayerPlay;
+import com.example.demo.Duel.CardDuel;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

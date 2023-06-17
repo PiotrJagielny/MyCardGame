@@ -1,4 +1,4 @@
-package com.example.demo.Duel.Services;
+package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
@@ -62,15 +62,4 @@ public class Row {
         return cards.get(cardId);
     }
 
-    private void toJestDoWywaleni(int max, int min) {
-        int maxx = max;
-        int minn = min;
-        int costam = Math.max(minn, maxx);
-        String nazwa = "to jest trenowanie z vimem";
-        String nowaNazwa = nazwa;
-
-
-
-
-    }
 }
