@@ -59,14 +59,19 @@ public class DuelController {
 
     @GetMapping(path = "isTurnOf/{userName}")
     @CrossOrigin
-    public boolean isTurnOf_player2(@PathVariable String userName){
+    public boolean isTurnOf(@PathVariable String userName){
         return duel.isTurnOf(userName);
     }
 
     @GetMapping(path = "didWon/{userName}")
     @CrossOrigin
-    public boolean didWon_player2(@PathVariable String userName){
+    public boolean didWon(@PathVariable String userName){
         return duel.didWon(userName);
+    }
+    @PostMapping(path = "getPossibleRowsToAffect")
+    @CrossOrigin
+    public List<Integer> getPossibleRowsToAffect(@RequestBody CardDisplay cardPlayed){
+        return duel.getPossibleRowsToAffect(cardPlayed);
     }
 
     @PostMapping(path = "SetupDecks")

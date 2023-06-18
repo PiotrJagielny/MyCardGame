@@ -44,6 +44,19 @@ public class CardsFactory {
     public static final int ripRowDamageAmount = 2;
 
 
+    private static final Map<String, CardTargeting> mapCardNameToTargetingStrategy= new HashMap<>() {{
+        put(doubler.getName(), new AllPlayerCardsTargetable());
+        put(booster.getName(), new AllPlayerCardsTargetable());
+        put(archer.getName(), new AllEnemyCardsTargetable());
+        put(fireball.getName(), new AllEnemyCardsTargetable());
+    }};
+    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard) {
+        return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
+    }
+
+
+
+
     private static final Map<String, String> mapCardNameToInfo = new HashMap<>() {{
         put(conflagration.getName(), "Burn all cards that are max points");
         put(doubler.getName(), "Double chosen card points");
@@ -54,24 +67,18 @@ public class CardsFactory {
         put(fireball.getName(), "Strike enemy by " + fireballStrikeAmount);
         put(rip.getName(), "Deal " + CardsFactory.ripRowDamageAmount + " damage to whole enemy row");
     }};
-    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard) {
-        return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
-    }
-
-
-
-    private static final Map<String, CardTargeting> mapCardNameToTargetingStrategy= new HashMap<>() {{
-        put(doubler.getName(), new AllPlayerCardsTargetable());
-        put(booster.getName(), new AllPlayerCardsTargetable());
-        put(archer.getName(), new AllEnemyCardsTargetable());
-        put(fireball.getName(), new AllEnemyCardsTargetable());
-    }};
-
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
 
     }
 
+    private static final Map<String, List<Integer>> mapCardNameToRowsAffect = new HashMap<>() {{
+      put(rip.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
+    }};
+
+    public static List<Integer> getCardRowsToAffect(String cardName) {
+    return mapCardNameToRowsAffect.getOrDefault(cardName, List.of());
+    }
 
 
     public static List<Card> createAllCards(){

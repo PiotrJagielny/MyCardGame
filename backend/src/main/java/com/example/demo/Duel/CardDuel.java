@@ -153,6 +153,9 @@ public class CardDuel {
         else
             return List.of();
     }
+    public List<Integer> getPossibleRowsToAffect(CardDisplay cardPlayed) {
+        return CardsFactory.getCardRowsToAffect(cardPlayed.getName());
+    }
 
 
 }

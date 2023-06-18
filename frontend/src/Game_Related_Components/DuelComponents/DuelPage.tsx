@@ -10,6 +10,7 @@ import CardComponent from '../CardComponent';
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRowsModalOpen, setIsRowsModalOpen] = useState(false);
 
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
@@ -34,6 +35,7 @@ const DuelPage = () => {
   const [didWon2, setDidWon2] = useState<boolean>(false);
 
   const [targetableCards, setTargetableCards] = useState<Card[]>([]);
+  const [affectableRows, setAffectableRows] = useState<number[]>([]);
 
 
 
@@ -115,43 +117,75 @@ const DuelPage = () => {
   const [cardDragged, setCardDragged] = useState<Card>({name: "points", points: 0});
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
   const [playerPlayer,setPlayerPlayer] = useState<string>("none");
+  const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0});
   const handleModalClose = (card: Card) => {
     setIsModalOpen(false);
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
-    console.log(playerPlayer);
-    console.log(postOnRowNumberOf);
-    console.log(cardDragged);
-    fetchCardsData();
-
-
+    setCardAffected(card);
+    // console.log(card);
+    // playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, card);
+    // fetchCardsData();
   };
+  useEffect(() => {
+    fetch(`http://localhost:8000/Duel/getPossibleRowsToAffect`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardDragged)
+    }).then(async (response) => {
+
+      const possibleAffectedRows = await response.json();
+
+      await makeMove(possibleAffectedRows);
+
+    });
+
+  }, [cardAffected]);
+  
+
+  const makeMove = async (possibleAffectedRows: number[]) => {
+    if(possibleAffectedRows.length === 0) {
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+      fetchCardsData();
+    } 
+    else {
+      setAffectableRows(possibleAffectedRows);
+      setIsRowsModalOpen(true);
+    } 
+
+  }
+  const handleRowsModalClose = (affectedRow: number) => {
+    
+    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+    fetchCardsData();
+    setIsRowsModalOpen(false);
+  }
 
 
-  const onDragEndOf = async (result:DropResult, player:string) => {
+  const onDragEndOf = (result:DropResult, player:string) => {
     const {destination} = result;
     
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    cardDragged = {name: result.draggableId, points: 0};
-    postOnRowNumberOf= -1;
-    playerPlayer = player;
-
-    console.log(playerPlayer);
-    console.log(postOnRowNumberOf);
-    console.log(cardDragged);
-
+    setCardDragged({name: result.draggableId, points: 0});
+    setPostOnRowNumberOf(-1);
     if(destination.droppableId === "BoardRow1"){
-      postOnRowNumberOf = 0;
+      setPostOnRowNumberOf(0);
     }
     else if(destination.droppableId === "BoardRow2"){
-      postOnRowNumberOf = 1;
+      setPostOnRowNumberOf(1);
     }
     else if(destination.droppableId === "BoardRow3"){
-      postOnRowNumberOf = 2;
+      setPostOnRowNumberOf(2);
     }
+    setPlayerPlayer(player);
 
-    fetch(`http://localhost:8000/Duel/getPossibleTargets/${player}`, {
+
+
+  }
+  useEffect(() => {
+    fetch(`http://localhost:8000/Duel/getPossibleTargets/${playerPlayer}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -161,18 +195,17 @@ const DuelPage = () => {
 
       const targetableCardsResponse= await response.json();
 
-      await ensure(player, postOnRowNumberOf, cardDragged, targetableCardsResponse);
+      await ensure(targetableCardsResponse);
 
     });
 
-
-
-  }
-  const ensure = async (player:string, postOnRowNumberOf:number, cardDragged:Card, targetableCardsArg:Card[]) => {
+  }, [playerPlayer]);
+  const ensure = async (targetableCardsArg:Card[]) => {
 
       if(targetableCardsArg.length === 0) {
-        await playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
-        await fetchCardsData();
+        // await playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
+        // await fetchCardsData();
+        setCardAffected({name: "noCard", points:0});
       }
       else {
         setTargetableCards(targetableCardsArg);
@@ -223,7 +256,11 @@ const DuelPage = () => {
         {targetableCards.map((card, index) =>(
           <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
         ))}
-        {/* <button onClick={handleModalClose}>Close</button> */}
+      </Modal>
+      <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)}>
+        {affectableRows.map((row, index) =>(
+          <button onClick= { () => {handleRowsModalClose(row)} }>{row}</button>
+        ))}
       </Modal>
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
