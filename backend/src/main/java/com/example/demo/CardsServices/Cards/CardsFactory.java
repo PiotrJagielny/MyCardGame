@@ -55,7 +55,7 @@ public class CardsFactory {
         put(rip.getName(), "Deal " + CardsFactory.ripRowDamageAmount + " damage to whole enemy row");
     }};
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard) {
-        return mapCardNameToTargetingStrategy.get(card.getName()).getPossibleTargets(playerBoard, enemyBoard);
+        return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
     }
 
 

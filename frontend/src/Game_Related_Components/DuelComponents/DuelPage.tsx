@@ -37,10 +37,6 @@ const DuelPage = () => {
 
 
 
-  const handleModalClose = (card: Card) => {
-    setIsModalOpen(false);
-  };
-
 
 
   const [deckData, setDeckData] = useState<Card[]>([]);
@@ -114,14 +110,36 @@ const DuelPage = () => {
     setRefresh(true);
   }
 
+
+
+  const [cardDragged, setCardDragged] = useState<Card>({name: "points", points: 0});
+  const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
+  const [playerPlayer,setPlayerPlayer] = useState<string>("none");
+  const handleModalClose = (card: Card) => {
+    setIsModalOpen(false);
+    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
+    console.log(playerPlayer);
+    console.log(postOnRowNumberOf);
+    console.log(cardDragged);
+    fetchCardsData();
+
+
+  };
+
+
   const onDragEndOf = async (result:DropResult, player:string) => {
     const {destination} = result;
     
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    let cardDragged: Card = {name: result.draggableId, points: 0};
-    let postOnRowNumberOf:number = -1;
+    cardDragged = {name: result.draggableId, points: 0};
+    postOnRowNumberOf= -1;
+    playerPlayer = player;
+
+    console.log(playerPlayer);
+    console.log(postOnRowNumberOf);
+    console.log(cardDragged);
 
     if(destination.droppableId === "BoardRow1"){
       postOnRowNumberOf = 0;
@@ -133,35 +151,44 @@ const DuelPage = () => {
       postOnRowNumberOf = 2;
     }
 
-    const response = await fetch(`http://localhost:8000/Duel/getPossibleTargets/${player}`, {
+    fetch(`http://localhost:8000/Duel/getPossibleTargets/${player}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(cardDragged)
+    }).then(async (response) => {
+
+      const targetableCardsResponse= await response.json();
+
+      await ensure(player, postOnRowNumberOf, cardDragged, targetableCardsResponse);
+
     });
 
-    if(response.ok) {
-      setTargetableCards(await response.json());
-      console.log(targetableCards);
-    }
 
-    setIsModalOpen(true);
-    console.log(targetableCards);
 
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged);
-    fetchCardsData();
+  }
+  const ensure = async (player:string, postOnRowNumberOf:number, cardDragged:Card, targetableCardsArg:Card[]) => {
 
+      if(targetableCardsArg.length === 0) {
+        await playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${player}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
+        await fetchCardsData();
+      }
+      else {
+        setTargetableCards(targetableCardsArg);
+        setIsModalOpen(true);
+      }
   }
 
 
-  const playDraggedCard = async (postURL: string, cardDragged:Card) =>{
+  const playDraggedCard = async (postURL: string, cardDragged:Card, cardTargetted:Card) =>{
+    const args = [cardDragged, cardTargetted];
     await fetch(postURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(cardDragged)
+        body: JSON.stringify(args)
       });
   }
 

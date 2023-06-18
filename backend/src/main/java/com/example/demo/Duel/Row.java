@@ -58,8 +58,10 @@ public class Row {
         return CardsParser.getCardsDisplay( cards);
     }
 
+
+
+
     public Card get(int cardId){
         return cards.get(cardId);
     }
-
 }
