@@ -1,6 +1,7 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.CardDuel;
@@ -23,6 +24,9 @@ class TestSpecificBehaviours {
 
     public void playCard(CardDisplay playedCard, int onRow, String player){
         duel.playCardAs(new PlayerPlay(playedCard, onRow), player);
+    }
+    public void playCard(CardDisplay playedCard, int onRow, int affectedRow, String player){
+        duel.playCardAs(new PlayerPlay(playedCard, onRow, new CardDisplay(),affectedRow), player);
     }
 
     public CardDuel createDuel(List<CardDisplay> deck){
@@ -200,7 +204,7 @@ class TestSpecificBehaviours {
         playCard(CardsFactory.armageddon, firstRow, secondPlayer);
         playCard(CardsFactory.paper, firstRow, firstPlayer);
         playCard(CardsFactory.paper, firstRow, secondPlayer);
-        playCard(CardsFactory.rip, firstRow, firstPlayer);
+        playCard(CardsFactory.rip,secondRow, firstRow ,firstPlayer );
 
         int firstUnitExpected = Math.max(CardsFactory.capitan.getPoints() - CardsFactory.ripRowDamageAmount, 0);
         int secondUnitExpected = Math.max(CardsFactory.armageddon.getPoints() - CardsFactory.ripRowDamageAmount, 0);

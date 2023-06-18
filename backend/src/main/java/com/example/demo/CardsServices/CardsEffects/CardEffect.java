@@ -66,7 +66,7 @@ public class CardEffect {
     }
 
     private void ripWholeRow() {
-        List<CardDisplay> row = enemy.getCardsOnBoardOnRow(playMade.getPlayedCardRowNum());
+        List<CardDisplay> row = enemy.getCardsOnBoardOnRow(playMade.getAffectedRow());
         for (int i = 0; i < row.size(); i++) {
             enemy.strikeCard(row.get(i), CardsFactory.ripRowDamageAmount);
         }

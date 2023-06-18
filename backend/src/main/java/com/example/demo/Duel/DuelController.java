@@ -45,10 +45,10 @@ public class DuelController {
 
     @PostMapping(path = "playCard")
     @CrossOrigin
-    public void playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int rowNumber){
+    public void playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int affectedRow,@RequestParam int rowNumber){
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
-        duel.playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex)), userName);
+        duel.playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
     }
 
     @PostMapping(path = "endRound")

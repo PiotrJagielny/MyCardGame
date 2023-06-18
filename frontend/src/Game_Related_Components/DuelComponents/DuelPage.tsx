@@ -145,7 +145,7 @@ const DuelPage = () => {
 
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
       fetchCardsData();
     } 
     else {
@@ -156,7 +156,7 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
     fetchCardsData();
     setIsRowsModalOpen(false);
   }
@@ -252,14 +252,15 @@ const DuelPage = () => {
         <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
       </div>
       
-      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}>
+      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
+          <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'yellow'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
         ))}
       </Modal>
-      <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)}>
+      <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         {affectableRows.map((row, index) =>(
-          <button onClick= { () => {handleRowsModalClose(row)} }>{row}</button>
+          <button style={{fontSize: '30px',}} onClick= { () => {handleRowsModalClose(row)} }>{row}</button>
         ))}
       </Modal>
 
