@@ -30,7 +30,6 @@ const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, point
         })
         .catch(console.error);
       }
-      console.log("DFIUSDHGFIUKSDG");
   }
    const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -43,7 +42,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, point
         <button onClick={() => setShowModal(false)}>Close</button>
         
       </Modal>
-  </div>;
+  </div>
 };
 
 export default CardComponent;

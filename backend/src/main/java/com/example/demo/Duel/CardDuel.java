@@ -3,6 +3,7 @@ package com.example.demo.Duel;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.*;
+import com.example.demo.Consts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,9 @@ public class CardDuel {
 
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-            CardEffect effect = new CardEffect(players.get(player), players.get(getOpponentOf(player)), playMade);
+            OnTurnEndEffect turnEndEffect = new OnTurnEndEffect(players.get(player));
+            turnEndEffect.invokeTurnEndEffect();
+            OnPlaceEffect effect = new OnPlaceEffect(players.get(player), players.get(getOpponentOf(player)), playMade);
             effect.invokeEffect();
             changeTurn();
         }

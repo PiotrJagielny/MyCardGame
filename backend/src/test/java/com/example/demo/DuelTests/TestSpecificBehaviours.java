@@ -213,6 +213,16 @@ class TestSpecificBehaviours {
 
         assertEquals(expected, duel.getBoardPointsOf(secondPlayer));
     }
+    @Test
+    public void testBoostingEveryTurn() {
+        duel = createDuel(List.of(CardsFactory.longer, CardsFactory.paper, CardsFactory.viking));
+        playCard(CardsFactory.longer, firstRow, firstPlayer);
+        playCard(CardsFactory.paper, firstRow, secondPlayer);
+        playCard(CardsFactory.paper, secondRow, firstPlayer);
+        int expectedPoints= CardsFactory.longer.getPoints() + CardsFactory.longerBoostAmount ;
+        int actualPoints = duel.getCardsOnBoardDisplayOf( firstPlayer, firstRow).get(0).getPoints();
+        assertEquals(expectedPoints, actualPoints);
+    }
 
 
 
