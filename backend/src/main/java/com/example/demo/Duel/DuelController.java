@@ -1,6 +1,7 @@
 package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.CardsFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,11 @@ public class DuelController {
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
         duel.playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+    }
+    @GetMapping(path = "getCardInfo/{cardName}")
+    @CrossOrigin
+    public String GetCardInfo(@PathVariable String cardName){
+        return CardsFactory.getCardInfo(cardName);
     }
 
     @PostMapping(path = "endRound")

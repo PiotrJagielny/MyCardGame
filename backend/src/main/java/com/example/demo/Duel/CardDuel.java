@@ -158,4 +158,7 @@ public class CardDuel {
     }
 
 
+    public String getCardInfo(String cardName) {
+        return CardsFactory.getCardInfo(cardName);
+    }
 }

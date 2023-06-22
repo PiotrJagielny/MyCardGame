@@ -121,9 +121,6 @@ const DuelPage = () => {
   const handleModalClose = (card: Card) => {
     setIsModalOpen(false);
     setCardAffected(card);
-    // console.log(card);
-    // playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, card);
-    // fetchCardsData();
   };
   useEffect(() => {
     fetch(`http://localhost:8000/Duel/getPossibleRowsToAffect`, {
@@ -203,8 +200,6 @@ const DuelPage = () => {
   const ensure = async (targetableCardsArg:Card[]) => {
 
       if(targetableCardsArg.length === 0) {
-        // await playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&rowNumber=${postOnRowNumberOf}`, cardDragged, {name:"nor", points: 1});
-        // await fetchCardsData();
         setCardAffected({name: "noCard", points:0});
       }
       else {
@@ -253,14 +248,15 @@ const DuelPage = () => {
       </div>
       
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
-
+        <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
           <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'yellow'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
         ))}
       </Modal>
       <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Choose a row to traget</h2>
         {affectableRows.map((row, index) =>(
-          <button style={{fontSize: '30px',}} onClick= { () => {handleRowsModalClose(row)} }>{row}</button>
+          <button style={{fontSize: '30px',}} onClick= { () => {handleRowsModalClose(row)} }>{row + 1}</button>
         ))}
       </Modal>
 
