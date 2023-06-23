@@ -43,10 +43,10 @@ public class OnePlayerDuel {
         return CardsParser.getCardsDisplay(rows.get(number).getCards());
     }
 
-    public List<List<CardDisplay>> getWholeBoard(){
-        List<List<CardDisplay>> wholeBoard = new ArrayList<>();
+    public List<CardDisplay> getCardsOnBoard(){
+        List<CardDisplay> wholeBoard = new ArrayList<>();
         for (int i = 0; i < Consts.rowsNumber; i++) {
-            wholeBoard.add(CardsParser.getCardsDisplay(rows.get(i).getCards()) );
+            wholeBoard.addAll(CardsParser.getCardsDisplay(rows.get(i).getCards()) );
         }
         return wholeBoard;
     }
@@ -70,30 +70,31 @@ public class OnePlayerDuel {
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
-        int cardRow = findCardRow(cardToStrike);
-        if(cardRow == -1) return;
-        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike)).findFirst().orElse(null);
-        rows.get(cardRow).strikeCardBy(cardAffected, strikeAmount);
+        rows.forEach(row -> {
+            row.strikeCardBy(row.getCards().stream()
+                            .filter(c -> c.getDisplay().equals(cardToStrike))
+                            .findFirst().orElse(Card.createEmptyCard())    ,strikeAmount
+            );
+        });
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
-        int cardRow = findCardRow(cardToBoost);
-        if(cardRow == -1) return;
-        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost)).findFirst().orElse(null);
-        rows.get(cardRow).boostCardBy(cardAffected, boostAmount);
+        rows.forEach(row -> {
+            row.boostCardBy( row.getCards().stream()
+                            .filter(c -> c.getDisplay().equals(cardToBoost))
+                            .findFirst().orElse(Card.createEmptyCard())    ,boostAmount
+            );
+        });
     }
 
-    public void burnCard(CardDisplay card, int cardRow) {
-        Card cardAffected = rows.get(cardRow).getCards().stream().filter(c -> c.getDisplay().equals(card)).findFirst().orElse(null);
-        rows.get(cardRow).burnCard(cardAffected);
-    }
-
-    private int findCardRow(CardDisplay card){
-        for(int i = 0 ; i <  Consts.rowsNumber ; ++i){
-            if(rows.get(i).getCardsDisplays().contains(card))
-                return i;
-        }
-        return -1;
+    public void burnCard(CardDisplay card) {
+        rows.forEach(row -> {
+            row.burnCard(
+                    row.getCards().stream()
+                            .filter(c -> c.getDisplay().equals(card))
+                            .findFirst().orElse(Card.createEmptyCard())
+            );
+        });
     }
 
     public void dealCards(int howMany) {

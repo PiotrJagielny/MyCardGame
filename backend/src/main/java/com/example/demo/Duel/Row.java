@@ -26,11 +26,13 @@ public class Row {
 
     public void boostCardBy(Card aCard, int boostAmount){
         int cardIndex = cards.indexOf(aCard);
+        if(cardIndex == -1) return;
         cards.get(cardIndex).boostPointsBy(boostAmount);
     }
 
     public void strikeCardBy(Card aCard, int strikeAmount){
         int cardIndex = cards.indexOf(aCard);
+        if(cardIndex == -1) return;
         if(cards.get(cardIndex).getPoints() - strikeAmount < 1) {
             cards.remove(cardIndex);
         }

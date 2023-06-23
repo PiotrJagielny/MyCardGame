@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NoCardTargetable implements CardTargeting{
     @Override
-    public List<CardDisplay> getPossibleTargets(List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard) {
+    public List<CardDisplay> getPossibleTargets(List<CardDisplay> playerBoard, List<CardDisplay> enemyBoard) {
         return List.of();
     }
 }

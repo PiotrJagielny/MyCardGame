@@ -55,7 +55,7 @@ public class CardsFactory {
         put(fireball.getName(), new AllEnemyCardsTargetable());
     }};
 
-    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard) {
+    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<CardDisplay> playerBoard, List<CardDisplay> enemyBoard) {
         return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
     }
 
@@ -71,7 +71,7 @@ public class CardsFactory {
         put(archer.getName(), "Strike enemy by " + archerStrikeAmount);
         put(fireball.getName(), "Strike enemy by " + fireballStrikeAmount);
         put(rip.getName(), "Deal " + CardsFactory.ripRowDamageAmount + " damage to whole enemy row");
-        put(longer.getName(), "Boost every single turn by 1");
+        put(longer.getName(), "Boost every single turn by " + longerBoostAmount);
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -105,7 +105,8 @@ public class CardsFactory {
                 Card.createCard(fireball),
                 Card.createCard(conflagration),
                 Card.createCard(doubler),
-                Card.createCard(rip)
+                Card.createCard(rip),
+                Card.createCard(longer)
         ));
         return result;
     }

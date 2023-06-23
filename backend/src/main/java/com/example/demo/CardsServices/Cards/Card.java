@@ -11,6 +11,9 @@ public class Card {
 
     private int points;
 
+    public Card() {
+    }
+
     public Card(String name, int points){
         this.name = name;
         this.points = points;
@@ -30,5 +33,8 @@ public class Card {
 
     public static Card createCard(CardDisplay cardDisplay){
         return new Card(cardDisplay.getName(), cardDisplay.getPoints());
+    }
+    public static Card createEmptyCard(){
+        return new Card();
     }
 }

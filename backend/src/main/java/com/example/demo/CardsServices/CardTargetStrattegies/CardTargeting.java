@@ -6,7 +6,7 @@ import com.example.demo.CardsServices.Cards.CardsFactory;
 import java.util.List;
 
 public interface CardTargeting {
-    List<CardDisplay> getPossibleTargets(List<List<CardDisplay>> playerBoard, List<List<CardDisplay>> enemyBoard);
+    List<CardDisplay> getPossibleTargets(List<CardDisplay> playerBoard, List<CardDisplay> enemyBoard);
 
     static CardTargeting getTargetingStrategy(CardDisplay card){
         if(card.equals(CardsFactory.booster)){
