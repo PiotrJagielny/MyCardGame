@@ -19,23 +19,14 @@ public class CardEffects {
         this.playMade = playMade;
     }
 
-
-
-
-    public void invokeOnTurnEndEffect() {
-        List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
-        for (var card : cardsOnBoard) {
-            invokeSpecificCardTurnEffect(card);
-        }
+    public CardEffects(OnePlayerDuel player, OnePlayerDuel enemy) {
+        this.player = player;
+        this.enemy = enemy;
     }
-    private void invokeSpecificCardTurnEffect(CardDisplay card) {
-        if(card.equals(CardsFactory.longer)) {
-            player.boostCard(card, CardsFactory.longerBoostAmount);
-        }
-    }
+
+
 
     public void invokeEffect(){
-        invokeOnTurnEndEffect();
         invokeOnPlaceEffect();
     }
 
@@ -66,6 +57,9 @@ public class CardEffects {
         }
         else if(p.equals(CardsFactory.rip)) {
             ripWholeRow();
+        }
+        else if(p.equals(CardsFactory.rain)) {
+            enemy.setRowStatus(RowStatus.StrikeEveryTurn, playMade.getAffectedRow());
         }
         player.placeCardOnBoard(playMade);
     }

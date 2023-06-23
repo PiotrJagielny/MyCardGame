@@ -50,9 +50,10 @@ public class CardDuel {
         }
     }
     private void invokeEffects(PlayerPlay playMade,String player) {
+        OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
+        effect.invokeEffect();
         CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)), playMade);
         effects.invokeEffect();
-
     }
 
     public boolean isTurnOf(String player) {
@@ -101,6 +102,8 @@ public class CardDuel {
 
 
     public void endRoundFor(String player) {
+        OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
+        effect.invokeEffect();
         changeTurn();
         players.get(player).endRound();
         if (didPlayersEndedRound()) startNewRound();
@@ -162,7 +165,4 @@ public class CardDuel {
     }
 
 
-    public String getCardInfo(String cardName) {
-        return CardsFactory.getCardInfo(cardName);
-    }
 }

@@ -224,6 +224,19 @@ class TestSpecificBehaviours {
         assertEquals(expectedPoints, actualPoints);
     }
 
+    @Test
+    public void testRainRowStatus() {
+        duel = createDuel(List.of(CardsFactory.rain, CardsFactory.viking ));
+        playCard(CardsFactory.viking, secondRow, firstPlayer);
+        playCard(CardsFactory.rain, secondRow, secondRow, secondPlayer);
+        playCard(CardsFactory.rain, secondRow, secondRow, firstPlayer);
+        playCard(CardsFactory.viking, secondRow, secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainStrikeAmount;
+        int actual = duel.getBoardPointsOf(firstPlayer);
+        assertEquals(expected, actual);
+    }
+
 
 
 }

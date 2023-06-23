@@ -2,6 +2,8 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.CardsServices.CardsEffects.RowStatus;
 import com.example.demo.CardsServices.CardsParser;
 
 import java.util.ArrayList;
@@ -10,9 +12,11 @@ import java.util.List;
 public class Row {
 
     private List<Card> cards;
+    private RowStatus status;
 
     public Row() {
         cards = new ArrayList<>();
+        status = RowStatus.NoStatus;
     }
 
     public void clearRow(){
@@ -65,5 +69,17 @@ public class Row {
 
     public Card get(int cardId){
         return cards.get(cardId);
+    }
+
+    public void setStatus(RowStatus status) {
+        this.status = status;
+    }
+
+    public void updateRow() {
+        if(status == RowStatus.StrikeEveryTurn) {
+            for (int i = 0; i < cards.size(); i++) {
+                strikeCardBy(cards.get(i), CardsFactory.rainStrikeAmount);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.CardsEffects.RowStatus;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 
@@ -132,4 +133,12 @@ public class OnePlayerDuel {
         return wonRounds;
     }
     public boolean didWon(){return wonRounds == 2;}
+
+    public void setRowStatus(RowStatus status, int rowNumber) {
+        rows.get(rowNumber).setStatus(status);
+    }
+
+    public void updateRows() {
+        rows.forEach(row -> row.updateRow());
+    }
 }

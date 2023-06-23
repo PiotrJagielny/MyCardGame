@@ -47,7 +47,9 @@ public class CardsFactory {
     public static final CardDisplay longer= new CardDisplay("Longer",1);
     public static final int longerBoostAmount = 2;
 
+    public static final CardDisplay rain= new CardDisplay("Rain",0);
 
+    public static final int rainStrikeAmount =  2;
     private static final Map<String, CardTargeting> mapCardNameToTargetingStrategy= new HashMap<>() {{
         put(doubler.getName(), new AllPlayerCardsTargetable());
         put(booster.getName(), new AllPlayerCardsTargetable());
@@ -72,6 +74,7 @@ public class CardsFactory {
         put(fireball.getName(), "Strike enemy by " + fireballStrikeAmount);
         put(rip.getName(), "Deal " + CardsFactory.ripRowDamageAmount + " damage to whole enemy row");
         put(longer.getName(), "Boost every single turn by " + longerBoostAmount);
+        put(rain.getName(), "Strike max points card on choosen row every turn by " + rainStrikeAmount);
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -79,7 +82,8 @@ public class CardsFactory {
     }
 
     private static final Map<String, List<Integer>> mapCardNameToRowsAffect = new HashMap<>() {{
-      put(rip.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
+        put(rip.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
+        put(rain.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
     }};
 
     public static List<Integer> getCardRowsToAffect(String cardName) {
@@ -106,7 +110,8 @@ public class CardsFactory {
                 Card.createCard(conflagration),
                 Card.createCard(doubler),
                 Card.createCard(rip),
-                Card.createCard(longer)
+                Card.createCard(longer),
+                Card.createCard(rain)
         ));
         return result;
     }
