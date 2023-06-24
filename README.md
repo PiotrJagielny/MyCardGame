@@ -29,7 +29,7 @@ Also player can choose row to target
 Rip targetted second row and dealt damage
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/9d5e7c71-fe99-4fb6-9c5a-f96758decd79)
 
-Also there are cards that have effects, but play dont have to target anything
+Also there are cards that have effects, but player dont have to target anything
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d8eb15a9-99b4-43ee-a324-792fa63cea64)
 After playing conflagration max points card is burned.
 
