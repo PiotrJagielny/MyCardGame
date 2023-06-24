@@ -10,7 +10,8 @@ Healer - Boosts every card on the player's board that has no more than 2 points.
 Booster - Boosts a single player card. <br>
 Leader - Boosts every card in one row. <br>
 Doubler - Doubles chosen card points. <br>
-(Some of these cards are implemented inside the CardGame_JavaFX repository for now.) <br>
+Rip - deals damage to whole row <br>
+Rain - deals damage to max points card every turn <br>
 
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c23f819-ac07-4168-bbc0-80d65682688b)
