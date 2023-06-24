@@ -36,3 +36,4 @@ After playing conflagration max points card is burned.
 
 
 
+
