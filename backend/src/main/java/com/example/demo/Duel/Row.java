@@ -77,9 +77,15 @@ public class Row {
 
     public void updateRow() {
         if(status == RowStatus.StrikeEveryTurn) {
+            int maxPoints = 0;
+            Card maxPointsCard = Card.createEmptyCard();
             for (int i = 0; i < cards.size(); i++) {
-                strikeCardBy(cards.get(i), CardsFactory.rainStrikeAmount);
+               if(cards.get(i).getPoints() > maxPoints) {
+                   maxPoints = cards.get(i).getPoints();
+                   maxPointsCard = cards.get(i);
+               }
             }
+            strikeCardBy(maxPointsCard, CardsFactory.rainStrikeAmount);
         }
     }
 }
