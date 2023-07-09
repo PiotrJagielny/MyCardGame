@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import GamePage from './GamePage';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -21,19 +21,16 @@ var gameID:string= "";
 const SearchingPage = () => {
     const [userName, setUserName] = useState<string>("");
     const [isConnected, setIsConnected] = useState<boolean>(false);
-    const [isEnemyFound, setIsEnemyFound] = useState<boolean>(false);
-    const [points, setPoints] = useState<number>(0);
-    const [enemyPoints, setEnemyPoints] = useState<number>(0);
-
-    const reduxUserName = useSelector<string, string>((state) =>state);
 
 
     const dispatch = useDispatch();
 
+    let navigate = useNavigate();
 
 
   const connectToServer= () => {
     dispatch({type:"CHANGE_NAME", payload: userName});
+    dispatch({type:"SET_SERVER_URL", payload: serverURL});
     let Sock=new SockJS(serverURL + '/ws');
     stompClient = over(Sock);
     stompClient.connect({}, onConnected);
@@ -50,21 +47,14 @@ const SearchingPage = () => {
     if(payload.body.includes("Found enemy") ) {
 
       gameID = payload.body.split(":")[1]; 
+      dispatch({type:"SET_GAME_ID", payload: gameID});
       let message:string = userName + ":" + gameID;
-      setIsEnemyFound(true);
       fetch(serverURL + '/button', {
         method: 'PUT',
         headers: {'Content-Type': 'text/plain',},
         body: message,
       });
-    }
-    else if(payload.body.includes("Get data from server")) {
-      let enemyName = payload.body.split(":")[1]; 
-      fetch(serverURL + `/button/getPoints/${enemyName}/${gameID}`)
-      .then((res) => res.json())
-      .then((data:number ) => {
-        setEnemyPoints(data);
-      }).catch(console.error);
+      navigate("/game");
     }
   }
 
@@ -73,30 +63,9 @@ const SearchingPage = () => {
     stompClient.send('/app/findEnemy', {}, userName);
   }
 
-  const increase = () => {
-
-      let message:string = userName + ":" + gameID;
-      fetch(serverURL + '/button', {
-        method: 'POST',
-        headers: {'Content-Type': 'text/plain',},
-        body: message,
-      });
-      fetch(serverURL + `/button/getPoints/${userName}/${gameID}`)
-      .then((res) => res.json())
-      .then((data:number ) => {
-        setPoints(data);
-      }).catch(console.error);
-      stompClient.send('/app/sendToEnemy', {}, userName);
-
-  }
 
   return (
     <div className="App">
-      {isEnemyFound?
-      <div>
-        <GamePage userName={userName}  gameID={gameID} serverURL={serverURL}></GamePage>
-      </div>
-      :
       <div>
       {!isConnected? <div>connect to search</div>: <button onClick={startSearching}>search for opponent</button>}
       <div>
@@ -109,7 +78,6 @@ const SearchingPage = () => {
       </div>
 
       </div>
-      }
 
 
     </div>

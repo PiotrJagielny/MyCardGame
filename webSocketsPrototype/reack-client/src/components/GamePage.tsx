@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import {useSelector} from 'react-redux';
+import StateData from '../nameReducer';
 
 interface UserNameProps {
     userName: string;
@@ -9,11 +10,13 @@ interface UserNameProps {
     serverURL: string;
 }
 var stompClient: any = null;
-const GamePage: React.FC<UserNameProps> = ({userName, gameID, serverURL}) => {
+const GamePage = () => {
 
     const [points, setPoints] = useState<number>(0);
     const [enemyPoints, setEnemyPoints] = useState<number>(0);
-    const reduxUserName = useSelector<string, string>((state) =>state);
+    const userName= useSelector<StateData, string>((state) =>state.userName);
+    const serverURL= useSelector<StateData, string>((state) =>state.serverURL);
+    const gameID= useSelector<StateData, string>((state) =>state.gameID);
 
     useEffect(() => {
         //Initialize
