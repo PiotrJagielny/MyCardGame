@@ -7,38 +7,49 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.io.Console;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ChatController {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-    private static List<GameRoom> rooms = new ArrayList<>();
+    private static Map<String,String> playerEnemy = new HashMap<>();
+    private static List<String> waitingPlayers= new ArrayList<>();
+    private static int maxGameId = 0;
 
     @MessageMapping("/findEnemy")
     public String receivePrivateMessage(@Payload String userName) {
 
-        System.out.println("szukanie!!!!!! dla: " + userName);
-
-        if(rooms.isEmpty()) {
-            rooms.add(new GameRoom(userName));
+        if(waitingPlayers.isEmpty()){
+            waitingPlayers.add(userName);
         }
         else {
-            if(isGameRoomFull(rooms.get(rooms.size() -1 ))) {
-                rooms.add(new GameRoom(userName));
-            }
-            else {
-                rooms.get(rooms.size() - 1).setSecondPlayer(userName);
-                simpMessagingTemplate.convertAndSendToUser(userName, "/private", "Found enemy");
-                simpMessagingTemplate.convertAndSendToUser(rooms.get(rooms.size() - 1).getFirstPlayer(), "/private", "Found enemy");
-            }
-        }
+            String firstPlayer = waitingPlayers.get(0);
+            String secondPlayer = userName;
+            playerEnemy.put(firstPlayer, secondPlayer);
+            playerEnemy.put(secondPlayer, firstPlayer);
+            waitingPlayers.remove(0);
 
+            maxGameId++;
+            simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Found enemy:" + maxGameId);
+            try {
+                //If message will be send one right after another, then two games will be created
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            simpMessagingTemplate.convertAndSendToUser(firstPlayer, "/private", "Found enemy:" + maxGameId);
+        }
         return userName;
     }
-    private boolean isGameRoomFull(GameRoom room) {
-        return !room.getFirstPlayer().isEmpty() && !room.getSecondPlayer().isEmpty();
+    @MessageMapping("/sendToEnemy")
+    public String sendMessageToEnemy(@Payload String userName) {
+        simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(userName), "/private", "Get data from server:" + userName);
+        return userName;
     }
 }

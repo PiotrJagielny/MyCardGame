@@ -13,30 +13,35 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "button")
 public class MainController {
-    private static Map<String, Integer> userPoints = new HashMap<>();
-    private static List<Game> games = new ArrayList<>();
+    private static Map<String,Game> gamesBetter= new HashMap<>();
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping
     @CrossOrigin
-    public void increaseButtonPoints(@RequestBody String userName) {
-        userPoints.put(userName, userPoints.get(userName) + 1);
-        simpMessagingTemplate.convertAndSendToUser(userName, "/private", "The Points are valid");
+    public void increaseButtonPoints(@RequestBody String message) {
+        String[] extractedMsg = message.split(":");
+        String gameID = extractedMsg[1];
+        String playerName= extractedMsg[0];
+        gamesBetter.get(gameID).increasePlayer(playerName);
+        simpMessagingTemplate.convertAndSendToUser(playerName, "/private", "The Points are valid");
     }
     @PutMapping
     @CrossOrigin
-    public void registerGame(@RequestBody String players) {
-        String[] playersExtracted = players.split(":");
-        Game game = new Game();
-        game.registerPlayer(playersExtracted[0]);
-        game.registerPlayer(playersExtracted[1]);
-        games.add(game);
+    public void registerPlayer(@RequestBody String message) {
+        System.out.println(message);
+        String[] extractedMsg = message.split(":");
+        String gameID = extractedMsg[1];
+        String playerName= extractedMsg[0];
+        if(gamesBetter.containsKey(gameID) == false) {
+            gamesBetter.put(gameID, new Game());
+        }
+        gamesBetter.get(gameID).registerPlayer(playerName);
     }
-    @GetMapping(path = "getPoints/{userName}")
+    @GetMapping(path = "getPoints/{userName}/{gameID}")
     @CrossOrigin
-    public int getPoints(@PathVariable String userName) {
-        return userPoints.get(userName);
+    public int getPoints(@PathVariable String userName, @PathVariable String gameID) {
+        return gamesBetter.get(gameID).getPlayerPoints(userName);
     }
 }
