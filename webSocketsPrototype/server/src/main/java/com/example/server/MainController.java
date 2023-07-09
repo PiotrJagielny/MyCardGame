@@ -26,7 +26,6 @@ public class MainController {
         String playerName= extractedMsg[0];
         gamesBetter.get(gameID).increasePlayer(playerName);
         simpMessagingTemplate.convertAndSendToUser(playerName, "/private", "The Points are valid");
-        System.out.println(gamesBetter.get(gameID).getPlayers());
     }
     @PutMapping
     @CrossOrigin
