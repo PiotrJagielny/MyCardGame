@@ -1,13 +1,11 @@
-package com.example.server.WebSockets;
+package com.example.demo.WebSockets;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,11 +48,6 @@ public class ChatController {
     @MessageMapping("/sendToEnemy")
     public String sendMessageToEnemy(@Payload String userName) {
         simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(userName), "/private", "Get data from server:" + userName);
-        return userName;
-    }
-    @MessageMapping("/sendTrigger")
-    public String sendTriggerToEnemy(@Payload String userName) {
-        simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(userName), "/game", "Get data from server:" + userName);
         return userName;
     }
 }

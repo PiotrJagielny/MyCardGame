@@ -65,8 +65,6 @@ public class Row {
     }
 
 
-
-
     public Card get(int cardId){
         return cards.get(cardId);
     }
