@@ -4,11 +4,6 @@ import SockJS from 'sockjs-client';
 import {useSelector} from 'react-redux';
 import StateData from '../nameReducer';
 
-interface UserNameProps {
-    userName: string;
-    gameID: string;
-    serverURL: string;
-}
 var stompClient: any = null;
 const GamePage = () => {
 
