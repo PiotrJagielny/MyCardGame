@@ -36,7 +36,6 @@ public class MainController {
         String playerName= extractedMsg[0];
         if(gamesBetter.containsKey(gameID) == false) {
             gamesBetter.put(gameID, new Game());
-            System.out.println("NOWA GRA");
         }
         gamesBetter.get(gameID).registerPlayer(playerName);
     }

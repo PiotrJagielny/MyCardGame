@@ -39,7 +39,7 @@ public class ChatController {
             simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Found enemy:" + maxGameId);
             try {
                 //If message will be send one right after another, then two games will be created
-                Thread.sleep(1000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
