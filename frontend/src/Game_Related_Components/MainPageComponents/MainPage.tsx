@@ -15,10 +15,21 @@ const MainPage = () => {
   let dispatch = useDispatch();
   const RedirectToDeckBuilder = () =>{
 
+      fetch(serverURL + '/DeckBuilder/setupBuilder', {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain',},
+        body: userName,
+      });
+    navigate("/DeckBuilder");
+  }
+
+
+  const RedirectToDuel = () =>{
     let Sock = new SockJS(serverURL + '/ws');
     stompClient = over(Sock);
     stompClient.sonnect({}, onConnect);
-    navigate("/DeckBuilder");
+
+    navigate("/Duel");
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
@@ -36,9 +47,6 @@ const MainPage = () => {
       });
       navigate("/Duel");
     }
-  }
-  const RedirectToDuel = () =>{
-    navigate("/Duel");
   }
 
   return (

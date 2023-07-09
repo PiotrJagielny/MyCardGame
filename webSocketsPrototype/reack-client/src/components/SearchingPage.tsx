@@ -6,15 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
 
 
-
-
-interface message {
-  receiver:string;
-  sender:string;
-  message:string;
-}
-
-
 var serverURL: string = 'http://localhost:8082';
 var stompClient: any = null;
 var gameID:string= "";

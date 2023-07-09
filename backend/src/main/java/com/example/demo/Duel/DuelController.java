@@ -4,13 +4,16 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/Duel")
 public class DuelController {
 
     private CardDuel duel;
+    private Map<String, CardDuel> betterDuel = new HashMap<>();
 
 
     @GetMapping(path = "getHandCards/{userName}")
@@ -96,5 +99,22 @@ public class DuelController {
     public List<CardDisplay> getTargetableCards(@PathVariable String userName, @RequestBody CardDisplay cardPlayed){
         return duel.getPossibleTargetsOf(cardPlayed, userName);
     }
+
+
+    //NEW INTEGRATED API !!!!!!!!!!!!!!!!!!!
+    @PostMapping(path="registerUser")
+    public void registerUser(@RequestBody List<CardDisplay> deck, @RequestParam String name, @RequestParam String gameID) {
+        if(betterDuel.containsKey(gameID) == false) {
+            betterDuel.put(gameID, CardDuel.createDuel());
+            duel.registerPlayerToDuel(name);
+            duel.parseCardsFor(deck, name);
+        }
+        else {
+            duel.registerPlayerToDuel(name);
+            duel.parseCardsFor(deck, name);
+            duel.dealCards();
+        }
+    }
+
 
 }

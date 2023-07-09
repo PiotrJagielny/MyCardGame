@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
+import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 interface Props{
     OnDecksSwitched: () => void;
@@ -11,8 +13,12 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
   const [decksNames, setDecksNames] = useState<string[]>([]);
   const [inputNewDeckName, setNewDeckName] = useState<string>();
 
+  const userName = useSelector<StateData, string>((state) => state.userName);
+  const serverURL= useSelector<StateData, string>((state) => state.serverURL);
+
   const fetchDecksNames = () => {
-    fetch('http://localhost:8000/DeckBuilder/GetDecksNames')
+    console.log(userName);
+    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecksNames(decksNames);
@@ -31,7 +37,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
 
 
   const handleSelectDeckPostRequest = (selectedDeckName: string) => {
-    const response = fetch("http://localhost:8000/DeckBuilder/SelectDeck", {
+    const response = fetch(`${serverURL}/DeckBuilder/SelectDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -43,7 +49,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
 
   const handleNewDeckPostRequest = () => {
 
-    const response = fetch("http://localhost:8000/DeckBuilder/CreateDeck", {
+    const response = fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -55,7 +61,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
   }
 
   const handleDeckDeletePostRequest = async () => {
-    const response = await fetch("http://localhost:8000/DeckBuilder/DeleteDeck", {
+    const response = await fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -6,6 +6,8 @@ import {DecksManager} from './DecksManager';
 import {Card} from './../Interfaces/Card';
 import {MessagesComponent} from './../../Game_Unrelated_Components/UIComponents/MessagesComponent';
 import  './DeckBuilderPage.css';
+import {useSelector} from 'react-redux';
+import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 
 
@@ -15,15 +17,18 @@ const DeckBuilderPage = () => {
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
 
+
+  const userName = useSelector<StateData, string>((state) => state.userName);
+
   const fetchCardsData = () => {
-    fetch('http://localhost:8000/DeckBuilder/GetAllCards')
+    fetch(`http://localhost:8000/DeckBuilder/GetAllCards/${userName}`)
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
         setCardsData(cardsData);
       })
       .catch(console.error);
 
-      fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
+      fetch(`http://localhost:8000/DeckBuilder/GetCardsInDeck/${userName}`)
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
@@ -76,10 +81,10 @@ const DeckBuilderPage = () => {
     let PostURL:string = '';
 
     if(destination.droppableId === "AllCards"){
-      PostURL = "http://localhost:8000/DeckBuilder/PutCardFromDeckBack"
+      PostURL = `http://localhost:8000/DeckBuilder/PutCardFromDeckBack/${userName}`;
     }
     else if(destination.droppableId === "CardsInDeck"){
-      PostURL = "http://localhost:8000/DeckBuilder/PutCardToDeck"
+      PostURL = `http://localhost:8000/DeckBuilder/PutCardToDeck/${userName}`
     }
 
     let cardDragged: Card = {name: result.draggableId, points: 0};

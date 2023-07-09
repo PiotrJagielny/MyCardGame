@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Service
@@ -14,57 +16,64 @@ import java.util.List;
 public class DeckBuilderController {
 
     private DeckBuilder deckBuilder;
+    private Map<String, DeckBuilder> betterDeckBuilders = new HashMap<>();
 
     @Autowired
     public DeckBuilderController() {
         deckBuilder = new DeckBuilder();
     }
-
-    @GetMapping(path ="GetAllCards")
+    @PostMapping("setupBuilder")
     @CrossOrigin
-    public List<CardDisplay> GetAllCards(){
-
-        return deckBuilder.getCardsPossibleToAdd();
+    public void setupBuilder(@RequestBody String userName) {
+        //TODO add a feature so that there cant be two same user names
+        betterDeckBuilders.put(userName, new DeckBuilder());
     }
 
-    @GetMapping(path = "GetCardsInDeck")
+    @GetMapping(path ="GetAllCards/{userName}")
     @CrossOrigin
-    public List<CardDisplay> GetCardsInDeck(){return deckBuilder.getPlayerDeck();}
+    public List<CardDisplay> GetAllCards(@PathVariable String userName){
+        return betterDeckBuilders.get(userName).getCardsPossibleToAdd();
+    }
 
-    @GetMapping(path = "GetDecksNames")
+    @GetMapping(path = "GetCardsInDeck/{userName}")
     @CrossOrigin
-    public List<String> GetDecksNames(){return deckBuilder.getDecksNames();}
+    public List<CardDisplay> GetCardsInDeck(@PathVariable String userName){
+        return betterDeckBuilders.get(userName).getPlayerDeck();
+    }
 
-    @PostMapping(path = "PutCardToDeck")
+    @GetMapping(path = "GetDecksNames/{userName}")
     @CrossOrigin
-    public String AddCardToDeck(@RequestBody CardDisplay cardDisplay) {
-        String ResponseMessage = deckBuilder.addCardToDeck(cardDisplay);
+    public List<String> GetDecksNames(@PathVariable String userName){return betterDeckBuilders.get(userName).getDecksNames();}
+
+    @PostMapping(path = "PutCardToDeck/{userName}")
+    @CrossOrigin
+    public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName) {
+        String ResponseMessage = betterDeckBuilders.get(userName).addCardToDeck(cardDisplay);
         return ResponseMessage;
     }
 
-    @PostMapping(path = "PutCardFromDeckBack")
+    @PostMapping(path = "PutCardFromDeckBack/{userName}")
     @CrossOrigin
-    public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay){
-        deckBuilder.putCardFromDeckBack(cardDisplay);
+    public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName){
+        betterDeckBuilders.get(userName).putCardFromDeckBack(cardDisplay);
     }
 
-    @PostMapping(path = "CreateDeck")
+    @PostMapping(path = "CreateDeck/{userName}")
     @CrossOrigin
-    public void CreateDeck(@RequestBody String deckName) {
-        deckBuilder.createDeck(deckName);
+    public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
+        betterDeckBuilders.get(userName).createDeck(deckName);
     }
 
-    @PostMapping(path = "SelectDeck")
+    @PostMapping(path = "SelectDeck/{userName}")
     @CrossOrigin
-    public void SelectDeck(@RequestBody String deckName){
-        deckBuilder.selectDeck(deckName);
+    public void SelectDeck(@RequestBody String deckName, @PathVariable String userName){
+        betterDeckBuilders.get(userName).selectDeck(deckName);
     }
 
-    @PostMapping(path = "DeleteDeck")
+    @PostMapping(path = "DeleteDeck/{userName}")
     @CrossOrigin
-    public String DeleteDeck() {
-        return deckBuilder.deleteCurrentDeck();
+    public String DeleteDeck(@PathVariable String userName) {
+        return betterDeckBuilders.get(userName).deleteCurrentDeck();
     }
-
 
 }
