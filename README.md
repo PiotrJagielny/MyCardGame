@@ -16,6 +16,13 @@ Doubler - Doubles chosen card points. <br>
 Rip - deals damage to whole row <br>
 Rain - deals damage to max points card every turn <br>
 
+To log in you have to enter name
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c184afe-dbe5-4aa3-82b8-932e23d1fb89)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b57775f4-44c4-49cc-a294-0b325b1a5020)
+Every user have its own instance of deck builder so there cannot be two users with same name.
+
+
+
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c23f819-ac07-4168-bbc0-80d65682688b)
 
