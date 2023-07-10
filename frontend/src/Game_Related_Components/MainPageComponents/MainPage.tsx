@@ -19,8 +19,9 @@ const MainPage = () => {
         method: 'POST',
         headers: {'Content-Type': 'text/plain',},
         body: userName,
+      }).then(() => {
+        navigate("/DeckBuilder");
       });
-    navigate("/DeckBuilder");
   }
 
 

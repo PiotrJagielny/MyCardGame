@@ -44,7 +44,7 @@ const DeckBuilderPage = () => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [userName]);
 
   const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
     let data = {name: cardToPost.name};
@@ -98,7 +98,7 @@ const DeckBuilderPage = () => {
 
   return (
     <div className="DeckBuilderPage">
-      <h2>DeckBuilderPage</h2>
+      <h2>DeckBuilderPage : {userName}</h2>
 
       
 

@@ -17,7 +17,6 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchDecksNames = () => {
-    console.log(userName);
     fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
@@ -33,7 +32,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [userName]);
 
 
   const handleSelectDeckPostRequest = (selectedDeckName: string) => {
