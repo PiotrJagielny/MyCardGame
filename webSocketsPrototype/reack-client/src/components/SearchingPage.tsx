@@ -5,13 +5,11 @@ import GamePage from './GamePage';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
 
-interface Props{
-  clientId: number;
-}
+
 var serverURL: string = 'http://localhost:8082';
 var stompClient: any = null;
 var gameID:string= "";
-const SearchingPage: React.FC<Props> = (props) => {
+const SearchingPage = () => {
     const [userName, setUserName] = useState<string>("");
     const [isConnected, setIsConnected] = useState<boolean>(false);
 
@@ -59,7 +57,6 @@ const SearchingPage: React.FC<Props> = (props) => {
 
   return (
     <div className="App">
-      <div>props: {props.clientId}</div>
       <div>
       {!isConnected? <div>connect to search</div>: <button onClick={startSearching}>search for opponent</button>}
       <div>

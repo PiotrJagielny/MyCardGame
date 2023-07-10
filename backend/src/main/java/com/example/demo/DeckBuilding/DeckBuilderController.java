@@ -25,7 +25,6 @@ public class DeckBuilderController {
     @PostMapping("setupBuilder")
     @CrossOrigin
     public void setupBuilder(@RequestBody String userName) {
-        System.out.println("Setting up builder");
         //TODO add a feature so that there cant be two same user names
         betterDeckBuilders.put(userName, new DeckBuilder());
     }
@@ -33,7 +32,6 @@ public class DeckBuilderController {
     @GetMapping(path ="GetAllCards/{userName}")
     @CrossOrigin
     public List<CardDisplay> GetAllCards(@PathVariable String userName){
-        System.out.println("getting cards");
         return betterDeckBuilders.get(userName).getCardsPossibleToAdd();
     }
 

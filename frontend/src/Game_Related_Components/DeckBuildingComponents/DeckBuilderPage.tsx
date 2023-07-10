@@ -9,19 +9,16 @@ import  './DeckBuilderPage.css';
 import {useSelector} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
-interface Props{
-  clientId: number;
-}
 
-const DeckBuilderPage: React.FC<Props> = ({clientId})  => {
+
+const DeckBuilderPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
 
 
-  const userName = useSelector<StateData, string>((state) => state.userNames.get(clientId) || "");
-  const serverURL = useSelector<StateData, string>((state) => state.serverURL);
+  const userName = useSelector<StateData, string>((state) => state.userName);
 
   const fetchCardsData = () => {
     fetch(`http://localhost:8000/DeckBuilder/GetAllCards/${userName}`)
@@ -47,7 +44,7 @@ const DeckBuilderPage: React.FC<Props> = ({clientId})  => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [userName]);
 
   const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
     let data = {name: cardToPost.name};
@@ -101,7 +98,7 @@ const DeckBuilderPage: React.FC<Props> = ({clientId})  => {
 
   return (
     <div className="DeckBuilderPage">
-      <h2>DeckBuilderPage</h2>
+      <h2>DeckBuilderPage : {userName}</h2>
 
       
 
@@ -116,7 +113,7 @@ const DeckBuilderPage: React.FC<Props> = ({clientId})  => {
           </div>
         </DragDropContext>
         <div className="PlayersDecks">
-          <DecksManager OnDecksSwitched={handleDecksSwitch} addMessage={addMessage} clientId={clientId}></DecksManager>
+          <DecksManager OnDecksSwitched={handleDecksSwitch} addMessage={addMessage}></DecksManager>
         </div>
       </div>
       <div className="Messages">

@@ -5,12 +5,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<SearchingPage clientId={5}/>} />
+          <Route path="/" element={<SearchingPage/>} />
           <Route path="/game" element={<GamePage/>} />
         </Routes>
       </Router>
