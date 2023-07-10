@@ -2,7 +2,7 @@ This is a project where i make a card game. Backend is in Spring boot with java 
 
 This is a card game in which players can build decks with created cards. In the duel, there are two players who fight each other. In each move, a player can play one card or pass. If both players pass, the one with more points on the board wins. The player who wins two rounds wins the game. <br>
 
-Right now it is a little bit cumbersome, because what is the point of playing such game when you can see enemy cards. I am implementing messaging 
+Right now it doesn't make much sense, because what is the point of playing such game when you can see enemy cards. I am implementing messaging 
 system with Spring Boot Web sockets so that this game can be played with multiplayer mode.
 
 Currently, there are about 15 cards. Most of them dont have any effects, but not all. <br>
