@@ -5,26 +5,23 @@ import {over} from 'stompjs';
 import {useSelector, useDispatch} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
-interface Props{
-  clientId: number;
-}
-var stompClient: any = null;
-const MainPage: React.FC<Props> = ({clientId}) => {
 
-  const userName = useSelector<StateData, string>((state) => state.userNames.get(1) || "");
+var stompClient: any = null;
+const MainPage = () => {
+
+  const userName = useSelector<StateData, string>((state) => state.userName);
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const RedirectToDeckBuilder = () =>{
 
-
-    fetch(serverURL + '/DeckBuilder/setupBuilder', {
-      method: 'POST',
-      headers: {'Content-Type': 'text/plain',},
-      body: userName,
-    }).then(() => {
-      navigate("/DeckBuilder");
-    });
+      fetch(serverURL + '/DeckBuilder/setupBuilder', {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain',},
+        body: userName,
+      }).then(() => {
+        navigate("/DeckBuilder");
+      });
   }
 
 
