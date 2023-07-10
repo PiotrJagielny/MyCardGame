@@ -5,7 +5,6 @@ import {over} from 'stompjs';
 import {useSelector, useDispatch} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
-
 var stompClient: any = null;
 const MainPage = () => {
 
@@ -28,12 +27,12 @@ const MainPage = () => {
   const RedirectToDuel = () =>{
     let Sock = new SockJS(serverURL + '/ws');
     stompClient = over(Sock);
-    stompClient.sonnect({}, onConnect);
-
-    navigate("/Duel");
+    stompClient.connect({}, onConnect);
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
+    stompClient.send('/app/findEnemy', {}, userName);
+
   }
   const onMessageReceived = (payload: any) => {
     if(payload.body.includes("Found enemy") ) {

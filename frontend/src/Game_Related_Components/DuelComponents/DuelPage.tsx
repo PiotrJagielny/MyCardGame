@@ -6,6 +6,8 @@ import RowComponent from './RowComponent';
 import './DuelPage.css';
 import Modal from 'react-modal';
 import CardComponent from '../CardComponent';
+import {useSelector} from 'react-redux';
+import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
@@ -38,6 +40,7 @@ const DuelPage = () => {
   const [affectableRows, setAffectableRows] = useState<number[]>([]);
 
 
+  const gameID = useSelector<StateData, string>((state) => state.gameID);
 
 
 
@@ -45,6 +48,7 @@ const DuelPage = () => {
 
 
   useEffect(() => {
+    console.log(gameID);
     const controller = new AbortController();
     fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
       .then((res) => res.json())
