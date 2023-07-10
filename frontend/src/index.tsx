@@ -6,13 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import Modal from 'react-modal';
 import {Provider} from 'react-redux';
 import {store} from './Game_Unrelated_Components/reactRedux/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistStore} from 'redux-persist';
 
 Modal.setAppElement('#root');
+let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
