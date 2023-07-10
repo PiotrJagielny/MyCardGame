@@ -3,8 +3,12 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 
 
+interface Props{
+  clientId: number;
+}
 
-const EntryPage = () => {
+
+const EntryPage: React.FC<Props> = ({clientId}) => {
 
 
   const [userName, setUserName] = useState<string>("");
@@ -15,7 +19,7 @@ const EntryPage = () => {
   const connectToServer = () => {
 
 
-    dispatch({type: "SET_USERNAME", payload: userName});
+    dispatch({type: "SET_USERNAME", payload: {clientId:clientId,content:userName}});
     dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
     navigate("/Main");
   }

@@ -5,19 +5,19 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 interface Props{
     OnDecksSwitched: () => void;
     addMessage: (message:string) => void;
+    clientId: number;
 }
 
-export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => {
+export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage, clientId}) => {
   const [refresh, setRefresh] = useState(false);
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
   const [inputNewDeckName, setNewDeckName] = useState<string>();
 
-  const userName = useSelector<StateData, string>((state) => state.userName);
+  const userName = useSelector<StateData, string>((state) => state.userNames.get(clientId) || "");
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchDecksNames = () => {
-    console.log(userName);
     fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
