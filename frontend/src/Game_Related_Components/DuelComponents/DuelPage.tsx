@@ -131,7 +131,8 @@ const DuelPage = () => {
 
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}/${gameID}`, cardDragged, cardAffected);
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
+      console.log("card played");
       fetchCardsData();
     } 
     else {
@@ -142,7 +143,7 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}/${gameID}`, cardDragged, cardAffected);
+    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
     fetchCardsData();
     setIsRowsModalOpen(false);
   }
@@ -165,7 +166,7 @@ const DuelPage = () => {
     else if(destination.droppableId === "BoardRow3"){
       setPostOnRowNumberOf(2);
     }
-    setPlayerPlayer(player);
+    setPlayerPlayer(userName);
 
 
 
@@ -233,17 +234,13 @@ const fetchEnemyName = () => {
     
     <div>
       <div>
-        <button onClick={fetchEnemyName}>FETCH ENEMY NAME</button>
-      </div>
-      
-
-      <div>
         <label>Let the battle begin</label>
         <button onClick={fetchCardsData}>Load data</button>
       </div>
 
       <div>
         <button onClick={() => endRoundFor(userName)}>End round</button>
+        <label>|you: {userName}|</label>
         <label> |Did you won: {didWon.toString()}|</label>
         <label> |Won rounds: {wonRounds}| </label>
         <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
@@ -276,15 +273,16 @@ const fetchEnemyName = () => {
         <RowComponent cardsOnRow = {cardsOnSecondRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow2"}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnThirdRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow3"}></RowComponent>
         
-        <HandComponent cardsInHand = {cardsInHand2}></HandComponent>
+        {/* <HandComponent cardsInHand = {cardsInHand2}></HandComponent> */}
       </DragDropContext>
       
       
       <div>
-        <button onClick={() => endRoundFor(secondPlayer)}>End round</button>
-        <label> |Did you won: {didWon2.toString()}|</label>
+        {/* <button onClick={() => endRoundFor(secondPlayer)}>End round</button> */}
+        <label>|enemy: {enemyName}|</label>
+        <label> |Did won: {didWon2.toString()}|</label>
         <label> |Won rounds: {wonRounds2}| </label>
-        <label> |Is your turn: {isTurnOfPlayer2.toString()}| </label>
+        <label> |Is of: {isTurnOfPlayer2.toString()}| </label>
       </div>
     </div>
   )

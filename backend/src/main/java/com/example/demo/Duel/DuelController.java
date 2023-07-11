@@ -48,10 +48,10 @@ public class DuelController {
     }
 
 
-    @PostMapping(path = "playCard/{gameID}")
+    @PostMapping(path = "playCard")
     @CrossOrigin
     public void playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int affectedRow,@RequestParam int rowNumber,
-                         @PathVariable String gameID){
+                         @RequestParam String gameID){
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
         betterDuel.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
