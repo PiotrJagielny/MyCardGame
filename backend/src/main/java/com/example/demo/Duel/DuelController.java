@@ -62,9 +62,9 @@ public class DuelController {
         return CardsFactory.getCardInfo(cardName);
     }
 
-    @PostMapping(path = "endRound/{gameID}")
+    @PostMapping(path = "endRound/{userName}/{gameID}")
     @CrossOrigin
-    public void endRound(@RequestParam String userName, @PathVariable String gameID){
+    public void endRound(@PathVariable String userName, @PathVariable String gameID){
         betterDuel.get(gameID).endRoundFor(userName);
     }
 
@@ -92,18 +92,24 @@ public class DuelController {
     }
 
 
-    @PostMapping(path="registerUser")
-    public void registerUser(@RequestBody List<CardDisplay> deck, @RequestParam String name, @RequestParam String gameID) {
+    @PostMapping(path="registerUser/{userName}/{gameID}")
+    @CrossOrigin
+    public void registerUser(@RequestBody List<CardDisplay> deck, @PathVariable String userName, @PathVariable String gameID) {
         if(betterDuel.containsKey(gameID) == false) {
             betterDuel.put(gameID, CardDuel.createDuel());
-            duel.registerPlayerToDuel(name);
-            duel.parseCardsFor(deck, name);
+            betterDuel.get(gameID).registerPlayerToDuel(userName);
+            betterDuel.get(gameID).parseCardsFor(deck, userName);
         }
         else {
-            duel.registerPlayerToDuel(name);
-            duel.parseCardsFor(deck, name);
-            duel.dealCards();
+            betterDuel.get(gameID).registerPlayerToDuel(userName);
+            betterDuel.get(gameID).parseCardsFor(deck, userName);
+            betterDuel.get(gameID).dealCards();
         }
+    }
+    @GetMapping(path="getEnemyOf/{userName}/{gameID}")
+    @CrossOrigin
+    public String getEnemyIf(@PathVariable String userName, @PathVariable String gameID) {
+        return betterDuel.get(gameID).getOpponentOf(userName);
     }
 
 

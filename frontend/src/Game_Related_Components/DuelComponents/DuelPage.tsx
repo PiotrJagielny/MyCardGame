@@ -9,6 +9,7 @@ import CardComponent from '../CardComponent';
 import {useSelector} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
+
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,49 +39,26 @@ const DuelPage = () => {
 
   const [targetableCards, setTargetableCards] = useState<Card[]>([]);
   const [affectableRows, setAffectableRows] = useState<number[]>([]);
+  const [enemyName, setEnemyName] = useState<string>("");
+
 
 
   const gameID = useSelector<StateData, string>((state) => state.gameID);
+  const userName= useSelector<StateData, string>((state) => state.userName);
 
 
 
-  const [deckData, setDeckData] = useState<Card[]>([]);
+
 
 
   useEffect(() => {
-    console.log(gameID);
     const controller = new AbortController();
-    fetch('http://localhost:8000/DeckBuilder/GetCardsInDeck')
-      .then((res) => res.json())
-      .then((deckData: Card[]) => {
-        setDeckData(deckData);
-      })
-      .catch(console.error);
-
       return () => {
         controller.abort();
       };
   }, []);
   let firstPlayer:string = "first";
   let secondPlayer:string = "second";
-  useEffect(() => {
-    const controller = new AbortController();
-    if (deckData.length > 0) {
-      fetch(`http://localhost:8000/Duel/SetupDecks?firstUser=${"first"}&secondUser=${"second"}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(deckData),
-        signal: controller.signal
-      });
-    }
-
-    return () => {
-      controller.abort();
-    };
-
-  }, [deckData]);
 
 
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
@@ -95,23 +73,30 @@ const DuelPage = () => {
 
   
   const fetchCardsData = () => {
-    fetchData<Card[]>(`http://localhost:8000/Duel/getHandCards/${firstPlayer}`, cardsInHand ,setCardsInHand);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${0}`,cardsOnBoard ,setCardsOnBoard);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${1}`, cardsOnSecondRow ,setCardsOnSecondRow);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${firstPlayer}/${2}`, cardsOnThirdRow ,setCardsOnThirdRow);
-    fetchData<number>(`http://localhost:8000/Duel/getBoardPoints/${firstPlayer}`, pointsOnBoard ,setPointsOnBoard);
-    fetchData<boolean>(`http://localhost:8000/Duel/isTurnOf/${firstPlayer}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
-    fetchData<number>(`http://localhost:8000/Duel/getWonRounds/${firstPlayer}`, wonRounds ,setWonRounds);
-    fetchData<boolean>(`http://localhost:8000/Duel/didWon/${firstPlayer}`, didWon ,setDidWon);
+    fetch(`http://localhost:8000/Duel/getEnemyOf/${userName}/${gameID}`)
+      .then((res) => res.text())
+      .then((data: string) => {
+        setEnemyName(data);
+        let userEnemy:string = data;
+        fetchData<Card[]>(`http://localhost:8000/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userName}/${0}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userName}/${1}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userName}/${2}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
+        fetchData<number>(`http://localhost:8000/Duel/getBoardPoints/${userName}/${gameID}`, pointsOnBoard ,setPointsOnBoard);
+        fetchData<boolean>(`http://localhost:8000/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
+        fetchData<number>(`http://localhost:8000/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
+        fetchData<boolean>(`http://localhost:8000/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
 
-    fetchData<Card[]>(`http://localhost:8000/Duel/getHandCards/${secondPlayer}`, cardsInHand2 ,setCardsInHand2);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${0}`,cardsOnBoard2 ,setCardsOnBoard2);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${1}`, cardsOnSecondRow2 ,setCardsOnSecondRow2);
-    fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${secondPlayer}/${2}`, cardsOnThirdRow2 ,setCardsOnThirdRow2);
-    fetchData<number>(`http://localhost:8000/Duel/getBoardPoints/${secondPlayer}`, pointsOnBoard2 ,setPointsOnBoard2);
-    fetchData<boolean>(`http://localhost:8000/Duel/isTurnOf/${secondPlayer}`, isTurnOfPlayer2 ,setIsTurnOfPlayer2);
-    fetchData<number>(`http://localhost:8000/Duel/getWonRounds/${secondPlayer}`, wonRounds2 ,setWonRounds2);
-    fetchData<boolean>(`http://localhost:8000/Duel/didWon/${secondPlayer}`, didWon2 ,setDidWon2);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getHandCards/${userEnemy}/${gameID}`, cardsInHand2 ,setCardsInHand2);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userEnemy}/${0}/${gameID}`,cardsOnBoard2 ,setCardsOnBoard2);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userEnemy}/${1}/${gameID}`, cardsOnSecondRow2 ,setCardsOnSecondRow2);
+        fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userEnemy}/${2}/${gameID}`, cardsOnThirdRow2 ,setCardsOnThirdRow2);
+        fetchData<number>(`http://localhost:8000/Duel/getBoardPoints/${userEnemy}/${gameID}`, pointsOnBoard2 ,setPointsOnBoard2);
+        fetchData<boolean>(`http://localhost:8000/Duel/isTurnOf/${userEnemy}/${gameID}`, isTurnOfPlayer2 ,setIsTurnOfPlayer2);
+        fetchData<number>(`http://localhost:8000/Duel/getWonRounds/${userEnemy}/${gameID}`, wonRounds2 ,setWonRounds2);
+        fetchData<boolean>(`http://localhost:8000/Duel/didWon/${userEnemy}/${gameID}`, didWon2 ,setDidWon2);
+      })
+      .catch(console.error);
 
     setRefresh(true);
   }
@@ -127,7 +112,7 @@ const DuelPage = () => {
     setCardAffected(card);
   };
   useEffect(() => {
-    fetch(`http://localhost:8000/Duel/getPossibleRowsToAffect`, {
+    fetch(`http://localhost:8000/Duel/getPossibleRowsToAffect/${gameID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -146,7 +131,7 @@ const DuelPage = () => {
 
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+      playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}/${gameID}`, cardDragged, cardAffected);
       fetchCardsData();
     } 
     else {
@@ -157,7 +142,7 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${playerPlayer}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}`, cardDragged, cardAffected);
+    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}/${gameID}`, cardDragged, cardAffected);
     fetchCardsData();
     setIsRowsModalOpen(false);
   }
@@ -186,7 +171,7 @@ const DuelPage = () => {
 
   }
   useEffect(() => {
-    fetch(`http://localhost:8000/Duel/getPossibleTargets/${playerPlayer}`, {
+    fetch(`http://localhost:8000/Duel/getPossibleTargets/${userName}/${gameID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -225,7 +210,7 @@ const DuelPage = () => {
   }
 
   const endRoundFor = (player:string) => {
-    fetch(`http://localhost:8000/Duel/endRound?userName=${player}`, {
+    fetch(`http://localhost:8000/Duel/endRound/${player}/${gameID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -233,10 +218,23 @@ const DuelPage = () => {
       body: null
     });
 }
+const fetchEnemyName = () => {
+
+    fetch(`http://localhost:8000/Duel/getEnemyOf/${userName}/${gameID}`)
+      .then((res) => res.text())
+      .then((data: string) => {
+        setEnemyName(data);
+      })
+      .catch(console.error);
+    console.log(enemyName);
+}
 
   return (
     
     <div>
+      <div>
+        <button onClick={fetchEnemyName}>FETCH ENEMY NAME</button>
+      </div>
       
 
       <div>
@@ -245,7 +243,7 @@ const DuelPage = () => {
       </div>
 
       <div>
-        <button onClick={() => endRoundFor(firstPlayer)}>End round</button>
+        <button onClick={() => endRoundFor(userName)}>End round</button>
         <label> |Did you won: {didWon.toString()}|</label>
         <label> |Won rounds: {wonRounds}| </label>
         <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
@@ -264,7 +262,7 @@ const DuelPage = () => {
         ))}
       </Modal>
 
-      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, firstPlayer)}>
+      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
         <HandComponent cardsInHand = {cardsInHand}></HandComponent>
 
         <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow3"}></RowComponent>

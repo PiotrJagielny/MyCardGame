@@ -15,18 +15,17 @@ import java.util.Map;
 @RequestMapping(path = "/DeckBuilder")
 public class DeckBuilderController {
 
-    private DeckBuilder deckBuilder;
     private Map<String, DeckBuilder> betterDeckBuilders = new HashMap<>();
 
     @Autowired
     public DeckBuilderController() {
-        deckBuilder = new DeckBuilder();
     }
     @PostMapping("setupBuilder")
     @CrossOrigin
     public void setupBuilder(@RequestBody String userName) {
         //TODO add a feature so that there cant be two same user names
-        betterDeckBuilders.put(userName, new DeckBuilder());
+        if(betterDeckBuilders.containsKey(userName) == false)
+            betterDeckBuilders.put(userName, new DeckBuilder());
     }
 
     @GetMapping(path ="GetAllCards/{userName}")

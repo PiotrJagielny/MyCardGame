@@ -4,6 +4,7 @@ import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useSelector, useDispatch} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
+import {Card} from './../Interfaces/Card';
 
 var stompClient: any = null;
 const MainPage = () => {
@@ -32,7 +33,6 @@ const MainPage = () => {
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
     stompClient.send('/app/findEnemy', {}, userName);
-
   }
   const onMessageReceived = (payload: any) => {
     if(payload.body.includes("Found enemy") ) {
@@ -40,11 +40,21 @@ const MainPage = () => {
       let gameID = payload.body.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
       let message:string = userName + ":" + gameID;
-      fetch(serverURL + '/button', {
-        method: 'PUT',
-        headers: {'Content-Type': 'text/plain',},
-        body: message,
-      });
+
+      fetch(`http://localhost:8000/DeckBuilder/GetCardsInDeck/${userName}`)
+        .then((res) => res.json())
+        .then((deckData: Card[]) => {
+
+          fetch(serverURL + `/Duel/registerUser/${userName}/${gameID}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(deckData),
+          }).then(() => {
+          });
+        })
+        .catch(console.error);
+    }
+    else if(payload.body.includes("Get into duel page")) {
       navigate("/Duel");
     }
   }

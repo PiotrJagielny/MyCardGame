@@ -20,6 +20,7 @@ public class CardDuel {
     }
 
     public boolean didWon(String player) {
+        System.out.println(player);
         return players.get(player).didWon();
     }
 
@@ -79,7 +80,7 @@ public class CardDuel {
 
     }
 
-    private String getOpponentOf(String player){
+    public String getOpponentOf(String player){
         List<String> playersNames = new ArrayList<>(players.keySet());
         int indexOfPlayerWhoHasTurn = playersNames.indexOf(player);
         int nextPlayerIndex = (indexOfPlayerWhoHasTurn + 1) % playersNames.size();
@@ -163,6 +164,7 @@ public class CardDuel {
     public List<Integer> getPossibleRowsToAffect(CardDisplay cardPlayed) {
         return CardsFactory.getCardRowsToAffect(cardPlayed.getName());
     }
+
 
 
 }

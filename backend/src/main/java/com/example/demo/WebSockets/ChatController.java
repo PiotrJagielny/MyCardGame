@@ -37,15 +37,24 @@ public class ChatController {
 
             maxGameId++;
             simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Found enemy:" + maxGameId);
-            try {
-                //If message will be send one right after another, then two games will be created
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            wait(50);
+            //If message will be send one right after another, then two games will be created
             simpMessagingTemplate.convertAndSendToUser(firstPlayer, "/private", "Found enemy:" + maxGameId);
+            wait(50);
+            simpMessagingTemplate.convertAndSendToUser(firstPlayer, "/private", "Get into duel page");
+            simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Get into duel page");
+
+
+
         }
         return userName;
+    }
+    public void wait(int milis) {
+        try {
+            Thread.sleep(milis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     @MessageMapping("/sendToEnemy")
     public String sendMessageToEnemy(@Payload String userName) {
