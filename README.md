@@ -26,8 +26,9 @@ To log in you have to enter name. Every user have its own instance of deck build
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8c23f819-ac07-4168-bbc0-80d65682688b)
 
-There is also duel page, where players can put cards from hand on one of three rows. (multiplayer incoming)
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/02249420-6361-4afd-a603-1ad5e4055d88)
+There is also duel page, where players can put cards from hand on one of three rows. (multiplayer ready but enemy has to manually update data, messaging system incoming)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b777948-a687-4378-8aaf-cbe1af10dedd)
+
 
 Based on card effect type, player can choose card to target:
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb4125a3-fb0d-46b7-9dae-07ef059d58f1)
