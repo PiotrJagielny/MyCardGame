@@ -8,8 +8,10 @@ import Modal from 'react-modal';
 import CardComponent from '../CardComponent';
 import {useSelector} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
+import SockJS from 'sockjs-client';
+import {over} from 'stompjs';
 
-
+var stompClient:any = null;
 const DuelPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,13 +47,27 @@ const DuelPage = () => {
 
   const gameID = useSelector<StateData, string>((state) => state.gameID);
   const userName= useSelector<StateData, string>((state) => state.userName);
+  const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
 
 
 
+  const connectToSocket= () =>{
+    let Sock = new SockJS(serverURL + '/ws');
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnect);
+  }
+  const onConnect = () => {
+    stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
+  }
+  const onMessageReceived = (payload: any) => {
+    console.log("RECEIVED");
+    fetchCardsData();
+  }
 
 
   useEffect(() => {
+    connectToSocket();
     const controller = new AbortController();
       return () => {
         controller.abort();
@@ -78,6 +94,7 @@ const DuelPage = () => {
       .then((data: string) => {
         setEnemyName(data);
         let userEnemy:string = data;
+        console.log(userEnemy);
         fetchData<Card[]>(`http://localhost:8000/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
         fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userName}/${0}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
         fetchData<Card[]>(`http://localhost:8000/Duel/getCardsOnRow/${userName}/${1}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
@@ -207,6 +224,9 @@ const DuelPage = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(args)
+      }).then( () => {
+        stompClient.send('/app/sendTrigger', {}, userName);
+        console.log("SENT");
       });
   }
 
