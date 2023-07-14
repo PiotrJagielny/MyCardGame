@@ -19,16 +19,17 @@ const DeckBuilderPage = () => {
 
 
   const userName = useSelector<StateData, string>((state) => state.userName);
+  const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchCardsData = () => {
-    fetch(`http://localhost:8000/DeckBuilder/GetAllCards/${userName}`)
+    fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}`)
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
         setCardsData(cardsData);
       })
       .catch(console.error);
 
-      fetch(`http://localhost:8000/DeckBuilder/GetCardsInDeck/${userName}`)
+      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}`)
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
@@ -81,10 +82,10 @@ const DeckBuilderPage = () => {
     let PostURL:string = '';
 
     if(destination.droppableId === "AllCards"){
-      PostURL = `http://localhost:8000/DeckBuilder/PutCardFromDeckBack/${userName}`;
+      PostURL = `${serverURL}/DeckBuilder/PutCardFromDeckBack/${userName}`;
     }
     else if(destination.droppableId === "CardsInDeck"){
-      PostURL = `http://localhost:8000/DeckBuilder/PutCardToDeck/${userName}`
+      PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}`
     }
 
     let cardDragged: Card = {name: result.draggableId, points: 0};

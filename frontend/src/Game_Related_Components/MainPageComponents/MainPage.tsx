@@ -41,7 +41,7 @@ const MainPage = () => {
       dispatch({type:"SET_GAME_ID", payload: gameID});
       let message:string = userName + ":" + gameID;
 
-      fetch(`http://localhost:8000/DeckBuilder/GetCardsInDeck/${userName}`)
+      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}`)
         .then((res) => res.json())
         .then((deckData: Card[]) => {
 
