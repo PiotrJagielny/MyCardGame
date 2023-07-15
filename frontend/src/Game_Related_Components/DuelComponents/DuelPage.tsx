@@ -73,7 +73,6 @@ const DuelPage = () => {
         controller.abort();
       };
   }, []);
-  let firstPlayer:string = "first";
   let secondPlayer:string = "second";
 
 
@@ -160,7 +159,7 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     
-    playDraggedCard(`http://localhost:8000/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
+    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
     fetchCardsData();
     setIsRowsModalOpen(false);
   }
@@ -238,16 +237,6 @@ const DuelPage = () => {
       },
       body: null
     });
-}
-const fetchEnemyName = () => {
-
-    fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`)
-      .then((res) => res.text())
-      .then((data: string) => {
-        setEnemyName(data);
-      })
-      .catch(console.error);
-    console.log(enemyName);
 }
 
   return (

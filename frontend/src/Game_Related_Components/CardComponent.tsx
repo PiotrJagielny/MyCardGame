@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal';
+import {useSelector} from 'react-redux';
 
 interface CardComponentProps {
   color: string;
@@ -18,11 +19,13 @@ const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, point
     margin: '5px',
   };
 
+  const serverURL = useSelector<StateData, string>((state) => state.serverURL); 
+
   const getInfo = (event: React.MouseEvent<HTMLDivElement>) => {
 
     event.preventDefault();
     if(event.button === 2) {
-      fetch(`http://localhost:8000/Duel/getCardInfo/${name}`)
+      fetch(`${serverURL}/Duel/getCardInfo/${name}`)
         .then((res) => res.text())
         .then((cardInfo: string) => {
           setCardInfo(cardInfo); 

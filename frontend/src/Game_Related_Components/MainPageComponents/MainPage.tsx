@@ -45,7 +45,7 @@ const MainPage = () => {
         .then((res) => res.json())
         .then((deckData: Card[]) => {
 
-          fetch(serverURL + `/Duel/registerUser/${userName}/${gameID}`, {
+          fetch(`${serverURL}/Duel/registerUser/${userName}/${gameID}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(deckData),
