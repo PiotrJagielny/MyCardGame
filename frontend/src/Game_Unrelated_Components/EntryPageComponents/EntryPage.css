@@ -1,3 +1,54 @@
 .EntryPageBody {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    flex-direction: column;
+    gap: 30px;
+    border: 1px solid rgb(255,255,255);
 
+    margin-left: 25%;
+    font-size: 21px;
+    width: 50%;
+
+}
+.inputBox {
+    position: relative;
+}
+
+.inputBox input{
+    width: 400px;
+    height:40px;
+    font-size: 1em;
+    background-color: #282c34;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+}
+.inputBox span{
+    position:absolute;
+    left: 0;
+    padding:7px;
+    pointer-events: none;
+    font-size: 1em;
+    color: whitesmoke;
+    transition: 1s;
+}
+.inputBox input:focus ~ span ,
+.inputBox input:valid ~ span {
+    transform: translateX(10px) translateY(-21px);
+    color:whitesmoke;
+    font-size: 0.70em;
+    background:#282c34;
+
+}
+
+
+.connectBtn{
+    border-radius: 4px;
+    width: 200px;
+    height:40px;
+    font-size: 1em;
+    border: 2px solid whitesmoke;
+    background-color: #282c34;
+    color: whitesmoke;
 }

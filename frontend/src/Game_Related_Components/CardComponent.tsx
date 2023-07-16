@@ -13,6 +13,7 @@ interface CardComponentProps {
 const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, points }) => {
   const [showModal, setShowModal] = useState(false);
   const [cardInfo, setCardInfo] = useState<string>("");
+
   const rectangleStyle = {
     width: `${79}px`,
     height: `${42}px`,
@@ -35,11 +36,19 @@ const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, point
         .catch(console.error);
       }
   }
-   const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-   }
+  
+  const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+  event.preventDefault();
+  }
+
+  const myDiv = document.getElementById('name') as HTMLDivElement;
+  myDiv.addEventListener('mousedown', () => {
+
+
+  });
+
   return <div style={rectangleStyle} onContextMenu={blockContextMenu} onMouseDown={getInfo}>
-        <label>{name}</label><br/>
+        <label className="name">{name}</label><br/>
         <label>{points}</label>
       <Modal isOpen={showModal}  style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>{cardInfo}</h2>

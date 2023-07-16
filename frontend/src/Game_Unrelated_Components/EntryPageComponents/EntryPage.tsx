@@ -25,11 +25,19 @@ const EntryPage = () => {
 
   return (
     <div className="EntryPageBody">
-        Welcome to my card game! <br />
-        <div>
-         <input id='user-name' placeholder='enter user name' value={userName} name='username' onChange={(event:any) => {setUserName(event.target.value)}}/>
-         <button onClick={connectToServer}>connect to server</button>
+        <h1>
+          Welcome to my card game! <br />
+        </h1>
+        <div className="inputBox">
+
+          <input id='user-name'  type="text" required 
+          value={userName} name='username' 
+          onChange={(event:any) => {setUserName(event.target.value)}}/>
+
+          <span>enter user name</span>
         </div>
+
+         <button className="connectBtn" onClick={connectToServer}>connect to server</button>
     </div>
     
   )
