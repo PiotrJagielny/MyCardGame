@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {useSelector} from 'react-redux';
+import StateData from './../Game_Unrelated_Components/reactRedux/reducer';
 
 interface CardComponentProps {
   color: string;

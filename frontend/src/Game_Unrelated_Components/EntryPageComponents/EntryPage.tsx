@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from 'react-redux';
+import './EntryPage.css'
 
 
 
@@ -23,7 +24,7 @@ const EntryPage = () => {
 
 
   return (
-    <div>
+    <div className="EntryPageBody">
         Welcome to my card game! <br />
         <div>
          <input id='user-name' placeholder='enter user name' value={userName} name='username' onChange={(event:any) => {setUserName(event.target.value)}}/>
