@@ -244,15 +244,12 @@ const DuelPage = () => {
     <div>
       <div>
         <label>Let the battle begin</label>
-        <button onClick={fetchCardsData}>Load data</button>
+        <button className="btn"onClick={fetchCardsData}>Load data</button>
       </div>
 
       <div>
-        <button onClick={() => endRoundFor(userName)}>End round</button>
-        <label>|you: {userName}|</label>
-        <label> |Did you won: {didWon.toString()}|</label>
-        <label> |Won rounds: {wonRounds}| </label>
-        <label> |Is your turn: {isTurnOfPlayer1.toString()}| </label>
+        <button className="btn"onClick={() => endRoundFor(userName)}>End round</button>
+        <div className="playerInfo">|you: {userName} | Did you won: {didWon.toString()} | Won rounds: {wonRounds} | Is your turn: {isTurnOfPlayer1.toString()} |</div>
       </div>
       
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
@@ -282,17 +279,10 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {cardsOnSecondRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow2"}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnThirdRow2} pointsOnRow={pointsOnBoard2} rowDroppableId={"BoardRow3"}></RowComponent>
         
-        {/* <HandComponent cardsInHand = {cardsInHand2}></HandComponent> */}
       </DragDropContext>
       
       
-      <div>
-        {/* <button onClick={() => endRoundFor(secondPlayer)}>End round</button> */}
-        <label>|enemy: {enemyName}|</label>
-        <label> |Did won: {didWon2.toString()}|</label>
-        <label> |Won rounds: {wonRounds2}| </label>
-        <label> |Is of: {isTurnOfPlayer2.toString()}| </label>
-      </div>
+      <div className="playerInfo">|enemy: {enemyName} | Did won: {didWon2.toString()} | Won rounds: {wonRounds2} | Is turn: {isTurnOfPlayer2.toString()} |</div>
     </div>
   )
 }

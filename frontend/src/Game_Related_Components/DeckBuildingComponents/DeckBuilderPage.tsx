@@ -4,7 +4,6 @@ import {AllCardsDisplay} from './AllCardsDisplay';
 import {CardsInDeckDisplay} from './CardsInDeckDisplay';
 import {DecksManager} from './DecksManager';
 import {Card} from './../Interfaces/Card';
-import {MessagesComponent} from './../../Game_Unrelated_Components/UIComponents/MessagesComponent';
 import  './DeckBuilderPage.css';
 import {useSelector} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
@@ -120,11 +119,8 @@ const DeckBuilderPage = () => {
           </div>
         </DragDropContext>
         <div className="PlayersDecks">
-          <DecksManager OnDecksSwitched={handleDecksSwitch} addMessage={addMessage}></DecksManager>
+          <DecksManager OnDecksSwitched={handleDecksSwitch} ></DecksManager>
         </div>
-      </div>
-      <div className="Messages">
-        <MessagesComponent Messages = {messages} refresh={refresh}></MessagesComponent>
       </div>
     </div>
   );

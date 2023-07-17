@@ -21,9 +21,9 @@ export const HandComponent: React.FC<Props> = ({cardsInHand}) => {
                 {cardsInHand.map((card, index) =>(
                   <Draggable key={card.name} draggableId={card.name} index={index}>
                     {(provided) => (
-                      <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                      <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                         <CardComponent  name={card.name} points={card.points}></CardComponent>
-                      </p>    
+                      </div>    
                     )}  
                   </Draggable>
                 ))}

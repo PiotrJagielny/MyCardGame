@@ -19,7 +19,7 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
               <div className="leftBoardContent">
                 <h3>{rowDroppableId}: {pointsOnRow} points</h3>
               </div>
-              <div className="rightBoardContent" style={{display: 'flex'}}>
+              <div className="rightBoardContent" >
                   {cardsOnRow.map((card, index) =>(
                     <CardComponent  name={card.name} points={card.points}></CardComponent>
                   ))}

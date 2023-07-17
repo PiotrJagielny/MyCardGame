@@ -1,10 +1,8 @@
 .card {
     display: flex;
-    width: 79px;
-    height: 99px;
-    padding: 12px;
-    padding-top: 10%;
-    margin-left: 9%;
+    width: 89px;
+    padding-top:9px;
+    height: 65px;
     color:black;
     align-items: center;
     flex-direction: column;
@@ -12,6 +10,5 @@
 
     background-image: url(https://www.pngkit.com/png/full/196-1963608_jpg-freeuse-library-uno-cards-template-png-for.png);
     background-size: cover;
-    background-position: center;
 
 }

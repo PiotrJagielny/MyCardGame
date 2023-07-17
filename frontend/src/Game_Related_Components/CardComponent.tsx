@@ -35,8 +35,8 @@ const CardComponent: React.FC<CardComponentProps> = ({  name, points }) => {
   }
 
   return <div  onContextMenu={blockContextMenu} onMouseDown={getInfo} className="card">
-        <label className="name">{name}</label><br/>
-        <label>{points}</label>
+        <div className="name">{name}</div>
+        <div>{points}</div>
 
       <Modal isOpen={showModal}  style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>{cardInfo}</h2>

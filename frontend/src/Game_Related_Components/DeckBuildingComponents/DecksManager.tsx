@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
+import './DecksManager.css';
 
 interface Props{
     OnDecksSwitched: () => void;
-    addMessage: (message:string) => void;
 }
 
-export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => {
+export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
   const [refresh, setRefresh] = useState(false);
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
@@ -67,26 +67,25 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, addMessage}) => 
       },
       body: ""
     });
-    addMessage(await response.text());
     fetchDecksNames();
   }
 
   return (
     <div>
-        <ul>
+        <ul className="decks">
             {decksNames.map(name => (
               <li>
-                <button onClick={() => (handleSelectDeckPostRequest(name))}>{name}</button>
+                <button className="deckBtn" onClick={() => (handleSelectDeckPostRequest(name))}>{name}</button>
               </li>
             ))}
           </ul>
           <div className="CreateDeck">
-            <input type="text" value={inputNewDeckName} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setNewDeckName(event.target.value)}} />
+            <input type="text" className="inputDeckName" placeholder="Enter deck name" value={inputNewDeckName} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setNewDeckName(event.target.value)}} />
             <button className="submitNewDeck" onClick={handleNewDeckPostRequest}>Create Deck</button>
           </div>
           <div className = "DeleteDeck">
               <button className="submitDeckDelete" onClick={handleDeckDeletePostRequest}>Delete current deck</button>
           </div>
-    </div>
+    </div> 
   )
 }
