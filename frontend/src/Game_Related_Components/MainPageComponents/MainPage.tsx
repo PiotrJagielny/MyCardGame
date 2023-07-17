@@ -5,6 +5,7 @@ import {over} from 'stompjs';
 import {useSelector, useDispatch} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import {Card} from './../Interfaces/Card';
+import './MainPage.css';
 
 var stompClient: any = null;
 const MainPage = () => {
@@ -39,7 +40,6 @@ const MainPage = () => {
 
       let gameID = payload.body.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
-      let message:string = userName + ":" + gameID;
 
       fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}`)
         .then((res) => res.json())
@@ -60,11 +60,10 @@ const MainPage = () => {
   }
 
   return (
-    <div>
+    <div className="MainPageBody">
       <h1>Hello {userName}</h1>
-      This is game main page <br />
-      <button onClick={RedirectToDeckBuilder}>Build your deck</button> <br />
-      <button onClick={RedirectToDuel}>Duel</button> <br />
+      <button className="btn"onClick={RedirectToDeckBuilder}>Build your deck</button> <br />
+      <button className="btn"onClick={RedirectToDuel}>Find enemy</button> <br />
     </div>
     
   )
