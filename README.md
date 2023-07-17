@@ -32,22 +32,30 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 
 There is also duel page, where players can put cards from hand on one of three rows. (multiplayer ready but enemy has to manually update data, messaging system incoming)
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b777948-a687-4378-8aaf-cbe1af10dedd)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/46151c06-b384-433f-9d2c-c23281c66d82)
+
 
 
 Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb4125a3-fb0d-46b7-9dae-07ef059d58f1)
-Archer targetted Armageddon and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/28d8d3bd-70bb-4a90-a1b9-4dab6beb8310)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/dfe7afeb-3567-4985-b7a8-97bc97ac02ec)
+
+Archer targetted Capitan and dealt damage
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/5658d961-991a-4a4a-b2a5-8d12b27bfca9)
+
 
 Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/224a6d56-50c7-4e3f-82e2-72ffddff225b)
-Rip targetted second row and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/9d5e7c71-fe99-4fb6-9c5a-f96758decd79)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d3ac3163-43d7-4b65-a608-8ff4dec8893d)
+
+Rip targetted third row and dealt damage
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7cf61f50-1f4c-4151-b403-f099e5c8a170)
+
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d8eb15a9-99b4-43ee-a324-792fa63cea64)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/66f681a7-2f32-48c9-a2f9-37bcac274ede)
+
 After playing conflagration max points card is burned.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/09112b40-8b17-443c-b16c-6cf1dc2982fb)
+
 
 
 
