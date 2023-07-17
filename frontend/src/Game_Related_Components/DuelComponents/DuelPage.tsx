@@ -258,7 +258,7 @@ const DuelPage = () => {
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "Not", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent color={'yellow'} image={'none'} name={card.name} points={card.points}></CardComponent></button>
+          <button onClick= { () => {handleModalClose(card)} }><CardComponent  name={card.name} points={card.points}></CardComponent></button>
         ))}
       </Modal>
       <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>

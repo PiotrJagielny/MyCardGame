@@ -21,7 +21,7 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
               </div>
               <div className="rightBoardContent" style={{display: 'flex'}}>
                   {cardsOnRow.map((card, index) =>(
-                    <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+                    <CardComponent  name={card.name} points={card.points}></CardComponent>
                   ))}
               </div>
               {provided.placeholder}    

@@ -2,24 +2,17 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {useSelector} from 'react-redux';
 import StateData from './../Game_Unrelated_Components/reactRedux/reducer';
+import './CardComponent.css';
 
 interface CardComponentProps {
-  color: string;
-  image: string;
   name: string;
   points: number;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, points }) => {
+const CardComponent: React.FC<CardComponentProps> = ({  name, points }) => {
   const [showModal, setShowModal] = useState(false);
   const [cardInfo, setCardInfo] = useState<string>("");
 
-  const rectangleStyle = {
-    width: `${79}px`,
-    height: `${42}px`,
-    backgroundColor: color,
-    margin: '5px',
-  };
 
   const serverURL = useSelector<StateData, string>((state) => state.serverURL); 
 
@@ -41,15 +34,10 @@ const CardComponent: React.FC<CardComponentProps> = ({ color, image, name, point
   event.preventDefault();
   }
 
-  const myDiv = document.getElementById('name') as HTMLDivElement;
-  myDiv.addEventListener('mousedown', () => {
-
-
-  });
-
-  return <div style={rectangleStyle} onContextMenu={blockContextMenu} onMouseDown={getInfo}>
+  return <div  onContextMenu={blockContextMenu} onMouseDown={getInfo} className="card">
         <label className="name">{name}</label><br/>
         <label>{points}</label>
+
       <Modal isOpen={showModal}  style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>{cardInfo}</h2>
         <button onClick={() => setShowModal(false)}>Close</button>

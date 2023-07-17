@@ -22,7 +22,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand}) => {
                   <Draggable key={card.name} draggableId={card.name} index={index}>
                     {(provided) => (
                       <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+                        <CardComponent  name={card.name} points={card.points}></CardComponent>
                       </p>    
                     )}  
                   </Draggable>

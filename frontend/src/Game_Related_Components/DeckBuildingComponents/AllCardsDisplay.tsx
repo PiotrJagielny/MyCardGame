@@ -12,7 +12,6 @@ interface Props{
 export const AllCardsDisplay: React.FC<Props> = ({Cards, refresh}) => {
   return (
     <div>
-        <p>All Cards:</p>
         <Droppable droppableId="AllCards">
             {(provided) => (
               <div className="AllCards" ref={provided.innerRef} {...provided.droppableProps} style={{ display: 'flex', flexWrap: 'wrap' }}> 
@@ -20,7 +19,7 @@ export const AllCardsDisplay: React.FC<Props> = ({Cards, refresh}) => {
                     <Draggable key={card.name} draggableId={card.name} index={index}>
                       {(provided) => (
                         <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">  
-                          <CardComponent color={'blue'} image={'none'} name={card.name} points={card.points}></CardComponent>
+                          <CardComponent  name={card.name} points={card.points}></CardComponent>
                         </p>
                       )}
                     </Draggable>

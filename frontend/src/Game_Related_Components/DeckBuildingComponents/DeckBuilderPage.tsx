@@ -106,11 +106,17 @@ const DeckBuilderPage = () => {
       <div className="Decks">
 
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className = "AllCards">
-            <AllCardsDisplay Cards={cardsData} refresh={refresh}></AllCardsDisplay>
+          <div>
+            <h3>All cards</h3>
+           <div className = "AllCards">
+             <AllCardsDisplay Cards={cardsData} refresh={refresh}></AllCardsDisplay>
+           </div>
           </div>
-          <div className = "AllCardsInDeck">
-            <CardsInDeckDisplay Cards={cardsInDeck} refresh={refresh}></CardsInDeckDisplay>
+          <div>
+            <h3> Cards in deck</h3>
+            <div className = "AllCardsInDeck">
+              <CardsInDeckDisplay Cards={cardsInDeck} refresh={refresh}></CardsInDeckDisplay>
+            </div>
           </div>
         </DragDropContext>
         <div className="PlayersDecks">

@@ -1,0 +1,17 @@
+.card {
+    display: flex;
+    width: 79px;
+    height: 99px;
+    padding: 12px;
+    padding-top: 10%;
+    margin-left: 9%;
+    color:black;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    background-image: url(https://www.pngkit.com/png/full/196-1963608_jpg-freeuse-library-uno-cards-template-png-for.png);
+    background-size: cover;
+    background-position: center;
+
+}

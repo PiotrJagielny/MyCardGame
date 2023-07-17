@@ -1,22 +1,31 @@
 .AllCards {
-    background-color: green;
-    color: bisque;
-    width: 40%;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0; 
-  }
-  
-  .AllCardsInDeck {
-    background-color: blueviolet;
-    color: bisque;
-    width: 40%;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0; 
-  }
-  
-  .Decks {
-    display: flex;
-  }
+  background-image: url(https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg);
+  color: bisque;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0; 
+}
+
+.AllCardsInDeck {
+  background-image: url(https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg);
+  color: bisque;
+  width: 330px;
+  height: 339px;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0; 
+}
+.DeckBuilderPage {
+  margin-left: 5%;
+  flex-direction: column;
+  font-size: 17px;
+}
+
+.Decks {
+  display: flex;
+}
   
