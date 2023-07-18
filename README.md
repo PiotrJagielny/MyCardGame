@@ -60,6 +60,7 @@ After playing conflagration max points card is burned.
 
 After one player wins this information is shown: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/44b19c30-31be-4605-a61d-e714832ee710)
+<br>
 Similar after player lose: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ce12553b-fc92-4812-9fe9-b771982f24d5)
 
