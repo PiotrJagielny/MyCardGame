@@ -63,12 +63,15 @@ Also there are cards that have effects, but player dont have to target anything
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb67f3a9-4f92-4202-84d9-7612650233f3)
 
+After someone wind round, there appears a crown in the middle left on the proper side. Enemy won round and scored a crown. <br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fde3871e-4e9b-41eb-aaec-afdc5923a9ee)
 
-After one player wins this information is shown: <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/44b19c30-31be-4605-a61d-e714832ee710)
-<br>
-Similar after player lose: <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ce12553b-fc92-4812-9fe9-b771982f24d5)
+Player lost 2 rounds and lost game <br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/abf55ec1-ca95-40a9-9258-44abfc027221)
+Player won 2 rounds and won game <br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6a587604-3af2-4a75-b2b6-699894061af8)
+
+
 
 
 
