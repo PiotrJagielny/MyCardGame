@@ -58,9 +58,9 @@ Also there are cards that have effects, but player dont have to target anything
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/09112b40-8b17-443c-b16c-6cf1dc2982fb)
 
-After one player wins this information is shown:
+After one player wins this information is shown: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/44b19c30-31be-4605-a61d-e714832ee710)
-Similar after player lose:
+Similar after player lose: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ce12553b-fc92-4812-9fe9-b771982f24d5)
 
 
