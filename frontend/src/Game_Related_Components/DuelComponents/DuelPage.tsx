@@ -195,7 +195,7 @@ const DuelPage = () => {
 
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
+      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
       fetchCardsData();
     } 
     else {
@@ -205,7 +205,7 @@ const DuelPage = () => {
 
   }
   const handleRowsModalClose = (affectedRow: number) => {
-    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`, cardDragged, cardAffected);
+    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
     fetchCardsData();
     setIsRowsModalOpen(false);
   }
@@ -258,8 +258,8 @@ const DuelPage = () => {
   }
 
 
-  const playDraggedCard = async (postURL: string, cardDraggedToPost:Card, cardTargetted:Card) =>{
-    const args = [cardDraggedToPost, cardTargetted];
+  const playDraggedCard = async (postURL: string, cardTargetted:Card) =>{
+    const args = [cardDragged, cardTargetted];
     fetch(postURL, {
         method: 'POST',
         headers: {
@@ -288,7 +288,7 @@ const DuelPage = () => {
       wonRoundsDivs.push(<div key={i}><img src="https://cdn-icons-png.flaticon.com/512/6941/6941697.png" style={{width: 30, height: 30}} alt=""/></div>)
     }
     if(wonRoundsDivs.length === 0) {
-      wonRoundsDivs.push(<div> |</div>)
+      wonRoundsDivs.push(<div style={{width: 30, height: 30}} > </div>)
     }
     return wonRoundsDivs;
   } 
@@ -297,14 +297,27 @@ const DuelPage = () => {
     
     <div>
       <div className="playerName">{userName}</div>
+      <div className="playerInfo">
+        {isTurnOfPlayer1?
+        <div>
+          <label >Your turn</label>
+          <img src="" style={{width: 70, height: 70}} alt=""/>
+        </div>
+        :
+        <div>
+          <label >Enemy turn</label>
+          <img src="https://cdn-icons-png.flaticon.com/512/1377/1377064.png" style={{width: 70, height: 70}} alt=""/>
+        </div>
+        }
+
+      </div>
       <div>
-        <label>Let the battle begin</label>
         <button className="btn"onClick={fetchCardsData}>Load data</button>
       </div>
+      <div style={{width: 30, height: 50}} ></div>
 
       <div>
-        <button className="btn"onClick={() => endRoundFor(userName)}>End round</button>
-        <div className="playerInfo">| Won rounds: {wonRounds} | Is your turn: {isTurnOfPlayer1.toString()} |</div>
+        <button className="endRoundBtn"onClick={() => endRoundFor(userName)}>End round</button>
       </div>
       
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
@@ -343,7 +356,6 @@ const DuelPage = () => {
       </DragDropContext>
       
       
-      <div className="playerInfo">| Won rounds: {enemyWonRounds} |</div>
       <div className="enemyName">{enemyName}</div>
     </div>
   )

@@ -15,6 +15,18 @@
 }
 .playerInfo{
   font-size: 19px;
+  color:whitesmoke;
+  height: 60px;
+  position:absolute;
+  margin-top: 1%;
+  margin-left: 80%;
+  background-position: center;
+}
+.playerInfo label {
+  position: absolute;
+  color: black;
+  font-weight: bold;
+  margin-top: 10%;
 }
   
 .rightBoardContent {
@@ -55,7 +67,26 @@
 }
 .separator {
   border: 1px solid white;
+  margin-right: 11%;
 }
 .wonRounds {
   display: flex;
+}
+.endRoundBtn {
+
+  border-radius: 4px;
+  width: 100px;
+  height:45px;
+  font-size: 1em;
+  position:absolute;
+  margin-top: 19%;
+  margin-left: 40%;
+  border: 2px solid whitesmoke;
+  background-color: #282c34;
+  color: whitesmoke;
+  transition: 0.6s;
+}
+.endRoundBtn:hover {
+  background-color: whitesmoke;
+  color: #282c34;
 }
