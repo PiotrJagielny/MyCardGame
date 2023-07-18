@@ -34,29 +34,35 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 
 There is also duel page, where players can put cards from hand on one of three rows. 
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/46151c06-b384-433f-9d2c-c23281c66d82)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8da00777-52f2-43cb-aca6-f24d30738b17)
+
 
 
 
 Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/dfe7afeb-3567-4985-b7a8-97bc97ac02ec)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/be43a25e-bd82-463d-857a-30f0ccd2b4ab)
+
 
 Archer targetted Capitan and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/5658d961-991a-4a4a-b2a5-8d12b27bfca9)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/908d7589-54d3-41d2-a950-5bcf6ba62ab0)
+
 
 
 Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d3ac3163-43d7-4b65-a608-8ff4dec8893d)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7fb245b1-1434-4447-ac59-6350acf50188)
+
 
 Rip targetted third row and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7cf61f50-1f4c-4151-b403-f099e5c8a170)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7bfdba38-9cc1-4844-afca-d484f1c63c0a)
+
 
 
 Also there are cards that have effects, but player dont have to target anything
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/66f681a7-2f32-48c9-a2f9-37bcac274ede)
 
 After playing conflagration max points card is burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/09112b40-8b17-443c-b16c-6cf1dc2982fb)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb67f3a9-4f92-4202-84d9-7612650233f3)
+
 
 After one player wins this information is shown: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/44b19c30-31be-4605-a61d-e714832ee710)
