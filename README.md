@@ -19,8 +19,9 @@ Rain - deals damage to max points card every turn <br>
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
 
-This is multiplayer game, so when you click find enemy, there has to be other player waiting for fight to start a game.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/42d573bb-66e4-41be-bbd1-434cefb6530f)
+This is multiplayer game, so when you click find enemy, there has to be other player waiting for fight to start a game (normally this ring on bottom is rotating).
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8be324bf-0f42-4e03-8533-e739ee734c1d)
+
 
 
 
