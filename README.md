@@ -1,4 +1,5 @@
-This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript
+This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript. To store important
+data such as username, i used react redux. For multiplayer handling with STOMP i used Spring web sockets on backend, and SockJS on frontend.
 
 This is card game based on rules of Gwint: The witcher card game.
 
