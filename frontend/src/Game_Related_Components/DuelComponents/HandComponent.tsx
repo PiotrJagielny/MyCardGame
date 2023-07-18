@@ -28,7 +28,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand}) => {
                   </Draggable>
                 ))}
             </div>
-              {provided.placeholder}  
+            {provided.placeholder}
             </div>
           )}
         </Droppable>

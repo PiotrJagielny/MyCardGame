@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
@@ -30,6 +30,7 @@ const MainPage = () => {
     let Sock = new SockJS(serverURL + '/ws');
     stompClient = over(Sock);
     stompClient.connect({}, onConnect);
+    setIsSearching(true);
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
@@ -59,11 +60,15 @@ const MainPage = () => {
     }
   }
 
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+
+
   return (
     <div className="MainPageBody">
       <h1>Hello {userName}</h1>
-      <button className="btn"onClick={RedirectToDeckBuilder}>Build your deck</button> <br />
+      <button className="btn" onClick={RedirectToDeckBuilder}>Build your deck</button> <br />
       <button className="btn"onClick={RedirectToDuel}>Find enemy</button> <br />
+      {isSearching && <label className="spinner"></label>}
     </div>
     
   )

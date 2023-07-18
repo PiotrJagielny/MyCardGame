@@ -20,7 +20,6 @@ public class CardDuel {
     }
 
     public boolean didWon(String player) {
-        System.out.println(player);
         return players.get(player).didWon();
     }
 

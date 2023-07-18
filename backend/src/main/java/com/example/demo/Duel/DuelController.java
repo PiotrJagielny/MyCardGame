@@ -54,7 +54,9 @@ public class DuelController {
                          @RequestParam String gameID){
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
-        betterDuel.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+        if(specificCards.get(cardPlayedIndex).getName().isEmpty() == false)
+            betterDuel.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+
     }
     @GetMapping(path = "getCardInfo/{cardName}")
     @CrossOrigin

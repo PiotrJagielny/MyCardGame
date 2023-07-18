@@ -1,7 +1,6 @@
 .BoardContainer {
   outline: 2px solid wheat;
   width: 100%;
-  overflow: hidden;
   height: 80px;
   background-image: url(https://img.freepik.com/free-photo/wooden-wall-scratched-material-background-texture-concept_53876-30228.jpg?w=2000);
   background-size: cover;
@@ -41,4 +40,22 @@
   outline: 2px solid wheat;
   float: right;
   width: 70%;
+}
+
+.playerName{
+  font-size: 40px;
+  position: absolute;
+  margin-left: 1%;
+}
+.enemyName{
+  font-size: 40px;
+  position: absolute;
+  margin-left: 1%;
+
+}
+.separator {
+  border: 1px solid white;
+}
+.wonRounds {
+  display: flex;
 }

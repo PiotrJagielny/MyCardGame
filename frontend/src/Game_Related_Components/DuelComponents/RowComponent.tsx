@@ -13,18 +13,18 @@ interface Props{
 export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId}) => {
   return (
     <div>
-        <Droppable droppableId={rowDroppableId}>
+        <Droppable droppableId={rowDroppableId} >
           {(provided) => (
             <div className="BoardContainer" ref={provided.innerRef} {...provided.droppableProps}>
               <div className="leftBoardContent">
                 <h3>{rowDroppableId}: {pointsOnRow} points</h3>
               </div>
-              <div className="rightBoardContent" >
+              <div className="rightBoardContent" style={{display: 'flex'}}>
                   {cardsOnRow.map((card, index) =>(
                     <CardComponent  name={card.name} points={card.points}></CardComponent>
                   ))}
-              </div>
               {provided.placeholder}    
+              </div>
             </div>
           )}
         </Droppable>
