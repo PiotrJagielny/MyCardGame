@@ -58,7 +58,8 @@ Rip targetted third row and dealt damage
 
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/66f681a7-2f32-48c9-a2f9-37bcac274ede)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/de91a7e0-e257-4a3e-8141-a2c89ac32a6d)
+
 
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb67f3a9-4f92-4202-84d9-7612650233f3)
