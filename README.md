@@ -1,5 +1,7 @@
 This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript
 
+This is card game based on rules of Gwint: The witcher card game.
+
 This is a card game in which players can build decks with created cards. In the duel, there are two players who fight each other. In each move, a player can play one card or pass. If both players pass, the one with more points on the board wins. The player who wins two rounds wins the game. <br>
 
 Right now it doesn't make much sense, because what is the point of playing such game when you can see enemy cards. I am implementing messaging 
