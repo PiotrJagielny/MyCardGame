@@ -217,7 +217,6 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    setCardDragged({name: result.draggableId, points: 0});
     setPostOnRowNumberOf(-1);
     if(destination.droppableId === "BoardRow1"){
       setPostOnRowNumberOf(0);
@@ -228,6 +227,13 @@ const DuelPage = () => {
     else if(destination.droppableId === "BoardRow3"){
       setPostOnRowNumberOf(2);
     }
+    setCardDragged({name: result.draggableId, points: 0});
+
+
+
+  }
+  useEffect( () => {
+    console.log(cardDragged);
     fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
       method: 'POST',
       headers: {
@@ -237,14 +243,13 @@ const DuelPage = () => {
     }).then(async (response) => {
 
       const targetableCardsResponse= await response.json();
+      console.log(targetableCardsResponse);
 
       await ensure(targetableCardsResponse);
 
     });
 
-
-
-  }
+  }, [cardDragged])
 
   const ensure = async (targetableCardsArg:Card[]) => {
 
@@ -260,6 +265,7 @@ const DuelPage = () => {
 
   const playDraggedCard = async (postURL: string, cardTargetted:Card) =>{
     const args = [cardDragged, cardTargetted];
+    console.log(cardDragged);
     fetch(postURL, {
         method: 'POST',
         headers: {
@@ -301,7 +307,7 @@ const DuelPage = () => {
         {isTurnOfPlayer1?
         <div>
           <label >Your turn</label>
-          <img src="" style={{width: 70, height: 70}} alt=""/>
+          <img src="https://cdn0.iconfinder.com/data/icons/crime-protection-people-rounded/110/Sword-512.png" style={{width: 70, height: 70}} alt=""/>
         </div>
         :
         <div>
