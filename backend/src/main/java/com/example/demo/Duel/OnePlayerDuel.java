@@ -59,6 +59,9 @@ public class OnePlayerDuel {
         }
         return result;
     }
+    public int getRowPoints(int row) {
+        return rows.get(row).getRowPoints();
+    }
 
     public void parseCards(List<CardDisplay> cardsDisplay) {
         cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);

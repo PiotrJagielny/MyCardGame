@@ -42,6 +42,9 @@ public class CardDuel {
     public int getBoardPointsOf(String player) {
         return players.get(player).getBoardPoints();
     }
+    public int getRowPointsOf(String player, int row) {
+        return players.get(player).getRowPoints(row);
+    }
 
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){

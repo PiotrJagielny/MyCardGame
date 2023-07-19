@@ -104,7 +104,7 @@ const MainPage = () => {
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose("")} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose deck</h2>
         {decks.map((deck, index) =>(
-          <button style={{fontSize: '30px',}} onClick= { () => handleModalClose(deck) }>{deck}</button>
+          <button className="btn" onClick= { () => handleModalClose(deck) }>{deck}</button>
         ))}
       </Modal>
       <h1>Hello {userName}</h1>

@@ -2,49 +2,58 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.Consts;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping(path = "/Duel")
 public class DuelController {
 
-    private Map<String, CardDuel> betterDuel = new HashMap<>();
+    private Map<String, CardDuel> duels = new HashMap<>();
 
 
     @GetMapping(path = "getHandCards/{userName}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getHand(@PathVariable String userName, @PathVariable String gameID){
-        return betterDuel.get(gameID).getCardsInHandDisplayOf(userName);
+        return duels.get(gameID).getCardsInHandDisplayOf(userName);
     }
 
     @GetMapping(path = "getDeckCards/{userName}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getDeck(@PathVariable String userName, @PathVariable String gameID) {
-        return betterDuel.get(gameID).getCardsInDeckDisplayOf(userName);
+        return duels.get(gameID).getCardsInDeckDisplayOf(userName);
     }
 
     @GetMapping(path = "getCardsOnRow/{userName}/{rowNumber}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getRow(@PathVariable String userName, @PathVariable int rowNumber, @PathVariable String gameID){
-        return betterDuel.get(gameID).getCardsOnBoardDisplayOf(userName, rowNumber);
+        return duels.get(gameID).getCardsOnBoardDisplayOf(userName, rowNumber);
     }
 
 
     @GetMapping(path = "getBoardPoints/{userName}/{gameID}")
     @CrossOrigin
     public int getPointsOnBoard(@PathVariable String userName, @PathVariable String gameID){
-        return betterDuel.get(gameID).getBoardPointsOf(userName);
+        return duels.get(gameID).getBoardPointsOf(userName);
+    }
+    @GetMapping(path = "getRowsPoints/{userName}/{gameID}")
+    @CrossOrigin
+    public List<Integer> getRowsPoints(@PathVariable String userName, @PathVariable String gameID){
+        return IntStream.range(0, Consts.rowsNumber).mapToObj(i -> duels.get(gameID).getRowPointsOf(userName, i)).collect(Collectors.toList());
     }
 
 
     @GetMapping(path = "getWonRounds/{userName}/{gameID}")
     @CrossOrigin
     public int getWonRounds(@PathVariable String userName, @PathVariable String gameID){
-        return betterDuel.get(gameID).getWonRoundsOf(userName);
+        return duels.get(gameID).getWonRoundsOf(userName);
     }
 
 
@@ -55,8 +64,7 @@ public class DuelController {
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
         if(specificCards.get(cardPlayedIndex).getName().isEmpty() == false)
-            betterDuel.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
-
+            duels.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
     }
     @GetMapping(path = "getCardInfo/{cardName}")
     @CrossOrigin
@@ -67,51 +75,51 @@ public class DuelController {
     @PostMapping(path = "endRound/{userName}/{gameID}")
     @CrossOrigin
     public void endRound(@PathVariable String userName, @PathVariable String gameID){
-        betterDuel.get(gameID).endRoundFor(userName);
+        duels.get(gameID).endRoundFor(userName);
     }
 
     @GetMapping(path = "isTurnOf/{userName}/{gameID}")
     @CrossOrigin
     public boolean isTurnOf(@PathVariable String userName, @PathVariable String gameID){
-        return betterDuel.get(gameID).isTurnOf(userName);
+        return duels.get(gameID).isTurnOf(userName);
     }
 
     @GetMapping(path = "didWon/{userName}/{gameID}")
     @CrossOrigin
     public boolean didWon(@PathVariable String userName, @PathVariable String gameID){
-        return betterDuel.get(gameID).didWon(userName);
+        return duels.get(gameID).didWon(userName);
     }
     @PostMapping(path = "getPossibleRowsToAffect/{gameID}")
     @CrossOrigin
     public List<Integer> getPossibleRowsToAffect(@RequestBody CardDisplay cardPlayed, @PathVariable String gameID){
-        return betterDuel.get(gameID).getPossibleRowsToAffect(cardPlayed);
+        return duels.get(gameID).getPossibleRowsToAffect(cardPlayed);
     }
 
     @PostMapping(path = "getPossibleTargets/{userName}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getTargetableCards(@PathVariable String userName, @PathVariable String gameID, @RequestBody CardDisplay cardPlayed){
-        return betterDuel.get(gameID).getPossibleTargetsOf(cardPlayed, userName);
+        return duels.get(gameID).getPossibleTargetsOf(cardPlayed, userName);
     }
 
 
     @PostMapping(path="registerUser/{userName}/{gameID}")
     @CrossOrigin
     public void registerUser(@RequestBody List<CardDisplay> deck, @PathVariable String userName, @PathVariable String gameID) {
-        if(betterDuel.containsKey(gameID) == false) {
-            betterDuel.put(gameID, CardDuel.createDuel());
-            betterDuel.get(gameID).registerPlayerToDuel(userName);
-            betterDuel.get(gameID).parseCardsFor(deck, userName);
+        if(duels.containsKey(gameID) == false) {
+            duels.put(gameID, CardDuel.createDuel());
+            duels.get(gameID).registerPlayerToDuel(userName);
+            duels.get(gameID).parseCardsFor(deck, userName);
         }
         else {
-            betterDuel.get(gameID).registerPlayerToDuel(userName);
-            betterDuel.get(gameID).parseCardsFor(deck, userName);
-            betterDuel.get(gameID).dealCards();
+            duels.get(gameID).registerPlayerToDuel(userName);
+            duels.get(gameID).parseCardsFor(deck, userName);
+            duels.get(gameID).dealCards();
         }
     }
     @GetMapping(path="getEnemyOf/{userName}/{gameID}")
     @CrossOrigin
     public String getEnemyIf(@PathVariable String userName, @PathVariable String gameID) {
-        return betterDuel.get(gameID).getOpponentOf(userName);
+        return duels.get(gameID).getOpponentOf(userName);
     }
 
 

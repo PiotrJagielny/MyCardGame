@@ -13,6 +13,9 @@ import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
 
 var stompClient:any = null;
+var firstRow: number = 0;
+var secondRow: number = 1;
+var thirdRow: number = 2;
 const DuelPage = () => {
   let navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
@@ -26,6 +29,7 @@ const DuelPage = () => {
   const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
 
   const [pointsOnBoard, setPointsOnBoard] = useState<number>(0);
+  const [pointsOnRows, setPointsOnRows] = useState<number[]>([]);
   const [wonRounds, setWonRounds] = useState<number>(0);
   const [isTurnOfPlayer1, setIsTurnOfPlayer1] = useState<boolean>(false);
   const [didWon, setDidWon] = useState<boolean>(false);
@@ -36,6 +40,7 @@ const DuelPage = () => {
   const [enemyCardsOnThirdRow, setCardsOnThirdRow2] = useState<Card[]>([]);
 
   const [enemyPointsOnBoard, setenemyPointsOnBoard] = useState<number>(0);
+  const [enemyPointsOnRows, setEnemyPointsOnRows] = useState<number[]>([]);
   const [enemyWonRounds, setenemyWonRounds] = useState<number>(0);
   const [isEnemyTurn, setisEnemyTurn] = useState<boolean>(false);
   const [didEnemyWon, setdidEnemyWon] = useState<boolean>(false);
@@ -100,6 +105,7 @@ const DuelPage = () => {
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
+        fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows);
 
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${0}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${1}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
@@ -108,6 +114,8 @@ const DuelPage = () => {
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
+        fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
+
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
           alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg" );
@@ -302,7 +310,7 @@ const DuelPage = () => {
   return (
     
     <div>
-      <div className="playerName">{userName}</div>
+      <div className="playerName">{userName} : {pointsOnBoard}</div>
       <div className="playerInfo">
         {isTurnOfPlayer1?
         <div>
@@ -339,9 +347,9 @@ const DuelPage = () => {
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
         <HandComponent cardsInHand = {cardsInHand}></HandComponent>
 
-        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow3"}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow2"}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnBoard} rowDroppableId={"BoardRow1"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}></RowComponent>
       </DragDropContext>  
         
         <div className="wonRounds">
@@ -356,13 +364,13 @@ const DuelPage = () => {
         </div>
       
       <DragDropContext onDragEnd = {() => {}}>
-        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnBoard} rowDroppableId={"BoardRow1"}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnBoard} rowDroppableId={"BoardRow2"}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnBoard} rowDroppableId={"BoardRow3"}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}></RowComponent>
       </DragDropContext>
       
       
-      <div className="enemyName">{enemyName}</div>
+      <div className="enemyName">{enemyName} : {enemyPointsOnBoard}</div>
     </div>
   )
 }

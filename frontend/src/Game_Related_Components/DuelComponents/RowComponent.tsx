@@ -11,6 +11,8 @@ interface Props{
 }
 
 export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId}) => {
+
+
   return (
     <div>
         <Droppable droppableId={rowDroppableId} >
