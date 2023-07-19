@@ -144,4 +144,8 @@ public class OnePlayerDuel {
     public void updateRows() {
         rows.forEach(row -> row.updateRow());
     }
+
+    public String getRowStatusName(int row) {
+        return rows.get(row).getStatusName();
+    }
 }

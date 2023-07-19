@@ -16,7 +16,12 @@ var stompClient:any = null;
 var firstRow: number = 0;
 var secondRow: number = 1;
 var thirdRow: number = 2;
+var rowStatusToImageUrl: Map<string,string> = new Map<string,string>([
+  ["", ""],
+  ["Rain", "https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png"],
+]);
 const DuelPage = () => {
+
   let navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,8 +33,8 @@ const DuelPage = () => {
   const [cardsOnSecondRow, setCardsOnSecondRow] = useState<Card[]>([]);
   const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
 
-  const [pointsOnBoard, setPointsOnBoard] = useState<number>(0);
   const [pointsOnRows, setPointsOnRows] = useState<number[]>([]);
+  const [rowsStatus, setRowsStatus] = useState<string[]>([]);
   const [wonRounds, setWonRounds] = useState<number>(0);
   const [isTurnOfPlayer1, setIsTurnOfPlayer1] = useState<boolean>(false);
   const [didWon, setDidWon] = useState<boolean>(false);
@@ -44,6 +49,7 @@ const DuelPage = () => {
   const [enemyWonRounds, setenemyWonRounds] = useState<number>(0);
   const [isEnemyTurn, setisEnemyTurn] = useState<boolean>(false);
   const [didEnemyWon, setdidEnemyWon] = useState<boolean>(false);
+  const [enemyRowsStatus, setEnemyRowsStatus] = useState<string[]>([]);
 
   const [targetableCards, setTargetableCards] = useState<Card[]>([]);
   const [affectableRows, setAffectableRows] = useState<number[]>([]);
@@ -101,20 +107,20 @@ const DuelPage = () => {
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${0}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${1}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${2}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
-        fetchData<number>(`${serverURL}/Duel/getBoardPoints/${userName}/${gameID}`, pointsOnBoard ,setPointsOnBoard);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows);
+        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userName}/${gameID}`, rowsStatus,setRowsStatus);
 
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${0}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${1}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
         fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${2}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
-        fetchData<number>(`${serverURL}/Duel/getBoardPoints/${userEnemy}/${gameID}`, enemyPointsOnBoard ,setenemyPointsOnBoard);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
+        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, enemyRowsStatus,setEnemyRowsStatus);
 
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
@@ -310,7 +316,7 @@ const DuelPage = () => {
   return (
     
     <div>
-      <div className="playerName">{userName} : {pointsOnBoard}</div>
+      <div className="playerName">{userName} : {pointsOnRows.reduce((sum, e) => sum + e, 0)}</div>
       <div className="playerInfo">
         {isTurnOfPlayer1?
         <div>
@@ -347,9 +353,9 @@ const DuelPage = () => {
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
         <HandComponent cardsInHand = {cardsInHand}></HandComponent>
 
-        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={"BoardRow2"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={"BoardRow1"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
       </DragDropContext>  
         
         <div className="wonRounds">
@@ -364,13 +370,13 @@ const DuelPage = () => {
         </div>
       
       <DragDropContext onDragEnd = {() => {}}>
-        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
       </DragDropContext>
       
       
-      <div className="enemyName">{enemyName} : {enemyPointsOnBoard}</div>
+      <div className="enemyName">{enemyName} : {enemyPointsOnRows.reduce((sum, e) => sum + e, 0)}</div>
     </div>
   )
 }

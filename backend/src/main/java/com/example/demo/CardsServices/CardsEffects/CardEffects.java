@@ -59,7 +59,7 @@ public class CardEffects {
             ripWholeRow();
         }
         else if(p.equals(CardsFactory.rain)) {
-            enemy.setRowStatus(RowStatus.StrikeEveryTurn, playMade.getAffectedRow());
+            enemy.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
         }
         player.placeCardOnBoard(playMade);
     }

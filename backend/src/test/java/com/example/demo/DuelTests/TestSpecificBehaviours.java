@@ -6,6 +6,7 @@ import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.CardDuel;
 import org.junit.jupiter.api.Test;
+import static com.example.demo.TestsData.TestsUtils.*;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ class TestSpecificBehaviours {
         playCard(deck.get(0), firstRow, firstPlayer);
         int leaderRowBoostAmount = 2;
         int expectedPoints = CardsFactory.viking.getPoints() + leaderRowBoostAmount + CardsFactory.leader.getPoints();
-        assertEquals(expectedPoints , duel.getBoardPointsOf(firstPlayer));
+        assertEquals(expectedPoints , getBoardPointsOf(firstPlayer, duel));
     }
 
     @Test
@@ -86,7 +87,7 @@ class TestSpecificBehaviours {
         int expectedVikingPoints = CardsFactory.viking.getPoints();
         int expectedBoardPoints = expectedMinionPoints + expectedPaperPoints + expectedVikingPoints + CardsFactory.healer.getPoints();
 
-        assertEquals(expectedBoardPoints, duel.getBoardPointsOf(firstPlayer));
+        assertEquals(expectedBoardPoints, getBoardPointsOf(firstPlayer, duel));
     }
 
     @Test
@@ -102,7 +103,7 @@ class TestSpecificBehaviours {
         int fireballStrikeAmount = 3;
         assertEquals(CardsFactory.viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
         assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).contains(CardsFactory.archer));
-        assertEquals(1, duel.getBoardPointsOf(secondPlayer));
+        assertEquals(1, getBoardPointsOf(secondPlayer, duel));
     }
 
     @Test
@@ -174,9 +175,9 @@ class TestSpecificBehaviours {
         playCard(CardsFactory.capitan, firstRow, secondPlayer);
         playCard(CardsFactory.conflagration, secondRow, firstPlayer);
 
-        int board = duel.getBoardPointsOf(firstPlayer);
-        assertEquals(0, duel.getBoardPointsOf(firstPlayer));
-        assertEquals(0, duel.getBoardPointsOf(secondPlayer));
+        int board = getBoardPointsOf(firstPlayer, duel);
+        assertEquals(0, getBoardPointsOf(firstPlayer, duel));
+        assertEquals(0, getBoardPointsOf(secondPlayer, duel));
     }
 
     @Test
@@ -211,7 +212,7 @@ class TestSpecificBehaviours {
         int thirdUnitExpected = Math.max(CardsFactory.paper.getPoints() - CardsFactory.ripRowDamageAmount, 0);
         int expected = firstUnitExpected + secondUnitExpected + thirdUnitExpected;
 
-        assertEquals(expected, duel.getBoardPointsOf(secondPlayer));
+        assertEquals(expected, getBoardPointsOf(secondPlayer, duel));
     }
     @Test
     public void testBoostingEveryTurn() {
@@ -233,7 +234,7 @@ class TestSpecificBehaviours {
         playCard(CardsFactory.viking, secondRow, secondPlayer);
         duel.endRoundFor(firstPlayer);
         int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainStrikeAmount + CardsFactory.paper.getPoints();
-        int actual = duel.getBoardPointsOf(firstPlayer);
+        int actual = getBoardPointsOf(firstPlayer, duel);
         assertEquals(expected, actual);
     }
 

@@ -39,9 +39,6 @@ public class CardDuel {
         return players.get(player).getCardsOnBoardOnRow(rowNumber);
     }
 
-    public int getBoardPointsOf(String player) {
-        return players.get(player).getBoardPoints();
-    }
     public int getRowPointsOf(String player, int row) {
         return players.get(player).getRowPoints(row);
     }
@@ -168,5 +165,7 @@ public class CardDuel {
     }
 
 
-
+    public String getRowStatusOf(String userName, int row) {
+        return players.get(userName).getRowStatusName(row);
+    }
 }

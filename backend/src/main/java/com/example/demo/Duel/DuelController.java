@@ -38,11 +38,6 @@ public class DuelController {
     }
 
 
-    @GetMapping(path = "getBoardPoints/{userName}/{gameID}")
-    @CrossOrigin
-    public int getPointsOnBoard(@PathVariable String userName, @PathVariable String gameID){
-        return duels.get(gameID).getBoardPointsOf(userName);
-    }
     @GetMapping(path = "getRowsPoints/{userName}/{gameID}")
     @CrossOrigin
     public List<Integer> getRowsPoints(@PathVariable String userName, @PathVariable String gameID){
@@ -120,6 +115,13 @@ public class DuelController {
     @CrossOrigin
     public String getEnemyIf(@PathVariable String userName, @PathVariable String gameID) {
         return duels.get(gameID).getOpponentOf(userName);
+    }
+
+    @GetMapping(path="getRowsStatus/{userName}/{gameID}")
+    @CrossOrigin
+    public List<String> getRowsStatusNames(@PathVariable String userName, @PathVariable String gameID) {
+
+        return IntStream.range(0, Consts.rowsNumber).mapToObj(i -> duels.get(gameID).getRowStatusOf(userName, i)).collect(Collectors.toList());
     }
 
 

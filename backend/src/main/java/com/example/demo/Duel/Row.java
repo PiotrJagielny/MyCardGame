@@ -57,6 +57,7 @@ public class Row {
         cards.remove(card);
     }
 
+
     public List<Card> getCards() {
         return cards;
     }
@@ -74,7 +75,7 @@ public class Row {
     }
 
     public void updateRow() {
-        if(status == RowStatus.StrikeEveryTurn) {
+        if(status == RowStatus.Rain) {
             int maxPoints = 0;
             Card maxPointsCard = Card.createEmptyCard();
             for (int i = 0; i < cards.size(); i++) {
@@ -85,5 +86,9 @@ public class Row {
             }
             strikeCardBy(maxPointsCard, CardsFactory.rainStrikeAmount);
         }
+    }
+
+    public String getStatusName() {
+        return status.toString();
     }
 }

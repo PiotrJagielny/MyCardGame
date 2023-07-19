@@ -8,20 +8,21 @@ interface Props{
     cardsOnRow: Card[];
     pointsOnRow: number;
     rowDroppableId: string;
+    rowStatusImageURL: string;
 }
 
-export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId}) => {
-
-
+export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId, rowStatusImageURL}) => {
+              // <div className="leftBoardContent" style={{backgroundImage: 'url("https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png")', backgroundSize:'cover', backgroundPosition:'center'}} >
+    
   return (
-    <div>
+    <div >
         <Droppable droppableId={rowDroppableId} >
           {(provided) => (
             <div className="BoardContainer" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="leftBoardContent">
-                <h3>{rowDroppableId}: {pointsOnRow} points</h3>
+              <div className="leftBoardContent" style={{backgroundImage: `url(${rowStatusImageURL})`, backgroundSize:'cover', backgroundPosition:'center'}} >
+                <h3>{rowDroppableId}: {pointsOnRow} </h3>
               </div>
-              <div className="rightBoardContent" style={{display: 'flex'}}>
+              <div className="rightBoardContent" >
                   {cardsOnRow.map((card, index) =>(
                     <CardComponent  name={card.name} points={card.points}></CardComponent>
                   ))}

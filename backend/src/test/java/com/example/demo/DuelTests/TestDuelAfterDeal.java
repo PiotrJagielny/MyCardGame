@@ -11,9 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.example.demo.TestsData.TestConsts.*;
+import static com.example.demo.TestsData.TestsUtils.*;
 
 class TestDuelAfterDeal {
     CardDuel duel;
@@ -48,7 +51,7 @@ class TestDuelAfterDeal {
 
     @Test
     public void clearBoard_hasNoPoints(){
-        assertEquals(0, duel.getBoardPointsOf(firstPlayer));
+        assertEquals(0, getBoardPointsOf(firstPlayer, duel));
     }
 
     @Test
@@ -64,7 +67,7 @@ class TestDuelAfterDeal {
         playCard(cardToPlay_first, Consts.firstRow, firstPlayer);
         playCard(duel.getCardsInHandDisplayOf(secondPlayer).get(0), Consts.firstRow, secondPlayer);
         playCard(cardToPlay_second, Consts.secondRow, firstPlayer);
-        assertEquals(cardToPlay_first.getPoints() + cardToPlay_second.getPoints(), duel.getBoardPointsOf(firstPlayer));
+        assertEquals(cardToPlay_first.getPoints() + cardToPlay_second.getPoints(), getBoardPointsOf(firstPlayer, duel));
     }
 
     @Test
