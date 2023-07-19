@@ -67,7 +67,7 @@ Also there are cards that have effects, but player dont have to target anything
 
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb67f3a9-4f92-4202-84d9-7612650233f3)
-After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.
+<br>After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.<br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/a300cdbc-09d0-499c-b595-deb46106112b)
 
 
