@@ -2,6 +2,7 @@ package com.example.demo.DeckBuilding;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.Consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,5 +89,10 @@ public class DeckBuilder {
     private int GetSelectedDeckIndex() {
         int deckIndex = IntStream.range(0, playerDecks.size()).filter(i -> selectedDeck.equals(playerDecks.get(i).getDeckName())).findFirst().orElse(-1);
         return deckIndex;
+    }
+
+    public boolean isDeckValid(String deckName) {
+        Deck deck = playerDecks.stream().filter(d -> d.getDeckName().equals(deckName)).findFirst().orElse(new Deck());
+        return deck.getCardsInDeck().size() >= Consts.minDeckSize && deck.getCardsInDeck().size() <= Consts.maxDeckSize;
     }
 }

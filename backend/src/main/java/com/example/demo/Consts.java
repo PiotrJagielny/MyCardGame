@@ -14,4 +14,6 @@ public class Consts {
     public static final int secondRow = 1;
     public static final int thirdRow = 2;
     public static final int rowsNumber = 3;
+    public static final int minDeckSize = 6;
+    public static final int maxDeckSize = 10;
 }

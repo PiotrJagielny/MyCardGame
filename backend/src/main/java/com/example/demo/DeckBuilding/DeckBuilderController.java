@@ -2,6 +2,7 @@ package com.example.demo.DeckBuilding;
 
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +74,11 @@ public class DeckBuilderController {
     @CrossOrigin
     public String DeleteDeck(@PathVariable String userName) {
         return betterDeckBuilders.get(userName).deleteCurrentDeck();
+    }
+    @GetMapping(path = "ValidateDeck/{userName}/{deckName}")
+    @CrossOrigin
+    public boolean validateDeck(@PathVariable String deckName, @PathVariable String userName) {
+        return betterDeckBuilders.get(userName).isDeckValid(deckName);
     }
 
 }

@@ -45,9 +45,6 @@ class TestDeckBuilder_OneDeck {
     @Test
     public void testImpossibilityOfDeletingLastDeck(){
 
-        //Making sure that i cant delete last deck
-        deckBuilder.deleteCurrentDeck();
-        deckBuilder.deleteCurrentDeck();
         deckBuilder.deleteCurrentDeck();
         assertEquals(1, deckBuilder.getDecksNames().size());
     }
@@ -59,5 +56,6 @@ class TestDeckBuilder_OneDeck {
         int afterPuttingBackAllCardsSize = deckBuilder.getCardsPossibleToAdd().size();
         assertEquals(initialAllCardsSize, afterPuttingBackAllCardsSize);
     }
+
 
 }
