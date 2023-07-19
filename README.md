@@ -22,7 +22,7 @@ To log in you have to enter name. Every user have its own instance of deck build
 This is multiplayer game, so when you click find enemy, there has to be other player waiting for fight to start a game (normally this ring on bottom is rotating).<br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8be324bf-0f42-4e03-8533-e739ee734c1d)
 <br>
-Before you find an enemy, you have to choose which deck you want to use, and if this deck is not valid, you can start Duel. <br>
+Before you find an enemy, you have to choose which deck you want to use, and if this deck is not valid, you can't start Duel. <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0b5d2490-8119-4521-8f04-c64df069d3e7)
 
 
