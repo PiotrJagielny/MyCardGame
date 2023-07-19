@@ -322,9 +322,6 @@ const DuelPage = () => {
       </div>
       <div style={{width: 30, height: 50}} ></div>
 
-      <div>
-        <button className="endRoundBtn"onClick={() => endRoundFor(userName)}>End round</button>
-      </div>
       
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
@@ -350,7 +347,10 @@ const DuelPage = () => {
         <div className="wonRounds">
           {renderWonRounds(wonRounds)}
         </div>
-        <div className="separator"></div>
+        <div className="boardMiddle">
+          <div className="separator"></div>
+          <div className="endRoundDiv"><button className="endRoundButton"onClick={() => endRoundFor(userName)}>End round</button></div>
+        </div>
         <div className="wonRounds">
           {renderWonRounds(enemyWonRounds)}
         </div>
