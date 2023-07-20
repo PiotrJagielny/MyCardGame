@@ -3,10 +3,8 @@ package com.example.demo.DeckBuilding;
 import com.example.demo.CardsServices.CardDisplay;
 
 import javax.swing.plaf.nimbus.State;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DecksDatabase {
@@ -17,21 +15,19 @@ public class DecksDatabase {
         try {
             Connection connection = DriverManager.getConnection(jdbcURL,dbusername,password);
             Statement statement = connection.createStatement();
-            String deleteDecks = "DELETE FROM decks;";
-            String deleteDecksCards= "DELETE FROM cardsindeck;";
-            statement.executeUpdate(deleteDecks);
-            statement.executeUpdate(deleteDecksCards);
+            statement.executeUpdate("DELETE FROM cardsindeck;");
+            statement.executeUpdate("DELETE FROM decks;");
 
             List<String> decks = deckBuilder.getDecksNames();
             for (String deck : decks) {
-                String insertDeckQuery = "INSERT INTO decks(username,deckname) VALUES('" + username + "' , '" + deck + "');";
-                statement.executeUpdate(insertDeckQuery);
+                statement.executeUpdate("INSERT INTO decks(username,deckname) VALUES('" + username + "' , '" + deck + "');");
 
                 deckBuilder.selectDeck(deck);
                 List<CardDisplay> deckCards = deckBuilder.getCurrentDeck();
                 for (CardDisplay card : deckCards) {
-                    String insertCardQuery = "INSERT INTO cardsindeck(deckname, cardname, cardpoints) VALUES('" + deck + " ' , '" + card.getName()+ "' , '" + card.getPoints()+ "');";
-                    statement.executeUpdate(insertCardQuery);
+                    statement.executeUpdate(
+                            "INSERT INTO cardsindeck(username, deckname, cardname, cardpoints) VALUES('" +username+ "','" + deck + "' , '" + card.getName()+ "' , '" + card.getPoints()+ "');"
+                    );
 
                 }
             }
@@ -41,16 +37,33 @@ public class DecksDatabase {
             System.out.println(e.getMessage());
         }
     }
-    public static DeckBuilder load(DeckBuilder deckBuilder, String username) {
-        DeckBuilder loadedDecks = new DeckBuilder();
+    public static DeckBuilder load(String username) {
+        DeckBuilder loadedDeckBuilder = new DeckBuilder();
 
         try {
             Connection connection = DriverManager.getConnection(jdbcURL,dbusername,password);
+            Statement statement = connection.createStatement();
+            ResultSet decks = statement.executeQuery("SELECT * FROM decks WHERE username = '" +username+ "';");
+            List<String> decksNames = new ArrayList<>();
+            while(decks.next()) {
+                decksNames.add(decks.getString("deckname"));
+            }
 
+            for (String deckName : decksNames) {
+                loadedDeckBuilder.createDeck(deckName);
+                loadedDeckBuilder.selectDeck(deckName);
+
+                ResultSet cardsInDeck = statement.executeQuery("SELECT * FROM cardsindeck WHERE username='"+username+"' AND deckname='"+deckName+"';");
+                while(cardsInDeck.next()) {
+                    String cardName = cardsInDeck.getString("cardname");
+                    int cardPoints= cardsInDeck.getInt("cardpoints");
+                    loadedDeckBuilder.addCardToDeck(new CardDisplay(cardName, cardPoints));
+                }
+            }
             connection.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return loadedDecks;
+        return loadedDeckBuilder;
     }
 }

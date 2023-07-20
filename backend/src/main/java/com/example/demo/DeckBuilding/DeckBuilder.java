@@ -18,9 +18,6 @@ public class DeckBuilder {
 
         playerDecks.add(new Deck(CardsFactory.createAllCards(),"Deck"));
         selectedDeck = "Deck";
-        addCardToDeck(CardsFactory.paper);
-        addCardToDeck(CardsFactory.armageddon);
-        addCardToDeck(CardsFactory.viking);
     }
 
 

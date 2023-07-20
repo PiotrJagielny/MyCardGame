@@ -25,7 +25,7 @@ public class DeckBuilderController {
     public void setupBuilder(@RequestBody String userName) {
         //TODO add a feature so that there cant be two same user names
         if(deckBuilders.containsKey(userName) == false)
-            deckBuilders.put(userName, new DeckBuilder());
+            deckBuilders.put(userName,DecksDatabase.load(userName));
 
     }
 
@@ -56,15 +56,15 @@ public class DeckBuilderController {
     @PostMapping(path = "PutCardFromDeckBack/{userName}")
     @CrossOrigin
     public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName){
-        DecksDatabase.save(deckBuilders.get(userName), userName);
         deckBuilders.get(userName).putCardFromDeckBack(cardDisplay);
+        DecksDatabase.save(deckBuilders.get(userName), userName);
     }
 
     @PostMapping(path = "CreateDeck/{userName}")
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
-        DecksDatabase.save(deckBuilders.get(userName), userName);
         deckBuilders.get(userName).createDeck(deckName);
+        DecksDatabase.save(deckBuilders.get(userName), userName);
     }
 
     @PostMapping(path = "SelectDeck/{userName}")
