@@ -71,7 +71,7 @@ public class DeckBuilder {
     }
 
 
-    public List<CardDisplay> getPlayerDeck() {
+    public List<CardDisplay> getCurrentDeck() {
         return playerDecks.get(GetSelectedDeckIndex()).getCardsInDeck();
     }
 

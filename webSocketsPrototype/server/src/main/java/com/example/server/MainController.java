@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,14 +40,21 @@ public class MainController {
             gamesBetter.put(gameID, new Game());
         }
         gamesBetter.get(gameID).registerPlayer(playerName);
-        String jdbcURL = "jdbc:postgresql://localhost:5433/postgres";
+        String jdbcURL = "jdbc:postgresql://localhost:5433/test";
         String username = "postgres";
         String password = "1234";
         try {
             Connection connection = DriverManager.getConnection(jdbcURL, username, password);
             System.out.println("Connected to database");
-            String query = "INSERT INTO tabela VALUES(3);";
+            String getMaxValue = "SELECT MAX(numer) FROM tabela;";
             Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(getMaxValue);
+            int max = 1;
+            while(result.next()) {
+                max = result.getInt("max");
+                System.out.println("Max to jest: " + max);
+            }
+            String query = "INSERT INTO tabela VALUES("+(max + 1)+");";
             int rows = statement.executeUpdate(query);
             if(rows > 0 ) {
                 System.out.println("A new row has been inserted");

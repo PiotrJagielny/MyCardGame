@@ -39,11 +39,11 @@ class TestDeckBuilder_MultipleDecks {
     @Test
     public void testAddingCardsToDifferentDecks(){
         deckBuilder.addCardToDeck(new CardDisplay("Thunder"));
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Thunder");
+        assertEquals(deckBuilder.getCurrentDeck().get(0).getName(), "Thunder");
 
         deckBuilder.selectDeck("Second");
         deckBuilder.addCardToDeck(new CardDisplay("Knight"));
-        assertEquals(deckBuilder.getPlayerDeck().get(0).getName(), "Knight");
+        assertEquals(deckBuilder.getCurrentDeck().get(0).getName(), "Knight");
     }
 
     @Test
@@ -52,14 +52,14 @@ class TestDeckBuilder_MultipleDecks {
         deckBuilder.selectDeck("Second");
         deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0));
         deckBuilder.selectDeck("First");
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0) );
+        deckBuilder.putCardFromDeckBack( deckBuilder.getCurrentDeck().get(0) );
 
-        assertEquals(0, deckBuilder.getPlayerDeck().size());
+        assertEquals(0, deckBuilder.getCurrentDeck().size());
         deckBuilder.selectDeck("Second");
-        assertEquals(1, deckBuilder.getPlayerDeck().size());
+        assertEquals(1, deckBuilder.getCurrentDeck().size());
 
-        deckBuilder.putCardFromDeckBack( deckBuilder.getPlayerDeck().get(0) );
-        assertEquals(0, deckBuilder.getPlayerDeck().size());
+        deckBuilder.putCardFromDeckBack( deckBuilder.getCurrentDeck().get(0) );
+        assertEquals(0, deckBuilder.getCurrentDeck().size());
     }
 
     @Test
@@ -87,7 +87,7 @@ class TestDeckBuilder_MultipleDecks {
         deckBuilder.deleteCurrentDeck();
 
         assertDoesNotThrow(() -> {
-            deckBuilder.getPlayerDeck();
+            deckBuilder.getCurrentDeck();
         });
     }
 
