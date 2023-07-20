@@ -85,6 +85,10 @@ After someone wins round, there appears a crown in the middle left on the proper
 Player won 2 rounds, 2 crowns appeared and won game <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/24e9d1c6-e8c2-4297-97e5-f1365f8252f6)
 
+<br>If both players had same amount of points, they both scores a crown. Here two players had same points and game ended with draw<br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/386a20c0-d603-46dc-aaa6-de082c4cb500)
+
+
 
 
 
