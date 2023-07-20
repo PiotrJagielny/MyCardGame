@@ -38,35 +38,42 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 
 There is also duel page, where players can put cards from hand on one of three rows. 
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8da00777-52f2-43cb-aca6-f24d30738b17)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8d6c127c-c1fd-414d-bd47-694c92cac174)
+
 
 
 
 
 Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/be43a25e-bd82-463d-857a-30f0ccd2b4ab)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e4e9d118-ecf0-480d-a8c1-6d8e96ebfe28)
 
 
-Archer targetted Capitan and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/908d7589-54d3-41d2-a950-5bcf6ba62ab0)
+
+Archer targetted Viking and dealt damage
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/55c9bb6b-3cc7-4123-ba8d-6d2e51643add)
+
 
 
 
 Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7fb245b1-1434-4447-ac59-6350acf50188)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d99b48d2-6241-48ee-8ef5-657742a92dbb)
+
 
 
 Rip targetted third row and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/7bfdba38-9cc1-4844-afca-d484f1c63c0a)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/1780fc00-0dc8-4785-9988-9c94cfe49984)
+
 
 
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/de91a7e0-e257-4a3e-8141-a2c89ac32a6d)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6c52144b-710f-42a2-a449-4beda5b5459b)
+
 
 
 After playing conflagration max points card is burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fb67f3a9-4f92-4202-84d9-7612650233f3)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b4c7a339-a9a5-4400-8607-9314dad38e9a)
+
 <br>After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.<br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/a300cdbc-09d0-499c-b595-deb46106112b)
 
