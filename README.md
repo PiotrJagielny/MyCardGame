@@ -82,9 +82,11 @@ After someone wins round, there appears a crown in the middle left on the proper
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fde3871e-4e9b-41eb-aaec-afdc5923a9ee)
 
 Player lost 2 rounds and lost game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/abf55ec1-ca95-40a9-9258-44abfc027221)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e1282036-17ea-474b-bfd7-d2164ec9463b)
+
 Player won 2 rounds and won game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6a587604-3af2-4a75-b2b6-699894061af8)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/24e9d1c6-e8c2-4297-97e5-f1365f8252f6)
+
 
 
 
