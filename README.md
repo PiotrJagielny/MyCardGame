@@ -78,13 +78,11 @@ After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/a300cdbc-09d0-499c-b595-deb46106112b)
 
 
-After someone wins round, there appears a crown in the middle left on the proper side. Enemy won round and scored a crown. <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/fde3871e-4e9b-41eb-aaec-afdc5923a9ee)
-
 Player lost 2 rounds and lost game <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e1282036-17ea-474b-bfd7-d2164ec9463b)
 
-Player won 2 rounds and won game <br>
+After someone wins round, there appears a crown in the middle left on the proper side. <br>
+Player won 2 rounds, 2 crowns appeared and won game <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/24e9d1c6-e8c2-4297-97e5-f1365f8252f6)
 
 
