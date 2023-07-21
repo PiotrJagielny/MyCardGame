@@ -98,7 +98,8 @@ const DeckBuilderPage = () => {
 
   return (
     <div className="DeckBuilderPage">
-      <h2>DeckBuilderPage : {userName}</h2>
+      <h2>Build your deck! : Deck has to have 6 cards </h2>
+      <h4>You can click with right mouse button on a card, to get its info. If there is no card info, there wont be any text</h4>
 
       
 

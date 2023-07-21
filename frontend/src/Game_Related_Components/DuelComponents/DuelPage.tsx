@@ -288,6 +288,7 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then( () => {
         stompClient.send('/app/sendTrigger', {}, userName);
+        console.log("Trigger is sent");
       });
   }
 
