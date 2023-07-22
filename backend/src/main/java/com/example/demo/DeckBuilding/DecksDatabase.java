@@ -17,10 +17,9 @@ public class DecksDatabase {
     public static void save(DeckBuilder deckBuilder, String username) {
         try {
             Connection connection = DriverManager.getConnection(jdbcURL,dbusername,password);
-            System.out.println(jdbcURL);
             Statement statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM cardsindeck;");
-            statement.executeUpdate("DELETE FROM decks;");
+            statement.executeUpdate("DELETE FROM cardsindeck WHERE username='" + username +"';");
+            statement.executeUpdate("DELETE FROM decks WHERE username='" + username +"';");
 
             List<String> decks = deckBuilder.getDecksNames();
             for (String deck : decks) {

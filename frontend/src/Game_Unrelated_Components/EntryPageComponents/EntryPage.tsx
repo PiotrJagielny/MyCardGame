@@ -17,8 +17,9 @@ const EntryPage = () => {
 
 
 
-    dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
-    // dispatch({type: "SET_SERVER_URL", payload: 'https://card-game-9dmt.onrender.com'});
+    dispatch({type:"SET_USERNAME", payload: userName});
+    // dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
+    dispatch({type: "SET_SERVER_URL", payload: 'https://card-game-9dmt.onrender.com'});
     navigate("/Main");
   }
 

@@ -76,7 +76,9 @@ public class DeckBuilderController {
     @PostMapping(path = "DeleteDeck/{userName}")
     @CrossOrigin
     public String DeleteDeck(@PathVariable String userName) {
-        return deckBuilders.get(userName).deleteCurrentDeck();
+        String response = deckBuilders.get(userName).deleteCurrentDeck();
+        DecksDatabase.save(deckBuilders.get(userName), userName);
+        return response;
     }
     @GetMapping(path = "ValidateDeck/{userName}/{deckName}")
     @CrossOrigin
