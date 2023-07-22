@@ -31,8 +31,8 @@ const EntryPage = () => {
           Welcome to my card game! <br />
         </h1>
         <h6>You can build deck, as well as play duel with yourself. If you click find enemy two times you will start game with yourself.
-          I made it so that you can test playing duel because there arent many people that play my game. As this is hosted for free, all api calls are very slow.
-          To play game with yourself at duel page, you have to sometime do refreshing and loading data.
+          I made it so that you can test playing duel because there arent many people that play my game. As this is hosted for free, all api calls are very slow. To enter deck 
+          builder there is some waiting, you have to click button a few times. To play game with yourself at duel page, you have to sometime do refreshing and loading data.
         </h6>
 
       </div>
