@@ -3,6 +3,7 @@ package com.example.demo.CardsServices.Cards;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.CardTargetStrattegies.*;
 import com.example.demo.Consts;
+import com.example.demo.Duel.OnePlayerDuel;
 
 
 import java.util.*;
@@ -58,8 +59,10 @@ public class CardsFactory {
         put(priest.getName(), new AllCardsInDeckTargetable());
     }};
 
-    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<CardDisplay> playerBoard, List<CardDisplay> enemyBoard) {
-        return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
+    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
+        return mapCardNameToTargetingStrategy.getOrDefault(
+                card.getName(), new NoCardTargetable()).getPossibleTargets(player, enemy
+        );
     }
 
 

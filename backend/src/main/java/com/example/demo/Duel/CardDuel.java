@@ -46,7 +46,6 @@ public class CardDuel {
     public CardDisplay playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             invokeEffects(playMade, player);
-            //This is choange
             if(!playMade.getPlayedCard().equals(CardsFactory.priest))
                 changeTurn();
             else {
@@ -156,10 +155,9 @@ public class CardDuel {
 
     public List<CardDisplay> getPossibleTargetsOf(CardDisplay cardPlayed, String player) {
         if(whosTurn.equals(player) == true){
-            List<CardDisplay> enemyBoard = players.get( getOpponentOf(player) ).getCardsOnBoard();
-            List<CardDisplay> playerBoard = players.get( player ).getCardsOnBoard();
-
-            return CardsFactory.getPossibleTargetsOf(cardPlayed, playerBoard, enemyBoard);
+            return CardsFactory.getPossibleTargetsOf(
+                    cardPlayed, players.get(player), players.get(getOpponentOf(player))
+            );
         }
         else
             return List.of();

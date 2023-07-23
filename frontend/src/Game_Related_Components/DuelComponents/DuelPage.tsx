@@ -183,6 +183,7 @@ const DuelPage = () => {
 
 
   const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0});
+  const [playChainCard, setPlayChainCard] = useState<Card>({name: "", points: 0});
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
   const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0});
   const handleModalClose = (card: Card) => {
@@ -256,7 +257,6 @@ const DuelPage = () => {
     }).then(async (response) => {
 
       const targetableCardsResponse= await response.json();
-      console.log(targetableCardsResponse);
 
       await ensure(targetableCardsResponse);
 
@@ -284,8 +284,8 @@ const DuelPage = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(args)
-      }).then( (response) => {
-        console.log(response.json());
+      }).then((res) => res.json()).then( (cardChained: Card) => {
+        setPlayChainCard(cardChained);
         stompClient.send('/app/sendTrigger', {}, userName);
       });
   }
@@ -350,7 +350,7 @@ const DuelPage = () => {
       </Modal>
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
-        <HandComponent cardsInHand = {cardsInHand}></HandComponent>
+        <HandComponent cardsInHand = {cardsInHand} cardInPlayChain={playChainCard}></HandComponent>
 
         <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={"BoardRow2"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
