@@ -77,7 +77,7 @@ After playing conflagration max points card is burned.
 
 <br>You can play cards in chain, for example play card that allows you to choose a card from deck which you can then play.
 (this feature is on development for now, not ready for production)<br>
-Player priest, and card from deck that you can play appeared. I will choose to play an Archer.
+Played priest, and card from deck that you can play appeared. I will choose to play an Archer.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/69601b89-dfec-4af6-abf3-7bb837570567)
 Now when i choosed archer, i can play this card as there is shown in the screen. While playing archer i cant play any other card from hand.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/27e74c0f-2fed-41eb-87ef-5b1e17b18d3c)
