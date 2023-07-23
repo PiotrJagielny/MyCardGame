@@ -20,15 +20,15 @@ class TestSpecificBehaviours {
     private CardDuel duel;
 
 
-    public void playCard(CardDisplay playedCard, int onRow, CardDisplay cardThatGotEffect, String player){
-        duel.playCardAs(new PlayerPlay(playedCard, onRow,cardThatGotEffect), player);
+    public CardDisplay playCard(CardDisplay playedCard, int onRow, CardDisplay cardThatGotEffect, String player){
+        return duel.playCardAs(new PlayerPlay(playedCard, onRow,cardThatGotEffect), player);
     }
 
-    public void playCard(CardDisplay playedCard, int onRow, String player){
-        duel.playCardAs(new PlayerPlay(playedCard, onRow), player);
+    public CardDisplay playCard(CardDisplay playedCard, int onRow, String player){
+        return duel.playCardAs(new PlayerPlay(playedCard, onRow), player);
     }
-    public void playCard(CardDisplay playedCard, int onRow, int affectedRow, String player){
-        duel.playCardAs(new PlayerPlay(playedCard, onRow, new CardDisplay(),affectedRow), player);
+    public CardDisplay playCard(CardDisplay playedCard, int onRow, int affectedRow, String player){
+        return duel.playCardAs(new PlayerPlay(playedCard, onRow, new CardDisplay(),affectedRow), player);
     }
 
     public CardDuel createDuel(List<CardDisplay> deck){
@@ -251,14 +251,15 @@ class TestSpecificBehaviours {
     @Test
     public void testPlyingCardFromDeck() {
         duel = createDuel(List.of(CardsFactory.priest,CardsFactory.paper, CardsFactory.capitan, CardsFactory.witch ,CardsFactory.viking, CardsFactory.warrior));
-        playCard(CardsFactory.priest, firstRow, CardsFactory.viking, firstPlayer);
+        CardDisplay nextCardInChain = playCard(CardsFactory.priest, firstRow, CardsFactory.viking, firstPlayer);
 
         int cardsInDeck = duel.getCardsInDeckDisplayOf(firstPlayer).size();
-        playCard(CardsFactory.viking,firstRow, firstPlayer);
+        CardDisplay vikingPlayed_noChainCard= playCard(nextCardInChain,firstRow, firstPlayer);
         int cardsInDeckAfterChainPlay = duel.getCardsInDeckDisplayOf(firstPlayer).size();
 
         int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.priest.getPoints();
         int actualPoints = duel.getRowPointsOf(firstPlayer, firstRow);
+        assertEquals(new CardDisplay(), vikingPlayed_noChainCard);
         assertEquals(expectedPoints, actualPoints);
         assertEquals(cardsInDeck, cardsInDeckAfterChainPlay + 1);
 

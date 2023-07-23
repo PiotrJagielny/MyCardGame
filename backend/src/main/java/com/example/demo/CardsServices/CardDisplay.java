@@ -22,7 +22,10 @@ public class CardDisplay{
         points = 1;
     }
 
-    public CardDisplay() { }
+    public CardDisplay() {
+        name="";
+        points = 0;
+    }
 
 
     public int getPoints() {

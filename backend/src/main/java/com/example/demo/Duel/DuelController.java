@@ -54,12 +54,13 @@ public class DuelController {
 
     @PostMapping(path = "playCard")
     @CrossOrigin
-    public void playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int affectedRow,@RequestParam int rowNumber,
+    public CardDisplay playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int affectedRow,@RequestParam int rowNumber,
                          @RequestParam String gameID){
         int cardPlayedIndex = 0;
         int cardTargetedIndex = 1;
         if(specificCards.get(cardPlayedIndex).getName().isEmpty() == false)
-            duels.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+            return duels.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+        return new CardDisplay();
     }
     @GetMapping(path = "getCardInfo/{cardName}")
     @CrossOrigin

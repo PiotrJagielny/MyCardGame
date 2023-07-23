@@ -284,7 +284,8 @@ const DuelPage = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(args)
-      }).then( () => {
+      }).then( (response) => {
+        console.log(response.json());
         stompClient.send('/app/sendTrigger', {}, userName);
       });
   }
