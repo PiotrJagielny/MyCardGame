@@ -75,14 +75,13 @@ Also there are cards that have effects, but player dont have to target anything
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b4c7a339-a9a5-4400-8607-9314dad38e9a)
 
-<br>You can play cards in chain, for example play card that allows you to choose a card from deck which you can then play.
-(this feature is on development for now, not ready for production)<br>
-Played priest, and card from deck that you can play appeared. I will choose to play an Archer.
+<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.
+(this feature is in development for now, not ready for production)<br>
+I played Priest, and a card from the deck that can be played appeared. I will choose to play an Archer.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/69601b89-dfec-4af6-abf3-7bb837570567)
-Now when i choosed archer, i can play this card as there is shown in the screen. While playing archer i cant play any other card from hand.
+Now, after choosing Archer, I can play this card as shown on the screen below. While playing Archer, I can't play any other cards from my hand.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/27e74c0f-2fed-41eb-87ef-5b1e17b18d3c)
-Archer played and dealt 3 damage to viking. (I am super excited about this feature because there was a little bit of thinking how implement that and voilà,  but 
-apart from this its just a cool functinality)
+Archer played and dealt 3 damage to the Viking. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/403b1702-d25b-49e7-a865-b971312d39a1)
 
 
