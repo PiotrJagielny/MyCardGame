@@ -43,12 +43,17 @@ public class CardDuel {
         return players.get(player).getRowPoints(row);
     }
 
-    public void playCardAs(PlayerPlay playMade, String player) {
+    public CardDisplay playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             invokeEffects(playMade, player);
+            //This is choange
             if(!playMade.getPlayedCard().equals(CardsFactory.priest))
                 changeTurn();
+            else {
+                return playMade.getAffectedCard();
+            }
         }
+        return new CardDisplay();
     }
     private void invokeEffects(PlayerPlay playMade,String player) {
         OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
