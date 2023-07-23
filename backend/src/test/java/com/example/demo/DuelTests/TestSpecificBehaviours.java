@@ -3,6 +3,7 @@ package com.example.demo.DuelTests;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.CardDuel;
 import org.junit.jupiter.api.Test;
@@ -236,6 +237,31 @@ class TestSpecificBehaviours {
         int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainStrikeAmount + CardsFactory.paper.getPoints();
         int actual = getBoardPointsOf(firstPlayer, duel);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testClearingAllRowsStatus() {
+        duel = createDuel(List.of(CardsFactory.rain, CardsFactory.viking, CardsFactory.paper, CardsFactory.clearSky));
+        playCard(CardsFactory.rain, firstRow, firstRow, firstPlayer);
+        playCard(CardsFactory.clearSky, firstRow, secondPlayer);
+        String expectedRowStatus = "";
+        String actualRowStatus = duel.getRowStatusOf(secondPlayer, firstRow);
+        assertEquals(expectedRowStatus, actualRowStatus);
+    }
+    @Test
+    public void testPlyingCardFromDeck() {
+        duel = createDuel(List.of(CardsFactory.priest,CardsFactory.paper, CardsFactory.capitan, CardsFactory.witch ,CardsFactory.viking, CardsFactory.warrior));
+        playCard(CardsFactory.priest, firstRow, CardsFactory.viking, firstPlayer);
+
+        int cardsInDeck = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+        playCard(CardsFactory.viking,firstRow, firstPlayer);
+        int cardsInDeckAfterChainPlay = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+
+        int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.priest.getPoints();
+        int actualPoints = duel.getRowPointsOf(firstPlayer, firstRow);
+        assertEquals(expectedPoints, actualPoints);
+        assertEquals(cardsInDeck, cardsInDeckAfterChainPlay + 1);
+
     }
 
 

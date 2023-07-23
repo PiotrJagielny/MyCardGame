@@ -12,6 +12,8 @@ public class Card {
     private int points;
 
     public Card() {
+        name="";
+        points = 0;
     }
 
     public Card(String name, int points){
@@ -36,5 +38,12 @@ public class Card {
     }
     public static Card createEmptyCard(){
         return new Card();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Card card = (Card)obj;
+        return card.getDisplay().equals(this.getDisplay());
+
     }
 }

@@ -247,7 +247,6 @@ const DuelPage = () => {
 
   }
   useEffect( () => {
-    console.log(cardDragged);
     fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
       method: 'POST',
       headers: {
@@ -279,7 +278,6 @@ const DuelPage = () => {
 
   const playDraggedCard = async (postURL: string, cardTargetted:Card) =>{
     const args = [cardDragged, cardTargetted];
-    console.log(cardDragged);
     fetch(postURL, {
         method: 'POST',
         headers: {
@@ -288,7 +286,6 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then( () => {
         stompClient.send('/app/sendTrigger', {}, userName);
-        console.log("Trigger is sent");
       });
   }
 

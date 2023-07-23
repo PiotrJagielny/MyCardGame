@@ -46,7 +46,8 @@ public class CardDuel {
     public void playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             invokeEffects(playMade, player);
-            changeTurn();
+            if(!playMade.getPlayedCard().equals(CardsFactory.priest))
+                changeTurn();
         }
     }
     private void invokeEffects(PlayerPlay playMade,String player) {
@@ -72,11 +73,9 @@ public class CardDuel {
 
     private void changeTurn(){
         String opponent = getOpponentOf(whosTurn);
-        String g = whosTurn;
         if(players.get(opponent).didEndRound() == false) {
-            whosTurn = opponent;;
+            whosTurn = opponent;
         }
-
     }
 
     public String getOpponentOf(String player){

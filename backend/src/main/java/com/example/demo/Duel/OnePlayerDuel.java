@@ -68,8 +68,14 @@ public class OnePlayerDuel {
     }
 
     public void placeCardOnBoard(PlayerPlay playMade){
-        Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
-        cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+//        Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
+        Card playedCard = Card.createCard(playMade.getPlayedCard());
+        if(cardsInHand.contains(playedCard)) {
+            cardsInHand.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+        }
+        else if(cardsInDeck.contains(playedCard)){
+            cardsInDeck.removeIf(c -> c.getDisplay().equals(playedCard.getDisplay()));
+        }
         rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
     }
 
@@ -147,5 +153,8 @@ public class OnePlayerDuel {
 
     public String getRowStatusName(int row) {
         return rows.get(row).getStatusName();
+    }
+    public void clearRowsStatus() {
+        rows.forEach(row -> row.clearStatus());
     }
 }
