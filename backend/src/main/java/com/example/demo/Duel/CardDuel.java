@@ -46,6 +46,7 @@ public class CardDuel {
     public CardDisplay playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             invokeEffects(playMade, player);
+            //This is choange
             if(!playMade.getPlayedCard().equals(CardsFactory.priest))
                 changeTurn();
             else {
