@@ -3,6 +3,8 @@ package com.example.demo.Duel;
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.broker.SimpleBrokerMessageHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @RestController
 @RequestMapping(path = "/Duel")
@@ -18,6 +21,9 @@ public class DuelController {
 
     private Map<String, CardDuel> duels = new HashMap<>();
 
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping(path = "getHandCards/{userName}/{gameID}")
     @CrossOrigin

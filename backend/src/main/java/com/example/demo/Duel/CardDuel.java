@@ -105,11 +105,14 @@ public class CardDuel {
 
 
     public void endRoundFor(String player) {
-        OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
-        effect.invokeEffect();
-        changeTurn();
-        players.get(player).endRound();
-        if (didPlayersEndedRound()) startNewRound();
+        if(whosTurn.equals(player)){
+            OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
+            effect.invokeEffect();
+            changeTurn();
+            players.get(player).endRound();
+            if (didPlayersEndedRound()) startNewRound();
+
+        }
     }
 
     private boolean didPlayersEndedRound() {

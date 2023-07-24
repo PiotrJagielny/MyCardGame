@@ -71,6 +71,7 @@ const DuelPage = () => {
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
+    stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRound);
   }
   const onMessageReceived = (payload: any) => {
     fetchCardsData();

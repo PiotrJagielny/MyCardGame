@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import {AllCardsDisplay} from './AllCardsDisplay';
-import {CardsInDeckDisplay} from './CardsInDeckDisplay';
 import {DecksManager} from './DecksManager';
 import {Card} from './../Interfaces/Card';
 import  './DeckBuilderPage.css';
 import {useSelector} from 'react-redux';
+import {CardsCollectionDisplay} from './CardsCollectionDisplay'; 
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 
@@ -109,19 +108,19 @@ const DeckBuilderPage = () => {
           <div>
             <h3>All cards</h3>
            <div className = "AllCards">
-             <AllCardsDisplay Cards={cardsData} refresh={refresh}></AllCardsDisplay>
+              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCardsInDeck"></CardsCollectionDisplay>
            </div>
           </div>
           <div>
             <h3> Cards in deck</h3>
             <div className = "AllCardsInDeck">
-              <CardsInDeckDisplay Cards={cardsInDeck} refresh={refresh}></CardsInDeckDisplay>
+              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
             </div>
           </div>
+          <div className="PlayersDecks">
+            <DecksManager OnDecksSwitched={handleDecksSwitch} ></DecksManager>
+          </div>
         </DragDropContext>
-        <div className="PlayersDecks">
-          <DecksManager OnDecksSwitched={handleDecksSwitch} ></DecksManager>
-        </div>
       </div>
     </div>
   );
