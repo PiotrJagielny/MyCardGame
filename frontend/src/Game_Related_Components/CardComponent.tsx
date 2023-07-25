@@ -55,11 +55,12 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
   }
   const hideInfo= () => {
     const wholeCardDisplay: any = document.getElementById('wholeCardDisplay');
-    wholeCardDisplay.remove();
+    if(wholeCardDisplay !== null)
+      wholeCardDisplay.remove();
   }
 
 
-  return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo} onMouseLeave={hideInfo} className="card">
+  return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
         <div className="name">{card.name}</div>
         <div>{card.points}</div>
   </div>

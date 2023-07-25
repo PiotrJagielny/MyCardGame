@@ -143,7 +143,7 @@ const DuelPage = () => {
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
-        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, enemyRowsStatus,setEnemyRowsStatus);
+        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus);
 
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
