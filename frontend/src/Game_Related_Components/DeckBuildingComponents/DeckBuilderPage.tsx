@@ -108,13 +108,13 @@ const DeckBuilderPage = () => {
           <div>
             <h3>All cards</h3>
            <div className = "AllCards">
-              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCardsInDeck"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
            </div>
           </div>
           <div>
             <h3> Cards in deck</h3>
             <div className = "AllCardsInDeck">
-              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="CardsInDeck"></CardsCollectionDisplay>
             </div>
           </div>
           <div className="PlayersDecks">
