@@ -66,7 +66,16 @@ public class CardEffects {
             player.clearRowsStatus();
             enemy.clearRowsStatus();
         }
+
         player.placeCardOnBoard(playMade);
+
+        if(p.equals(CardsFactory.sharpshooter)) {
+            int targetPoints = playMade.getAffectedCard().getPoints();
+            if(targetPoints <= CardsFactory.sharpshooterDamage) {
+                player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
+            }
+            enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.sharpshooterDamage);
+        }
     }
 
     public void boostRowBy(int amount){

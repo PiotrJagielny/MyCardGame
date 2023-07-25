@@ -265,6 +265,39 @@ class TestSpecificBehaviours {
 
     }
 
+    @Test
+    public void dealDamageToCard_boostIfItDies() {
+        duel = createDuel(List.of(CardsFactory.sharpshooter, CardsFactory.paper, CardsFactory.capitan));
+
+        playCard(CardsFactory.capitan, firstRow, firstPlayer);
+        playCard(CardsFactory.sharpshooter, firstRow, CardsFactory.capitan, secondPlayer);
+
+        assertEquals(CardsFactory.sharpshooter.getPoints() ,duel.getRowPointsOf(secondPlayer, firstRow));
+
+        duel = createDuel(List.of(CardsFactory.sharpshooter, CardsFactory.minion, CardsFactory.capitan));
+
+        playCard(CardsFactory.minion, firstRow, firstPlayer);
+        playCard(CardsFactory.sharpshooter, firstRow, CardsFactory.minion, secondPlayer);
+
+        int expected =CardsFactory.sharpshooter.getPoints() + CardsFactory.sharpshooterSelfBoost;
+        assertEquals(expected,duel.getRowPointsOf(secondPlayer, firstRow));
+    }
+
+    @Test
+    public void testSpawningNewUnitsOnDeath() {
+        duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
+        playCard(CardsFactory.cow, firstRow, firstPlayer);
+        playCard(CardsFactory.archer, firstRow, CardsFactory.cow, secondPlayer);
+        assertEquals(CardsFactory.chort, duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0));
+
+
+        duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
+        playCard(CardsFactory.cow, firstRow, firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        assertEquals(CardsFactory.chort, duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0));
+    }
+
 
 
 }
