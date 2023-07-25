@@ -69,7 +69,7 @@ Also player can choose row to target
 
 
 
-Player targetted second row with Rain, and now this row has weather effect that dealt 2 damage every turn to max points card
+Player targetted second row with Rain, and now this row has weather effect that deals 2 damage every turn to max points card
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4e38f21c-b346-4b15-8bdf-aca78b29476c)
 
 
