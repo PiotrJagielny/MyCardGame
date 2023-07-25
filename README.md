@@ -39,9 +39,11 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 
 There is also duel page, where players can put cards from hand on one of three rows. 
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8d6c127c-c1fd-414d-bd47-694c92cac174)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
+
 You can hover on a card, and its info appears
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/76fcd419-09c0-4f11-893e-ef40b8f9a045)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bf536ce4-d785-4c71-860c-0928bfd9a04e)
+
 
 
 
@@ -49,12 +51,14 @@ You can hover on a card, and its info appears
 
 
 Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e4e9d118-ecf0-480d-a8c1-6d8e96ebfe28)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ccfdffcf-7347-4f91-ab18-ce1c70ebf782)
+
 
 
 
 Archer targetted Viking and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/55c9bb6b-3cc7-4123-ba8d-6d2e51643add)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/58b0701e-3aaa-4d88-931c-a7dfc4e46446)
+
 
 
 
