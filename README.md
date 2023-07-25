@@ -40,6 +40,9 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 There is also duel page, where players can put cards from hand on one of three rows. 
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8d6c127c-c1fd-414d-bd47-694c92cac174)
+You can hover on a card, and its info appears
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/76fcd419-09c0-4f11-893e-ef40b8f9a045)
+
 
 
 
