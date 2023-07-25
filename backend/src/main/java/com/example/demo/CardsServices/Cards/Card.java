@@ -21,7 +21,7 @@ public class Card {
         this.points = points;
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name, points);}
+    public CardDisplay getDisplay(){return new CardDisplay(name, points, CardsFactory.getCardInfo(name));}
     public int getPoints(){return points;}
     public void boostPointsBy(int amount){
         points += amount;

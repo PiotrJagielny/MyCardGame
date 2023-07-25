@@ -86,7 +86,7 @@ const DeckBuilderPage = () => {
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}`
     }
 
-    let cardDragged: Card = {name: result.draggableId, points: 0};
+    let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
     
     ChangeDecksState(cardDragged, PostURL); 
   }

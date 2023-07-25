@@ -58,6 +58,10 @@ const DuelPage = () => {
   const [enemyName, setEnemyName] = useState<string>("");
 
 
+  const [enemyEndRoundBackground, setEnemyEndRoundBackground] = useState<string>('');
+  const [enemyEndRoundMessage, setEnemyEndRoundMessage] = useState<string>('');
+  const [playerEndRoundBackground, setPlayerEndRoundBackground] = useState<string>('');
+  const [playerEndRoundMessage, setPlayerEndRoundMessage] = useState<string>('');
 
   const gameID = useSelector<StateData, string>((state) => state.gameID);
   const userName= useSelector<StateData, string>((state) => state.userName);
@@ -82,10 +86,16 @@ const DuelPage = () => {
   const enemyEndRoundTrigger = (payload: any) => {
     console.log(payload);
     fetchCardsData();
+    setEnemyEndRoundBackground('rgba(0,0,0,0.4');
+    setEnemyEndRoundMessage("Enemy ended round");
   }
   const newRoundStarted = (payload: any) => {
     console.log("New round");
     alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+    setEnemyEndRoundBackground('');
+    setEnemyEndRoundMessage('');
+    setPlayerEndRoundBackground('');
+    setPlayerEndRoundMessage('');
     fetchCardsData();
   }
 
@@ -244,10 +254,10 @@ const DuelPage = () => {
 
 
 
-  const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0});
-  const [playChainCard, setPlayChainCard] = useState<Card>({name: "", points: 0});
+  const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0, cardInfo:""});
+  const [playChainCard, setPlayChainCard] = useState<Card>({name: "", points: 0, cardInfo:""});
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
-  const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0});
+  const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0, cardInfo:""});
   const handleModalClose = (card: Card) => {
     setIsModalOpen(false);
     setCardAffected(card);
@@ -304,7 +314,7 @@ const DuelPage = () => {
     else if(destination.droppableId === thirdRowId){
       setPostOnRowNumberOf(2);
     }
-    setCardDragged({name: result.draggableId, points: 0});
+    setCardDragged({name: result.draggableId, points: 0, cardInfo:""});
 
 
 
@@ -329,7 +339,7 @@ const DuelPage = () => {
   const ensure = async (targetableCardsArg:Card[]) => {
 
       if(targetableCardsArg.length === 0) {
-        setCardAffected({name: "noCard", points:0});
+        setCardAffected({name: "", points:0, cardInfo:""});
       }
       else {
         setTargetableCards(targetableCardsArg);
@@ -360,6 +370,9 @@ const DuelPage = () => {
       },
       body: null
     }).then( () => {
+      setPlayerEndRoundBackground('rgba(0,0,0,0.4');
+      setPlayerEndRoundMessage("You ended round");
+      fetchCardsData()
     });
   }
   const renderWonRounds = (wonRoudnsOfPlayer: number) => {
@@ -397,10 +410,10 @@ const DuelPage = () => {
       <div style={{width: 30, height: 50}} ></div>
 
       
-      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1, cardInfo:""})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent  name={card.name} points={card.points}></CardComponent></button>
+          <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></button>
         ))}
       </Modal>
       <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
@@ -419,15 +432,15 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={firstRowId} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
       </DragDropContext>  
         
-        <div className="wonRounds">
-          {renderWonRounds(wonRounds)}
+        <div className="wonRounds" style={{background: playerEndRoundBackground|| ''}}>
+          {renderWonRounds(wonRounds)} {playerEndRoundMessage}
         </div>
         <div className="boardMiddle">
           <div className="separator"></div>
           <div className="endRoundDiv"><button className="endRoundButton"onClick={() => endRoundFor(userName)}>End round</button></div>
         </div>
-        <div className="wonRounds" style={{background: 'rgba(0,0,0,0.6'}}>
-          {renderWonRounds(enemyWonRounds)}  
+        <div className="wonRounds" style={{background: enemyEndRoundBackground || ''}}>
+          {renderWonRounds(enemyWonRounds)} {enemyEndRoundMessage}
         </div>
       
       <DragDropContext onDragEnd = {() => {}}>
