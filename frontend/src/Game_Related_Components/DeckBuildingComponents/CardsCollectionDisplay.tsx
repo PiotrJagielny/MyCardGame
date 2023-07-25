@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import {Card} from './../Interfaces/Card';
 import CardComponent from '../CardComponent';
@@ -7,26 +7,25 @@ import CardComponent from '../CardComponent';
 interface Props{
     Cards: Card[];
     refresh: boolean;
+    droppableName: string;
 }
 
-export const CardsInDeckDisplay: React.FC<Props> = ({Cards, refresh}) => {
+export const CardsCollectionDisplay: React.FC<Props> = ({Cards, refresh, droppableName}) => {
   return (
     <div>
-        <Droppable droppableId="CardsInDeck">
+        <Droppable droppableId={droppableName}>
             {(provided) => (
-              <div className="AllCardsInDeck" ref={provided.innerRef} {...provided.droppableProps} style={{ display: 'flex', flexWrap: 'wrap' }}>
-                
+              <div className="AllCards" ref={provided.innerRef} {...provided.droppableProps} style={{ display: 'flex', flexWrap: 'wrap' }}> 
                   {Cards.map((card, index) => (
                     <Draggable key={card.name} draggableId={card.name} index={index}>
                       {(provided) => (
                         <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">  
-                          <CardComponent name={card.name} points={card.points}></CardComponent>
+                          <CardComponent  name={card.name} points={card.points}></CardComponent>
                         </p>
                       )}
                     </Draggable>
                   ))}
                   {provided.placeholder}
-                
               </div>
             )}
           </Droppable>

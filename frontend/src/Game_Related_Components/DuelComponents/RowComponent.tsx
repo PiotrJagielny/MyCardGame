@@ -12,7 +12,6 @@ interface Props{
 }
 
 export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId, rowStatusImageURL}) => {
-              // <div className="leftBoardContent" style={{backgroundImage: 'url("https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png")', backgroundSize:'cover', backgroundPosition:'center'}} >
     
   return (
     <div >

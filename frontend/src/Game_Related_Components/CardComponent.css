@@ -12,3 +12,7 @@
     background-size: cover;
 
 }
+
+.card:hover {
+    transform: translateY(0.75rem);
+}

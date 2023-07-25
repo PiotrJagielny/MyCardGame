@@ -53,17 +53,22 @@
   width: 70%;
 }
 
-.playerName{
+
+.playerTag{
   font-size: 40px;
   position: absolute;
   margin-left: 1%;
 }
-.enemyName{
+.enemyTag{
   font-size: 40px;
   position: absolute;
   margin-left: 1%;
+  display:flex;
 
 }
+
+
+
 .separator {
   background-color: whitesmoke;
   height: 1px;

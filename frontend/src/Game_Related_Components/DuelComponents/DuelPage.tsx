@@ -16,6 +16,9 @@ var stompClient:any = null;
 var firstRow: number = 0;
 var secondRow: number = 1;
 var thirdRow: number = 2;
+var firstRowId:string = "Row 1";
+var secondRowId:string = "Row 2";
+var thirdRowId:string = "Row 3";
 var rowStatusToImageUrl: Map<string,string> = new Map<string,string>([
   ["", ""],
   ["Rain", "https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png"],
@@ -44,7 +47,6 @@ const DuelPage = () => {
   const [enemyCardsOnSecondRow, setenemyCardsOnSecondRow] = useState<Card[]>([]);
   const [enemyCardsOnThirdRow, setCardsOnThirdRow2] = useState<Card[]>([]);
 
-  const [enemyPointsOnBoard, setenemyPointsOnBoard] = useState<number>(0);
   const [enemyPointsOnRows, setEnemyPointsOnRows] = useState<number[]>([]);
   const [enemyWonRounds, setenemyWonRounds] = useState<number>(0);
   const [isEnemyTurn, setisEnemyTurn] = useState<boolean>(false);
@@ -71,8 +73,19 @@ const DuelPage = () => {
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
+    stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
+    stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
   }
   const onMessageReceived = (payload: any) => {
+    fetchCardsData();
+  }
+  const enemyEndRoundTrigger = (payload: any) => {
+    console.log(payload);
+    fetchCardsData();
+  }
+  const newRoundStarted = (payload: any) => {
+    console.log("New round");
+    alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     fetchCardsData();
   }
 
@@ -180,6 +193,55 @@ const DuelPage = () => {
     document.body.appendChild(alert);
   }
 
+  const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    const alertButton = document.createElement('button');
+    alertButton.innerText = 'Back to main menu';
+    alert.setAttribute('style', `
+      position: fixed;
+      top: 30%;
+      left:50%;
+      padding:20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 5px 0 #00000022; 
+      display:flex;
+      flex-direction:column;
+      background-image: url(${imageURL});
+      background-size: cover;
+      background-position: center;
+      height: 200px;
+      width: 200px;
+    `);
+    alertButton.setAttribute('style', `
+      border: 1px solidd #333;
+      background:white;
+      border-radius: 5px;
+      padding: 5px;
+    
+    `);
+    alert.innerHTML= `<span style="
+      font-size: 20px;
+      padding: 29%;
+      padding-left: 59px;
+      ">
+     ${msg}
+     </span>`;
+     if(appearButton) {
+      alert.appendChild(alertButton);
+      alertButton.addEventListener('click',(e) => {
+        alert.remove();
+        navigate("/Main");
+      });
+     }
+    if(timeout !== 0) {
+      setTimeout(() => {
+        alert.remove();
+      }, Number(timeout))
+    }
+    document.body.appendChild(alert);
+  }
+
 
 
   const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0});
@@ -233,13 +295,13 @@ const DuelPage = () => {
     if(destination.droppableId === "Hand"){return;}
 
     setPostOnRowNumberOf(-1);
-    if(destination.droppableId === "BoardRow1"){
+    if(destination.droppableId === firstRowId){
       setPostOnRowNumberOf(0);
     }
-    else if(destination.droppableId === "BoardRow2"){
+    else if(destination.droppableId === secondRowId){
       setPostOnRowNumberOf(1);
     }
-    else if(destination.droppableId === "BoardRow3"){
+    else if(destination.droppableId === thirdRowId){
       setPostOnRowNumberOf(2);
     }
     setCardDragged({name: result.draggableId, points: 0});
@@ -286,7 +348,7 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
         setPlayChainCard(cardChained);
-        stompClient.send('/app/sendTrigger', {}, userName);
+        stompClient.send('/app/sendTrigger', {}, userName, userName);
       });
   }
 
@@ -298,7 +360,6 @@ const DuelPage = () => {
       },
       body: null
     }).then( () => {
-        stompClient.send('/app/sendTrigger', {}, userName);
     });
   }
   const renderWonRounds = (wonRoudnsOfPlayer: number) => {
@@ -315,7 +376,7 @@ const DuelPage = () => {
   return (
     
     <div>
-      <div className="playerName">{userName} : {pointsOnRows.reduce((sum, e) => sum + e, 0)}</div>
+      <div className="playerTag">{userName} : {pointsOnRows.reduce((sum, e) => sum + e, 0)}</div>
       <div className="playerInfo">
         {isTurnOfPlayer1?
         <div>
@@ -349,12 +410,13 @@ const DuelPage = () => {
         ))}
       </Modal>
 
-      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
-        <HandComponent cardsInHand = {cardsInHand} cardInPlayChain={playChainCard}></HandComponent>
 
-        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={"BoardRow2"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
-        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={"BoardRow1"} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
+      <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
+        <HandComponent  cardsInHand = {cardsInHand} cardInPlayChain={playChainCard}></HandComponent>
+
+        <RowComponent cardsOnRow = {cardsOnThirdRow} pointsOnRow={pointsOnRows[thirdRow]} rowDroppableId={thirdRowId} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnSecondRow} pointsOnRow={pointsOnRows[secondRow]} rowDroppableId={secondRowId} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {cardsOnBoard} pointsOnRow={pointsOnRows[firstRow]} rowDroppableId={firstRowId} rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
       </DragDropContext>  
         
         <div className="wonRounds">
@@ -364,18 +426,18 @@ const DuelPage = () => {
           <div className="separator"></div>
           <div className="endRoundDiv"><button className="endRoundButton"onClick={() => endRoundFor(userName)}>End round</button></div>
         </div>
-        <div className="wonRounds">
-          {renderWonRounds(enemyWonRounds)}
+        <div className="wonRounds" style={{background: 'rgba(0,0,0,0.6'}}>
+          {renderWonRounds(enemyWonRounds)}  
         </div>
       
       <DragDropContext onDragEnd = {() => {}}>
-        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={"BoardRow1"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={"BoardRow2"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
-        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={"BoardRow3"}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
+        <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
       </DragDropContext>
       
       
-      <div className="enemyName">{enemyName} : {enemyPointsOnRows.reduce((sum, e) => sum + e, 0)}</div>
+      <div className="enemyTag"><div className="enemyName">{enemyName} </div>: {enemyPointsOnRows.reduce((sum, e) => sum + e, 0)} </div>
     </div>
   )
 }
