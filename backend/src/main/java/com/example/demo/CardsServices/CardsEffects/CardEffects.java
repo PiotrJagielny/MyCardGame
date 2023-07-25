@@ -61,7 +61,6 @@ public class CardEffects {
         else if(p.equals(CardsFactory.rain)) {
             enemy.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
             player.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
-
         }
         else if(p.equals(CardsFactory.clearSky)) {
             player.clearRowsStatus();

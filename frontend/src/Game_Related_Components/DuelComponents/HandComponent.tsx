@@ -16,7 +16,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
           {(provided) => (
             <div className = "HandContainer" ref={provided.innerRef} {...provided.droppableProps}>
             <div className="leftHandContent">
-              <h3>Hand</h3>
+              <h3>Hand : {cardsInHand.length}</h3>
             </div>
             {cardInPlayChain.name === "" ? 
 

@@ -68,11 +68,6 @@ public class DuelController {
             return duels.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
         return new CardDisplay();
     }
-    @GetMapping(path = "getCardInfo/{cardName}")
-    @CrossOrigin
-    public String GetCardInfo(@PathVariable String cardName){
-        return CardsFactory.getCardInfo(cardName);
-    }
 
     @PostMapping(path = "endRound/{userName}/{gameID}")
     @CrossOrigin
@@ -136,6 +131,11 @@ public class DuelController {
     public List<String> getRowsStatusNames(@PathVariable String userName, @PathVariable String gameID) {
 
         return IntStream.range(0, Consts.rowsNumber).mapToObj(i -> duels.get(gameID).getRowStatusOf(userName, i)).collect(Collectors.toList());
+    }
+    @GetMapping(path="getHandSize/{userName}/{gameID}")
+    @CrossOrigin
+    public int getEnemyHandSize(@PathVariable String userName, @PathVariable String gameID) {
+        return duels.get(gameID).getCardsInHandDisplayOf(userName).size();
     }
 
 

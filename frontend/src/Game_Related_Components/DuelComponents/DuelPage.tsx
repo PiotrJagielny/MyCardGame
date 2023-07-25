@@ -51,11 +51,12 @@ const DuelPage = () => {
   const [enemyWonRounds, setenemyWonRounds] = useState<number>(0);
   const [isEnemyTurn, setisEnemyTurn] = useState<boolean>(false);
   const [didEnemyWon, setdidEnemyWon] = useState<boolean>(false);
-  const [enemyRowsStatus, setEnemyRowsStatus] = useState<string[]>([]);
 
   const [targetableCards, setTargetableCards] = useState<Card[]>([]);
   const [affectableRows, setAffectableRows] = useState<number[]>([]);
   const [enemyName, setEnemyName] = useState<string>("");
+  const [enemyHandSize, setEnemyHandSize] = useState<number>(0);
+
 
 
   const [enemyEndRoundBackground, setEnemyEndRoundBackground] = useState<string>('');
@@ -144,6 +145,7 @@ const DuelPage = () => {
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
         fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus);
+        fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize);
 
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
@@ -385,6 +387,14 @@ const DuelPage = () => {
     }
     return wonRoundsDivs;
   } 
+  const getEnemyHandBlankCards = () => {
+    console.log(enemyHandSize);
+    let cards: Card[] = [];
+    for(let i = 0 ; i < enemyHandSize ; ++i ) {
+      cards.push({name:"", points: 0 , cardInfo:" "});
+    }
+    return cards;
+  }
 
   return (
     
@@ -447,7 +457,10 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
+        <HandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={{name:'', points: 0, cardInfo: ''}}></HandComponent>
       </DragDropContext>
+
+
       
       
       <div className="enemyTag"><div className="enemyName">{enemyName} </div>: {enemyPointsOnRows.reduce((sum, e) => sum + e, 0)} </div>
