@@ -28,4 +28,7 @@
 .Decks {
   display: flex;
 }
+.PlayersDecks{
+  margin-left:5%;
+}
   

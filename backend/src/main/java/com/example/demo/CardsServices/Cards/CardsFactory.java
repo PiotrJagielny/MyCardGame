@@ -1,11 +1,9 @@
 package com.example.demo.CardsServices.Cards;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardTargetStrattegies.AllEnemyCardsTargetable;
-import com.example.demo.CardsServices.CardTargetStrattegies.AllPlayerCardsTargetable;
-import com.example.demo.CardsServices.CardTargetStrattegies.CardTargeting;
-import com.example.demo.CardsServices.CardTargetStrattegies.NoCardTargetable;
+import com.example.demo.CardsServices.CardTargetStrattegies.*;
 import com.example.demo.Consts;
+import com.example.demo.Duel.OnePlayerDuel;
 
 
 import java.util.*;
@@ -48,6 +46,9 @@ public class CardsFactory {
     public static final int longerBoostAmount = 2;
 
     public static final CardDisplay rain= new CardDisplay("Rain",0);
+    public static final CardDisplay clearSky= new CardDisplay("Clear sky",0);
+    public static final CardDisplay priest = new CardDisplay("Priest", 1);
+
 
     public static final int rainStrikeAmount =  2;
     private static final Map<String, CardTargeting> mapCardNameToTargetingStrategy= new HashMap<>() {{
@@ -55,17 +56,20 @@ public class CardsFactory {
         put(booster.getName(), new AllPlayerCardsTargetable());
         put(archer.getName(), new AllEnemyCardsTargetable());
         put(fireball.getName(), new AllEnemyCardsTargetable());
+        put(priest.getName(), new AllCardsInDeckTargetable());
     }};
 
-    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, List<CardDisplay> playerBoard, List<CardDisplay> enemyBoard) {
-        return mapCardNameToTargetingStrategy.getOrDefault(card.getName(), new NoCardTargetable()).getPossibleTargets(playerBoard, enemyBoard);
+    public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
+        return mapCardNameToTargetingStrategy.getOrDefault(
+                card.getName(), new NoCardTargetable()).getPossibleTargets(player, enemy
+        );
     }
 
 
 
 
     private static final Map<String, String> mapCardNameToInfo = new HashMap<>() {{
-        put(conflagration.getName(), "Burn all cards that are max points");
+        put(conflagration.getName(), "Burn all cards that are have points");
         put(doubler.getName(), "Double chosen card points");
         put(booster.getName(), "Boost whole row by " + leaderBoostAmount);
         put(healer.getName(), "Boost every card on your row by " + healerBoostAmount + ", if card points is max " + healerMaxCardPointsWithBoost);
@@ -75,6 +79,8 @@ public class CardsFactory {
         put(rip.getName(), "Deal " + CardsFactory.ripRowDamageAmount + " damage to whole enemy row");
         put(longer.getName(), "Boost every single turn by " + longerBoostAmount);
         put(rain.getName(), "Strike max points card on choosen row every turn by " + rainStrikeAmount);
+        put(clearSky.getName(), "Clear every row status");
+        put(priest.getName(), "Play one card from deck");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -92,7 +98,7 @@ public class CardsFactory {
 
 
     public static List<Card> createAllCards(){
-        List<Card> result = new ArrayList<Card>(Arrays.asList(
+        return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(knight),
                 Card.createCard(witch),
                 Card.createCard(thunder),
@@ -111,8 +117,9 @@ public class CardsFactory {
                 Card.createCard(doubler),
                 Card.createCard(rip),
                 Card.createCard(longer),
-                Card.createCard(rain)
+                Card.createCard(rain),
+                Card.createCard(clearSky),
+                Card.createCard(priest)
         ));
-        return result;
     }
 }

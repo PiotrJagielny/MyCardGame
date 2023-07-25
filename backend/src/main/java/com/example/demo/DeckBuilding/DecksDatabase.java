@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DecksDatabase {
-//    private final static String jdbcURL = "jdbc:postgresql://localhost:5433/cardgame";
-//    private final static String dbusername = "postgres";
-//    private final static String password= "1234";
-    private final static String jdbcURL = "jdbc:postgresql://dpg-citnnqtiuiedpv4sj9hg-a.frankfurt-postgres.render.com/cardgame";
-    private final static String dbusername = "cardgame_user";
-    private final static String password= "Kaa338qGgKJbSlduEeUc880qA9PjTrWk";
+    private final static String jdbcURL = "jdbc:postgresql://localhost:5433/cardgame";
+    private final static String dbusername = "postgres";
+    private final static String password= "1234";
+//    private final static String jdbcURL = "jdbc:postgresql://dpg-citnnqtiuiedpv4sj9hg-a.frankfurt-postgres.render.com/cardgame";
+//    private final static String dbusername = "cardgame_user";
+//    private final static String password= "Kaa338qGgKJbSlduEeUc880qA9PjTrWk";
     public static void save(DeckBuilder deckBuilder, String username) {
         try {
             Connection connection = DriverManager.getConnection(jdbcURL,dbusername,password);

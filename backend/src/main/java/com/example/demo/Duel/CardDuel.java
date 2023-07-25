@@ -43,11 +43,16 @@ public class CardDuel {
         return players.get(player).getRowPoints(row);
     }
 
-    public void playCardAs(PlayerPlay playMade, String player) {
+    public CardDisplay playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
             invokeEffects(playMade, player);
-            changeTurn();
+            if(!playMade.getPlayedCard().equals(CardsFactory.priest))
+                changeTurn();
+            else {
+                return playMade.getAffectedCard();
+            }
         }
+        return new CardDisplay();
     }
     private void invokeEffects(PlayerPlay playMade,String player) {
         OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
@@ -72,11 +77,9 @@ public class CardDuel {
 
     private void changeTurn(){
         String opponent = getOpponentOf(whosTurn);
-        String g = whosTurn;
         if(players.get(opponent).didEndRound() == false) {
-            whosTurn = opponent;;
+            whosTurn = opponent;
         }
-
     }
 
     public String getOpponentOf(String player){
@@ -102,11 +105,14 @@ public class CardDuel {
 
 
     public void endRoundFor(String player) {
-        OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
-        effect.invokeEffect();
-        changeTurn();
-        players.get(player).endRound();
-        if (didPlayersEndedRound()) startNewRound();
+        if(whosTurn.equals(player)){
+            OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
+            effect.invokeEffect();
+            changeTurn();
+            players.get(player).endRound();
+            if (didPlayersEndedRound()) startNewRound();
+
+        }
     }
 
     private boolean didPlayersEndedRound() {
@@ -116,6 +122,9 @@ public class CardDuel {
                 return false;
         }
         return true;
+    }
+    public boolean didEnemyEndedRound(String userName) {
+        return players.get(getOpponentOf(userName)).didEndRound();
     }
 
     private void startNewRound() {
@@ -152,10 +161,9 @@ public class CardDuel {
 
     public List<CardDisplay> getPossibleTargetsOf(CardDisplay cardPlayed, String player) {
         if(whosTurn.equals(player) == true){
-            List<CardDisplay> enemyBoard = players.get( getOpponentOf(player) ).getCardsOnBoard();
-            List<CardDisplay> playerBoard = players.get( player ).getCardsOnBoard();
-
-            return CardsFactory.getPossibleTargetsOf(cardPlayed, playerBoard, enemyBoard);
+            return CardsFactory.getPossibleTargetsOf(
+                    cardPlayed, players.get(player), players.get(getOpponentOf(player))
+            );
         }
         else
             return List.of();

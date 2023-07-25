@@ -12,7 +12,6 @@ interface Props{
 }
 
 export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDroppableId, rowStatusImageURL}) => {
-              // <div className="leftBoardContent" style={{backgroundImage: 'url("https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png")', backgroundSize:'cover', backgroundPosition:'center'}} >
     
   return (
     <div >
@@ -24,7 +23,7 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
               </div>
               <div className="rightBoardContent" >
                   {cardsOnRow.map((card, index) =>(
-                    <CardComponent  name={card.name} points={card.points}></CardComponent>
+                        <CardComponent  card={{name:card.name, points:card.points, cardInfo:card.cardInfo}}></CardComponent>
                   ))}
               {provided.placeholder}    
               </div>

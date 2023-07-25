@@ -91,4 +91,8 @@ public class Row {
     public String getStatusName() {
         return status.toString();
     }
+
+    public void clearStatus() {
+        status= RowStatus.NoStatus;
+    }
 }

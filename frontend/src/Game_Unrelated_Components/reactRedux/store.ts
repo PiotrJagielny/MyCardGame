@@ -8,9 +8,6 @@ const persistConfig = {
     version: 1,
     storage
 }
-// const reducerPersist = comibeReducer({
-//     reducer: reducer
-// })
 const persistedReducer = persistReducer(persistConfig, reducer); 
 
 export const store = createStore(persistedReducer);
