@@ -82,7 +82,7 @@ const DeckBuilderPage = () => {
     if(destination.droppableId === "AllCards"){
       PostURL = `${serverURL}/DeckBuilder/PutCardFromDeckBack/${userName}`;
     }
-    else if(destination.droppableId === "AllCardsInDeck"){
+    else if(destination.droppableId === "CardsInDeck"){
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}`
     }
 
