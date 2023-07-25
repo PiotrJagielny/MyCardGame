@@ -11,7 +11,7 @@ interface Props{
 
 export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) => {
   return (
-    <div>
+    <div className="handComponent">
         <Droppable droppableId="Hand">
           {(provided) => (
             <div className = "HandContainer" ref={provided.innerRef} {...provided.droppableProps}>
@@ -32,6 +32,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
                 ))}
             </div>
             :
+            //Show card in play chain, and make cards in hand not draggable
             <div>
              <div className="rightHandContainer" style={{display: 'flex'}}>
                  {cardsInHand.map((card, index) =>(

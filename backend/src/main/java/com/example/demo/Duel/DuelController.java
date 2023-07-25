@@ -77,6 +77,13 @@ public class DuelController {
     @PostMapping(path = "endRound/{userName}/{gameID}")
     @CrossOrigin
     public void endRound(@PathVariable String userName, @PathVariable String gameID){
+        if(duels.get(gameID).didEnemyEndedRound(userName)) {
+            simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/newRoundStarted", "New round started");
+            simpMessagingTemplate.convertAndSendToUser(userName, "/newRoundStarted", "New round started");
+        }
+        else {
+            simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/enemyEndRound", "Enemy ended round");
+        }
         duels.get(gameID).endRoundFor(userName);
     }
 

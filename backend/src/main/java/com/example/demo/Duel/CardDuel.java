@@ -123,6 +123,9 @@ public class CardDuel {
         }
         return true;
     }
+    public boolean didEnemyEndedRound(String userName) {
+        return players.get(getOpponentOf(userName)).didEndRound();
+    }
 
     private void startNewRound() {
         Map<String, Integer> playerNameToBoardPointsMap = getPlayersBoardPoints();
