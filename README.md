@@ -77,13 +77,15 @@ Player targetted second row with Rain, and now this row has weather effect that 
 
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3deb310c-aec2-4f71-91c2-356edad484ef)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6b848339-a429-4f34-ae45-8780dcdde814)
+
 
 
 
 
 After playing conflagration max points cards are burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0edae919-2bfb-4294-9b96-c6c22647dd8c)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ebe344cd-59e2-4417-8115-890f86d2ef1f)
+
 
 
 <br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
