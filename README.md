@@ -89,12 +89,15 @@ After playing conflagration max points cards are burned.
 
 
 <br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
-I played Priest, and a card from the deck that can be played appeared. I will choose to play an Archer.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/69601b89-dfec-4af6-abf3-7bb837570567)
-Now, after choosing Archer, I can play this card as shown on the screen below. While playing Archer, I can't play any other cards from my hand.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/27e74c0f-2fed-41eb-87ef-5b1e17b18d3c)
-Archer played and dealt 3 damage to the Viking. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/403b1702-d25b-49e7-a865-b971312d39a1)
+I played Priest, and a card from the deck that can be played appeared. I will choose to play a Healer.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/c0779dd1-cc99-47a2-8dc0-899f784035ea)
+
+Now, after choosing Healer, I can play this card as shown on the screen below. While playing Healer, I can't play any other cards from my hand.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/cacf4088-e240-44e0-abf4-dbdde1c2ff2d)
+
+After playing healer, all cards with max 2 points are boosted. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/715b30dd-d62f-4776-8c7c-ea060c3dacf1)
+
 
 
 
@@ -102,10 +105,6 @@ Archer played and dealt 3 damage to the Viking. (I am super excited about this f
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e695c313-8b67-4050-a3f9-d10aeae77b3f)
 <br> If both players ended round, new round starts and in the middle of screen appears: <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3b5ec737-cb19-467c-b81f-df995be5fb9e)
-
-
-<br>After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.<br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/a300cdbc-09d0-499c-b595-deb46106112b)
 
 
 Player lost 2 rounds and lost game <br>
