@@ -102,20 +102,25 @@ After playing healer, all cards with max 2 points are boosted. (I am super excit
 
 
 <br> If enemy ended round, or you ended round, this information is displayed <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e695c313-8b67-4050-a3f9-d10aeae77b3f)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/07aa64bb-7977-48c1-a3dc-d660f992bceb)
+
 <br> If both players ended round, new round starts and in the middle of screen appears: <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3b5ec737-cb19-467c-b81f-df995be5fb9e)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0ca0c2f2-2e6a-4a02-a091-58bdd28e2120)
+
 
 
 Player lost 2 rounds and lost game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e1282036-17ea-474b-bfd7-d2164ec9463b)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bbdc089a-5e84-48ac-a5fb-400f65c81e92)
+
 
 After someone wins round, there appears a crown in the middle left on the proper side. <br>
 Player won 2 rounds, 2 crowns appeared and won game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/24e9d1c6-e8c2-4297-97e5-f1365f8252f6)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b5ef239-0584-4ee7-8958-9456e663d57e)
 
-<br>If both players had same amount of points, they both scores a crown. Here two players had same points and game ended with draw<br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/386a20c0-d603-46dc-aaa6-de082c4cb500)
+
+<br>If both players had same amount of points, they both score a crown. Here two players had same amount of points and game ended with draw<br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3ceeddc5-9664-4f9c-a8ca-89237f3a8e98)
+
 
 
 
