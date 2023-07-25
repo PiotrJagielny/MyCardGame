@@ -64,23 +64,27 @@ Archer targetted Viking and dealt damage
 
 
 Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d99b48d2-6241-48ee-8ef5-657742a92dbb)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/10aaa394-0881-4110-83cf-db5a54ed801f)
 
 
 
-Rip targetted third row and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/1780fc00-0dc8-4785-9988-9c94cfe49984)
+
+Player targetted second row with Rain, and now this row has weather effect that dealt 2 damage every turn to max points card
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4e38f21c-b346-4b15-8bdf-aca78b29476c)
+
 
 
 
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6c52144b-710f-42a2-a449-4beda5b5459b)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3deb310c-aec2-4f71-91c2-356edad484ef)
 
 
 
-After playing conflagration max points card is burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b4c7a339-a9a5-4400-8607-9314dad38e9a)
+
+After playing conflagration max points cards are burned.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0edae919-2bfb-4294-9b96-c6c22647dd8c)
+
 
 <br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
 I played Priest, and a card from the deck that can be played appeared. I will choose to play an Archer.
