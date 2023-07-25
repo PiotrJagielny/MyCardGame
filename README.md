@@ -40,6 +40,9 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 There is also duel page, where players can put cards from hand on one of three rows. 
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8d6c127c-c1fd-414d-bd47-694c92cac174)
+You can hover on a card, and its info appears
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/76fcd419-09c0-4f11-893e-ef40b8f9a045)
+
 
 
 
@@ -85,6 +88,11 @@ Archer played and dealt 3 damage to the Viking. (I am super excited about this f
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/403b1702-d25b-49e7-a865-b971312d39a1)
 
 
+
+<br> If enemy ended round, or you ended round, this information is displayed <br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e695c313-8b67-4050-a3f9-d10aeae77b3f)
+<br> If both players ended round, new round starts and in the middle of screen appears: <br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3b5ec737-cb19-467c-b81f-df995be5fb9e)
 
 
 <br>After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.<br>
