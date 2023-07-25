@@ -78,8 +78,7 @@ Also there are cards that have effects, but player dont have to target anything
 After playing conflagration max points card is burned.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b4c7a339-a9a5-4400-8607-9314dad38e9a)
 
-<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.
-(this feature is in development for now, not ready for production)<br>
+<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
 I played Priest, and a card from the deck that can be played appeared. I will choose to play an Archer.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/69601b89-dfec-4af6-abf3-7bb837570567)
 Now, after choosing Archer, I can play this card as shown on the screen below. While playing Archer, I can't play any other cards from my hand.
