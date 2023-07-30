@@ -37,6 +37,9 @@ public class CardEffects {
             player.boostCard(playMade.getAffectedCard(), CardsFactory.boosterBoostAmount);
         }
         else if(p.equals(CardsFactory.archer)){
+            if(playMade.getAffectedCard().getPoints() <= CardsFactory.archerStrikeAmount) {
+
+            }
             enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.archerStrikeAmount);
         }
         else if(p.equals(CardsFactory.leader)){

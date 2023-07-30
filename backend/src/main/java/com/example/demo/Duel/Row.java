@@ -76,10 +76,6 @@ public class Row {
     public List<Card> getCards() {
         return cards;
     }
-    public List<CardDisplay> getCardsDisplays() {
-        return CardsParser.getCardsDisplay( cards);
-    }
-
 
     public Card get(int cardId){
         return cards.get(cardId);
