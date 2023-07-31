@@ -1,48 +1,71 @@
-import React, {useState} from 'react';
-import Modal from 'react-modal';
-import {useSelector} from 'react-redux';
-import StateData from './../Game_Unrelated_Components/reactRedux/reducer';
+import React from 'react';
 import './CardComponent.css';
+import {Card} from './Interfaces/Card';
 
 interface CardComponentProps {
-  name: string;
-  points: number;
+  card: Card;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({  name, points }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [cardInfo, setCardInfo] = useState<string>("");
-
-
-  const serverURL = useSelector<StateData, string>((state) => state.serverURL); 
-
-  const getInfo = (event: React.MouseEvent<HTMLDivElement>) => {
-
-    event.preventDefault();
-    if(event.button === 2) {
-      fetch(`${serverURL}/Duel/getCardInfo/${name}`)
-        .then((res) => res.text())
-        .then((cardInfo: string) => {
-          setCardInfo(cardInfo); 
-          setShowModal(true);
-        })
-        .catch(console.error);
-      }
-  }
-  
+const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
   const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
-  event.preventDefault();
+    event.preventDefault();
   }
 
-  return <div  onContextMenu={blockContextMenu} onMouseDown={getInfo} className="card">
-        <div className="name">{name}</div>
-        <div>{points}</div>
+  const showInfo = () => {
+    if(card.name !== "") {
+      const wholeCardDisplay = document.createElement('div');
+      wholeCardDisplay.classList.add('wholeCardDisplay');
+      wholeCardDisplay.setAttribute('style', `
+        position: absolute;
+        top: 20%;
+        padding:20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 5px 0 #00000022; 
+        flex-direction:column;
+        background-image: url(${'https://www.pngkit.com/png/full/196-1963608_jpg-freeuse-library-uno-cards-template-png-for.png'});
+        background-size: cover;
+        background-position: top;
+        background-color: black;
+        margin-left:60%;
+        height: 350px;
+        width: 260px;
+      `);
+      wholeCardDisplay.setAttribute('id', 'wholeCardDisplay');
+      wholeCardDisplay.innerHTML= `<div style="
+        font-size: 40px;
+        color: black;
+        margin-left: 10%;
+        margin-top: 10%;
+        ">
+       ${card.name}
+       </div>
+       <div style="
+        font-size: 30px; 
+        color: black;
+        margin-left: 10%;
+       ">${card.points}
+       </div>
+       <div style="
+        font-size: 30px; 
+        color: black;
+        margin-left: 10%;
+        margin-top: 20%
+       ">${card.cardInfo}
+       </div>`;
+      document.body.appendChild(wholeCardDisplay);
 
-      <Modal isOpen={showModal}  style={{content: {width:'300px', height:'200px', background:'gray',},}}>
-        <h2>{cardInfo}</h2>
-        <button onClick={() => setShowModal(false)}>Close</button>
-        
-      </Modal>
+    }
+  }
+  const hideInfo= () => {
+    const wholeCardDisplay: any = document.getElementById('wholeCardDisplay');
+    if(wholeCardDisplay !== null)
+      wholeCardDisplay.remove();
+  }
+
+
+  return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+        <div className="name">{card.name}</div>
+        <div>{card.name !== "" && card.points}</div>
   </div>
 };
 

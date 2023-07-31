@@ -19,7 +19,6 @@ const MainPage = () => {
   let dispatch = useDispatch();
   const RedirectToDeckBuilder = () =>{
 
-    console.log(serverURL);
       fetch(serverURL + '/DeckBuilder/setupBuilder', {
         method: 'POST',
         headers: {'Content-Type': 'text/plain',},

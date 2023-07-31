@@ -11,7 +11,6 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 const DeckBuilderPage = () => {
   const [refresh, setRefresh] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
 
@@ -56,8 +55,6 @@ const DeckBuilderPage = () => {
     });
 
     
-    addMessage(await response.text());
-
     if(!response.ok){
       throw new Error('Failed to change deck state');
     }
@@ -65,11 +62,6 @@ const DeckBuilderPage = () => {
     fetchCardsData();
   };
 
-  const addMessage = (message: string) => {
-    messages.push(message);
-    setMessages(messages);
-    setRefresh(true);
-  }
 
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
@@ -86,7 +78,7 @@ const DeckBuilderPage = () => {
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}`
     }
 
-    let cardDragged: Card = {name: result.draggableId, points: 0};
+    let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
     
     ChangeDecksState(cardDragged, PostURL); 
   }
@@ -108,13 +100,13 @@ const DeckBuilderPage = () => {
           <div>
             <h3>All cards</h3>
            <div className = "AllCards">
-              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCardsInDeck"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
            </div>
           </div>
           <div>
             <h3> Cards in deck</h3>
             <div className = "AllCardsInDeck">
-              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="CardsInDeck"></CardsCollectionDisplay>
             </div>
           </div>
           <div className="PlayersDecks">

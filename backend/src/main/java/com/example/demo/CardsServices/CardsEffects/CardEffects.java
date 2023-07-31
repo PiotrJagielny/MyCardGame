@@ -37,6 +37,9 @@ public class CardEffects {
             player.boostCard(playMade.getAffectedCard(), CardsFactory.boosterBoostAmount);
         }
         else if(p.equals(CardsFactory.archer)){
+            if(playMade.getAffectedCard().getPoints() <= CardsFactory.archerStrikeAmount) {
+
+            }
             enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.archerStrikeAmount);
         }
         else if(p.equals(CardsFactory.leader)){
@@ -60,12 +63,22 @@ public class CardEffects {
         }
         else if(p.equals(CardsFactory.rain)) {
             enemy.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
+            player.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
         }
         else if(p.equals(CardsFactory.clearSky)) {
             player.clearRowsStatus();
             enemy.clearRowsStatus();
         }
+
         player.placeCardOnBoard(playMade);
+
+        if(p.equals(CardsFactory.sharpshooter)) {
+            int targetPoints = playMade.getAffectedCard().getPoints();
+            if(targetPoints <= CardsFactory.sharpshooterDamage) {
+                player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
+            }
+            enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.sharpshooterDamage);
+        }
     }
 
     public void boostRowBy(int amount){

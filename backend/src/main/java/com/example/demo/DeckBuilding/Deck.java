@@ -34,6 +34,7 @@ public class Deck {
     public String addCard(CardDisplay cardDisplay){
         String responseMessage="";
         Card card = allCardsPossibleToAdd.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
+        
 
         if(cardsInDeck.size() == Consts.MaxDeckSize) {
             responseMessage = Consts.DeckFullMessage;
