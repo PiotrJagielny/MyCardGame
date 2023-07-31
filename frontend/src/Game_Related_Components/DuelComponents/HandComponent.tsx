@@ -22,6 +22,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
                 backgroundPosition:'center',backgroundSize:'cover',backgroundImage:'url(https://static.thenounproject.com/png/1212866-200.png)'}}></div>
               </div>
             </div>
+
             {cardInPlayChain.name === "" ? 
 
             <div className="rightHandContainer" style={{display: 'flex'}}>

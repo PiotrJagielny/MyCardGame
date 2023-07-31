@@ -149,13 +149,15 @@ const DuelPage = () => {
 
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
-          alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg" );
+          alertt("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", null, true );
+          // alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg" );
+          // alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
         }
         else if(wonRounds === 2) {
-          alert("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg" );
+          alertt("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", null, true );
         }
         else if(enemyWonRounds === 2) {
-          alert("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg" );
+          alertt("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", null, true );
         }
 
       })
@@ -163,47 +165,47 @@ const DuelPage = () => {
 
     setRefresh(true);
   }
-  const alert= (msg:string, imageURL:string) => {
-    const alert = document.createElement('div');
-    alert.classList.add('alert');
-    const alertButton = document.createElement('button');
-    alertButton.innerText = 'Back to main menu';
-    alert.setAttribute('style', `
-      position: fixed;
-      top: 30%;
-      left:50%;
-      padding:20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 5px 0 #00000022; 
-      display:flex;
-      flex-direction:column;
-      background-image: url(${imageURL});
-      background-size: cover;
-      background-position: center;
-      height: 200px;
-      width: 200px;
-    `);
-    alertButton.setAttribute('style', `
-      border: 1px solidd #333;
-      background:white;
-      border-radius: 5px;
-      padding: 5px;
+  // const alert= (msg:string, imageURL:string) => {
+  //   const alert = document.createElement('div');
+  //   alert.classList.add('alert');
+  //   const alertButton = document.createElement('button');
+  //   alertButton.innerText = 'Back to main menu';
+  //   alert.setAttribute('style', `
+  //     position: fixed;
+  //     top: 30%;
+  //     left:50%;
+  //     padding:20px;
+  //     border-radius: 10px;
+  //     box-shadow: 0 10px 5px 0 #00000022; 
+  //     display:flex;
+  //     flex-direction:column;
+  //     background-image: url(${imageURL});
+  //     background-size: cover;
+  //     background-position: center;
+  //     height: 200px;
+  //     width: 200px;
+  //   `);
+  //   alertButton.setAttribute('style', `
+  //     border: 1px solidd #333;
+  //     background:white;
+  //     border-radius: 5px;
+  //     padding: 5px;
     
-    `);
-    alert.innerHTML= `<span style="
-      font-size: 20px;
-      padding: 29%;
-      padding-left: 59px;
-      ">
-     ${msg}
-     </span>`;
-    alert.appendChild(alertButton);
-    alertButton.addEventListener('click',(e) => {
-      alert.remove();
-      navigate("/Main");
-    });
-    document.body.appendChild(alert);
-  }
+  //   `);
+  //   alert.innerHTML= `<span style="
+  //     font-size: 20px;
+  //     padding: 29%;
+  //     padding-left: 59px;
+  //     ">
+  //    ${msg}
+  //    </span>`;
+  //   alert.appendChild(alertButton);
+  //   alertButton.addEventListener('click',(e) => {
+  //     alert.remove();
+  //     navigate("/Main");
+  //   });
+  //   document.body.appendChild(alert);
+  // }
 
   const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
     const alert = document.createElement('div');

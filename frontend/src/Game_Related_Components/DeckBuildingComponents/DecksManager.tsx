@@ -36,7 +36,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
 
 
   const handleSelectDeckPostRequest = (selectedDeckName: string) => {
-    const response = fetch(`${serverURL}/DeckBuilder/SelectDeck/${userName}`, {
+    fetch(`${serverURL}/DeckBuilder/SelectDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
 
   const handleNewDeckPostRequest = () => {
 
-    const response = fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}`, {
+    fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -59,8 +59,8 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
     fetchDecksNames();
   }
 
-  const handleDeckDeletePostRequest = async () => {
-    const response = await fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}`, {
+  const handleDeckDeletePostRequest = () => {
+    fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
