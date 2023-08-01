@@ -17,9 +17,6 @@ public class DeckBuilderController {
 
     private Map<String, DeckBuilder> deckBuilders = new HashMap<>();
 
-    @Autowired
-    public DeckBuilderController() {
-    }
     @PostMapping("setupBuilder")
     @CrossOrigin
     public void setupBuilder(@RequestBody String userName) {
