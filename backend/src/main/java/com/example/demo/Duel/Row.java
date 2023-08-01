@@ -1,5 +1,6 @@
 package com.example.demo.Duel;
 
+import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
@@ -82,25 +83,15 @@ public class Row {
         this.status = status;
     }
 
-    public void updateRow() {
-        if(status == RowStatus.Rain) {
-            int maxPoints = 0;
-            Card maxPointsCard = Card.createEmptyCard();
-            for (int i = 0; i < cards.size(); i++) {
-               if(cards.get(i).getPoints() > maxPoints) {
-                   maxPoints = cards.get(i).getPoints();
-                   maxPointsCard = cards.get(i);
-               }
-            }
-            strikeCardBy(maxPointsCard, CardsFactory.rainStrikeAmount);
-        }
-    }
-
     public String getStatusName() {
         return status.toString();
     }
 
     public void clearStatus() {
         status= RowStatus.NoStatus;
+    }
+
+    public void spawnCard(CardDisplay card) {
+        cards.add(Card.createCard(card));
     }
 }

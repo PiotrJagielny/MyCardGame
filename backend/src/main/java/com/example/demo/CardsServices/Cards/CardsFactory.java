@@ -104,6 +104,8 @@ public class CardsFactory {
     return mapCardNameToRowsAffect.getOrDefault(cardName, List.of());
     }
 
+    public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest);
+
 
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(

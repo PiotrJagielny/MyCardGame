@@ -109,6 +109,14 @@ public class OnePlayerDuel {
         });
     }
 
+    public int getCardRow(CardDisplay card) {
+        for (int i = 0; i < Consts.rowsNumber; i++) {
+            if(rows.get(i).getCards().contains(Card.createCard(card)))
+                return i;
+        }
+        return -1;
+    }
+
     public void dealCards(int howMany) {
         for(int i = 0 ; i < howMany && cardsInDeck.isEmpty() == false ; ++i){
             Card toDeal = cardsInDeck.get(0);
@@ -149,14 +157,15 @@ public class OnePlayerDuel {
         rows.get(rowNumber).setStatus(status);
     }
 
-    public void updateRows() {
-        rows.forEach(row -> row.updateRow());
-    }
 
     public String getRowStatusName(int row) {
         return rows.get(row).getStatusName();
     }
     public void clearRowsStatus() {
         rows.forEach(row -> row.clearStatus());
+    }
+
+    public void spawnCard(CardDisplay card, int onRow) {
+        rows.get(onRow).spawnCard(card);
     }
 }

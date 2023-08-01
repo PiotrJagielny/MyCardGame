@@ -206,7 +206,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.longer, firstRow, firstPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, firstRow, secondPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, firstPlayer);
-        int expectedPoints= CardsFactory.longer.getPoints() + CardsFactory.longerBoostAmount ;
+        int expectedPoints= CardsFactory.longer.getPoints() + 2*CardsFactory.longerBoostAmount ;
         int actualPoints = duel.getCardsOnBoardDisplayOf( firstPlayer, firstRow).get(0).getPoints();
         assertEquals(expectedPoints, actualPoints);
     }
