@@ -48,6 +48,11 @@ public class CardsFactory {
     public static final CardDisplay rain= new CardDisplay("Rain",0);
     public static final CardDisplay clearSky= new CardDisplay("Clear sky",0);
     public static final CardDisplay priest = new CardDisplay("Priest", 1);
+    public static final CardDisplay sharpshooter= new CardDisplay("Sharpshooter", 4);
+    public static final CardDisplay cow= new CardDisplay("Cow", 1);
+    public static final CardDisplay chort= new CardDisplay("Chort", 6);
+    public static final int sharpshooterDamage = 2;
+    public static final int sharpshooterSelfBoost= 2;
 
 
     public static final int rainStrikeAmount =  2;
@@ -57,6 +62,7 @@ public class CardsFactory {
         put(archer.getName(), new AllEnemyCardsTargetable());
         put(fireball.getName(), new AllEnemyCardsTargetable());
         put(priest.getName(), new AllCardsInDeckTargetable());
+        put(sharpshooter.getName(), new AllEnemyCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -81,6 +87,8 @@ public class CardsFactory {
         put(rain.getName(), "Strike max points card on choosen row every turn by " + rainStrikeAmount);
         put(clearSky.getName(), "Clear every row status");
         put(priest.getName(), "Play one card from deck");
+        put(sharpshooter.getName(), "Deal " + sharpshooterDamage + " damage, if card hit dies boost this card by " + sharpshooterSelfBoost);
+        put(cow.getName(), "If this cards dies, spawn " + chort.getName());
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -119,7 +127,9 @@ public class CardsFactory {
                 Card.createCard(longer),
                 Card.createCard(rain),
                 Card.createCard(clearSky),
-                Card.createCard(priest)
+                Card.createCard(priest),
+                Card.createCard(sharpshooter),
+                Card.createCard(cow)
         ));
     }
 }

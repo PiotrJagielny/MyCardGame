@@ -16,8 +16,13 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
           {(provided) => (
             <div className = "HandContainer" ref={provided.innerRef} {...provided.droppableProps}>
             <div className="leftHandContent">
-              <h3>Hand</h3>
+              <div style={{display: 'flex'}}>
+                  <h3>Hand : {cardsInHand.length} </h3>
+                <div style={{marginTop:'2%',width:'39px', height:'44px',
+                backgroundPosition:'center',backgroundSize:'cover',backgroundImage:'url(https://static.thenounproject.com/png/1212866-200.png)'}}></div>
+              </div>
             </div>
+
             {cardInPlayChain.name === "" ? 
 
             <div className="rightHandContainer" style={{display: 'flex'}}>

@@ -1,6 +1,7 @@
 package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.CardTargetStrattegies.AllCardsInDeckTargetable;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
@@ -20,8 +21,18 @@ public class Row {
     }
 
     public void clearRow(){
+
+        boolean spawnChort = false;
+        for (Card card : cards) {
+            if(card.getDisplay().equals(CardsFactory.cow)) {
+                spawnChort = true;
+            }
+        }
         cards.clear();
+        if(spawnChort)
+            cards.add(Card.createCard(CardsFactory.chort));
     }
+
 
     public void play(Card aCard){
         if(aCard.getPoints() > 0)
@@ -39,6 +50,10 @@ public class Row {
         if(cardIndex == -1) return;
         if(cards.get(cardIndex).getPoints() - strikeAmount < 1) {
             cards.remove(cardIndex);
+
+            if(aCard.getDisplay().equals(CardsFactory.cow)) {
+                cards.add(Card.createCard(CardsFactory.chort));
+            }
         }
         else {
             cards.get(cardIndex).strikeBy(strikeAmount);
@@ -61,10 +76,6 @@ public class Row {
     public List<Card> getCards() {
         return cards;
     }
-    public List<CardDisplay> getCardsDisplays() {
-        return CardsParser.getCardsDisplay( cards);
-    }
-
 
     public Card get(int cardId){
         return cards.get(cardId);

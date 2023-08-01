@@ -11,7 +11,6 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 const DeckBuilderPage = () => {
   const [refresh, setRefresh] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
 
@@ -56,8 +55,6 @@ const DeckBuilderPage = () => {
     });
 
     
-    addMessage(await response.text());
-
     if(!response.ok){
       throw new Error('Failed to change deck state');
     }
@@ -65,11 +62,6 @@ const DeckBuilderPage = () => {
     fetchCardsData();
   };
 
-  const addMessage = (message: string) => {
-    messages.push(message);
-    setMessages(messages);
-    setRefresh(true);
-  }
 
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
