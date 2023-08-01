@@ -1,5 +1,5 @@
 This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript. To store important
-data such as username, i used react redux. For multiplayer handling with STOMP i used Spring web sockets on backend, and SockJS on frontend.
+data such as username, i used react redux. For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend.
 To store users decks i used PostgreSQL and Java JDBC api. 
 
 This is card game based on rules of Gwint: The witcher card game.
@@ -16,6 +16,8 @@ Leader - Boosts every card in one row. <br>
 Doubler - Doubles chosen card points. <br>
 Rip - deals damage to whole row <br>
 Rain - deals damage to max points card every turn <br>
+Sharpshooter - deals damage to one enemy card and if this card dies, sharpshooter boost itself <br>
+Cow - If cow dies, spawn chort in the same row <br>
 
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
@@ -39,9 +41,11 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 
 There is also duel page, where players can put cards from hand on one of three rows. 
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8d6c127c-c1fd-414d-bd47-694c92cac174)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
+
 You can hover on a card, and its info appears
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/76fcd419-09c0-4f11-893e-ef40b8f9a045)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bf536ce4-d785-4c71-860c-0928bfd9a04e)
+
 
 
 
@@ -49,65 +53,76 @@ You can hover on a card, and its info appears
 
 
 Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e4e9d118-ecf0-480d-a8c1-6d8e96ebfe28)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ccfdffcf-7347-4f91-ab18-ce1c70ebf782)
+
 
 
 
 Archer targetted Viking and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/55c9bb6b-3cc7-4123-ba8d-6d2e51643add)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/58b0701e-3aaa-4d88-931c-a7dfc4e46446)
+
 
 
 
 
 Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/d99b48d2-6241-48ee-8ef5-657742a92dbb)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/10aaa394-0881-4110-83cf-db5a54ed801f)
 
 
 
-Rip targetted third row and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/1780fc00-0dc8-4785-9988-9c94cfe49984)
+
+Player targetted second row with Rain, and now this row has weather effect that deals 2 damage every turn to max points card
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4e38f21c-b346-4b15-8bdf-aca78b29476c)
+
 
 
 
 
 Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6c52144b-710f-42a2-a449-4beda5b5459b)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6b848339-a429-4f34-ae45-8780dcdde814)
 
 
 
-After playing conflagration max points card is burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b4c7a339-a9a5-4400-8607-9314dad38e9a)
 
-<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.
-(this feature is in development for now, not ready for production)<br>
-I played Priest, and a card from the deck that can be played appeared. I will choose to play an Archer.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/69601b89-dfec-4af6-abf3-7bb837570567)
-Now, after choosing Archer, I can play this card as shown on the screen below. While playing Archer, I can't play any other cards from my hand.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/27e74c0f-2fed-41eb-87ef-5b1e17b18d3c)
-Archer played and dealt 3 damage to the Viking. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/403b1702-d25b-49e7-a865-b971312d39a1)
+
+After playing conflagration max points cards are burned.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ebe344cd-59e2-4417-8115-890f86d2ef1f)
+
+
+
+<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
+I played Priest, and a card from the deck that can be played appeared. I will choose to play a Healer.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/c0779dd1-cc99-47a2-8dc0-899f784035ea)
+
+Now, after choosing Healer, I can play this card as shown on the screen below. While playing Healer, I can't play any other cards from my hand.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/cacf4088-e240-44e0-abf4-dbdde1c2ff2d)
+
+After playing healer, all cards with max 2 points are boosted. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/715b30dd-d62f-4776-8c7c-ea060c3dacf1)
+
 
 
 
 <br> If enemy ended round, or you ended round, this information is displayed <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e695c313-8b67-4050-a3f9-d10aeae77b3f)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/07aa64bb-7977-48c1-a3dc-d660f992bceb)
+
 <br> If both players ended round, new round starts and in the middle of screen appears: <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3b5ec737-cb19-467c-b81f-df995be5fb9e)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0ca0c2f2-2e6a-4a02-a091-58bdd28e2120)
 
-
-<br>After someone puts effect on row, for example rain that deals damage every turn, this is shown as below with corresponding background image.<br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/a300cdbc-09d0-499c-b595-deb46106112b)
 
 
 Player lost 2 rounds and lost game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/e1282036-17ea-474b-bfd7-d2164ec9463b)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bbdc089a-5e84-48ac-a5fb-400f65c81e92)
+
 
 After someone wins round, there appears a crown in the middle left on the proper side. <br>
 Player won 2 rounds, 2 crowns appeared and won game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/24e9d1c6-e8c2-4297-97e5-f1365f8252f6)
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b5ef239-0584-4ee7-8958-9456e663d57e)
 
-<br>If both players had same amount of points, they both scores a crown. Here two players had same points and game ended with draw<br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/386a20c0-d603-46dc-aaa6-de082c4cb500)
+
+<br>If both players had same amount of points, they both score a crown. Here two players had same amount of points and game ended with draw<br>
+![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/3ceeddc5-9664-4f9c-a8ca-89237f3a8e98)
+
 
 
 
