@@ -1,11 +1,8 @@
 package com.example.demo.Duel;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardTargetStrattegies.AllCardsInDeckTargetable;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
-import com.example.demo.CardsServices.CardsParser;
 
 import java.util.ArrayList;
 import java.util.List;

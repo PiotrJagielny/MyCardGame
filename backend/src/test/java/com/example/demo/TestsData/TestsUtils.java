@@ -1,6 +1,5 @@
 package com.example.demo.TestsData;
 
-import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.Consts;
 import com.example.demo.Duel.CardDuel;
 
