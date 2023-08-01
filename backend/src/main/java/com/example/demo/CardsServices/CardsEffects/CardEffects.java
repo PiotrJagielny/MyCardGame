@@ -34,13 +34,13 @@ public class CardEffects {
     public void invokeOnPlaceEffect() {
         CardDisplay p = playMade.getPlayedCard();
         if(p.equals(CardsFactory.booster)){
-            player.boostCard(playMade.getAffectedCard(), CardsFactory.boosterBoostAmount);
+            player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoostAmount);
         }
         else if(p.equals(CardsFactory.archer)){
-            if(playMade.getAffectedCard().getPoints() <= CardsFactory.archerStrikeAmount) {
+            if(playMade.getTargetedCard().getPoints() <= CardsFactory.archerStrikeAmount) {
 
             }
-            enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.archerStrikeAmount);
+            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.archerStrikeAmount);
         }
         else if(p.equals(CardsFactory.leader)){
             boostRowBy(CardsFactory.leaderBoostAmount);
@@ -49,14 +49,14 @@ public class CardEffects {
             healerBoost(CardsFactory.healerBoostAmount);
         }
         else if(p.equals(CardsFactory.fireball)) {
-            enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.fireballStrikeAmount);
+            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.fireballStrikeAmount);
         }
         else if(p.equals(CardsFactory.conflagration)){
             burnAllMaxPointsCards();
         }
         else if(p.equals(CardsFactory.doubler)){
-            int boostAmount = playMade.getAffectedCard().getPoints();
-            player.boostCard(playMade.getAffectedCard(), boostAmount);
+            int boostAmount = playMade.getTargetedCard().getPoints();
+            player.boostCard(playMade.getTargetedCard(), boostAmount);
         }
         else if(p.equals(CardsFactory.rip)) {
             ripWholeRow();
@@ -73,11 +73,11 @@ public class CardEffects {
         player.placeCardOnBoard(playMade);
 
         if(p.equals(CardsFactory.sharpshooter)) {
-            int targetPoints = playMade.getAffectedCard().getPoints();
+            int targetPoints = playMade.getTargetedCard().getPoints();
             if(targetPoints <= CardsFactory.sharpshooterDamage) {
                 player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
             }
-            enemy.strikeCard(playMade.getAffectedCard(), CardsFactory.sharpshooterDamage);
+            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.sharpshooterDamage);
         }
     }
 

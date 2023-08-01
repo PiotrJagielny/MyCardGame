@@ -76,7 +76,9 @@ public class OnePlayerDuel {
         }
         final CardDisplay display = playedCard.getDisplay();
         cardsInHand.removeIf(c -> c.getDisplay().equals(display));
-        rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
+
+        if(playMade.getPlayedCard().getPoints() != 0)
+            rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){

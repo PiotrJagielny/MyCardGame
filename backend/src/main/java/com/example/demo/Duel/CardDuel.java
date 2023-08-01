@@ -49,7 +49,7 @@ public class CardDuel {
             if(!playMade.getPlayedCard().equals(CardsFactory.priest))
                 changeTurn();
             else {
-                return playMade.getAffectedCard();
+                return playMade.getTargetedCard();
             }
         }
         return new CardDisplay();
