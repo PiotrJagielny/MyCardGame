@@ -28,9 +28,13 @@ public class CardEffects {
         player = newPlayer;
         enemy = newEnemy;
     }
-
-    public void invokeEffect(){
-        invokeOnPlaceEffect();
+    private void strikeCardBy(CardDisplay targetedCard, int strikeAmoutn) {
+        if(targetedCard.getPoints() <= strikeAmoutn) {
+            if(targetedCard.equals(CardsFactory.cow)) {
+                enemy.spawnCard(CardsFactory.chort, enemy.getCardRow(targetedCard));
+            }
+        }
+        enemy.strikeCard(targetedCard, strikeAmoutn);
     }
 
     public void invokeOnPlaceEffect() {
@@ -39,12 +43,7 @@ public class CardEffects {
             player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoostAmount);
         }
         else if(p.equals(CardsFactory.archer)){
-            if(playMade.getTargetedCard().getPoints() <= CardsFactory.archerStrikeAmount) {
-                OnDeathEffect onDeathEffect = new OnDeathEffect(enemy, player);
-                CardDisplay c = playMade.getTargetedCard();
-                onDeathEffect.invokeOnDeathEffect(c, enemy.getCardRow(c));
-            }
-            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.archerStrikeAmount);
+            strikeCardBy(playMade.getTargetedCard(), CardsFactory.archerStrikeAmount);
         }
         else if(p.equals(CardsFactory.leader)){
             boostRowBy(CardsFactory.leaderBoostAmount);
