@@ -36,8 +36,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, secondPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.leader, firstRow, firstPlayer);
-        int leaderRowBoostAmount = 2;
-        int expectedPoints = CardsFactory.viking.getPoints() + leaderRowBoostAmount + CardsFactory.leader.getPoints();
+        int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.leaderBoost + CardsFactory.leader.getPoints();
         assertEquals(expectedPoints , getBoardPointsOf(firstPlayer, duel));
     }
 
@@ -68,9 +67,8 @@ class TestSpecificBehaviours {
 
         TestsUtils.playCardWithoutTargeting(duel,CardsFactory.healer, thirdRow, firstPlayer);
 
-        int woodTheHealerBoostAmount = 2;
-        int expectedMinionPoints = CardsFactory.minion.getPoints() + woodTheHealerBoostAmount;
-        int expectedPaperPoints = CardsFactory.paper.getPoints() + woodTheHealerBoostAmount;
+        int expectedMinionPoints = CardsFactory.minion.getPoints() + CardsFactory.healerBoost;
+        int expectedPaperPoints = CardsFactory.paper.getPoints() + CardsFactory.healerBoost;
         int expectedVikingPoints = CardsFactory.viking.getPoints();
         int expectedBoardPoints = expectedMinionPoints + expectedPaperPoints + expectedVikingPoints + CardsFactory.healer.getPoints();
 
@@ -109,7 +107,7 @@ class TestSpecificBehaviours {
                 .orElse(null) == null;
         assertTrue(isFireballInHand);
         int actualVikingPoints_afterStrike = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0).getPoints();
-        int expectedVikingPoints_afterStrike = CardsFactory.viking.getPoints() - CardsFactory.fireballStrikeAmount;
+        int expectedVikingPoints_afterStrike = CardsFactory.viking.getPoints() - CardsFactory.fireballDamage;
         assertEquals(expectedVikingPoints_afterStrike, actualVikingPoints_afterStrike);
     }
 
@@ -193,9 +191,9 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, firstRow, secondPlayer);
         TestsUtils.playSpecialCardWithRowTargeting(duel, CardsFactory.rip, firstRow ,firstPlayer );
 
-        int firstUnitExpected = Math.max(CardsFactory.capitan.getPoints() - CardsFactory.ripRowDamageAmount, 0);
-        int secondUnitExpected = Math.max(CardsFactory.armageddon.getPoints() - CardsFactory.ripRowDamageAmount, 0);
-        int thirdUnitExpected = Math.max(CardsFactory.paper.getPoints() - CardsFactory.ripRowDamageAmount, 0);
+        int firstUnitExpected = Math.max(CardsFactory.capitan.getPoints() - CardsFactory.ripDamage, 0);
+        int secondUnitExpected = Math.max(CardsFactory.armageddon.getPoints() - CardsFactory.ripDamage, 0);
+        int thirdUnitExpected = Math.max(CardsFactory.paper.getPoints() - CardsFactory.ripDamage, 0);
         int expected = firstUnitExpected + secondUnitExpected + thirdUnitExpected;
 
         assertEquals(expected, getBoardPointsOf(secondPlayer, duel));
@@ -206,7 +204,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.longer, firstRow, firstPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, firstRow, secondPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, firstPlayer);
-        int expectedPoints= CardsFactory.longer.getPoints() + 2*CardsFactory.longerBoostAmount ;
+        int expectedPoints= CardsFactory.longer.getPoints() + 2*CardsFactory.longerBoost;
         int actualPoints = duel.getCardsOnBoardDisplayOf( firstPlayer, firstRow).get(0).getPoints();
         assertEquals(expectedPoints, actualPoints);
     }
@@ -219,7 +217,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, firstPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, secondRow, secondPlayer);
         duel.endRoundFor(firstPlayer);
-        int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainStrikeAmount + CardsFactory.paper.getPoints();
+        int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainDamage + CardsFactory.paper.getPoints();
         int actual = getBoardPointsOf(firstPlayer, duel);
         assertEquals(expected, actual);
     }
@@ -281,6 +279,20 @@ class TestSpecificBehaviours {
         duel.endRoundFor(secondPlayer);
         duel.endRoundFor(firstPlayer);
         assertEquals(CardsFactory.chort, duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0));
+    }
+
+    @Test
+    public void testDealingDamageEveryTwoTurns() {
+
+        duel = createDuel(List.of(CardsFactory.trebuchet, CardsFactory.viking));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.trebuchet, firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, secondPlayer);
+        duel.endRoundFor(firstPlayer);
+
+        int expectedPoints = CardsFactory.viking.getPoints() - CardsFactory.trebuchetDamage;
+        assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
+
+
     }
 
 

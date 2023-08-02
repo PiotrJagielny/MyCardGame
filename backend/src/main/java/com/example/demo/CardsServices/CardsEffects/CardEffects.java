@@ -1,7 +1,6 @@
 package com.example.demo.CardsServices.CardsEffects;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
@@ -40,19 +39,19 @@ public class CardEffects {
     public void invokeOnPlaceEffect() {
         CardDisplay p = playMade.getPlayedCard();
         if(p.equals(CardsFactory.booster)){
-            player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoostAmount);
+            player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoost);
         }
         else if(p.equals(CardsFactory.archer)){
-            strikeCardBy(playMade.getTargetedCard(), CardsFactory.archerStrikeAmount);
+            strikeCardBy(playMade.getTargetedCard(), CardsFactory.archerDamage);
         }
         else if(p.equals(CardsFactory.leader)){
-            boostRowBy(CardsFactory.leaderBoostAmount);
+            boostRowBy(CardsFactory.leaderBoost);
         }
         else if(p.equals(CardsFactory.healer)){
-            healerBoost(CardsFactory.healerBoostAmount);
+            healerBoost(CardsFactory.healerBoost);
         }
         else if(p.equals(CardsFactory.fireball)) {
-            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.fireballStrikeAmount);
+            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.fireballDamage);
         }
         else if(p.equals(CardsFactory.conflagration)){
             burnAllMaxPointsCards();
@@ -126,9 +125,11 @@ public class CardEffects {
     private void ripWholeRow() {
         List<CardDisplay> row = enemy.getCardsOnBoardOnRow(playMade.getAffectedRow());
         for (int i = 0; i < row.size(); i++) {
-            enemy.strikeCard(row.get(i), CardsFactory.ripRowDamageAmount);
+            enemy.strikeCard(row.get(i), CardsFactory.ripDamage);
         }
     }
+
+
 
     public void invokeOnTurnEndEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
@@ -138,9 +139,18 @@ public class CardEffects {
     }
     private void invokeSpecificCardTurnEffect(CardDisplay card) {
         if(card.equals(CardsFactory.longer)) {
-            player.boostCard(card, CardsFactory.longerBoostAmount);
+            player.boostCard(card, CardsFactory.longerBoost);
+        }
+        if(card.equals(CardsFactory.trebuchet)) {
+            int trebuchetTimer = player.decrementAndGetTimer(CardsFactory.trebuchet);
+            if(trebuchetTimer == 0) {
+                CardDisplay cardToStrike = enemy.getCardsOnBoard().get(0);
+                enemy.strikeCard(cardToStrike, CardsFactory.trebuchetDamage);
+            }
         }
     }
+
+
 
     public void invokeOnTurnStartEffect() {
         for (int i = 0; i < Consts.rowsNumber; i++) {
@@ -155,7 +165,7 @@ public class CardEffects {
                         maxPointsCard = card;
                     }
                 }
-                player.strikeCard(maxPointsCard, CardsFactory.rainStrikeAmount);
+                player.strikeCard(maxPointsCard, CardsFactory.rainDamage);
             }
         }
     }

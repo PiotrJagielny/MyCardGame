@@ -4,37 +4,44 @@ import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
+import com.example.demo.CardsServices.CardsParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Row {
 
     private List<Card> cards;
     private RowStatus status;
+    private Map<String, Integer> cardsTimers;
 
     public Row() {
+        cardsTimers = new HashMap<>();
         cards = new ArrayList<>();
         status = RowStatus.NoStatus;
     }
 
     public void clearRow(){
-
-        boolean spawnChort = false;
-        for (Card card : cards) {
-            if(card.getDisplay().equals(CardsFactory.cow)) {
-                spawnChort = true;
-            }
-        }
+        List<CardDisplay> clearedCards = CardsParser.getCardsDisplay(cards);
         cards.clear();
-        if(spawnChort)
-            cards.add(Card.createCard(CardsFactory.chort));
+        for (CardDisplay card : clearedCards) {
+           if(card.equals(CardsFactory.cow)) {
+               cards.add(Card.createCard(CardsFactory.chort));
+           }
+        }
     }
 
 
     public void play(Card aCard){
-        if(aCard.getPoints() > 0)
+        if(aCard.getPoints() > 0) {
             cards.add(aCard);
+            int cardTimer = CardsFactory.getCardTimer(aCard.getDisplay());
+            if(cardTimer != CardsFactory.noTimer) {
+                cardsTimers.put(aCard.getDisplay().getName(), cardTimer);
+            }
+        }
     }
 
     public void boostCardBy(Card aCard, int boostAmount){
@@ -48,10 +55,6 @@ public class Row {
         if(cardIndex == -1) return;
         if(cards.get(cardIndex).getPoints() - strikeAmount < 1) {
             cards.remove(cardIndex);
-
-            if(aCard.getDisplay().equals(CardsFactory.cow)) {
-                cards.add(Card.createCard(CardsFactory.chort));
-            }
         }
         else {
             cards.get(cardIndex).strikeBy(strikeAmount);
@@ -93,5 +96,14 @@ public class Row {
 
     public void spawnCard(CardDisplay card) {
         cards.add(Card.createCard(card));
+    }
+
+    public int decrementAndGetTimer(CardDisplay card) {
+        int result = cardsTimers.get(card.getName()) - 1;
+        cardsTimers.put(card.getName(), result);
+        if(cardsTimers.get(card) == 0)  {
+            cardsTimers.put(card.getName(), CardsFactory.getCardTimer(card));
+        }
+        return result;
     }
 }

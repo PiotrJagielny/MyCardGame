@@ -168,4 +168,11 @@ public class OnePlayerDuel {
     public void spawnCard(CardDisplay card, int onRow) {
         rows.get(onRow).spawnCard(card);
     }
+
+    public int decrementAndGetTimer(CardDisplay card) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1)
+            return 2;
+        return rows.get(cardRow).decrementAndGetTimer(card);
+    }
 }
