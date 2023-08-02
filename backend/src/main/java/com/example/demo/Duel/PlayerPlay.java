@@ -6,21 +6,21 @@ public class PlayerPlay {
     private CardDisplay playedCard;
     private int playedOnRow;
 
-    private CardDisplay cardThatGotEffect;
+    private CardDisplay cardTargeted;
 
     private int affectedRow;
 
     public PlayerPlay(CardDisplay playedCard, int playedOnRow, CardDisplay cardThatGotEffect) {
         this.playedCard = playedCard;
         this.playedOnRow = playedOnRow;
-        this.cardThatGotEffect = cardThatGotEffect;
+        this.cardTargeted = cardThatGotEffect;
         this.affectedRow = -1;
     }
 
     public PlayerPlay(CardDisplay playedCard, int playedOnRow, CardDisplay cardThatGotEffect, int affectedRow) {
         this.playedCard = playedCard;
         this.playedOnRow = playedOnRow;
-        this.cardThatGotEffect = cardThatGotEffect;
+        this.cardTargeted = cardThatGotEffect;
         this.affectedRow = affectedRow;
     }
 
@@ -33,6 +33,24 @@ public class PlayerPlay {
         this.playedOnRow = playedOnRow;
         this.affectedRow = -1;
     }
+    public PlayerPlay(int rowTargeted, CardDisplay playedCard) {
+        this.affectedRow = rowTargeted;
+        this.playedCard = playedCard;
+        this.playedOnRow = -1;
+        this.cardTargeted = new CardDisplay();
+    }
+    public PlayerPlay(CardDisplay playedCard) {
+        this.playedCard = playedCard;
+        this.affectedRow = -1;
+        this.playedOnRow = -1;
+        this.cardTargeted = new CardDisplay();
+    }
+    public PlayerPlay(CardDisplay playedCard, CardDisplay cardTargeted) {
+        this.playedCard = playedCard;
+        this.affectedRow = -1;
+        this.playedOnRow = -1;
+        this.cardTargeted =cardTargeted;
+    }
 
     public CardDisplay getPlayedCard() {
         return playedCard;
@@ -44,8 +62,8 @@ public class PlayerPlay {
     }
 
 
-    public CardDisplay getAffectedCard() {
-        return cardThatGotEffect;
+    public CardDisplay getTargetedCard() {
+        return cardTargeted;
     }
 
 }

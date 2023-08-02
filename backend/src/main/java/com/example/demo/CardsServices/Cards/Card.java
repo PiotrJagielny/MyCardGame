@@ -1,9 +1,7 @@
 package com.example.demo.CardsServices.Cards;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardTargetStrattegies.CardTargeting;
 
-import java.util.List;
 
 public class Card {
 
