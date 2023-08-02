@@ -19,6 +19,7 @@ Rain - deals damage to max points card every turn <br>
 Sharpshooter - deals damage to one enemy card and if this card dies, sharpshooter boost itself <br>
 Cow - If cow dies, spawn chort in the same row <br>
 Trebuchet - Deal i damage to random enemy every 2 turns<br>
+Good person - Boost card on your board every 2 turns<br>
 
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
