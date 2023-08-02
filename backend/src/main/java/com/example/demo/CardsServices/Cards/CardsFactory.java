@@ -59,9 +59,13 @@ public class CardsFactory {
     public static final int trebuchetDamage = 1;
     public static final int trebuchetTimer = 2;
 
+    public static final CardDisplay goodPerson = new CardDisplay("Good person", 2);
+    public static final int goodPersonBoost= 1;
+    public static final int goodPersonTimer= 2;
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
+        put(goodPerson.getName(), goodPersonTimer);
     }};
     public static int getCardTimer(CardDisplay card) {
         return mapCardNameToTimer.getOrDefault(card.getName(), noTimer);
@@ -102,7 +106,8 @@ public class CardsFactory {
         put(priest.getName(), "Play one card from deck");
         put(sharpshooter.getName(), "Deal " + sharpshooterDamage + " damage, if card hit dies boost this card by " + sharpshooterSelfBoost);
         put(cow.getName(), "If this cards dies, spawn " + chort.getName());
-        put(trebuchet.getName(), "Deal " + trebuchetDamage + " damage every " + trebuchetTimer + " turn");
+        put(trebuchet.getName(), "Deal " + trebuchetDamage + " damage every " + trebuchetTimer + " turns ");
+        put(goodPerson.getName(), "Boost by " + goodPersonBoost + " your card on board every " + goodPersonTimer + " turns");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -146,7 +151,8 @@ public class CardsFactory {
                 Card.createCard(priest),
                 Card.createCard(sharpshooter),
                 Card.createCard(cow),
-                Card.createCard(trebuchet)
+                Card.createCard(trebuchet),
+                Card.createCard(goodPerson)
         ));
     }
 }

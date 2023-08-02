@@ -2,9 +2,11 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
+import com.example.demo.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +174,22 @@ public class OnePlayerDuel {
     public int decrementAndGetTimer(CardDisplay card) {
         int cardRow = getCardRow(card);
         if(cardRow == -1)
-            return 2;
+            return -1;
         return rows.get(cardRow).decrementAndGetTimer(card);
+    }
+
+    public CardDisplay getRandomCardFromBoardWithout(CardDisplay card) {
+        int lastCardIndex = getCardsOnBoard().size() - 1;
+        int randomCard = Utils.getRandomNumber(0, lastCardIndex);
+
+        CardDisplay cardRolled = getCardsOnBoard().get(randomCard);
+        while(cardRolled.equals(card) == true) {
+            randomCard = Utils.getRandomNumber(0, lastCardIndex);
+            cardRolled = getCardsOnBoard().get(randomCard);
+        }
+
+        return cardRolled;
+
+
     }
 }

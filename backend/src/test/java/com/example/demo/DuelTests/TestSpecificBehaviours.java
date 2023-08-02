@@ -292,9 +292,20 @@ class TestSpecificBehaviours {
         int expectedPoints = CardsFactory.viking.getPoints() - CardsFactory.trebuchetDamage;
         assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
 
-
     }
 
+    @Test
+    public void testBoostingCardEveryTwoTurns() {
+
+        duel = createDuel(List.of(CardsFactory.goodPerson, CardsFactory.viking));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.goodPerson, firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
+
+        int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.goodPersonBoost;
+        assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
+
+    }
 
 
 }
