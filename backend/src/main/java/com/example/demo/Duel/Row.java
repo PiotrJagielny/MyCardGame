@@ -99,9 +99,11 @@ public class Row {
     }
 
     public int decrementAndGetTimer(CardDisplay card) {
+        if(cardsTimers.containsKey(card.getName()) == false) return -1;
+
         int result = cardsTimers.get(card.getName()) - 1;
         cardsTimers.put(card.getName(), result);
-        if(cardsTimers.get(card) == 0)  {
+        if(cardsTimers.get(card.getName()) == 0)  {
             cardsTimers.put(card.getName(), CardsFactory.getCardTimer(card));
         }
         return result;

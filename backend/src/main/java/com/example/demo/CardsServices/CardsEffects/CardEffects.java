@@ -5,6 +5,7 @@ import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.OnePlayerDuel;
+import com.example.demo.Utils;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class CardEffects {
 
     public void invokeOnPlaceEffect() {
         CardDisplay p = playMade.getPlayedCard();
+        player.placeCardOnBoard(playMade);
         if(p.equals(CardsFactory.booster)){
             player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoost);
         }
@@ -71,10 +73,7 @@ public class CardEffects {
             player.clearRowsStatus();
             enemy.clearRowsStatus();
         }
-
-        player.placeCardOnBoard(playMade);
-
-        if(p.equals(CardsFactory.sharpshooter)) {
+        else if(p.equals(CardsFactory.sharpshooter)) {
             int targetPoints = playMade.getTargetedCard().getPoints();
             if(targetPoints <= CardsFactory.sharpshooterDamage) {
                 player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
@@ -84,15 +83,18 @@ public class CardEffects {
     }
 
     public void boostRowBy(int amount){
-        for(CardDisplay cardOnRow: player.getCardsOnBoardOnRow(playMade.getPlayedCardRowNum())){
-            player.boostCard(cardOnRow, amount);
+        for(CardDisplay card: player.getCardsOnBoardOnRow(playMade.getPlayedCardRowNum())){
+            if(card.equals(CardsFactory.leader) == false)
+                player.boostCard(card, amount);
         }
     }
 
     public void healerBoost(int boostAmount){
         for(CardDisplay card: player.getCardsOnBoard()){
-            if(card.getPoints() <= CardsFactory.healerMaxCardPointsWithBoost){
-                player.boostCard(card, boostAmount);
+            if(card.equals(CardsFactory.healer) == false) {
+                if(card.getPoints() <= CardsFactory.healerMaxCardPointsWithBoost){
+                    player.boostCard(card, boostAmount);
+                }
             }
         }
     }
@@ -138,15 +140,20 @@ public class CardEffects {
         }
     }
     private void invokeSpecificCardTurnEffect(CardDisplay card) {
+        int cardTimer = player.decrementAndGetTimer(card);
+        if(cardTimer == 0) {
+           if(card.equals(CardsFactory.trebuchet)) {
+                CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
+                enemy.strikeCard(cardToStrike, CardsFactory.trebuchetDamage);
+           }
+           else if(card.equals(CardsFactory.goodPerson)) {
+                CardDisplay cardToStrike = player.getRandomCardFromBoardWithout(CardsFactory.goodPerson);
+                enemy.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
+           }
+        }
+
         if(card.equals(CardsFactory.longer)) {
             player.boostCard(card, CardsFactory.longerBoost);
-        }
-        if(card.equals(CardsFactory.trebuchet)) {
-            int trebuchetTimer = player.decrementAndGetTimer(CardsFactory.trebuchet);
-            if(trebuchetTimer == 0) {
-                CardDisplay cardToStrike = enemy.getCardsOnBoard().get(0);
-                enemy.strikeCard(cardToStrike, CardsFactory.trebuchetDamage);
-            }
         }
     }
 
