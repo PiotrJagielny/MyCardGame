@@ -46,7 +46,7 @@ public class DeckBuilderController {
     @CrossOrigin
     public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName) {
         String ResponseMessage = deckBuilders.get(userName).addCardToDeck(cardDisplay);
-        DecksDatabase.save(deckBuilders.get(userName), userName);
+        DecksDatabase.saveDeck(userName,deckBuilders.get(userName).getCurrentDeckName(), deckBuilders.get(userName).getCurrentDeck());
         return ResponseMessage;
     }
 
@@ -54,14 +54,13 @@ public class DeckBuilderController {
     @CrossOrigin
     public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName){
         deckBuilders.get(userName).putCardFromDeckBack(cardDisplay);
-        DecksDatabase.save(deckBuilders.get(userName), userName);
+        DecksDatabase.saveDeck(userName,deckBuilders.get(userName).getCurrentDeckName(), deckBuilders.get(userName).getCurrentDeck());
     }
 
     @PostMapping(path = "CreateDeck/{userName}")
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
         deckBuilders.get(userName).createDeck(deckName);
-        DecksDatabase.save(deckBuilders.get(userName), userName);
     }
 
     @PostMapping(path = "SelectDeck/{userName}")
@@ -73,8 +72,8 @@ public class DeckBuilderController {
     @PostMapping(path = "DeleteDeck/{userName}")
     @CrossOrigin
     public String DeleteDeck(@PathVariable String userName) {
+        DecksDatabase.deleteDeck(userName, deckBuilders.get(userName).getCurrentDeckName());
         String response = deckBuilders.get(userName).deleteCurrentDeck();
-        DecksDatabase.save(deckBuilders.get(userName), userName);
         return response;
     }
     @GetMapping(path = "ValidateDeck/{userName}/{deckName}")
