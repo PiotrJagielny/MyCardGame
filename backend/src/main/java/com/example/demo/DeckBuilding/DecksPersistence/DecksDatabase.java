@@ -19,8 +19,8 @@ public class DecksDatabase {
 
 
     
-    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
-//    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
+//    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
+    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
 
 
 
