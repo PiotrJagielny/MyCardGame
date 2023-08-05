@@ -82,6 +82,7 @@ public class DeckBuilder {
     public void selectDeck(String deckName) {
         selectedDeck = deckName;
     }
+    public String getCurrentDeckName() {return selectedDeck;}
 
     private int GetSelectedDeckIndex() {
         int deckIndex = IntStream.range(0, playerDecks.size()).filter(i -> selectedDeck.equals(playerDecks.get(i).getDeckName())).findFirst().orElse(-1);

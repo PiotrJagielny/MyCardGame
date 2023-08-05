@@ -2,9 +2,11 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
+import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
+import com.example.demo.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +78,9 @@ public class OnePlayerDuel {
         }
         final CardDisplay display = playedCard.getDisplay();
         cardsInHand.removeIf(c -> c.getDisplay().equals(display));
-        rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
+
+        if(playMade.getPlayedCard().getPoints() != 0)
+            rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
@@ -105,6 +109,14 @@ public class OnePlayerDuel {
                             .findFirst().orElse(Card.createEmptyCard())
             );
         });
+    }
+
+    public int getCardRow(CardDisplay card) {
+        for (int i = 0; i < Consts.rowsNumber; i++) {
+            if(rows.get(i).getCards().contains(Card.createCard(card)))
+                return i;
+        }
+        return -1;
     }
 
     public void dealCards(int howMany) {
@@ -147,14 +159,37 @@ public class OnePlayerDuel {
         rows.get(rowNumber).setStatus(status);
     }
 
-    public void updateRows() {
-        rows.forEach(row -> row.updateRow());
-    }
 
     public String getRowStatusName(int row) {
         return rows.get(row).getStatusName();
     }
     public void clearRowsStatus() {
         rows.forEach(row -> row.clearStatus());
+    }
+
+    public void spawnCard(CardDisplay card, int onRow) {
+        rows.get(onRow).spawnCard(card);
+    }
+
+    public int decrementAndGetTimer(CardDisplay card) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1)
+            return -1;
+        return rows.get(cardRow).decrementAndGetTimer(card);
+    }
+
+    public CardDisplay getRandomCardFromBoardWithout(CardDisplay card) {
+        int lastCardIndex = getCardsOnBoard().size() - 1;
+        int randomCard = Utils.getRandomNumber(0, lastCardIndex);
+
+        CardDisplay cardRolled = getCardsOnBoard().get(randomCard);
+        while(cardRolled.equals(card) == true) {
+            randomCard = Utils.getRandomNumber(0, lastCardIndex);
+            cardRolled = getCardsOnBoard().get(randomCard);
+        }
+
+        return cardRolled;
+
+
     }
 }
