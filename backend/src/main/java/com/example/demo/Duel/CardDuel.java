@@ -45,20 +45,20 @@ public class CardDuel {
 
     public CardDisplay playCardAs(PlayerPlay playMade, String player) {
         if(isTurnOf(player)){
-            invokeEffects(playMade, player);
-            if(!playMade.getPlayedCard().equals(CardsFactory.priest))
-                changeTurn();
+            CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)), playMade);
+            effects.invokeOnPlaceEffect();
+            if(CardsFactory.cardsWithPlayChainPossibility.contains(playMade.getPlayedCard()) &&
+               playMade.getTargetedCard() != null ) {
+                return playMade.getTargetedCard();
+            }
             else {
-                return playMade.getAffectedCard();
+                effects.invokeOnTurnEndEffect();
+                effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
+                effects.invokeOnTurnStartEffect();
+                changeTurn();
             }
         }
         return new CardDisplay();
-    }
-    private void invokeEffects(PlayerPlay playMade,String player) {
-        OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
-        effect.invokeEffect();
-        CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)), playMade);
-        effects.invokeEffect();
     }
 
     public boolean isTurnOf(String player) {
@@ -106,8 +106,10 @@ public class CardDuel {
 
     public void endRoundFor(String player) {
         if(whosTurn.equals(player)){
-            OnTurnEndEffect effect = new OnTurnEndEffect(players.get(player));
-            effect.invokeEffect();
+            CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)));
+            effects.invokeOnTurnEndEffect();
+            effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
+            effects.invokeOnTurnStartEffect();
             changeTurn();
             players.get(player).endRound();
             if (didPlayersEndedRound()) startNewRound();

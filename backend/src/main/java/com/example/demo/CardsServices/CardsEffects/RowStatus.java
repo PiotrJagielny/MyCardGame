@@ -1,6 +1,5 @@
 package com.example.demo.CardsServices.CardsEffects;
 
-import com.example.demo.Duel.Row;
 
 public enum RowStatus {
     Rain("Rain"),
