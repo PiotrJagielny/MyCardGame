@@ -12,8 +12,18 @@ import java.util.stream.Collectors;
 
 public class DecksDatabase {
 
+
+
+
+
+
+
+    
     private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
 //    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
+
+
+
     public static void saveDeck(String username, String deckname, List<CardDisplay> cardsInDeck) {
         EntityManager em = emf.createEntityManager();
         deleteDeck(username, deckname);
