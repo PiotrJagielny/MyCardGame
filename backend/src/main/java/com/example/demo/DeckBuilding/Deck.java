@@ -20,6 +20,9 @@ public class Deck {
     }
 
     public Deck(List<Card> allCards) {
+
+        cardsInDeck = new ArrayList<Card>();
+        deckName="";
         this.allCardsPossibleToAdd = allCards;
     }
 

@@ -29,7 +29,9 @@ public class DeckBuilder {
     public List<CardDisplay> getCardsPossibleToAdd() {
         return playerDecks.get( GetSelectedDeckIndex() ).getCardsPossibleToAdd();
     }
-
+    public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
+        return playerDecksBetter.get( deckName ).getCardsPossibleToAdd();
+    }
 
     public String addCardToDeck(CardDisplay cardDisplay) {
         return playerDecks.get( GetSelectedDeckIndex() ).addCard(cardDisplay);
@@ -93,6 +95,9 @@ public class DeckBuilder {
 
     public List<CardDisplay> getCurrentDeck() {
         return playerDecks.get(GetSelectedDeckIndex()).getCardsInDeck();
+    }
+    public List<CardDisplay> getCurrentDeck(String deckName) {
+        return playerDecksBetter.get(deckName).getCardsInDeck();
     }
 
 

@@ -5,6 +5,9 @@ import com.example.demo.DeckBuilding.DeckBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static com.example.demo.TestsData.TestConsts.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestDeckBuilder_OneDeck {
@@ -13,47 +16,50 @@ class TestDeckBuilder_OneDeck {
     @BeforeEach
     public void init() {
         deckBuilder = new DeckBuilder();
-        deckBuilder.createDeck("First");
-        deckBuilder.selectDeck("First");
+        deckBuilder.createDeck(firstDeck);
+        deckBuilder.selectDeck(firstDeck);
     }
 
     @Test
     public void testAddingCardToPlayerDeck() {
-        int cardsToAdd_BeforeAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
-        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0));
-        int cardsToAdd_AfterAddingToDeck = deckBuilder.getCardsPossibleToAdd().size();
+        int cardsToAdd_BeforeAddingToDeck = deckBuilder.getCardsPossibleToAdd(firstDeck).size();
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck);
+        int cardsToAdd_AfterAddingToDeck = deckBuilder.getCardsPossibleToAdd(firstDeck).size();
 
-        assertEquals(1,deckBuilder.getCurrentDeck().size(), "Deck doens have 1 card after adding ");
+        assertEquals(1,deckBuilder.getCurrentDeck(firstDeck).size(), "Deck doens have 1 card after adding ");
         assertEquals(cardsToAdd_AfterAddingToDeck + 1, cardsToAdd_BeforeAddingToDeck, "Card is still in cardsPossibleToAdd after adding to deck ");
     }
 
     @Test
     public void testAddingBackCardFromDeck() {
-        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd().get(0));
-        deckBuilder.putCardFromDeckBack(deckBuilder.getCurrentDeck().get(0));
-        assertTrue(deckBuilder.getCurrentDeck().isEmpty(), "Player deck is not empty after adding and removing card from deck");
+        deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck);
+        deckBuilder.putCardFromDeckBack(deckBuilder.getCurrentDeck(firstDeck).get(0), firstDeck);
+        assertTrue(deckBuilder.getCurrentDeck(firstDeck).isEmpty(), "Player deck is not empty after adding and removing card from deck");
     }
 
     @Test
     public void testAddingCardToFullDeck() {
         for(int i = 1; i <= Consts.MaxDeckSize + 1 ; ++i){
-            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd().get(0) );
+            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck );
         }
-        assertEquals(Consts.MaxDeckSize, deckBuilder.getCurrentDeck().size(), "Can add cards after reaching max cards amount");
+        assertEquals(Consts.MaxDeckSize, deckBuilder.getCurrentDeck(firstDeck).size(), "Can add cards after reaching max cards amount");
     }
 
     @Test
     public void testImpossibilityOfDeletingLastDeck(){
 
-        deckBuilder.deleteCurrentDeck();
+        List<String> decksNames = deckBuilder.getDecksNames();
+        for (int i = 0; i < decksNames.size(); i++) {
+            deckBuilder.deleteCurrentDeck(decksNames.get(i));
+        }
         assertEquals(1, deckBuilder.getDecksNames().size());
     }
 
     @Test
     public void testPuttingCardBackFromEmptyDeck(){
-        int initialAllCardsSize = deckBuilder.getCardsPossibleToAdd().size();
-        deckBuilder.putCardFromDeckBack(null);
-        int afterPuttingBackAllCardsSize = deckBuilder.getCardsPossibleToAdd().size();
+        int initialAllCardsSize = deckBuilder.getCardsPossibleToAdd(firstDeck).size();
+        deckBuilder.putCardFromDeckBack(null, firstDeck);
+        int afterPuttingBackAllCardsSize = deckBuilder.getCardsPossibleToAdd(firstDeck).size();
         assertEquals(initialAllCardsSize, afterPuttingBackAllCardsSize);
     }
 
