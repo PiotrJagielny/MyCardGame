@@ -18,6 +18,9 @@ const DeckBuilderPage = () => {
 
   const userName = useSelector<StateData, string>((state) => state.userName);
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
+  const refreshPage = () => {
+    window.location.reload();
+  }
 
   const fetchCardsData = () => {
     fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`)
@@ -34,7 +37,6 @@ const DeckBuilderPage = () => {
       })
       .catch(console.error);
 
-      setRefresh(true);
   }
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const DeckBuilderPage = () => {
   }
 
   const handleDecksSwitch = () => {
-    console.log(currentDeck);
+    fetchCardsData();
     fetchCardsData();
   }
 
@@ -94,6 +96,7 @@ const DeckBuilderPage = () => {
     <div className="DeckBuilderPage">
       <h2>Build your deck! : Deck has to have 6 cards </h2>
       <h4>You can click with right mouse button on a card, to get its info. If there is no card info, there wont be any text</h4>
+      <h4>Left click twice on a deck to select</h4>
 
       
 

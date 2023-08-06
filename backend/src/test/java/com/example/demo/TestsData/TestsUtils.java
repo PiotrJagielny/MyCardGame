@@ -5,8 +5,11 @@ import com.example.demo.Consts;
 import com.example.demo.Duel.CardDuel;
 import com.example.demo.Duel.PlayerPlay;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static com.example.demo.TestsData.TestConsts.*;
 
 public class TestsUtils {
     public static int getBoardPointsOf(String player, CardDuel duel) {
@@ -33,6 +36,15 @@ public class TestsUtils {
     }
     public static CardDisplay playSpecialCardWithRowTargeting(CardDuel duel, CardDisplay cardPlayed, int rowTargeted, String player) {
         return duel.playCardAs(new PlayerPlay(rowTargeted, cardPlayed), player);
+    }
+    public static CardDuel createDuel(List<CardDisplay> deck){
+        CardDuel result = CardDuel.createDuel();
+        result.registerPlayerToDuel(secondPlayer);
+        result.registerPlayerToDuel(firstPlayer);
+        result.parseCardsFor(deck , secondPlayer);
+        result.parseCardsFor(deck , firstPlayer);
+        result.dealCards();
+        return result;
     }
 
 }

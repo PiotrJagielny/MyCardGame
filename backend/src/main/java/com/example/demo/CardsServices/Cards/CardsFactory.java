@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CardsFactory {
 
-    public static final CardDisplay witch = new CardDisplay("Witch", 2);
+    public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2);
     public static final CardDisplay knight = new CardDisplay("Knight", 3);
     public static final CardDisplay thunder = new CardDisplay("Thunder", 4);
     public static final CardDisplay warrior = new CardDisplay("Warrior",5);
@@ -48,13 +48,14 @@ public class CardsFactory {
     public static final CardDisplay rain= new CardDisplay("Rain",0);
     public static final int rainDamage =  2;
     public static final CardDisplay clearSky= new CardDisplay("Clear sky",0);
-    public static final CardDisplay priest = new CardDisplay("Priest", 1);
     public static final CardDisplay sharpshooter= new CardDisplay("Sharpshooter", 4);
     public static final CardDisplay cow= new CardDisplay("Cow", 1);
     public static final int sharpshooterDamage = 2;
     public static final int sharpshooterSelfBoost= 2;
     public static final CardDisplay chort= new CardDisplay("Chort", 6);
 
+    public static final CardDisplay priest = new CardDisplay("Priest", 1);
+    public static final CardDisplay witch= new CardDisplay("Witch", 1);
     public static final CardDisplay trebuchet = new CardDisplay("Trebuchet", 2);
     public static final int trebuchetDamage = 1;
     public static final int trebuchetTimer = 2;
@@ -62,6 +63,8 @@ public class CardsFactory {
     public static final CardDisplay goodPerson = new CardDisplay("Good person", 2);
     public static final int goodPersonBoost= 1;
     public static final int goodPersonTimer= 2;
+
+    public static final CardDisplay gravedigger = new CardDisplay("Gravedigger", 2);
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
@@ -74,12 +77,13 @@ public class CardsFactory {
 
 
     private static final Map<String, CardTargeting> mapCardNameToTargetingStrategy= new HashMap<>() {{
-        put(doubler.getName(), new AllPlayerCardsTargetable());
-        put(booster.getName(), new AllPlayerCardsTargetable());
-        put(archer.getName(), new AllEnemyCardsTargetable());
-        put(fireball.getName(), new AllEnemyCardsTargetable());
-        put(priest.getName(), new AllCardsInDeckTargetable());
-        put(sharpshooter.getName(), new AllEnemyCardsTargetable());
+        put(doubler.getName(), new PlayerCardsTargetable());
+        put(booster.getName(), new PlayerCardsTargetable());
+        put(archer.getName(), new EnemyCardsTargetable());
+        put(fireball.getName(), new EnemyCardsTargetable());
+        put(priest.getName(), new CardsInDeckTargetable());
+        put(sharpshooter.getName(), new EnemyCardsTargetable());
+        put(witch.getName(), new GraveyardCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -108,6 +112,8 @@ public class CardsFactory {
         put(cow.getName(), "If this cards dies, spawn " + chort.getName());
         put(trebuchet.getName(), "Deal " + trebuchetDamage + " damage every " + trebuchetTimer + " turns ");
         put(goodPerson.getName(), "Boost by " + goodPersonBoost + " your card on board every " + goodPersonTimer + " turns");
+        put(gravedigger.getName(), "Boost by number of cards on your graveyard on deploy");
+        put(witch.getName(), "Resurrect card from your graveyard");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -123,13 +129,13 @@ public class CardsFactory {
     return mapCardNameToRowsAffect.getOrDefault(cardName, List.of());
     }
 
-    public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest);
+    public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest, witch);
 
 
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(knight),
-                Card.createCard(witch),
+                Card.createCard(hotdog),
                 Card.createCard(thunder),
                 Card.createCard(warrior),
                 Card.createCard(viking),
@@ -152,7 +158,9 @@ public class CardsFactory {
                 Card.createCard(sharpshooter),
                 Card.createCard(cow),
                 Card.createCard(trebuchet),
-                Card.createCard(goodPerson)
+                Card.createCard(goodPerson),
+                Card.createCard(gravedigger),
+                Card.createCard(witch)
         ));
     }
 }
