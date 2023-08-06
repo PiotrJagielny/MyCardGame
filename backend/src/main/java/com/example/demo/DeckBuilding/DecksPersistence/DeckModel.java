@@ -5,67 +5,52 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "cardsindeck")
-public class DeckModel implements Serializable {
+@Table(name = "decks")
+class DeckModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String userName;
-    private String deckName;
-    private String cardName;
-    private int cardPoints;
+    private int id;
 
-    public DeckModel(String userName, String deckName, String cardName, int cardPoints) {
-        this.userName = userName;
-        this.deckName = deckName;
-        this.cardName = cardName;
-        this.cardPoints = cardPoints;
-    }
+    private String name;
+    private String username;
 
-    public DeckModel() {
-    }
 
-    public long getId() {
+    @OneToMany(mappedBy = "deck")
+    private List<CardDisplayModel> cards;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDeckName() {
-        return deckName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDeckName(String deckName) {
-        this.deckName = deckName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getCardName() {
-        return cardName;
+    public List<CardDisplayModel> getCards() {
+        return cards;
     }
 
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
+    public void setCards(List<CardDisplayModel> cards) {
+        this.cards = cards;
     }
-
-    public int getCardPoints() {
-        return cardPoints;
-    }
-
-    public void setCardPoints(int cardPoints) {
-        this.cardPoints = cardPoints;
-    }
-
 }
