@@ -17,7 +17,6 @@ class TestDeckBuilder_OneDeck {
     public void init() {
         deckBuilder = new DeckBuilder();
         deckBuilder.createDeck(firstDeck);
-        deckBuilder.selectDeck(firstDeck);
     }
 
     @Test

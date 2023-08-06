@@ -134,12 +134,11 @@ public class DecksDatabase {
         DeckBuilder result = new DeckBuilder();
         for (DeckModel deck : decks) {
             result.createDeck(deck.getDeckname());
-            result.selectDeck(deck.getDeckname());
 
             try{
                 List<CardDisplay> cards = cardDisplayModel_to_cardDisplay(deck.getCards());
                 for (CardDisplay card : cards) {
-                    result.addCardToDeck(card);
+                    result.addCardToDeck(card, deck.getDeckname());
                 }
             }
             catch(Exception e) {

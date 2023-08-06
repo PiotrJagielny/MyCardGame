@@ -16,7 +16,6 @@ class TestDeckBuilder_MultipleDecks {
         deckBuilder = new DeckBuilder();
         deckBuilder.createDeck(firstDeck);
         deckBuilder.createDeck(secondDeck);
-        deckBuilder.selectDeck(firstDeck);
     }
 
     @Test
