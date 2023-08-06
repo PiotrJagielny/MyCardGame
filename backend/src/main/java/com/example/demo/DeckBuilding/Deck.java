@@ -18,6 +18,11 @@ public class Deck {
         cardsInDeck = new ArrayList<Card>();
         copyAllCards(allCards);
     }
+
+    public Deck(List<Card> allCards) {
+        this.allCardsPossibleToAdd = allCards;
+    }
+
     public Deck() {
         this.deckName = "";
         cardsInDeck = new ArrayList<Card>();

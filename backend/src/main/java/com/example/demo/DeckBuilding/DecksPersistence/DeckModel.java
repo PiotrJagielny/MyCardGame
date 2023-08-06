@@ -1,8 +1,5 @@
 package com.example.demo.DeckBuilding.DecksPersistence;
 
-import com.example.demo.CardsServices.CardDisplay;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +12,7 @@ class DeckModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String deckname;
     private String username;
 
 
@@ -30,12 +27,12 @@ class DeckModel implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDeckname() {
+        return deckname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDeckname(String deckname) {
+        this.deckname = deckname;
     }
 
     public String getUsername() {

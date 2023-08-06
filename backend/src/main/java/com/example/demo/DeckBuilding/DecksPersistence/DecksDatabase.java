@@ -5,63 +5,122 @@ import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
 import javax.persistence.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DecksDatabase {
 
     private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
 //    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
-    public static void saveDeck(String username, String deckname, List<CardDisplay> cardsInDeck) {
-        Session em = emf.createEntityManager().unwrap(Session.class);
-        deleteDeck(username, deckname);
-
-        EntityTransaction et = null;
+//    public static void save(String username, DeckBuilder deckBuilder) {
+//        Session s = emf.createEntityManager().unwrap(Session.class);
+//
+//        try {
+//
+//            List<String> decksNames = deckBuilder.getDecksNames();
+//            List<DeckModel> decksDataToSave = new ArrayList<>();
+//            List<CardDisplayModel> cardsDataToSave = new ArrayList<>();
+//            for (String deckname : decksNames) {
+//                DeckModel d = new DeckModel();
+//                d.setName(deckname);
+//                d.setUsername(username);
+//                decksDataToSave.add(d);
+//
+//                deckBuilder.selectDeck(deckname);
+//                List<CardDisplay> cardsInDeck = deckBuilder.getCurrentDeck();
+//                for (CardDisplay card : cardsInDeck) {
+//                    CardDisplayModel c = new CardDisplayModel();
+//                    c.setCardname(card.getName());
+//                    c.setCardpoints(card.getPoints());
+//                    c.setDeck(d);
+//                    cardsDataToSave.add(c);
+//                }
+//            }
+//
+//            s.getTransaction().begin();
+//
+//            decksDataToSave.forEach(d -> s.persist(d));
+//            cardsDataToSave.forEach(c -> s.persist(c));
+//
+//            s.getTransaction().commit();
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        s.close();
+//
+//    }
+    public static void createDeck(String username, String deckname) {
+        Session s = emf.createEntityManager().unwrap(Session.class);
         try {
-            et = em.getTransaction();
-            et.begin();
+            DeckModel deckToSave = new DeckModel();
+            deckToSave.setUsername(username);
+            deckToSave.setDeckname(deckname);
 
-            List<DeckModel> dataToSave = new ArrayList<>();
-            cardsInDeck.forEach(c -> dataToSave.add(new DeckModel(username, deckname, c.getName(), c.getPoints())));
-            dataToSave.forEach(dm -> em.persist(dm));
 
-            et.commit();
+            s.getTransaction().begin();
+
+            s.persist(deckToSave);
+
+            s.getTransaction().commit();
         }
         catch(Exception e) {
-            if(et != null) {
-                et.rollback();
-            }
             e.printStackTrace();
         }
-        em.close();
+        s.close();
+
     }
     public static void deleteDeck(String username, String deckname) {
-        Session em = emf.createEntityManager().unwrap(Session.class);
-
-        String query = "SELECT dm FROM DeckModel dm WHERE userName = :uName AND deckName = :dName";
-        TypedQuery<DeckModel> tq = em.createQuery(query, DeckModel.class);
-        tq.setParameter("uName", username);
-        tq.setParameter("dName", deckname);
-        List<DeckModel> fetchedDeck = tq.getResultList();
-
-        EntityTransaction et = null;
+        Session s = emf.createEntityManager().unwrap(Session.class);
         try {
-            et = em.getTransaction();
-            et.begin();
+            s.getTransaction().begin();
 
-            fetchedDeck.forEach(dm -> em.remove(dm));
 
-            et.commit();
+            TypedQuery<DeckModel> tq = s.createQuery("SELECT dm FROM DeckModel dm WHERE deckname = :dname AND username = :uname");
+            tq.setParameter("dname", deckname);
+            tq.setParameter("uname", username);
+            DeckModel deckToDelete = tq.getSingleResult();
+            deckToDelete.getCards().forEach(c -> s.remove(c));
+            s.remove(deckToDelete);
+
+            s.getTransaction().commit();
         }
         catch(Exception e) {
-            if(et != null) {
-                et.rollback();
+            System.out.println(e.getMessage());
+        }
+        s.close();
+
+    }
+    public static void saveDeck(String username, String deckname, List<CardDisplay> cards) {
+        Session s = emf.createEntityManager().unwrap(Session.class);
+        deleteDeck(username, deckname);
+        try {
+            s.getTransaction().begin();
+
+            DeckModel deckToSave = new DeckModel();
+            deckToSave.setDeckname(deckname);
+            deckToSave.setUsername(username);
+
+            List<CardDisplayModel> cardsToSave = new ArrayList<>();
+            for (CardDisplay card : cards) {
+                CardDisplayModel c = new CardDisplayModel();
+                c.setCardname(card.getName());
+                c.setCardpoints(card.getPoints());
+                c.setDeck(deckToSave);
+                cardsToSave.add(c);
             }
+
+            s.persist(deckToSave);
+            cardsToSave.forEach(c -> s.persist(c));
+
+            s.getTransaction().commit();
+        }
+        catch(Exception e) {
             e.printStackTrace();
         }
-        em.close();
+        s.close();
+
     }
     public static DeckBuilder load(String username) {
         Session s = emf.createEntityManager().unwrap(Session.class);
@@ -69,19 +128,24 @@ public class DecksDatabase {
         TypedQuery<DeckModel> tq = s.createQuery("SELECT dm FROM DeckModel dm WHERE username = :uname", DeckModel.class);
         tq.setParameter("uname", username);
         List<DeckModel> decks = tq.getResultList();
+        s.close();
 
 
         DeckBuilder result = new DeckBuilder();
         for (DeckModel deck : decks) {
-            result.createDeck(deck.getName());
-            result.selectDeck(deck.getName());
+            result.createDeck(deck.getDeckname());
+            result.selectDeck(deck.getDeckname());
 
-            List<CardDisplay> cards = cardDisplayModel_to_cardDisplay(deck.getCards());
-            for (CardDisplay card : cards) {
-                result.addCardToDeck(card);
+            try{
+                List<CardDisplay> cards = cardDisplayModel_to_cardDisplay(deck.getCards());
+                for (CardDisplay card : cards) {
+                    result.addCardToDeck(card);
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
-
         return result;
     }
 

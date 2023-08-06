@@ -5,18 +5,23 @@ import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class DeckBuilder {
     private String selectedDeck;
     private List<Deck> playerDecks;
+    private Map<String, Deck> playerDecksBetter;
 
 
     public DeckBuilder() {
         playerDecks = new ArrayList<Deck>();
 
         playerDecks.add(new Deck(CardsFactory.createAllCards(),"Deck"));
+        playerDecksBetter = new HashMap<>();
+        playerDecksBetter.put("Deck", new Deck(CardsFactory.createAllCards()));
         selectedDeck = "Deck";
     }
 
@@ -30,11 +35,16 @@ public class DeckBuilder {
         return playerDecks.get( GetSelectedDeckIndex() ).addCard(cardDisplay);
 
     }
+    public String addCardToDeck(CardDisplay card, String deckName) {
+        return playerDecksBetter.get( deckName ).addCard(card);
+    }
 
 
     public void putCardFromDeckBack(CardDisplay cardDisplay) {
         playerDecks.get(GetSelectedDeckIndex()).putCardFromDeckBack(cardDisplay);
-
+    }
+    public void putCardFromDeckBack(CardDisplay cardDisplay, String deckName) {
+        playerDecksBetter.get(deckName).putCardFromDeckBack(cardDisplay);
     }
 
 
@@ -47,11 +57,24 @@ public class DeckBuilder {
         deleteDeck();
         return responseMessage;
     }
+    public String deleteCurrentDeck(String deckName) {
+        String responseMessage = "";
+        if(isAbleToDeleteDeck() == false){
+            responseMessage = "Cannot delete last deck";
+            return responseMessage;
+        }
+        deleteDeck(deckName);
+        return responseMessage;
+    }
 
     private Boolean isAbleToDeleteDeck(){return playerDecks.size() != 1;}
 
     private void deleteDeck(){
         playerDecks.removeIf(d -> d.getDeckName().equals(selectedDeck));
+        selectedDeck = getDecksNames().get(0);
+    }
+    private void deleteDeck(String deckName) {
+        playerDecks.removeIf(d -> d.getDeckName().equals(deckName));
         selectedDeck = getDecksNames().get(0);
     }
 
@@ -74,8 +97,10 @@ public class DeckBuilder {
 
 
     public void createDeck(String deckName) {
-        if(getDecksNames().contains(deckName) == false)
+        if(getDecksNames().contains(deckName) == false){
             playerDecks.add(new Deck(CardsFactory.createAllCards(), deckName));
+            playerDecksBetter.put(deckName, new Deck(CardsFactory.createAllCards()));
+        }
     }
 
 
