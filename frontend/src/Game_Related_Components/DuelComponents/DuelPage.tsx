@@ -85,7 +85,8 @@ const DuelPage = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
     stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
     stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
-    stompClient.subscribe('/user/' + userName + '/mulligan', startMulligan);
+    stompClient.subscribe('/user/' + userName + '/mulligan', mulliganMessage);
+    setIsMulliganModalOpen(true);
   }
   const onMessageReceived = (payload: any) => {
     fetchCardsData();
@@ -108,26 +109,20 @@ const DuelPage = () => {
   const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
   const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
   const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
-  const startMulligan = (payload: any) => {
-    if(payload.body === "start") {
-      setIsMulliganModalOpen(true);
-    } 
-    else if(payload.body === "end") {
-      setDidEnemyEndedMulligan(true);
-    }
+  const mulliganMessage= (payload: any) => {
+    setDidEnemyEndedMulligan(true);
   }
   useEffect(() => {
-    if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
-      setIsMulliganModalOpen(false);
-    }
-
+    endMulligan();
   }, [didEnemyEndedMulligan]);
   useEffect(() => {
+    endMulligan();
+  }, [didPlayerEndedMulligan]);
+  const endMulligan = () => {
     if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
       setIsMulliganModalOpen(false);
     }
-
-  }, [didPlayerEndedMulligan]);
+  }
   const mulliganCard = (cardToMulligan: Card) => {
     if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
       fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {

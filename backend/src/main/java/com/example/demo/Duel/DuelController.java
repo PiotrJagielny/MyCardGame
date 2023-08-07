@@ -121,16 +121,6 @@ public class DuelController {
             duels.get(gameID).registerPlayerToDuel(userName);
             duels.get(gameID).parseCardsFor(deck, userName);
             duels.get(gameID).dealCards();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(userName);
-            System.out.println(duels.get(gameID).getOpponentOf(userName));
-            simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/mulligan", "start");
-            simpMessagingTemplate.convertAndSendToUser(userName, "/mulligan", "start");
-
         }
     }
     @GetMapping(path="getEnemyOf/{userName}/{gameID}")
