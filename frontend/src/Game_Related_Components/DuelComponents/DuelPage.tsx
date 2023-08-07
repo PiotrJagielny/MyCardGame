@@ -105,6 +105,7 @@ const DuelPage = () => {
     fetchCardsData();
   }
 
+
   const [mulliganedCards, setMulliganedCards] = useState<number>(1);
   const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
   const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
@@ -120,6 +121,7 @@ const DuelPage = () => {
   }, [didPlayerEndedMulligan]);
   const endMulligan = () => {
     if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
+      setMulliganedCards(1);
       setIsMulliganModalOpen(false);
     }
   }
@@ -446,7 +448,7 @@ const DuelPage = () => {
           <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={card}></CardComponent></button>
         ))}
       </Modal>
-      <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+      <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'500px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to mulligan</h2>
         {cardsInHand.map((card, index) =>(
           <button onClick= { () => {mulliganCard(card)} }><CardComponent  card={card}></CardComponent></button>

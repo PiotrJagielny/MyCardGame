@@ -241,5 +241,19 @@ class TestDuelAfterDeal {
         assertEquals(2,duel.getGraveyardOf(secondPlayer).size());
     }
 
+    @Test
+    public void testPlayingTwoSameCards() {
+        duel = TestsUtils.createDuel(List.of(CardsFactory.viking, CardsFactory.viking));
+        List<CardDisplay> handCards_firstPlayer = duel.getHandOf(firstPlayer);
+        List<CardDisplay> handCards_secondPlayer = duel.getHandOf(secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel,handCards_firstPlayer.get(0), firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel,handCards_secondPlayer.get(0), firstRow, secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel,handCards_firstPlayer.get(1), firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel,handCards_secondPlayer.get(1), firstRow, secondPlayer);
+        List<CardDisplay> rowCards = duel.getRowOf(firstPlayer, firstRow);
+        assertNotEquals(rowCards.get(0), rowCards.get(1));
+
+    }
+
 
 }

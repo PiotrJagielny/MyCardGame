@@ -303,7 +303,10 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
 
         int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.goodPersonBoost;
-        assertEquals(expectedPoints, duel.getRowOf(secondPlayer, firstRow).get(0).getPoints());
+        int actualPoints = duel.getRowOf(firstPlayer, firstRow).stream().filter(c -> c.equals(CardsFactory.viking))
+                .findFirst().get().getPoints();
+        assertEquals(expectedPoints,actualPoints);
+
 
     }
 

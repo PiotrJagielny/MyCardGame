@@ -158,7 +158,7 @@ public class CardEffects {
            }
            else if(card.equals(CardsFactory.goodPerson)) {
                 CardDisplay cardToStrike = player.getRandomCardFromBoardWithout(CardsFactory.goodPerson);
-                enemy.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
+                player.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
            }
            else if(card.equals(CardsFactory.longer)) {
                player.boostCard(card, CardsFactory.longerBoost);
