@@ -43,9 +43,11 @@ There is deck builder where you can add and remove cards from deck, add and remo
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/48e4ff12-c46f-4f3a-a547-95da6b5f17be)
 
 
-
 There is also duel page, where players can put cards from hand on one of three rows. 
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
+When duel starts, you can change 3 cards from your hand. If you click on a card it will be replaced with card from deck.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/f4141996-663e-4e86-91cf-b83d7187ef53)
+
 You can see cards on your graveyard as well as in your deck
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/1966bda0-3da0-4e28-b994-b1148b5751b4)
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/fd37d80c-d5a7-4d64-a818-7472f44ac872)
