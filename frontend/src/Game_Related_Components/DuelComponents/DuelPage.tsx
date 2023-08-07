@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Card} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import HandComponent from './HandComponent';
+import EnemyHandComponent from './EnemyHandComponent';
 import RowComponent from './RowComponent';
 import './DuelPage.css';
 import Modal from 'react-modal';
@@ -163,47 +164,6 @@ const DuelPage = () => {
 
     setRefresh(true);
   }
-  // const alert= (msg:string, imageURL:string) => {
-  //   const alert = document.createElement('div');
-  //   alert.classList.add('alert');
-  //   const alertButton = document.createElement('button');
-  //   alertButton.innerText = 'Back to main menu';
-  //   alert.setAttribute('style', `
-  //     position: fixed;
-  //     top: 30%;
-  //     left:50%;
-  //     padding:20px;
-  //     border-radius: 10px;
-  //     box-shadow: 0 10px 5px 0 #00000022; 
-  //     display:flex;
-  //     flex-direction:column;
-  //     background-image: url(${imageURL});
-  //     background-size: cover;
-  //     background-position: center;
-  //     height: 200px;
-  //     width: 200px;
-  //   `);
-  //   alertButton.setAttribute('style', `
-  //     border: 1px solidd #333;
-  //     background:white;
-  //     border-radius: 5px;
-  //     padding: 5px;
-    
-  //   `);
-  //   alert.innerHTML= `<span style="
-  //     font-size: 20px;
-  //     padding: 29%;
-  //     padding-left: 59px;
-  //     ">
-  //    ${msg}
-  //    </span>`;
-  //   alert.appendChild(alertButton);
-  //   alertButton.addEventListener('click',(e) => {
-  //     alert.remove();
-  //     navigate("/Main");
-  //   });
-  //   document.body.appendChild(alert);
-  // }
 
   const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
     const alert = document.createElement('div');
@@ -285,7 +245,8 @@ const DuelPage = () => {
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
       playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-      fetchCardsData();
+      console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
+      console.log(cardDragged);
     } 
     else {
       setAffectableRows(possibleAffectedRows);
@@ -295,7 +256,8 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-    fetchCardsData();
+    console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
+    console.log(cardDragged);
     setIsRowsModalOpen(false);
   }
 
@@ -360,7 +322,9 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
         setPlayChainCard(cardChained);
+        console.log("JEST");
         stompClient.send('/app/sendTrigger', {}, userName, userName);
+        fetchCardsData();
       });
   }
 
@@ -388,7 +352,6 @@ const DuelPage = () => {
     return wonRoundsDivs;
   } 
   const getEnemyHandBlankCards = () => {
-    console.log(enemyHandSize);
     let cards: Card[] = [];
     for(let i = 0 ; i < enemyHandSize ; ++i ) {
       cards.push({name:"", points: 0 , cardInfo:" "});
@@ -457,7 +420,7 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
-        <HandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={{name:'', points: 0, cardInfo: ''}}></HandComponent>
+        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={{name:'', points: 0, cardInfo: ''}}></EnemyHandComponent>
       </DragDropContext>
 
 

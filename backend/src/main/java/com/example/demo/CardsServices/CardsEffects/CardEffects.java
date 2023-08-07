@@ -80,6 +80,10 @@ public class CardEffects {
             }
             enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.sharpshooterDamage);
         }
+        else if(p.equals(CardsFactory.gravedigger)) {
+            int cardsOnGraveyard = player.getGraveyard().size();
+            player.boostCard(playMade.getPlayedCard(), cardsOnGraveyard);
+        }
     }
 
     public void boostRowBy(int amount){
