@@ -40,7 +40,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel,CardsFactory.viking, firstRow, secondPlayer);
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.booster, secondRow,CardsFactory.viking, firstPlayer);
         int singleCardBoostAmount = 3;
-        CardDisplay boostedCard = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).stream().filter(c -> c.getName().equals("Viking")).findFirst().orElse(null);
+        CardDisplay boostedCard = duel.getRowOf(firstPlayer, firstRow).stream().filter(c -> c.getName().equals("Viking")).findFirst().orElse(null);
         assertEquals(CardsFactory.viking.getPoints() + singleCardBoostAmount, boostedCard.getPoints());
     }
 
@@ -74,11 +74,11 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.viking, secondPlayer);
 
-        CardDisplay strikedVikingDisplay = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0);
+        CardDisplay strikedVikingDisplay = duel.getRowOf(firstPlayer, firstRow).get(0);
 
         int fireballStrikeAmount = 3;
         assertEquals(CardsFactory.viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
-        assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).contains(CardsFactory.archer));
+        assertTrue(duel.getHandOf(firstPlayer).contains(CardsFactory.archer));
         assertEquals(1, getBoardPointsOf(secondPlayer, duel));
     }
 
@@ -90,14 +90,14 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel,CardsFactory.viking, firstRow, firstPlayer);
         TestsUtils.playSpecialCardWithCardTargeting(duel, CardsFactory.fireball, CardsFactory.viking, secondPlayer);
 
-        assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer, thirdRow).isEmpty());
-        boolean isFireballInHand = duel.getCardsInHandDisplayOf(secondPlayer)
+        assertTrue(duel.getRowOf(secondPlayer, thirdRow).isEmpty());
+        boolean isFireballInHand = duel.getHandOf(secondPlayer)
                 .stream()
                 .filter(c -> c.equals(CardsFactory.fireball))
                 .findFirst()
                 .orElse(null) == null;
         assertTrue(isFireballInHand);
-        int actualVikingPoints_afterStrike = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0).getPoints();
+        int actualVikingPoints_afterStrike = duel.getRowOf(firstPlayer, firstRow).get(0).getPoints();
         int expectedVikingPoints_afterStrike = CardsFactory.viking.getPoints() - CardsFactory.fireballDamage;
         assertEquals(expectedVikingPoints_afterStrike, actualVikingPoints_afterStrike);
     }
@@ -138,7 +138,7 @@ class TestSpecificBehaviours {
         duel = createDuel(deck);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, firstRow, firstPlayer);
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.paper, secondPlayer);
-        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).isEmpty());
+        assertTrue(duel.getRowOf(firstPlayer, firstRow).isEmpty());
     }
 
 
@@ -165,7 +165,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.doubler, secondRow, CardsFactory.capitan, firstPlayer);
 
         int expectedPoints = CardsFactory.capitan.getPoints() * 2;
-        int actualPoints = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0).getPoints();
+        int actualPoints = duel.getRowOf(firstPlayer, firstRow).get(0).getPoints();
         assertEquals(expectedPoints, actualPoints);
     }
 
@@ -196,7 +196,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, firstRow, secondPlayer);
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, firstPlayer);
         int expectedPoints= CardsFactory.longer.getPoints() + 2*CardsFactory.longerBoost;
-        int actualPoints = duel.getCardsOnBoardDisplayOf( firstPlayer, firstRow).get(0).getPoints();
+        int actualPoints = duel.getRowOf( firstPlayer, firstRow).get(0).getPoints();
         assertEquals(expectedPoints, actualPoints);
     }
 
@@ -227,9 +227,9 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(CardsFactory.priest,CardsFactory.paper, CardsFactory.capitan, CardsFactory.hotdog,CardsFactory.viking, CardsFactory.warrior));
         CardDisplay nextCardInChain = TestsUtils.playCardWithCardTargeting(duel, CardsFactory.priest, firstRow, CardsFactory.viking, firstPlayer);
 
-        int cardsInDeck = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+        int cardsInDeck = duel.getDeckOf(firstPlayer).size();
         CardDisplay vikingPlayed_noChainCard= TestsUtils.playCardWithoutTargeting(duel, nextCardInChain,firstRow, firstPlayer);
-        int cardsInDeckAfterChainPlay = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+        int cardsInDeckAfterChainPlay = duel.getDeckOf(firstPlayer).size();
 
         int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.priest.getPoints();
         int actualPoints = duel.getRowPointsOf(firstPlayer, firstRow);
@@ -262,14 +262,14 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.cow, firstRow, firstPlayer);
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.cow, secondPlayer);
-        assertEquals(CardsFactory.chort, duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0));
+        assertEquals(CardsFactory.chort, duel.getRowOf(firstPlayer, firstRow).get(0));
 
 
         duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.cow, firstRow, firstPlayer);
         duel.endRoundFor(secondPlayer);
         duel.endRoundFor(firstPlayer);
-        assertEquals(CardsFactory.chort, duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).get(0));
+        assertEquals(CardsFactory.chort, duel.getRowOf(firstPlayer, firstRow).get(0));
     }
 
     @Test
@@ -281,7 +281,7 @@ class TestSpecificBehaviours {
         duel.endRoundFor(firstPlayer);
 
         int expectedPoints = CardsFactory.viking.getPoints() - CardsFactory.trebuchetDamage;
-        assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
+        assertEquals(expectedPoints, duel.getRowOf(secondPlayer, firstRow).get(0).getPoints());
 
     }
 
@@ -294,7 +294,7 @@ class TestSpecificBehaviours {
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
 
         int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.goodPersonBoost;
-        assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
+        assertEquals(expectedPoints, duel.getRowOf(secondPlayer, firstRow).get(0).getPoints());
 
     }
 
@@ -307,7 +307,7 @@ class TestSpecificBehaviours {
 
         int cardsOnGraveyard = 1;
         int expectedPoints = CardsFactory.gravedigger.getPoints() + cardsOnGraveyard;
-        int actualPoints = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow)
+        int actualPoints = duel.getRowOf(firstPlayer, firstRow)
                 .stream()
                 .filter(c-> c.equals(CardsFactory.gravedigger) )
                 .findFirst().get().getPoints();
@@ -326,7 +326,7 @@ class TestSpecificBehaviours {
         assertEquals(CardsFactory.minion, playChainCard);
         TestsUtils.playCardWithoutTargeting(duel, playChainCard, firstRow, firstPlayer);
 
-        CardDisplay playedChainCard = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow)
+        CardDisplay playedChainCard = duel.getRowOf(firstPlayer, firstRow)
                 .stream().filter(c->c.equals(playChainCard)).findFirst().orElse(new CardDisplay());
 
         assertEquals(playedChainCard, playChainCard);

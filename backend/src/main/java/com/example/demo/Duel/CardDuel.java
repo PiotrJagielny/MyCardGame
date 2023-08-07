@@ -27,15 +27,15 @@ public class CardDuel {
         players.get(player).parseCards(cardsDisplay);
     }
 
-    public List<CardDisplay> getCardsInDeckDisplayOf(String player) {
+    public List<CardDisplay> getDeckOf(String player) {
         return players.get(player).getCardsInDeck();
     }
 
-    public List<CardDisplay> getCardsInHandDisplayOf(String player) {
+    public List<CardDisplay> getHandOf(String player) {
         return players.get(player).getCardsInHand();
     }
 
-    public List<CardDisplay> getCardsOnBoardDisplayOf(String player, int rowNumber) {
+    public List<CardDisplay> getRowOf(String player, int rowNumber) {
         return players.get(player).getCardsOnBoardOnRow(rowNumber);
     }
 
@@ -179,7 +179,7 @@ public class CardDuel {
         return players.get(userName).getRowStatusName(row);
     }
 
-    public List<CardDisplay> getPlayerGraveyard(String firstPlayer) {
+    public List<CardDisplay> getGraveyardOf(String firstPlayer) {
         return players.get(firstPlayer).getGraveyard();
     }
 }

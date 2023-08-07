@@ -29,11 +29,15 @@ const DuelPage = () => {
   let navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
+  const [isDeckCardsModalOpen, setIsDeckCardsModalOpen] = useState(false);
   const [isRowsModalOpen, setIsRowsModalOpen] = useState(false);
 
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
+  const [graveyardCards, setGraveyardCards] = useState<Card[]>([]);
+  const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [cardsOnSecondRow, setCardsOnSecondRow] = useState<Card[]>([]);
   const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
 
@@ -322,7 +326,6 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
         setPlayChainCard(cardChained);
-        console.log("JEST");
         stompClient.send('/app/sendTrigger', {}, userName, userName);
         fetchCardsData();
       });
@@ -358,6 +361,25 @@ const DuelPage = () => {
     }
     return cards;
   }
+  const handleGraveyardOpen = () => {
+    fetch(serverURL + `/Duel/getGraveyardCards/${userName}/${gameID}`)
+      .then((res) => res.json())
+      .then((data: Card[]) => {
+        setGraveyardCards(data);
+      }).then(() => {
+        setIsGraveyardModalOpen(true);
+      }).catch(console.error);
+  }
+  const handleDeckCardsOpen = () => {
+    fetch(serverURL + `/Duel/getDeckCards/${userName}/${gameID}`)
+      .then((res) => res.json())
+      .then((data: Card[]) => {
+        setCardsInDeck(data);
+      }).then(() => {
+        setIsDeckCardsModalOpen(true);
+      }).catch(console.error);
+  }
+
 
   return (
     
@@ -379,6 +401,8 @@ const DuelPage = () => {
       </div>
       <div>
         <button className="btn"onClick={fetchCardsData}>Load data</button>
+        <button className="btn"onClick={handleGraveyardOpen}>Show graveyard</button>
+        <button className="btn"onClick={handleDeckCardsOpen}>Show cards in deck</button>
       </div>
       <div style={{width: 30, height: 50}} ></div>
 
@@ -389,13 +413,26 @@ const DuelPage = () => {
           <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></button>
         ))}
       </Modal>
+      <Modal isOpen={isGraveyardModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Graveyard cards</h2>
+        {graveyardCards.map((card, index) =>(
+          <div><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></div>
+        ))}
+        <button onClick={() => setIsGraveyardModalOpen(false)}>Close</button>
+      </Modal>
+      <Modal isOpen={isDeckCardsModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Cards in deck</h2>
+        {cardsInDeck.map((card, index) =>(
+          <div><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></div>
+        ))}
+        <button onClick={() => setIsDeckCardsModalOpen(false)}>Close</button>
+      </Modal>
       <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a row to traget</h2>
         {affectableRows.map((row, index) =>(
           <button style={{fontSize: '30px',}} onClick= { () => {handleRowsModalClose(row)} }>{row + 1}</button>
         ))}
       </Modal>
-
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
         <HandComponent  cardsInHand = {cardsInHand} cardInPlayChain={playChainCard}></HandComponent>
