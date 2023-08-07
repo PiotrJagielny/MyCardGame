@@ -1,6 +1,8 @@
 import React from 'react';
 import './CardComponent.css';
 import {Card} from './Interfaces/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faHourglassHalf} from '@fortawesome/free-solid-svg-icons';
 
 interface CardComponentProps {
   card: Card;
@@ -65,7 +67,12 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
 
   return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
         <div className="name">{card.name}</div>
-        <div>{card.name !== "" && card.points}</div>
+        {card.points === 0 ?
+        <div>.</div>
+        :
+        <div>{card.points}</div>
+        }
+        {card.timer !== -1 && <div><FontAwesomeIcon icon={faHourglassHalf} /> {card.timer}</div>}
   </div>
 };
 

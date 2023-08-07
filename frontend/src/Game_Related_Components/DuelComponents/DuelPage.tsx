@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Card} from './../Interfaces/Card';
+import {Card, createCardWithName, createEmptyCard} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import HandComponent from './HandComponent';
 import EnemyHandComponent from './EnemyHandComponent';
@@ -32,6 +32,7 @@ const DuelPage = () => {
   const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
   const [isDeckCardsModalOpen, setIsDeckCardsModalOpen] = useState(false);
   const [isRowsModalOpen, setIsRowsModalOpen] = useState(false);
+  const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
 
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
@@ -85,24 +86,27 @@ const DuelPage = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
     stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
     stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
+    stompClient.subscribe('/user/' + userName + '/mulligan', startMulligan);
   }
   const onMessageReceived = (payload: any) => {
     fetchCardsData();
   }
   const enemyEndRoundTrigger = (payload: any) => {
-    console.log(payload);
     fetchCardsData();
     setEnemyEndRoundBackground('rgba(0,0,0,0.4');
     setEnemyEndRoundMessage("Enemy ended round");
   }
   const newRoundStarted = (payload: any) => {
-    console.log("New round");
     alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     setEnemyEndRoundBackground('');
     setEnemyEndRoundMessage('');
     setPlayerEndRoundBackground('');
     setPlayerEndRoundMessage('');
     fetchCardsData();
+  }
+  const startMulligan = (payload: any) => {
+    console.log("Started mulligan");
+    setIsMulliganModalOpen(true);
   }
 
 
@@ -220,10 +224,10 @@ const DuelPage = () => {
 
 
 
-  const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0, cardInfo:""});
-  const [playChainCard, setPlayChainCard] = useState<Card>({name: "", points: 0, cardInfo:""});
+  const [cardDragged, setCardDragged] = useState<Card>(createEmptyCard());
+  const [playChainCard, setPlayChainCard] = useState<Card>(createEmptyCard());
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
-  const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0, cardInfo:""});
+  const [cardAffected, setCardAffected] = useState<Card>(createEmptyCard());
   const handleModalClose = (card: Card) => {
     setIsModalOpen(false);
     setCardAffected(card);
@@ -249,8 +253,6 @@ const DuelPage = () => {
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
       playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-      console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
-      console.log(cardDragged);
     } 
     else {
       setAffectableRows(possibleAffectedRows);
@@ -260,8 +262,6 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-    console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
-    console.log(cardDragged);
     setIsRowsModalOpen(false);
   }
 
@@ -282,7 +282,7 @@ const DuelPage = () => {
     else if(destination.droppableId === thirdRowId){
       setPostOnRowNumberOf(2);
     }
-    setCardDragged({name: result.draggableId, points: 0, cardInfo:""});
+    setCardDragged(createCardWithName(result.draggableId));
 
 
 
@@ -307,7 +307,7 @@ const DuelPage = () => {
   const ensure = async (targetableCardsArg:Card[]) => {
 
       if(targetableCardsArg.length === 0) {
-        setCardAffected({name: "", points:0, cardInfo:""});
+        setCardAffected(createEmptyCard());
       }
       else {
         setTargetableCards(targetableCardsArg);
@@ -357,7 +357,7 @@ const DuelPage = () => {
   const getEnemyHandBlankCards = () => {
     let cards: Card[] = [];
     for(let i = 0 ; i < enemyHandSize ; ++i ) {
-      cards.push({name:"", points: 0 , cardInfo:" "});
+      cards.push(createEmptyCard());
     }
     return cards;
   }
@@ -378,6 +378,25 @@ const DuelPage = () => {
       }).then(() => {
         setIsDeckCardsModalOpen(true);
       }).catch(console.error);
+  }
+  
+  const [mulliganedCards, setMulliganedCards] = useState<number>(1);
+  const mulliganCard = (cardToMulligan: Card) => {
+    console.log(cardToMulligan);
+    if(cardToMulligan.name !== "") {
+      fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(cardToMulligan)
+      }).then(() => {
+        fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
+        setMulliganedCards(mulliganedCards + 1);
+      }).then(() => {
+        if(mulliganedCards === 3) {
+          setIsMulliganModalOpen(false);
+        }
+      });
+    }
   }
 
 
@@ -407,23 +426,29 @@ const DuelPage = () => {
       <div style={{width: 30, height: 50}} ></div>
 
       
-      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1, cardInfo:""})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose(createEmptyCard())}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></button>
+          <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={card}></CardComponent></button>
+        ))}
+      </Modal>
+      <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Choose a card to mulligan</h2>
+        {cardsInHand.map((card, index) =>(
+          <button onClick= { () => {mulliganCard(card)} }><CardComponent  card={card}></CardComponent></button>
         ))}
       </Modal>
       <Modal isOpen={isGraveyardModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Graveyard cards</h2>
         {graveyardCards.map((card, index) =>(
-          <div><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></div>
+          <div><CardComponent  card={card}></CardComponent></div>
         ))}
         <button onClick={() => setIsGraveyardModalOpen(false)}>Close</button>
       </Modal>
       <Modal isOpen={isDeckCardsModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Cards in deck</h2>
         {cardsInDeck.map((card, index) =>(
-          <div><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></div>
+          <div><CardComponent  card={card}></CardComponent></div>
         ))}
         <button onClick={() => setIsDeckCardsModalOpen(false)}>Close</button>
       </Modal>
@@ -457,7 +482,7 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
-        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={{name:'', points: 0, cardInfo: ''}}></EnemyHandComponent>
+        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={createEmptyCard()}></EnemyHandComponent>
       </DragDropContext>
 
 

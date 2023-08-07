@@ -48,7 +48,7 @@ public class CardDuel {
             CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)), playMade);
             effects.invokeOnPlaceEffect();
             if(CardsFactory.cardsWithPlayChainPossibility.contains(playMade.getPlayedCard()) &&
-               playMade.getTargetedCard() != null ) {
+               isNullOrEmpty(playMade.getTargetedCard()) == false) {
                 return playMade.getTargetedCard();
             }
             else {
@@ -59,6 +59,10 @@ public class CardDuel {
             }
         }
         return new CardDisplay();
+    }
+
+    private boolean isNullOrEmpty(CardDisplay card) {
+        return card == null || card.equals(new CardDisplay());
     }
 
     public boolean isTurnOf(String player) {
@@ -179,7 +183,11 @@ public class CardDuel {
         return players.get(userName).getRowStatusName(row);
     }
 
-    public List<CardDisplay> getGraveyardOf(String firstPlayer) {
-        return players.get(firstPlayer).getGraveyard();
+    public List<CardDisplay> getGraveyardOf(String player) {
+        return players.get(player).getGraveyard();
+    }
+
+    public void mulliganCardFor(CardDisplay cardToMulligan, String player) {
+        players.get(player).mulliganCard(cardToMulligan);
     }
 }

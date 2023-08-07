@@ -108,4 +108,10 @@ public class Row {
         }
         return result;
     }
+    public int getTimer(CardDisplay card) {
+        if(cardsTimers.containsKey(card.getName())) {
+            return cardsTimers.get(card.getName());
+        }
+        return -1;
+    }
 }

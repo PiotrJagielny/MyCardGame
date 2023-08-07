@@ -25,7 +25,7 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
             <div className="rightHandContainer" style={{display: 'flex'}}>
                 {cardsInHand.map((card, index) =>(
                       <div >
-                        <CardComponent  card={{name:card.name, points:card.points, cardInfo:card.cardInfo}}></CardComponent>
+                        <CardComponent  card={card}></CardComponent>
                       </div>    
                 ))}
             </div>

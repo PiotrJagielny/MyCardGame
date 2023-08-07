@@ -259,17 +259,26 @@ class TestSpecificBehaviours {
 
     @Test
     public void testSpawningNewUnitsOnDeath() {
+        //Spawn on strike
         duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.cow, firstRow, firstPlayer);
         TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.cow, secondPlayer);
         assertEquals(CardsFactory.chort, duel.getRowOf(firstPlayer, firstRow).get(0));
 
 
+        //Spawn on new round
         duel = createDuel(List.of(CardsFactory.cow, CardsFactory.archer, CardsFactory.viking));
         TestsUtils.playCardWithoutTargeting(duel, CardsFactory.cow, firstRow, firstPlayer);
         duel.endRoundFor(secondPlayer);
         duel.endRoundFor(firstPlayer);
         assertEquals(CardsFactory.chort, duel.getRowOf(firstPlayer, firstRow).get(0));
+
+        //Spawn on burn
+        duel = createDuel(List.of(CardsFactory.cow, CardsFactory.conflagration));
+        TestsUtils.playCardWithoutTargeting(duel,CardsFactory.cow, firstRow,firstPlayer);
+        TestsUtils.playSpecialCardWithoutTargeting(duel,CardsFactory.conflagration, secondPlayer);
+        CardDisplay chortSpawned = duel.getRowOf(firstPlayer, firstRow).get(0);
+        assertEquals(CardsFactory.chort, chortSpawned);
     }
 
     @Test
@@ -330,7 +339,6 @@ class TestSpecificBehaviours {
                 .stream().filter(c->c.equals(playChainCard)).findFirst().orElse(new CardDisplay());
 
         assertEquals(playedChainCard, playChainCard);
-
     }
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import {DecksManager} from './DecksManager';
-import {Card} from './../Interfaces/Card';
+import {Card, createCardWithName, createEmptyCard} from './../Interfaces/Card';
 import  './DeckBuilderPage.css';
 import {useSelector} from 'react-redux';
 import {CardsCollectionDisplay} from './CardsCollectionDisplay'; 
@@ -81,7 +81,8 @@ const DeckBuilderPage = () => {
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}/${currentDeck}`
     }
 
-    let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
+    // let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
+    let cardDragged: Card = createCardWithName(result.draggableId);
     
     ChangeDecksState(cardDragged, PostURL); 
   }

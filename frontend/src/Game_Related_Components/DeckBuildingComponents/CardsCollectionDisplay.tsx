@@ -20,7 +20,7 @@ export const CardsCollectionDisplay: React.FC<Props> = ({Cards, refresh, droppab
                     <Draggable key={card.name} draggableId={card.name} index={index}>
                       {(provided) => (
                         <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">  
-                          <CardComponent card = {{name:card.name , points: card.points, cardInfo: card.cardInfo }} ></CardComponent>
+                          <CardComponent card = {card} ></CardComponent>
                         </p>
                       )}
                     </Draggable>

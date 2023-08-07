@@ -43,6 +43,7 @@ public class CardsFactory {
 
 
     public static final CardDisplay longer= new CardDisplay("Longer",1);
+    public static final int longerTimer = 1;
     public static final int longerBoost = 2;
 
     public static final CardDisplay rain= new CardDisplay("Rain",0);
@@ -69,6 +70,7 @@ public class CardsFactory {
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
         put(goodPerson.getName(), goodPersonTimer);
+        put(longer.getName(), longerTimer);
     }};
     public static int getCardTimer(CardDisplay card) {
         return mapCardNameToTimer.getOrDefault(card.getName(), noTimer);

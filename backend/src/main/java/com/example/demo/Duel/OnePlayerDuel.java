@@ -44,8 +44,12 @@ public class OnePlayerDuel {
     }
 
     public List<CardDisplay> getCardsOnBoardOnRow(int number) {
-
-        return CardsParser.getCardsDisplay(rows.get(number).getCards());
+        List<CardDisplay> rowCards =CardsParser.getCardsDisplay(rows.get(number).getCards());
+        for (int i = 0; i < rowCards.size(); i++) {
+            CardDisplay card = rowCards.get(i);
+            rowCards.get(i).setTimer(rows.get(number).getTimer(card));
+        }
+        return rowCards;
     }
 
     public List<CardDisplay> getCardsOnBoard(){
@@ -207,5 +211,16 @@ public class OnePlayerDuel {
 
     public List<CardDisplay> getGraveyard() {
         return CardsParser.getCardsDisplay(graveyard);
+    }
+
+    public void mulliganCard(CardDisplay cardToMulligan) {
+        Card card = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToMulligan)).findFirst().orElse(Card.createEmptyCard());
+
+        int cardIndex = cardsInHand.indexOf(card);
+
+        if(cardsInDeck.size() > 0) {
+            cardsInHand.set(cardIndex,cardsInDeck.get(0));
+            cardsInDeck.set(0, card);
+        }
     }
 }
