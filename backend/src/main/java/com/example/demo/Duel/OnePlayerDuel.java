@@ -84,7 +84,7 @@ public class OnePlayerDuel {
                 break;
             }
         }
-        if(playMade.getPlayedCard().getPoints() != 0)
+        if(cc.getPoints() != 0)
             rows.get(playMade.getPlayedCardRowNum()).play(cc);
     }
 

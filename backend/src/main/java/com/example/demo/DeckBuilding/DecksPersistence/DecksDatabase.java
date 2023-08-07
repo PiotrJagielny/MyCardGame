@@ -12,45 +12,6 @@ public class DecksDatabase {
 
     private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
 //    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
-//    public static void save(String username, DeckBuilder deckBuilder) {
-//        Session s = emf.createEntityManager().unwrap(Session.class);
-//
-//        try {
-//
-//            List<String> decksNames = deckBuilder.getDecksNames();
-//            List<DeckModel> decksDataToSave = new ArrayList<>();
-//            List<CardDisplayModel> cardsDataToSave = new ArrayList<>();
-//            for (String deckname : decksNames) {
-//                DeckModel d = new DeckModel();
-//                d.setName(deckname);
-//                d.setUsername(username);
-//                decksDataToSave.add(d);
-//
-//                deckBuilder.selectDeck(deckname);
-//                List<CardDisplay> cardsInDeck = deckBuilder.getCurrentDeck();
-//                for (CardDisplay card : cardsInDeck) {
-//                    CardDisplayModel c = new CardDisplayModel();
-//                    c.setCardname(card.getName());
-//                    c.setCardpoints(card.getPoints());
-//                    c.setDeck(d);
-//                    cardsDataToSave.add(c);
-//                }
-//            }
-//
-//            s.getTransaction().begin();
-//
-//            decksDataToSave.forEach(d -> s.persist(d));
-//            cardsDataToSave.forEach(c -> s.persist(c));
-//
-//            s.getTransaction().commit();
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        s.close();
-//
-//    }
     public static void createDeck(String username, String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         try {
@@ -125,10 +86,10 @@ public class DecksDatabase {
     public static DeckBuilder load(String username) {
         Session s = emf.createEntityManager().unwrap(Session.class);
 
+        s.getTransaction().begin();
         TypedQuery<DeckModel> tq = s.createQuery("SELECT dm FROM DeckModel dm WHERE username = :uname", DeckModel.class);
         tq.setParameter("uname", username);
         List<DeckModel> decks = tq.getResultList();
-        s.close();
 
 
         DeckBuilder result = new DeckBuilder();
@@ -145,6 +106,8 @@ public class DecksDatabase {
                 System.out.println(e.getMessage());
             }
         }
+        s.getTransaction().commit();
+        s.close();
         return result;
     }
 
