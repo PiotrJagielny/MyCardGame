@@ -20,6 +20,8 @@ Sharpshooter - deals damage to one enemy card and if this card dies, sharpshoote
 Cow - If cow dies, spawn chort in the same row <br>
 Trebuchet - Deal i damage to random enemy every 2 turns<br>
 Good person - Boost card on your board every 2 turns<br>
+Gravedigger - Boost by number of cards on your graveyard on deploy<br>
+Witch - Ressurect card from your graveyard<br>
 
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
@@ -44,6 +46,10 @@ There is deck builder where you can add and remove cards from deck, add and remo
 
 There is also duel page, where players can put cards from hand on one of three rows. 
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
+You can see cards on your graveyard as well as in your deck
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/1966bda0-3da0-4e28-b994-b1148b5751b4)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/fd37d80c-d5a7-4d64-a818-7472f44ac872)
+
 
 You can hover on a card, and its info appears
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bf536ce4-d785-4c71-860c-0928bfd9a04e)
