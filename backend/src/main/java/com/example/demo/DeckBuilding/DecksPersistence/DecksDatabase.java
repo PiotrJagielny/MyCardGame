@@ -19,19 +19,8 @@ public class DecksDatabase {
     
     private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
 //    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
-<<<<<<< HEAD
-
-
-
-    public static void saveDeck(String username, String deckname, List<CardDisplay> cardsInDeck) {
-        EntityManager em = emf.createEntityManager();
-        deleteDeck(username, deckname);
-
-        EntityTransaction et = null;
-=======
     public static void createDeck(String username, String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
->>>>>>> a9fb45894fb52ffccd9fc30a798e6e6fbf3e6465
         try {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setUsername(username);
