@@ -53,7 +53,7 @@ You can see cards on your graveyard as well as in your deck
 
 You can hover on a card, and its info appears
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bf536ce4-d785-4c71-860c-0928bfd9a04e)
-Cards that have effects every some amount of turns, appears as below: <br>
+Cards that have effects every some amount of turns, appears as below. Here trebuchet has 2 more turns to deal damage <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2595e0f1-8079-4763-940f-fefdaa8706f4)
 
 
