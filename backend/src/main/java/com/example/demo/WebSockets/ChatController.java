@@ -64,4 +64,10 @@ public class ChatController {
         simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(userName), "/game", "Get data from server:" + userName);
         return userName;
     }
+
+    @MessageMapping("/mulliganEnded")
+    public String sendToEnemyThatMulliganIsEnded(@Payload String userName) {
+        simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(userName), "/mulligan", "end");
+        return userName;
+    }
 }

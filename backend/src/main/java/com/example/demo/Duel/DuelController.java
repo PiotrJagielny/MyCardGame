@@ -128,8 +128,8 @@ public class DuelController {
             }
             System.out.println(userName);
             System.out.println(duels.get(gameID).getOpponentOf(userName));
-            simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/mulligan", "");
-            simpMessagingTemplate.convertAndSendToUser(userName, "/mulligan", "");
+            simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/mulligan", "start");
+            simpMessagingTemplate.convertAndSendToUser(userName, "/mulligan", "start");
 
         }
     }

@@ -32,7 +32,6 @@ const DuelPage = () => {
   const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
   const [isDeckCardsModalOpen, setIsDeckCardsModalOpen] = useState(false);
   const [isRowsModalOpen, setIsRowsModalOpen] = useState(false);
-  const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
 
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
@@ -104,9 +103,47 @@ const DuelPage = () => {
     setPlayerEndRoundMessage('');
     fetchCardsData();
   }
+
+  const [mulliganedCards, setMulliganedCards] = useState<number>(1);
+  const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
+  const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
+  const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
   const startMulligan = (payload: any) => {
-    console.log("Started mulligan");
-    setIsMulliganModalOpen(true);
+    if(payload.body === "start") {
+      setIsMulliganModalOpen(true);
+    } 
+    else if(payload.body === "end") {
+      setDidEnemyEndedMulligan(true);
+    }
+  }
+  useEffect(() => {
+    if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
+      setIsMulliganModalOpen(false);
+    }
+
+  }, [didEnemyEndedMulligan]);
+  useEffect(() => {
+    if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
+      setIsMulliganModalOpen(false);
+    }
+
+  }, [didPlayerEndedMulligan]);
+  const mulliganCard = (cardToMulligan: Card) => {
+    if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
+      fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(cardToMulligan)
+      }).then(() => {
+        fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
+        setMulliganedCards(mulliganedCards + 1);
+      }).then(() => {
+        if(mulliganedCards === 3) {
+          stompClient.send('/app/mulliganEnded', {}, userName);
+          setDidPlayerEndedMulligan(true);
+        }
+      });
+    }
   }
 
 
@@ -380,24 +417,6 @@ const DuelPage = () => {
       }).catch(console.error);
   }
   
-  const [mulliganedCards, setMulliganedCards] = useState<number>(1);
-  const mulliganCard = (cardToMulligan: Card) => {
-    console.log(cardToMulligan);
-    if(cardToMulligan.name !== "") {
-      fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(cardToMulligan)
-      }).then(() => {
-        fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
-        setMulliganedCards(mulliganedCards + 1);
-      }).then(() => {
-        if(mulliganedCards === 3) {
-          setIsMulliganModalOpen(false);
-        }
-      });
-    }
-  }
 
 
   return (
