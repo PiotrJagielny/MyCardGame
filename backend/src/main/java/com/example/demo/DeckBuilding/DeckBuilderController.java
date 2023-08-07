@@ -26,54 +26,52 @@ public class DeckBuilderController {
 
     }
 
-    @GetMapping(path ="GetAllCards/{userName}")
+    @GetMapping(path ="GetAllCards/{userName}/{deckName}")
     @CrossOrigin
-    public List<CardDisplay> GetAllCards(@PathVariable String userName){
-        return deckBuilders.get(userName).getCardsPossibleToAdd();
+    public List<CardDisplay> GetAllCards(@PathVariable String userName, @PathVariable String deckName){
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
     }
 
-    @GetMapping(path = "GetCardsInDeck/{userName}")
+    @GetMapping(path = "GetCardsInDeck/{userName}/{deckName}")
     @CrossOrigin
-    public List<CardDisplay> GetCardsInDeck(@PathVariable String userName){
-        return deckBuilders.get(userName).getCurrentDeck();
+    public List<CardDisplay> GetCardsInDeck(@PathVariable String userName, @PathVariable String deckName){
+        return deckBuilders.get(userName).getCurrentDeck(deckName);
     }
 
     @GetMapping(path = "GetDecksNames/{userName}")
     @CrossOrigin
     public List<String> GetDecksNames(@PathVariable String userName){return deckBuilders.get(userName).getDecksNames();}
 
-    @PostMapping(path = "PutCardToDeck/{userName}")
+    @PostMapping(path = "PutCardToDeck/{userName}/{deckName}")
     @CrossOrigin
-    public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName) {
-        String ResponseMessage = deckBuilders.get(userName).addCardToDeck(cardDisplay);
-        DecksDatabase.saveDeck(userName,deckBuilders.get(userName).getCurrentDeckName(), deckBuilders.get(userName).getCurrentDeck());
+    public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName) {
+        String ResponseMessage = deckBuilders.get(userName).addCardToDeck(cardDisplay, deckName);
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
         return ResponseMessage;
     }
 
-    @PostMapping(path = "PutCardFromDeckBack/{userName}")
+    @PostMapping(path = "PutCardFromDeckBack/{userName}/{deckName}")
     @CrossOrigin
-    public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName){
-        deckBuilders.get(userName).putCardFromDeckBack(cardDisplay);
-        DecksDatabase.saveDeck(userName,deckBuilders.get(userName).getCurrentDeckName(), deckBuilders.get(userName).getCurrentDeck());
+    public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName){
+        deckBuilders.get(userName).putCardFromDeckBack(cardDisplay, deckName);
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
     }
 
     @PostMapping(path = "CreateDeck/{userName}")
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
         deckBuilders.get(userName).createDeck(deckName);
+        List<String> decks = deckBuilders.get(userName).getDecksNames();
+        if(decks.contains(deckName)) {
+            DecksDatabase.createDeck(userName,deckName);
+        }
     }
 
-    @PostMapping(path = "SelectDeck/{userName}")
+    @PostMapping(path = "DeleteDeck/{userName}/{deckName}")
     @CrossOrigin
-    public void SelectDeck(@RequestBody String deckName, @PathVariable String userName){
-        deckBuilders.get(userName).selectDeck(deckName);
-    }
-
-    @PostMapping(path = "DeleteDeck/{userName}")
-    @CrossOrigin
-    public String DeleteDeck(@PathVariable String userName) {
-        DecksDatabase.deleteDeck(userName, deckBuilders.get(userName).getCurrentDeckName());
-        String response = deckBuilders.get(userName).deleteCurrentDeck();
+    public String DeleteDeck(@PathVariable String userName, @PathVariable String deckName) {
+        DecksDatabase.deleteDeck(userName, deckName);
+        String response = deckBuilders.get(userName).deleteCurrentDeck(deckName);
         return response;
     }
     @GetMapping(path = "ValidateDeck/{userName}/{deckName}")

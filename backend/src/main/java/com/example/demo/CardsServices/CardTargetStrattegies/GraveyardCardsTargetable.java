@@ -5,9 +5,9 @@ import com.example.demo.Duel.OnePlayerDuel;
 
 import java.util.List;
 
-public class AllCardsInDeckTargetable implements CardTargeting{
+public class GraveyardCardsTargetable implements CardTargeting{
     @Override
     public List<CardDisplay> getPossibleTargets(OnePlayerDuel player, OnePlayerDuel enemy) {
-        return player.getCardsInDeck();
+        return player.getGraveyard();
     }
 }

@@ -15,6 +15,7 @@ public class OnePlayerDuel {
 
     private List<Card> cardsInDeck;
     private List<Card> cardsInHand;
+    private List<Card> graveyard;
     private List<Row> rows;
     private boolean isRoundOverForPlayer;
     private int wonRounds;
@@ -26,6 +27,7 @@ public class OnePlayerDuel {
         rows.add(new Row());
         rows.add(new Row());
         rows.add(new Row());
+        graveyard = new ArrayList<>();
 
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
@@ -70,45 +72,54 @@ public class OnePlayerDuel {
     }
 
     public void placeCardOnBoard(PlayerPlay playMade){
-        Card playedCard = cardsInHand.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
-        if(playedCard == null) {
-            playedCard = cardsInDeck.stream().filter(c -> c.getDisplay().equals(playMade.getPlayedCard())).findFirst().orElse(null);
-            final CardDisplay display = playedCard.getDisplay();
-            cardsInDeck.removeIf(c -> c.getDisplay().equals(display));
-        }
-        final CardDisplay display = playedCard.getDisplay();
-        cardsInHand.removeIf(c -> c.getDisplay().equals(display));
+        List<List<Card>> possiblePlayedCardPlaces = List.of(cardsInHand, cardsInDeck, graveyard);
+        Card cc = null;
+        for (List<Card> place : possiblePlayedCardPlaces) {
+            cc = place.stream()
+                    .filter(c -> c.getDisplay().equals(playMade.getPlayedCard()))
+                    .findFirst().orElse(null);
 
-        if(playMade.getPlayedCard().getPoints() != 0)
-            rows.get(playMade.getPlayedCardRowNum()).play(playedCard);
+            if(cc != null) {
+                place.remove(cc);
+                break;
+            }
+        }
+        if(cc.getPoints() != 0)
+            rows.get(playMade.getPlayedCardRowNum()).play(cc);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
-        rows.forEach(row -> {
-            row.strikeCardBy(row.getCards().stream()
-                            .filter(c -> c.getDisplay().equals(cardToStrike))
-                            .findFirst().orElse(Card.createEmptyCard())    ,strikeAmount
-            );
-        });
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = rows.get(i);
+            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike))
+                            .findFirst().orElse(Card.createEmptyCard());
+            row.strikeCardBy(card, strikeAmount);
+            if(card.getPoints() <= strikeAmount && !card.equals(Card.createEmptyCard())) {
+                graveyard.add(card);
+            }
+        }
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
-        rows.forEach(row -> {
-            row.boostCardBy( row.getCards().stream()
-                            .filter(c -> c.getDisplay().equals(cardToBoost))
-                            .findFirst().orElse(Card.createEmptyCard())    ,boostAmount
-            );
-        });
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = rows.get(i);
+            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost))
+                    .findFirst().orElse(Card.createEmptyCard());
+            row.boostCardBy(card, boostAmount);
+        }
     }
 
-    public void burnCard(CardDisplay card) {
-        rows.forEach(row -> {
-            row.burnCard(
-                    row.getCards().stream()
-                            .filter(c -> c.getDisplay().equals(card))
-                            .findFirst().orElse(Card.createEmptyCard())
-            );
-        });
+    public void burnCard(CardDisplay cardToBurn) {
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = rows.get(i);
+            Card card = row.getCards().stream()
+                    .filter(c -> c.getDisplay().equals(cardToBurn))
+                    .findFirst().orElse(Card.createEmptyCard());
+
+            row.burnCard(card);
+            if(!card.equals(Card.createEmptyCard()))
+                graveyard.add(card);
+        }
     }
 
     public int getCardRow(CardDisplay card) {
@@ -146,6 +157,7 @@ public class OnePlayerDuel {
 
     private void clearRows(){
         for(int row = 0 ; row < Consts.rowsNumber ; ++row){
+            graveyard.addAll(rows.get(row).getCards());
             rows.get(row).clearRow();
         }
     }
@@ -191,5 +203,9 @@ public class OnePlayerDuel {
         return cardRolled;
 
 
+    }
+
+    public List<CardDisplay> getGraveyard() {
+        return CardsParser.getCardsDisplay(graveyard);
     }
 }

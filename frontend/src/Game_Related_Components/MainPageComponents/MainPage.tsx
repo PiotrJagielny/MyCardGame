@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
@@ -15,6 +15,7 @@ const MainPage = () => {
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [decks, setDecks] = useState<string[]>([]);
+  const [chosenDeck, setChosenDeck] = useState<string>("");
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const RedirectToDeckBuilder = () =>{
@@ -34,7 +35,7 @@ const MainPage = () => {
     .then((res) => res.json())
     .then((isDeckValid: boolean) => {
       if(isDeckValid) {
-        switchDecks(deck);
+        setChosenDeck(deck);
       }
       else {
         window.alert("This deck is not valid");
@@ -42,22 +43,18 @@ const MainPage = () => {
     }).catch(console.error);
 
   }
-  const switchDecks = (deck:string) => {
-      fetch(`${serverURL}/DeckBuilder/SelectDeck/${userName}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body:deck 
-      }).then(() => {
-        let Sock = new SockJS(serverURL + '/ws');
-        stompClient = over(Sock);
-        stompClient.connect({}, onConnect);
-        setIsSearching(true);
-        setIsModalOpen(false);
-      });
+  useEffect(() => {
+    if(chosenDeck !== "") {
+      console.log(chosenDeck);
+      let Sock = new SockJS(serverURL + '/ws');
+      stompClient = over(Sock);
+      stompClient.connect({}, onConnect);
+      setIsSearching(true);
+      setIsModalOpen(false);
+    }
+  }, [chosenDeck])
 
-  }
+
   const RedirectToDuel = () =>{
     fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
@@ -77,8 +74,9 @@ const MainPage = () => {
 
       let gameID = payload.body.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
+      console.log(chosenDeck);
 
-      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}`)
+      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${chosenDeck}`)
         .then((res) => res.json())
         .then((deckData: Card[]) => {
 
