@@ -4,10 +4,12 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import './DecksManager.css';
 
 interface Props{
-    OnDecksSwitched: () => void;
+    OnDecksSwitched: (deckName:string) => void;
+    currentDeckSetter: React.Dispatch<React.SetStateAction<string>>;
+    currentDeck: string;
 }
 
-export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
+export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSetter, currentDeck}) => {
   const [refresh, setRefresh] = useState(false);
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
@@ -21,6 +23,9 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecksNames(decksNames);
+      if(currentDeck === "") {
+        currentDeckSetter(decksNames[0]);
+      }
     })
     .catch(console.error);
     setRefresh(true);
@@ -35,15 +40,10 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
   }, [userName]);
 
 
-  const handleSelectDeckPostRequest = (selectedDeckName: string) => {
-    fetch(`${serverURL}/DeckBuilder/SelectDeck/${userName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: selectedDeckName
-    });
-    OnDecksSwitched();
+  const handleDeckSwitch = (selectedDeckName: string) => {
+      currentDeckSetter(selectedDeckName);
+      currentDeckSetter(selectedDeckName);
+      OnDecksSwitched(selectedDeckName);
   }
 
   const handleNewDeckPostRequest = () => {
@@ -60,12 +60,12 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
   }
 
   const handleDeckDeletePostRequest = () => {
-    fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}`, {
+    fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}/${currentDeck}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: ""
+      body: "" 
     });
     fetchDecksNames();
   }
@@ -75,7 +75,8 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched}) => {
         <ul className="decks">
             {decksNames.map(name => (
               <li>
-                <button className="deckBtn" onClick={() => (handleSelectDeckPostRequest(name))}>{name}</button>
+                <button className="deckBtn" onClick={() => (handleDeckSwitch(name))}>{name}</button>
+
               </li>
             ))}
           </ul>

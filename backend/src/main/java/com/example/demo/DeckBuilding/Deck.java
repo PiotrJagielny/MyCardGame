@@ -13,11 +13,14 @@ public class Deck {
     private List<Card> allCardsPossibleToAdd;
     private String deckName;
 
-    public Deck(List<Card> allCards, String deckName) {
-        this.deckName = deckName;
+
+    public Deck(List<Card> allCards) {
+
         cardsInDeck = new ArrayList<Card>();
-        copyAllCards(allCards);
+        deckName="";
+        this.allCardsPossibleToAdd = allCards;
     }
+
     public Deck() {
         this.deckName = "";
         cardsInDeck = new ArrayList<Card>();
@@ -41,8 +44,11 @@ public class Deck {
             return responseMessage;
         }
 
-        cardsInDeck.add(card);
-        allCardsPossibleToAdd.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
+        if(card != null) {
+            cardsInDeck.add(card);
+            allCardsPossibleToAdd.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
+
+        }
         return responseMessage;
     }
 

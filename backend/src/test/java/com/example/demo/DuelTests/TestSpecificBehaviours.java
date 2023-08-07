@@ -17,15 +17,6 @@ class TestSpecificBehaviours {
 
     private CardDuel duel;
 
-    public CardDuel createDuel(List<CardDisplay> deck){
-        CardDuel result = CardDuel.createDuel();
-        result.registerPlayerToDuel(secondPlayer);
-        result.registerPlayerToDuel(firstPlayer);
-        result.parseCardsFor(deck , secondPlayer);
-        result.parseCardsFor(deck , firstPlayer);
-        result.dealCards();
-        return result;
-    }
 
     @Test
     public void testBoostingSingleRow(){
@@ -233,7 +224,7 @@ class TestSpecificBehaviours {
     }
     @Test
     public void testPlyingCardFromDeck() {
-        duel = createDuel(List.of(CardsFactory.priest,CardsFactory.paper, CardsFactory.capitan, CardsFactory.witch ,CardsFactory.viking, CardsFactory.warrior));
+        duel = createDuel(List.of(CardsFactory.priest,CardsFactory.paper, CardsFactory.capitan, CardsFactory.hotdog,CardsFactory.viking, CardsFactory.warrior));
         CardDisplay nextCardInChain = TestsUtils.playCardWithCardTargeting(duel, CardsFactory.priest, firstRow, CardsFactory.viking, firstPlayer);
 
         int cardsInDeck = duel.getCardsInDeckDisplayOf(firstPlayer).size();
@@ -304,6 +295,41 @@ class TestSpecificBehaviours {
 
         int expectedPoints = CardsFactory.viking.getPoints() + CardsFactory.goodPersonBoost;
         assertEquals(expectedPoints, duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).get(0).getPoints());
+
+    }
+
+    @Test
+    public void testBoostingByNumberOfCardsOnGraveyard() {
+        duel = createDuel(List.of(CardsFactory.gravedigger, CardsFactory.archer, CardsFactory.minion));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.minion, firstRow, firstPlayer);
+        TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.minion, secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.gravedigger, firstRow, firstPlayer);
+
+        int cardsOnGraveyard = 1;
+        int expectedPoints = CardsFactory.gravedigger.getPoints() + cardsOnGraveyard;
+        int actualPoints = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow)
+                .stream()
+                .filter(c-> c.equals(CardsFactory.gravedigger) )
+                .findFirst().get().getPoints();
+
+        assertEquals(expectedPoints, actualPoints);
+
+    }
+
+    @Test
+    public void testCardResurrectionFromGraveyard() {
+        duel = createDuel(List.of(CardsFactory.witch, CardsFactory.archer, CardsFactory.minion));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.minion, firstRow, firstPlayer);
+        TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.minion, secondPlayer);
+
+        CardDisplay playChainCard = TestsUtils.playCardWithCardTargeting(duel, CardsFactory.witch, firstRow, CardsFactory.minion, firstPlayer);
+        assertEquals(CardsFactory.minion, playChainCard);
+        TestsUtils.playCardWithoutTargeting(duel, playChainCard, firstRow, firstPlayer);
+
+        CardDisplay playedChainCard = duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow)
+                .stream().filter(c->c.equals(playChainCard)).findFirst().orElse(new CardDisplay());
+
+        assertEquals(playedChainCard, playChainCard);
 
     }
 

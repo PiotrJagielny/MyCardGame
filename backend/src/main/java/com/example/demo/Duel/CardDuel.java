@@ -178,4 +178,8 @@ public class CardDuel {
     public String getRowStatusOf(String userName, int row) {
         return players.get(userName).getRowStatusName(row);
     }
+
+    public List<CardDisplay> getPlayerGraveyard(String firstPlayer) {
+        return players.get(firstPlayer).getGraveyard();
+    }
 }

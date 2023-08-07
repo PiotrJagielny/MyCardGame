@@ -6,12 +6,16 @@ import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.CardDuel;
+import com.example.demo.TestsData.TestConsts;
 import com.example.demo.TestsData.TestsUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.example.demo.TestsData.TestConsts.*;
@@ -26,8 +30,12 @@ class TestDuelAfterDeal {
         duel = CardDuel.createDuel();
         duel.registerPlayerToDuel(secondPlayer);
         duel.registerPlayerToDuel(firstPlayer);
-        duel.parseCardsFor(CardsParser.getCardsDisplay( CardsFactory.createAllCards() ), firstPlayer);
-        duel.parseCardsFor(CardsParser.getCardsDisplay( CardsFactory.createAllCards() ), secondPlayer);
+        List<CardDisplay> allCards = CardsParser.getCardsDisplay(CardsFactory.createAllCards());
+        List<CardDisplay> noEffectCards = allCards.stream()
+                .filter(c -> !c.getCardInfo().equals(""))
+                .collect(Collectors.toList());
+        duel.parseCardsFor( noEffectCards , firstPlayer);
+        duel.parseCardsFor( noEffectCards , secondPlayer);
         duel.dealCards();
     }
 
@@ -178,7 +186,7 @@ class TestDuelAfterDeal {
                 duel.getCardsInHandDisplayOf(firstPlayer), Comparator.comparingInt(CardDisplay::getPoints)
         );
         CardDisplay lessPointsCard = Collections.min(
-                duel.getCardsInHandDisplayOf(firstPlayer), Comparator.comparingInt(CardDisplay::getPoints)
+                duel.getCardsInHandDisplayOf(secondPlayer), Comparator.comparingInt(CardDisplay::getPoints)
         );
         TestsUtils.playCardWithoutTargeting(duel, morePointsCard, Consts.firstRow, firstPlayer);
         TestsUtils.playCardWithoutTargeting(duel, lessPointsCard, Consts.firstRow, secondPlayer);
@@ -203,5 +211,38 @@ class TestDuelAfterDeal {
         assertEquals(1, duel.getWonRoundsOf(firstPlayer));
         assertEquals(1, duel.getWonRoundsOf(secondPlayer));
     }
+
+    @Test
+    public void afterCardDies_goesToGraveyard() {
+        duel = TestsUtils.createDuel(List.of(CardsFactory.minion, CardsFactory.archer));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.minion, firstRow, firstPlayer);
+        TestsUtils.playCardWithCardTargeting(duel, CardsFactory.archer, firstRow, CardsFactory.minion, secondPlayer);
+        assertEquals(1, duel.getPlayerGraveyard(firstPlayer).size());
+
+    }
+    @Test
+    public void afterCardIsBurned_goesToGraveyard() {
+        duel = TestsUtils.createDuel(List.of(CardsFactory.knight, CardsFactory.conflagration));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.knight, firstRow, firstPlayer);
+        TestsUtils.playSpecialCardWithoutTargeting(duel, CardsFactory.conflagration, secondPlayer);
+        assertEquals(1, duel.getPlayerGraveyard(firstPlayer).size());
+    }
+    @Test
+    public void afterNewRound_everyCardGoesToGraveyard() {
+        duel = TestsUtils.createDuel(List.of(CardsFactory.viking, CardsFactory.knight));
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.knight, firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.knight, firstRow, secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        duel.endRoundFor(secondPlayer);
+
+        assertTrue(duel.getCardsOnBoardDisplayOf(firstPlayer, firstRow).isEmpty());
+        assertTrue(duel.getCardsOnBoardDisplayOf(secondPlayer, firstRow).isEmpty());
+
+        assertEquals(2,duel.getPlayerGraveyard(firstPlayer).size());
+        assertEquals(2,duel.getPlayerGraveyard(secondPlayer).size());
+    }
+
 
 }
