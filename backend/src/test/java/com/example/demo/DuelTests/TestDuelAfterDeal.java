@@ -252,6 +252,22 @@ class TestDuelAfterDeal {
         TestsUtils.playCardWithoutTargeting(duel,handCards_secondPlayer.get(1), firstRow, secondPlayer);
         List<CardDisplay> rowCards = duel.getRowOf(firstPlayer, firstRow);
         assertNotEquals(rowCards.get(0), rowCards.get(1));
+    }
+
+    @Test
+    public void testDealingDamageToOneOfTwoSameCards() {
+        duel = TestsUtils.createDuel(List.of(CardsFactory.viking, CardsFactory.viking, CardsFactory.archer));
+        List<CardDisplay> handCards_firstPlayer = duel.getHandOf(firstPlayer);
+        List<CardDisplay> handCards_secondPlayer = duel.getHandOf(secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, handCards_firstPlayer.get(0), firstRow, firstPlayer );
+        TestsUtils.playCardWithoutTargeting(duel, handCards_secondPlayer.get(0), firstRow, secondPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, handCards_firstPlayer.get(1), firstRow, firstPlayer );
+
+        List<CardDisplay> enemyBoard = duel.getRowOf(firstPlayer, firstRow);
+        TestsUtils.playCardWithCardTargeting(duel, handCards_secondPlayer.get(2), firstRow,enemyBoard.get(0), secondPlayer);
+        enemyBoard = duel.getRowOf(firstPlayer, firstRow);
+        assertEquals(CardsFactory.viking.getPoints() - CardsFactory.archerDamage, enemyBoard.get(0).getPoints());
+        assertEquals(CardsFactory.viking.getPoints(), enemyBoard.get(1).getPoints());
 
     }
 

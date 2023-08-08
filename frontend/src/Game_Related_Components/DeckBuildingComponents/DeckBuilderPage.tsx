@@ -71,18 +71,21 @@ const DeckBuilderPage = () => {
     
     if(!destination){return;}
     if(destination.droppableId === source.droppableId && destination.index === source.index){return;}
+    console.log(result.draggableId);
 
     let PostURL:string = '';
 
+    let cardDragged: Card = createEmptyCard();
     if(destination.droppableId === "AllCards"){
       PostURL = `${serverURL}/DeckBuilder/PutCardFromDeckBack/${userName}/${currentDeck}`;
+      cardDragged = cardsInDeck.find((card) => card.id === Number(result.draggableId)) || createEmptyCard();
+
     }
     else if(destination.droppableId === "CardsInDeck"){
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}/${currentDeck}`
+      cardDragged = cardsData.find((card) => card.id === Number(result.draggableId))|| createEmptyCard();
     }
 
-    // let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
-    let cardDragged: Card = createCardWithName(result.draggableId);
     
     ChangeDecksState(cardDragged, PostURL); 
   }

@@ -16,6 +16,7 @@ public class CardDisplay{
         this.points = points;
         this.cardInfo = cardInfo;
         this.id = id;
+        timer = CardsFactory.noTimer;
     }
 
     public CardDisplay(String name, int points) {
@@ -53,6 +54,10 @@ public class CardDisplay{
 
     public int getTimer() {
         return timer;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setTimer(int timer) {

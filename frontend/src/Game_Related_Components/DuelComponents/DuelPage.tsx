@@ -263,9 +263,23 @@ const DuelPage = () => {
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
   const [cardAffected, setCardAffected] = useState<Card>(createEmptyCard());
   const handleModalClose = (card: Card) => {
+    setBackgroundOnElement(card.id, '');
     setIsModalOpen(false);
     setCardAffected(card);
   };
+  const targetCard= (id: number) => {
+    setBackgroundOnElement(id, 'rgba(0,255,0,0.5');
+  }
+  const untargetCard = (id: number) => {
+    setBackgroundOnElement(id, '');
+  }
+  const setBackgroundOnElement = (id: number, background: string) => {
+    const element = document.getElementById(id.toString());
+    if(element) {
+      element.style.background= background;
+    }
+
+  }
   useEffect(() => {
     fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
       method: 'POST',
@@ -316,7 +330,12 @@ const DuelPage = () => {
     else if(destination.droppableId === thirdRowId){
       setPostOnRowNumberOf(2);
     }
-    setCardDragged(createCardWithName(result.draggableId));
+    if(Number(result.draggableId) === playChainCard.id && playChainCard.name !== "") {
+      setCardDragged(playChainCard);
+    }
+    else {
+      setCardDragged(cardsInHand.find((card) => card.id === Number(result.draggableId)) || createEmptyCard());
+    }
 
 
 
@@ -413,6 +432,7 @@ const DuelPage = () => {
         setIsDeckCardsModalOpen(true);
       }).catch(console.error);
   }
+
   
 
 
@@ -445,7 +465,7 @@ const DuelPage = () => {
       <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose(createEmptyCard())}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={card}></CardComponent></button>
+          <button onMouseEnter={() => targetCard(card.id)} onMouseLeave={() => {untargetCard(card.id)}} onClick= { () => {handleModalClose(card)} }><CardComponent  card={card}></CardComponent></button>
         ))}
       </Modal>
       <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'500px', height:'200px', background:'gray',},}}>

@@ -15,6 +15,7 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
 
   const showInfo = () => {
     if(card.name !== "") {
+      console.log(card.id);
       const wholeCardDisplay = document.createElement('div');
       wholeCardDisplay.classList.add('wholeCardDisplay');
       wholeCardDisplay.setAttribute('style', `
@@ -65,7 +66,7 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
   }
 
 
-  return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+  return <div id={card.id.toString()} onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
         <div className="name">{card.name}</div>
         {card.points === 0 ?
         <div>.</div>
