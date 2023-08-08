@@ -1,15 +1,15 @@
 
 
 ## General overview
-This is a project where i make a Gwent: The Witcher card game clone. 
-Backend is built with Spring boot with Java and frontend is made using React with Typescript. 
-To store important data on frontend such as username, i used react redux. 
-For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend.
-To store users decks i used PostgreSQL and JPA/Hibernate. 
+This is a project where i make a Gwent: The Witcher card game clone. <br>
+Backend is built with Spring boot with Java and frontend is made using React with Typescript. <br>
+To store important data on frontend such as username, i used react redux. <br>
+For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend. <br>
+To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 
 ## Rules
-Game consists of 3 rounds, player who wins 2 rounds wins. When both players end round, one with more points on board wins round. For every won round a crown
-appears in the middle of board.
+Game consists of 3 rounds, player who wins 2 rounds wins. When both players end round, one with more points on board wins round. <br>
+For every won round a crown appears in the middle of board. <br>
 In each move, a player can either play card or end round.<br>
 
 ## Cards
