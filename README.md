@@ -51,89 +51,66 @@ Before you find an enemy, you have to choose which deck you want to use, and if 
 
 ## Deck builder
 There is deck builder where you can add and remove cards from deck, add and remove decks
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/22f248e0-6f04-4352-b968-d5e81ca16d69)
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/48e4ff12-c46f-4f3a-a547-95da6b5f17be)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/04792da9-0cdb-4f88-bfb6-9f24efb63e2d)
 
 ## Duel demo
-There is also duel page, where players can put cards from hand on one of three rows. 
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
-When duel starts, you can change 3 cards from your hand. If you click on a card it will be replaced with card from deck.
-You cant do anything else until both players ended changing cards.
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/f4141996-663e-4e86-91cf-b83d7187ef53)
+This is duel page where battle is taking place. <br>
+There will be quick demo of how whole game runs. <br>
+<br>
+At the start, players can change 3 cards from hand with card from deck.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/0a65085f-22c5-4782-98d1-9054024c2a23)
+Then the battle begins. You can see cards in your deck as well as cards on your graveyard. There is also icon 
+That tells you whether its your turn or not.
+You can hover on a card to show its info.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/c08a3710-eaba-44dc-b98c-eee0b533a68a)
 
-You can see cards on your graveyard as well as in your deck
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/1966bda0-3da0-4e28-b994-b1148b5751b4)
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/fd37d80c-d5a7-4d64-a818-7472f44ac872)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/1d90f158-24c6-4d6b-8b1e-a1e61426f4f5)
+As we can see its my turn, so i choose to play knight, that doesnt have any effect. I can play card by dragging card from hand and dropping
+on any row.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/01d436e8-7a1b-4d49-897b-3db94d7d88ed)
+Here after playing knight, enemy played Trebuchet on his turn. This card deals damage to enemy card every 2 turns. The hourglass icon
+shows how many turn are there to activate this effect. This icon appear on every card with timing effects.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/60e62583-4686-420c-8cd6-9ac6a0be3939)
+Now i will play supplier, that allows me to play from deck copy of chosen card from board.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/cd486fd2-e8db-462f-970f-6a08b724be58)
+I will choose knight.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/b647a59e-6360-4cff-9ddc-0ab90761c0ff)
+I had 1 copy of knight in my deck, so now i can play this card. 
+After i placed knight enemy played rain, this is row status that deals damage to one max player card on row every turn. 
+Status is applied on enemy and player rows. As you can see trebuchet dealt damage and in 2 turns it will deal damage again.
 
-
-You can hover on a card, and its info appears
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bf536ce4-d785-4c71-860c-0928bfd9a04e)
-Cards that have effects every some amount of turns, appears as below. Here trebuchet has 2 more turns to deal damage <br>
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2595e0f1-8079-4763-940f-fefdaa8706f4)
-
-
-
-
-
-
-
-
-Based on card effect type, player can choose card to target:
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ccfdffcf-7347-4f91-ab18-ce1c70ebf782)
-
-
-
-
-Archer targetted Viking and dealt damage
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/58b0701e-3aaa-4d88-931c-a7dfc4e46446)
-
-
-
-
-
-Also player can choose row to target
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/10aaa394-0881-4110-83cf-db5a54ed801f)
-
-
-
-
-Player targetted second row with Rain, and now this row has weather effect that deals 2 damage every turn to max points card
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4e38f21c-b346-4b15-8bdf-aca78b29476c)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7e2c4813-6789-47d1-8d8a-f0994622c365)
+Now i choose to play priest, that allows me to play one card from my deck.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/59b94e04-ef71-4f4f-ade1-081afb40ab16)
+I will choose conflagranation. This is specjal card that burns all cards with max points, here it will burn knight and trebuchet.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/ec2fce2f-c331-4202-a2ef-d16fd8923e07)
+Now enemy choosed to end round. I have more points on board so i will end round too.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/e2b0bc61-41f1-48dc-911d-9f9012a2c00e)
+When new round start, in the middle of screen this appears:
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/d8634f5b-7e2f-4af6-80b9-b864f7702be3)
+I won round so crown appeared in the middle.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/d49a2618-52ba-4a57-927a-f3c5e8ac3773)
 
 
 
 
 
-Also there are cards that have effects, but player dont have to target anything
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/6b848339-a429-4f34-ae45-8780dcdde814)
 
 
 
 
 
-After playing conflagration max points cards are burned.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/ebe344cd-59e2-4417-8115-890f86d2ef1f)
-
-
-
-<br>You can play cards in a chain, for example, play a card that allows you to choose another card from the deck, which you can then play.<br>
-I played Priest, and a card from the deck that can be played appeared. I will choose to play a Healer.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/c0779dd1-cc99-47a2-8dc0-899f784035ea)
-
-Now, after choosing Healer, I can play this card as shown on the screen below. While playing Healer, I can't play any other cards from my hand.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/cacf4088-e240-44e0-abf4-dbdde1c2ff2d)
-
-After playing healer, all cards with max 2 points are boosted. (I am super excited about this feature because there was a little bit of thinking on how to implement that, and voilà!) But apart from this, it's just a cool functionality.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/715b30dd-d62f-4776-8c7c-ea060c3dacf1)
 
 
 
 
-<br> If enemy ended round, or you ended round, this information is displayed <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/07aa64bb-7977-48c1-a3dc-d660f992bceb)
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<br> If both players ended round, new round starts and in the middle of screen appears: <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0ca0c2f2-2e6a-4a02-a091-58bdd28e2120)
 
 
 
@@ -141,7 +118,6 @@ Player lost 2 rounds and lost game <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bbdc089a-5e84-48ac-a5fb-400f65c81e92)
 
 
-After someone wins round, there appears a crown in the middle left on the proper side. <br>
 Player won 2 rounds, 2 crowns appeared and won game <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b5ef239-0584-4ee7-8958-9456e663d57e)
 
