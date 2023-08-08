@@ -1,3 +1,4 @@
+## General overview
 This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript. To store important
 data such as username, i used react redux. For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend.
 To store users decks i used PostgreSQL and JPA/Hibernate. 
