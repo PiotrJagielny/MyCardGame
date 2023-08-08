@@ -1,24 +1,34 @@
 
 
 ## General overview
-This is a project where i make a card game. Backend is in Spring boot with java and frontend is in React with typescript. To store important
-data such as username, i used react redux. For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend.
+This is a project where i make a Gwent: The Witcher card game clone. 
+Backend is built with Spring boot with Java and frontend is made using React with Typescript. 
+To store important data on frontend such as username, i used react redux. 
+For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend.
 To store users decks i used PostgreSQL and JPA/Hibernate. 
 
-This is card game based on rules of Gwint: The witcher card game.
+## Rules
+Game consists of 3 rounds, player who wins 2 rounds wins. When both players end round, one with more points on board wins round. For every won round a crown
+appears in the middle of board.
+In each move, a player can either play card or end round.<br>
 
-In each move, a player can play one card or pass. If both players pass, the one with more points on the board wins. The player who wins two rounds wins the game. <br>
+## Cards
+Currently, there are about 30 cards. Most of them dont have any effects.<br>
 
-Currently, there are about 15 cards. Most of them dont have any effects, but not all. <br>
-Fireball - Deals damage to an enemy card. <br>
-Archer - A unit that can be placed and deals damage to an enemy card. <br>
+Here are cards with effect.
+
+Spells: <br>
+Fireball - Deals damage to an enemy card.<br>
 Conflagration - Burns all cards with maximum points. <br>
+Rip - deals damage to whole row <br>
+Rain - deals damage to max points card every turn <br>
+
+Units: <br>
+Archer - A unit that can be placed and deals damage to an enemy card. <br>
 Healer - Boosts every card on the player's board that has no more than 2 points. <br>
 Booster - Boosts a single player card. <br>
 Leader - Boosts every card in one row. <br>
 Doubler - Doubles chosen card points. <br>
-Rip - deals damage to whole row <br>
-Rain - deals damage to max points card every turn <br>
 Sharpshooter - deals damage to one enemy card and if this card dies, sharpshooter boost itself <br>
 Cow - If cow dies, spawn chort in the same row <br>
 Trebuchet - Deal i damage to random enemy every 2 turns<br>
@@ -26,27 +36,25 @@ Good person - Boost card on your board every 2 turns<br>
 Gravedigger - Boost by number of cards on your graveyard on deploy<br>
 Witch - Ressurect card from your graveyard<br>
 Wild roam - Play all copies of this card from you deck on the same row<br>
+Supplier - Play from deck copy of chosen card from board <br>
 
+## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
 
+## Main menu
 This is multiplayer game, so when you click find enemy, there has to be other player waiting for fight to start a game (normally this ring on bottom is rotating).<br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8be324bf-0f42-4e03-8533-e739ee734c1d)
 <br>
 Before you find an enemy, you have to choose which deck you want to use, and if this deck is not build correctly, you can't start Duel. <br>
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0b5d2490-8119-4521-8f04-c64df069d3e7)
 
-
-
-
-
-
-
+## Deck builder
 There is deck builder where you can add and remove cards from deck, add and remove decks
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/22f248e0-6f04-4352-b968-d5e81ca16d69)
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/48e4ff12-c46f-4f3a-a547-95da6b5f17be)
 
-
+## Duel demo
 There is also duel page, where players can put cards from hand on one of three rows. 
 ![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b46f20cb-7e46-474f-a1f5-0a9d7fd4630c)
 When duel starts, you can change 3 cards from your hand. If you click on a card it will be replaced with card from deck.
