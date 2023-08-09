@@ -1,18 +1,22 @@
 import React from 'react';
 import './CardComponent.css';
 import {Card} from './Interfaces/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faHourglassHalf} from '@fortawesome/free-solid-svg-icons';
 
 interface CardComponentProps {
   card: Card;
+  isOnRow?: boolean;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
+const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) => {
   const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
   }
 
   const showInfo = () => {
     if(card.name !== "") {
+      console.log(card.id);
       const wholeCardDisplay = document.createElement('div');
       wholeCardDisplay.classList.add('wholeCardDisplay');
       wholeCardDisplay.setAttribute('style', `
@@ -63,9 +67,20 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
   }
 
 
-  return <div  onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+  return <div onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+
+        {isOnRow === true?
+        <div id={card.id.toString()} className="name">{card.name}</div>
+        :
         <div className="name">{card.name}</div>
-        <div>{card.name !== "" && card.points}</div>
+         }
+
+        {card.points === 0 ?
+        <div>.</div>
+        :
+        <div>{card.points}</div>
+        }
+        {card.timer !== -1 && <div><FontAwesomeIcon icon={faHourglassHalf} /> {card.timer}</div>}
   </div>
 };
 

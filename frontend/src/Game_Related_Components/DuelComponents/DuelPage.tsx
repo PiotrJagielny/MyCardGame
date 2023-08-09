@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Card} from './../Interfaces/Card';
+import {Card, createCardWithName, createEmptyCard} from './../Interfaces/Card';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import HandComponent from './HandComponent';
 import EnemyHandComponent from './EnemyHandComponent';
@@ -29,11 +29,15 @@ const DuelPage = () => {
   let navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
+  const [isDeckCardsModalOpen, setIsDeckCardsModalOpen] = useState(false);
   const [isRowsModalOpen, setIsRowsModalOpen] = useState(false);
 
   const [cardsInHand, setCardsInHand] = useState<Card[]>([]);
 
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
+  const [graveyardCards, setGraveyardCards] = useState<Card[]>([]);
+  const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [cardsOnSecondRow, setCardsOnSecondRow] = useState<Card[]>([]);
   const [cardsOnThirdRow, setCardsOnThirdRow] = useState<Card[]>([]);
 
@@ -81,24 +85,62 @@ const DuelPage = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
     stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
     stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
+    stompClient.subscribe('/user/' + userName + '/mulligan', mulliganMessage);
+    setIsMulliganModalOpen(true);
   }
   const onMessageReceived = (payload: any) => {
     fetchCardsData();
   }
   const enemyEndRoundTrigger = (payload: any) => {
-    console.log(payload);
     fetchCardsData();
     setEnemyEndRoundBackground('rgba(0,0,0,0.4');
     setEnemyEndRoundMessage("Enemy ended round");
   }
   const newRoundStarted = (payload: any) => {
-    console.log("New round");
     alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     setEnemyEndRoundBackground('');
     setEnemyEndRoundMessage('');
     setPlayerEndRoundBackground('');
     setPlayerEndRoundMessage('');
     fetchCardsData();
+  }
+
+
+  const [mulliganedCards, setMulliganedCards] = useState<number>(1);
+  const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
+  const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
+  const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
+  const mulliganMessage= (payload: any) => {
+    setDidEnemyEndedMulligan(true);
+  }
+  useEffect(() => {
+    endMulligan();
+  }, [didEnemyEndedMulligan]);
+  useEffect(() => {
+    endMulligan();
+  }, [didPlayerEndedMulligan]);
+  const endMulligan = () => {
+    if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
+      setMulliganedCards(1);
+      setIsMulliganModalOpen(false);
+    }
+  }
+  const mulliganCard = (cardToMulligan: Card) => {
+    if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
+      fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(cardToMulligan)
+      }).then(() => {
+        fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
+        setMulliganedCards(mulliganedCards + 1);
+      }).then(() => {
+        if(mulliganedCards === 3) {
+          stompClient.send('/app/mulliganEnded', {}, userName);
+          setDidPlayerEndedMulligan(true);
+        }
+      });
+    }
   }
 
 
@@ -216,14 +258,28 @@ const DuelPage = () => {
 
 
 
-  const [cardDragged, setCardDragged] = useState<Card>({name: "", points: 0, cardInfo:""});
-  const [playChainCard, setPlayChainCard] = useState<Card>({name: "", points: 0, cardInfo:""});
+  const [cardDragged, setCardDragged] = useState<Card>(createEmptyCard());
+  const [playChainCard, setPlayChainCard] = useState<Card>(createEmptyCard());
   const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
-  const [cardAffected, setCardAffected] = useState<Card>({name: "points", points: 0, cardInfo:""});
+  const [cardAffected, setCardAffected] = useState<Card>(createEmptyCard());
   const handleModalClose = (card: Card) => {
+    setBackgroundOnElement(card.id, '');
     setIsModalOpen(false);
     setCardAffected(card);
   };
+  const targetCard= (id: number) => {
+    setBackgroundOnElement(id, 'rgba(0,255,0,0.5');
+  }
+  const untargetCard = (id: number) => {
+    setBackgroundOnElement(id, '');
+  }
+  const setBackgroundOnElement = (id: number, background: string) => {
+    const element = document.getElementById(id.toString());
+    if(element) {
+      element.style.background= background;
+    }
+
+  }
   useEffect(() => {
     fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
       method: 'POST',
@@ -245,8 +301,6 @@ const DuelPage = () => {
   const makeMove = async (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
       playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-      console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
-      console.log(cardDragged);
     } 
     else {
       setAffectableRows(possibleAffectedRows);
@@ -256,8 +310,6 @@ const DuelPage = () => {
   }
   const handleRowsModalClose = (affectedRow: number) => {
     playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
-    console.log(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected)
-    console.log(cardDragged);
     setIsRowsModalOpen(false);
   }
 
@@ -278,7 +330,12 @@ const DuelPage = () => {
     else if(destination.droppableId === thirdRowId){
       setPostOnRowNumberOf(2);
     }
-    setCardDragged({name: result.draggableId, points: 0, cardInfo:""});
+    if(Number(result.draggableId) === playChainCard.id && playChainCard.name !== "") {
+      setCardDragged(playChainCard);
+    }
+    else {
+      setCardDragged(cardsInHand.find((card) => card.id === Number(result.draggableId)) || createEmptyCard());
+    }
 
 
 
@@ -303,7 +360,7 @@ const DuelPage = () => {
   const ensure = async (targetableCardsArg:Card[]) => {
 
       if(targetableCardsArg.length === 0) {
-        setCardAffected({name: "", points:0, cardInfo:""});
+        setCardAffected(createEmptyCard());
       }
       else {
         setTargetableCards(targetableCardsArg);
@@ -322,7 +379,6 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
         setPlayChainCard(cardChained);
-        console.log("JEST");
         stompClient.send('/app/sendTrigger', {}, userName, userName);
         fetchCardsData();
       });
@@ -354,10 +410,31 @@ const DuelPage = () => {
   const getEnemyHandBlankCards = () => {
     let cards: Card[] = [];
     for(let i = 0 ; i < enemyHandSize ; ++i ) {
-      cards.push({name:"", points: 0 , cardInfo:" "});
+      cards.push(createEmptyCard());
     }
     return cards;
   }
+  const handleGraveyardOpen = () => {
+    fetch(serverURL + `/Duel/getGraveyardCards/${userName}/${gameID}`)
+      .then((res) => res.json())
+      .then((data: Card[]) => {
+        setGraveyardCards(data);
+      }).then(() => {
+        setIsGraveyardModalOpen(true);
+      }).catch(console.error);
+  }
+  const handleDeckCardsOpen = () => {
+    fetch(serverURL + `/Duel/getDeckCards/${userName}/${gameID}`)
+      .then((res) => res.json())
+      .then((data: Card[]) => {
+        setCardsInDeck(data);
+      }).then(() => {
+        setIsDeckCardsModalOpen(true);
+      }).catch(console.error);
+  }
+
+  
+
 
   return (
     
@@ -379,15 +456,37 @@ const DuelPage = () => {
       </div>
       <div>
         <button className="btn"onClick={fetchCardsData}>Load data</button>
+        <button className="btn"onClick={handleGraveyardOpen}>Show graveyard</button>
+        <button className="btn"onClick={handleDeckCardsOpen}>Show cards in deck</button>
       </div>
       <div style={{width: 30, height: 50}} ></div>
 
       
-      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose({name: "", points: 1, cardInfo:""})}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+      <Modal isOpen={isModalOpen} onRequestClose={() => handleModalClose(createEmptyCard())}style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a card to target</h2>
         {targetableCards.map((card, index) =>(
-          <button onClick= { () => {handleModalClose(card)} }><CardComponent  card={{name: card.name, points: card.points, cardInfo: card.cardInfo}}></CardComponent></button>
+          <button onMouseEnter={() => targetCard(card.id)} onMouseLeave={() => {untargetCard(card.id)}} onClick= { () => {handleModalClose(card)} }><CardComponent  card={card}></CardComponent></button>
         ))}
+      </Modal>
+      <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'500px', height:'200px', background:'gray',},}}>
+        <h2>Choose a card to mulligan</h2>
+        {cardsInHand.map((card, index) =>(
+          <button onClick= { () => {mulliganCard(card)} }><CardComponent  card={card}></CardComponent></button>
+        ))}
+      </Modal>
+      <Modal isOpen={isGraveyardModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Graveyard cards</h2>
+        {graveyardCards.map((card, index) =>(
+          <div><CardComponent  card={card}></CardComponent></div>
+        ))}
+        <button onClick={() => setIsGraveyardModalOpen(false)}>Close</button>
+      </Modal>
+      <Modal isOpen={isDeckCardsModalOpen} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
+        <h2>Cards in deck</h2>
+        {cardsInDeck.map((card, index) =>(
+          <div><CardComponent  card={card}></CardComponent></div>
+        ))}
+        <button onClick={() => setIsDeckCardsModalOpen(false)}>Close</button>
       </Modal>
       <Modal isOpen={isRowsModalOpen} onRequestClose={() => handleRowsModalClose(-1)} style={{content: {width:'300px', height:'200px', background:'gray',},}}>
         <h2>Choose a row to traget</h2>
@@ -395,7 +494,6 @@ const DuelPage = () => {
           <button style={{fontSize: '30px',}} onClick= { () => {handleRowsModalClose(row)} }>{row + 1}</button>
         ))}
       </Modal>
-
 
       <DragDropContext onDragEnd = {(result) => onDragEndOf(result, userName)}>
         <HandComponent  cardsInHand = {cardsInHand} cardInPlayChain={playChainCard}></HandComponent>
@@ -420,7 +518,7 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
-        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={{name:'', points: 0, cardInfo: ''}}></EnemyHandComponent>
+        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={createEmptyCard()}></EnemyHandComponent>
       </DragDropContext>
 
 

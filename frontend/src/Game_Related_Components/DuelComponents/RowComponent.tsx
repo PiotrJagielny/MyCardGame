@@ -23,7 +23,7 @@ export const RowComponent: React.FC<Props> = ({cardsOnRow, pointsOnRow, rowDropp
               </div>
               <div className="rightBoardContent" >
                   {cardsOnRow.map((card, index) =>(
-                        <CardComponent  card={{name:card.name, points:card.points, cardInfo:card.cardInfo}}></CardComponent>
+                        <CardComponent card={card} isOnRow = {true}></CardComponent>
                   ))}
               {provided.placeholder}    
               </div>

@@ -43,6 +43,7 @@ public class CardsFactory {
 
 
     public static final CardDisplay longer= new CardDisplay("Longer",1);
+    public static final int longerTimer = 1;
     public static final int longerBoost = 2;
 
     public static final CardDisplay rain= new CardDisplay("Rain",0);
@@ -65,10 +66,13 @@ public class CardsFactory {
     public static final int goodPersonTimer= 2;
 
     public static final CardDisplay gravedigger = new CardDisplay("Gravedigger", 2);
+    public static final CardDisplay wildRoam= new CardDisplay("Wild roam", 3);
+    public static final CardDisplay supplier = new CardDisplay("Supplier", 1);
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
         put(goodPerson.getName(), goodPersonTimer);
+        put(longer.getName(), longerTimer);
     }};
     public static int getCardTimer(CardDisplay card) {
         return mapCardNameToTimer.getOrDefault(card.getName(), noTimer);
@@ -84,6 +88,7 @@ public class CardsFactory {
         put(priest.getName(), new CardsInDeckTargetable());
         put(sharpshooter.getName(), new EnemyCardsTargetable());
         put(witch.getName(), new GraveyardCardsTargetable());
+        put(supplier.getName(), new PlayerCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -114,6 +119,8 @@ public class CardsFactory {
         put(goodPerson.getName(), "Boost by " + goodPersonBoost + " your card on board every " + goodPersonTimer + " turns");
         put(gravedigger.getName(), "Boost by number of cards on your graveyard on deploy");
         put(witch.getName(), "Resurrect card from your graveyard");
+        put(wildRoam.getName(), "Play all copies of this card from deck");
+        put(supplier.getName(), "Play from deck copy of chosen card from board");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -129,11 +136,12 @@ public class CardsFactory {
     return mapCardNameToRowsAffect.getOrDefault(cardName, List.of());
     }
 
-    public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest, witch);
+    public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest, witch, supplier);
 
 
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
+                Card.createCard(knight),
                 Card.createCard(knight),
                 Card.createCard(hotdog),
                 Card.createCard(thunder),
@@ -160,7 +168,10 @@ public class CardsFactory {
                 Card.createCard(trebuchet),
                 Card.createCard(goodPerson),
                 Card.createCard(gravedigger),
-                Card.createCard(witch)
+                Card.createCard(witch),
+                Card.createCard(wildRoam),
+                Card.createCard(wildRoam),
+                Card.createCard(supplier)
         ));
     }
 }

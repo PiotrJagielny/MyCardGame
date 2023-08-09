@@ -30,11 +30,18 @@ public class CardEffects {
     }
     private void strikeCardBy(CardDisplay targetedCard, int strikeAmoutn) {
         if(targetedCard.getPoints() <= strikeAmoutn) {
-            if(targetedCard.equals(CardsFactory.cow)) {
-                enemy.spawnCard(CardsFactory.chort, enemy.getCardRow(targetedCard));
-            }
+            onDeathEffect(targetedCard,enemy.getCardRow(targetedCard) ,enemy);
         }
         enemy.strikeCard(targetedCard, strikeAmoutn);
+    }
+    private void burnCard(CardDisplay cardToBurn , OnePlayerDuel ofPlayer) {
+        onDeathEffect(cardToBurn,ofPlayer.getCardRow(cardToBurn) ,ofPlayer);
+        ofPlayer.burnCard(cardToBurn);
+    }
+    private void onDeathEffect(CardDisplay cardDied, int cardRow, OnePlayerDuel ofPlayer) {
+        if(cardDied.equals(CardsFactory.cow)) {
+            ofPlayer.spawnCard(CardsFactory.chort, cardRow);
+        }
     }
 
     public void invokeOnPlaceEffect() {
@@ -53,7 +60,7 @@ public class CardEffects {
             healerBoost(CardsFactory.healerBoost);
         }
         else if(p.equals(CardsFactory.fireball)) {
-            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.fireballDamage);
+            strikeCardBy(playMade.getTargetedCard(), CardsFactory.fireballDamage);
         }
         else if(p.equals(CardsFactory.conflagration)){
             burnAllMaxPointsCards();
@@ -78,12 +85,23 @@ public class CardEffects {
             if(targetPoints <= CardsFactory.sharpshooterDamage) {
                 player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
             }
-            enemy.strikeCard(playMade.getTargetedCard(), CardsFactory.sharpshooterDamage);
+            strikeCardBy(playMade.getTargetedCard(), CardsFactory.sharpshooterDamage);
         }
         else if(p.equals(CardsFactory.gravedigger)) {
             int cardsOnGraveyard = player.getGraveyard().size();
             player.boostCard(playMade.getPlayedCard(), cardsOnGraveyard);
         }
+        else if(p.equals(CardsFactory.wildRoam)) {
+
+            List<CardDisplay> deck = player.getCardsInDeck();
+            for (CardDisplay card : deck) {
+                if(card.equals(CardsFactory.wildRoam)) {
+                    player.placeCardOnBoard(new PlayerPlay(card, playMade.getPlayedCardRowNum()));
+                }
+            }
+
+        }
+
     }
 
     public void boostRowBy(int amount){
@@ -120,22 +138,21 @@ public class CardEffects {
         return maxPoints;
     }
 
-    private void burnCardsWithMaxPoints(OnePlayerDuel player, int maxPoints) {
-        List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
+    private void burnCardsWithMaxPoints(OnePlayerDuel ofPlayer, int maxPoints) {
+        List<CardDisplay> cardsOnBoard = ofPlayer.getCardsOnBoard();
         for (int j = 0; j < cardsOnBoard.size(); j++) {
-            if(cardsOnBoard.get(j).getPoints() == maxPoints)
-                player.burnCard(cardsOnBoard.get(j));
+            if(cardsOnBoard.get(j).getPoints() == maxPoints) {
+                burnCard(cardsOnBoard.get(j), ofPlayer);
+            }
         }
     }
 
     private void ripWholeRow() {
         List<CardDisplay> row = enemy.getCardsOnBoardOnRow(playMade.getAffectedRow());
         for (int i = 0; i < row.size(); i++) {
-            enemy.strikeCard(row.get(i), CardsFactory.ripDamage);
+            strikeCardBy(row.get(i), CardsFactory.ripDamage);
         }
     }
-
-
 
     public void invokeOnTurnEndEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
@@ -148,16 +165,15 @@ public class CardEffects {
         if(cardTimer == 0) {
            if(card.equals(CardsFactory.trebuchet)) {
                 CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
-                enemy.strikeCard(cardToStrike, CardsFactory.trebuchetDamage);
+                strikeCardBy(cardToStrike, CardsFactory.trebuchetDamage);
            }
            else if(card.equals(CardsFactory.goodPerson)) {
                 CardDisplay cardToStrike = player.getRandomCardFromBoardWithout(CardsFactory.goodPerson);
-                enemy.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
+                player.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
            }
-        }
-
-        if(card.equals(CardsFactory.longer)) {
-            player.boostCard(card, CardsFactory.longerBoost);
+           else if(card.equals(CardsFactory.longer)) {
+               player.boostCard(card, CardsFactory.longerBoost);
+           }
         }
     }
 
@@ -180,5 +196,23 @@ public class CardEffects {
             }
         }
     }
+
+    public CardDisplay getPlayChainCard() {
+        if(playMade.getPlayedCard().equals(CardsFactory.priest)){
+            return playMade.getTargetedCard();
+        }
+        else if(playMade.getPlayedCard().equals(CardsFactory.witch)) {
+            return playMade.getTargetedCard();
+        }
+        else if(playMade.getPlayedCard().equals(CardsFactory.supplier)) {
+            CardDisplay cardFromDeckToChain= player.getCardsInDeck().stream().filter(c -> c.getName().equals(playMade.getTargetedCard().getName())).findFirst().orElse(null);
+            if(cardFromDeckToChain== null) {
+                return new CardDisplay();
+            }
+            return cardFromDeckToChain;
+        }
+        return new CardDisplay();
+    }
+
 
 }

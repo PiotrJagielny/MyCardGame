@@ -38,10 +38,10 @@ class TestDeckBuilder_OneDeck {
 
     @Test
     public void testAddingCardToFullDeck() {
-        for(int i = 1; i <= Consts.MaxDeckSize + 1 ; ++i){
+        for(int i = 1; i <= Consts.maxDeckSize+ 1 ; ++i){
             deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck );
         }
-        assertEquals(Consts.MaxDeckSize, deckBuilder.getCurrentDeck(firstDeck).size(), "Can add cards after reaching max cards amount");
+        assertEquals(Consts.maxDeckSize, deckBuilder.getCurrentDeck(firstDeck).size(), "Can add cards after reaching max cards amount");
     }
 
     @Test

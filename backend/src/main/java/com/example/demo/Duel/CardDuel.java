@@ -27,15 +27,15 @@ public class CardDuel {
         players.get(player).parseCards(cardsDisplay);
     }
 
-    public List<CardDisplay> getCardsInDeckDisplayOf(String player) {
+    public List<CardDisplay> getDeckOf(String player) {
         return players.get(player).getCardsInDeck();
     }
 
-    public List<CardDisplay> getCardsInHandDisplayOf(String player) {
+    public List<CardDisplay> getHandOf(String player) {
         return players.get(player).getCardsInHand();
     }
 
-    public List<CardDisplay> getCardsOnBoardDisplayOf(String player, int rowNumber) {
+    public List<CardDisplay> getRowOf(String player, int rowNumber) {
         return players.get(player).getCardsOnBoardOnRow(rowNumber);
     }
 
@@ -48,8 +48,8 @@ public class CardDuel {
             CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)), playMade);
             effects.invokeOnPlaceEffect();
             if(CardsFactory.cardsWithPlayChainPossibility.contains(playMade.getPlayedCard()) &&
-               playMade.getTargetedCard() != null ) {
-                return playMade.getTargetedCard();
+               isNullOrEmpty(playMade.getTargetedCard()) == false) {
+                return effects.getPlayChainCard();
             }
             else {
                 effects.invokeOnTurnEndEffect();
@@ -59,6 +59,10 @@ public class CardDuel {
             }
         }
         return new CardDisplay();
+    }
+
+    private boolean isNullOrEmpty(CardDisplay card) {
+        return card == null || card.equals(new CardDisplay());
     }
 
     public boolean isTurnOf(String player) {
@@ -179,7 +183,11 @@ public class CardDuel {
         return players.get(userName).getRowStatusName(row);
     }
 
-    public List<CardDisplay> getPlayerGraveyard(String firstPlayer) {
-        return players.get(firstPlayer).getGraveyard();
+    public List<CardDisplay> getGraveyardOf(String player) {
+        return players.get(player).getGraveyard();
+    }
+
+    public void mulliganCardFor(CardDisplay cardToMulligan, String player) {
+        players.get(player).mulliganCard(cardToMulligan);
     }
 }
