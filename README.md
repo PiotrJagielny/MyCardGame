@@ -80,17 +80,17 @@ After i placed knight enemy played rain, this is row status that deals damage to
 Status is applied on enemy and player rows. As you can see trebuchet dealt damage and in 2 turns it will deal damage again.
 
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7e2c4813-6789-47d1-8d8a-f0994622c365)
-Now i choose to play priest, that allows me to play one card from my deck.
+Now i will play priest, that allows me to play one card from my deck.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/59b94e04-ef71-4f4f-ade1-081afb40ab16)
 I will choose conflagranation. This is special card that burns all cards with max points, here it will burn knight and trebuchet.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/ec2fce2f-c331-4202-a2ef-d16fd8923e07)
-Now enemy choosed to end round. I have more points on board so i will end round too.
+Now enemy ended round. I have more points on board so i will end round too.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/e2b0bc61-41f1-48dc-911d-9f9012a2c00e)
 <br>When new round start, in the middle of screen this appears:<br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/d8634f5b-7e2f-4af6-80b9-b864f7702be3)
 <br>I won round so crown appeared in the middle. Also row status is cleared on new round
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/17448b7e-de27-4090-adeb-18e26657d421)
-I choose to end round. After i ended round enemy can play as many card as enemy wants. Enemy choosen to play caw to have more points than me.
+I choose to end round. After i ended round enemy can play as many card as enemy wants. Enemy choosen to play cow to have more points than me.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/41957724-ef02-43a0-86a9-9df73ff403e9)
 Enemy ended round, so new round started and every played drawn a card. <br>
 When new round starts board is cleared, so cow died and spawned chort.
