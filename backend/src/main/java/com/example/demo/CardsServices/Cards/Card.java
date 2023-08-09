@@ -4,22 +4,27 @@ import com.example.demo.CardsServices.CardDisplay;
 
 
 public class Card {
+    private static int uniqueCardId = 1;
+
 
     private String name;
 
     private int points;
+    private int id;
 
     public Card() {
         name="";
         points = 0;
+        id = uniqueCardId++;
     }
 
     public Card(String name, int points){
         this.name = name;
         this.points = points;
+        id = uniqueCardId++;
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name, points, CardsFactory.getCardInfo(name));}
+    public CardDisplay getDisplay(){return new CardDisplay(name, points, CardsFactory.getCardInfo(name), id);}
     public int getPoints(){return points;}
     public void boostPointsBy(int amount){
         points += amount;

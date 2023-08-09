@@ -27,10 +27,10 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
 
             <div className="rightHandContainer" style={{display: 'flex'}}>
                 {cardsInHand.map((card, index) =>(
-                  <Draggable key={card.name} draggableId={card.name} index={index}>
+                  <Draggable key={card.id.toString()} draggableId={card.id.toString()} index={index}>
                     {(provided) => (
                       <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                        <CardComponent  card={{name:card.name, points:card.points, cardInfo:card.cardInfo}}></CardComponent>
+                        <CardComponent  card={card}></CardComponent>
                       </div>    
                     )}  
                   </Draggable>
@@ -42,15 +42,15 @@ export const HandComponent: React.FC<Props> = ({cardsInHand, cardInPlayChain}) =
              <div className="rightHandContainer" style={{display: 'flex'}}>
                  {cardsInHand.map((card, index) =>(
                        <div>
-                        <CardComponent  card={{name:card.name, points:card.points, cardInfo:card.cardInfo}}></CardComponent>
+                        <CardComponent  card={card}></CardComponent>
                        </div>    
                      )  
                  )}
              </div>
-            <Draggable key={cardInPlayChain.name} draggableId={cardInPlayChain.name} index={0}>
+            <Draggable key={cardInPlayChain.id.toString()} draggableId={cardInPlayChain.id.toString()} index={0}>
               {(provided) => (
                 <div className="playChainCard"{...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                  <CardComponent  card={{name:cardInPlayChain.name, points:cardInPlayChain.points, cardInfo:cardInPlayChain.cardInfo}}></CardComponent>
+                  <CardComponent  card={cardInPlayChain}></CardComponent>
                 </div>    
               )}
             </Draggable>

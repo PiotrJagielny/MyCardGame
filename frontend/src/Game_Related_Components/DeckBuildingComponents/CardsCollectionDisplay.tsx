@@ -17,10 +17,10 @@ export const CardsCollectionDisplay: React.FC<Props> = ({Cards, refresh, droppab
             {(provided) => (
               <div className="AllCards" ref={provided.innerRef} {...provided.droppableProps} style={{ display: 'flex', flexWrap: 'wrap' }}> 
                   {Cards.map((card, index) => (
-                    <Draggable key={card.name} draggableId={card.name} index={index}>
+                    <Draggable key={card.id.toString()} draggableId={card.id.toString()} index={index}>
                       {(provided) => (
                         <p {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="ggg">  
-                          <CardComponent card = {{name:card.name , points: card.points, cardInfo: card.cardInfo }} ></CardComponent>
+                          <CardComponent card = {card} ></CardComponent>
                         </p>
                       )}
                     </Draggable>

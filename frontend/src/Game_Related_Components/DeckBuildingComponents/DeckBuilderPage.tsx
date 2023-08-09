@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import {DecksManager} from './DecksManager';
-import {Card} from './../Interfaces/Card';
+import {Card, createCardWithName, createEmptyCard} from './../Interfaces/Card';
 import  './DeckBuilderPage.css';
 import {useSelector} from 'react-redux';
 import {CardsCollectionDisplay} from './CardsCollectionDisplay'; 
@@ -71,17 +71,21 @@ const DeckBuilderPage = () => {
     
     if(!destination){return;}
     if(destination.droppableId === source.droppableId && destination.index === source.index){return;}
+    console.log(result.draggableId);
 
     let PostURL:string = '';
 
+    let cardDragged: Card = createEmptyCard();
     if(destination.droppableId === "AllCards"){
       PostURL = `${serverURL}/DeckBuilder/PutCardFromDeckBack/${userName}/${currentDeck}`;
+      cardDragged = cardsInDeck.find((card) => card.id === Number(result.draggableId)) || createEmptyCard();
+
     }
     else if(destination.droppableId === "CardsInDeck"){
       PostURL = `${serverURL}/DeckBuilder/PutCardToDeck/${userName}/${currentDeck}`
+      cardDragged = cardsData.find((card) => card.id === Number(result.draggableId))|| createEmptyCard();
     }
 
-    let cardDragged: Card = {name: result.draggableId, points: 0, cardInfo:""};
     
     ChangeDecksState(cardDragged, PostURL); 
   }
@@ -94,7 +98,7 @@ const DeckBuilderPage = () => {
 
   return (
     <div className="DeckBuilderPage">
-      <h2>Build your deck! : Deck has to have 6 cards </h2>
+      <h2>Build your deck! : Deck has to have 6-10 cards </h2>
       <h4>You can click with right mouse button on a card, to get its info. If there is no card info, there wont be any text</h4>
       <h4>Left click twice on a deck to select</h4>
 

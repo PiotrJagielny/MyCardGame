@@ -25,19 +25,25 @@ public class DuelController {
     @GetMapping(path = "getHandCards/{userName}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getHand(@PathVariable String userName, @PathVariable String gameID){
-        return duels.get(gameID).getCardsInHandDisplayOf(userName);
+        return duels.get(gameID).getHandOf(userName);
     }
 
     @GetMapping(path = "getDeckCards/{userName}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getDeck(@PathVariable String userName, @PathVariable String gameID) {
-        return duels.get(gameID).getCardsInDeckDisplayOf(userName);
+        return duels.get(gameID).getDeckOf(userName);
+    }
+
+    @GetMapping(path = "getGraveyardCards/{userName}/{gameID}")
+    @CrossOrigin
+    public List<CardDisplay> getGraveyard(@PathVariable String userName, @PathVariable String gameID) {
+        return duels.get(gameID).getGraveyardOf(userName);
     }
 
     @GetMapping(path = "getCardsOnRow/{userName}/{rowNumber}/{gameID}")
     @CrossOrigin
     public List<CardDisplay> getRow(@PathVariable String userName, @PathVariable int rowNumber, @PathVariable String gameID){
-        return duels.get(gameID).getCardsOnBoardDisplayOf(userName, rowNumber);
+        return duels.get(gameID).getRowOf(userName, rowNumber);
     }
 
 
@@ -132,7 +138,13 @@ public class DuelController {
     @GetMapping(path="getHandSize/{userName}/{gameID}")
     @CrossOrigin
     public int getEnemyHandSize(@PathVariable String userName, @PathVariable String gameID) {
-        return duels.get(gameID).getCardsInHandDisplayOf(userName).size();
+        return duels.get(gameID).getHandOf(userName).size();
+    }
+
+    @PostMapping(path = "mulliganCard/{userName}/{gameID}")
+    @CrossOrigin
+    public void mulliganCard(@PathVariable String userName, @PathVariable String gameID, @RequestBody CardDisplay cardToMulligan) {
+        duels.get(gameID).mulliganCardFor(cardToMulligan, userName);
     }
 
 

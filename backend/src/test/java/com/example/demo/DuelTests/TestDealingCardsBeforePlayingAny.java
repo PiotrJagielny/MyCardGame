@@ -30,25 +30,25 @@ class TestDealingCardsBeforePlayingAny {
 
     @Test
     public void afterAddingCardsDisplaysToParse_deckIsFilled() {
-        assertEquals(cardsDisplay.size() , duel.getCardsInDeckDisplayOf(firstPlayer).size());
+        assertEquals(cardsDisplay.size() , duel.getDeckOf(firstPlayer).size());
         for(int i = 0 ; i < cardsDisplay.size() ; ++i){
-            assertEquals(cardsDisplay.get(i).getName(), duel.getCardsInDeckDisplayOf(firstPlayer).get(i).getName());
+            assertEquals(cardsDisplay.get(i).getName(), duel.getDeckOf(firstPlayer).get(i).getName());
         }
     }
 
     @Test
     public void beforeDealingCards_handIsEmpty(){
-        assertTrue(duel.getCardsInHandDisplayOf(firstPlayer).isEmpty());
+        assertTrue(duel.getHandOf(firstPlayer).isEmpty());
     }
 
     @Test
     public void afterDealingCards_handIsNotEmpty(){
-        int cardsInDeck_beforeDeal = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+        int cardsInDeck_beforeDeal = duel.getDeckOf(firstPlayer).size();
         duel.dealCards();
-        int cardsInDeck_afterDeal = duel.getCardsInDeckDisplayOf(firstPlayer).size();
+        int cardsInDeck_afterDeal = duel.getDeckOf(firstPlayer).size();
 
         assertNotEquals(cardsInDeck_beforeDeal, cardsInDeck_afterDeal);
-        assertFalse(duel.getCardsInHandDisplayOf(firstPlayer).isEmpty());
+        assertFalse(duel.getHandOf(firstPlayer).isEmpty());
     }
 
 }
