@@ -8,7 +8,7 @@ For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on f
 To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 
 ## Rules
-Game consists of 3 rounds, player who wins 2 rounds wins. When both players end round, one with more points on board wins round. <br>
+Game consists of 3 rounds, player who wins 2 rounds wins game. When both players end round, one with more points on board wins round. <br>
 For every won round a crown appears in the middle of board. <br>
 In each move, a player can either play card or end round.<br>
 
