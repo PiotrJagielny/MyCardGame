@@ -101,7 +101,7 @@ I choose to play wild roam, that plays all copies of this card from deck.
 Enemy played Sharpshooter and deal 2 damage to my one card.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/9f5e1722-916c-4d9f-9b7b-57e8eeb6d640)
 I choose to play fireball and deal damage to chort.
-As you can see i can choose card to target and show of course show card info. When i hover on a card that i want to target,
+As you can see i can choose card to target and also show card info. When i hover on a card that i want to target,
 its copy on board lights with green, so i can see that this is this card(This is useful when two cards are the same, for example two wild roams).
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7bbc652a-cf38-46d9-a790-f280ee5c05c0)
 I choosed to target Chort and damage was dealt
