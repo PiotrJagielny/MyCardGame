@@ -98,13 +98,13 @@ When new round starts board is cleared, so cow died and spawned chort.
 Enemy choosed to play priest, that allowed to play Doubler. Doubler can double points of one card on board, so enemy choosed to double Chort.
 I choose to play wild roam, that plays all copies of this card from deck.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/108aec71-c8c6-48de-a0ab-0471f07ed498)
-Enemy chosen to play Sharpshooter and deal 2 damage to my one card.
+Enemy played Sharpshooter and deal 2 damage to my one card.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/9f5e1722-916c-4d9f-9b7b-57e8eeb6d640)
 I choose to play fireball and deal damage to chort.
 As you can see i can choose card to target and show of course show card info. When i hover on a card that i want to target,
 its copy on board lights with green, so i can see that this is this card(This is useful when two cards are the same, for example two wild roams).
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7bbc652a-cf38-46d9-a790-f280ee5c05c0)
-I chosen to target Chort and damage was dealt
+I choosed to target Chort and damage was dealt
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/f59ca257-1907-48c4-8416-a96ce2cecab1)
 Enemy has one card but ended round, and now i can only play warrior.
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/678a951e-1bbd-4e88-ad25-260a67963f29)
