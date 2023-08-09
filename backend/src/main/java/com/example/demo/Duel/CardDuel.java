@@ -49,7 +49,7 @@ public class CardDuel {
             effects.invokeOnPlaceEffect();
             if(CardsFactory.cardsWithPlayChainPossibility.contains(playMade.getPlayedCard()) &&
                isNullOrEmpty(playMade.getTargetedCard()) == false) {
-                return playMade.getTargetedCard();
+                return effects.getPlayChainCard();
             }
             else {
                 effects.invokeOnTurnEndEffect();

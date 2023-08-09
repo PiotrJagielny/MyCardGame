@@ -264,12 +264,12 @@ class TestDuelAfterDeal {
         TestsUtils.playCardWithoutTargeting(duel, handCards_firstPlayer.get(1), firstRow, firstPlayer );
 
         List<CardDisplay> enemyBoard = duel.getRowOf(firstPlayer, firstRow);
-        TestsUtils.playCardWithCardTargeting(duel, handCards_secondPlayer.get(2), firstRow,enemyBoard.get(0), secondPlayer);
+        TestsUtils.playCardWithCardTargeting(duel, handCards_secondPlayer.get(2), firstRow,enemyBoard.get(1), secondPlayer);
         enemyBoard = duel.getRowOf(firstPlayer, firstRow);
-        assertEquals(CardsFactory.viking.getPoints() - CardsFactory.archerDamage, enemyBoard.get(0).getPoints());
-        assertEquals(CardsFactory.viking.getPoints(), enemyBoard.get(1).getPoints());
-
+        assertEquals(CardsFactory.viking.getPoints() - CardsFactory.archerDamage, enemyBoard.get(1).getPoints());
+        assertEquals(CardsFactory.viking.getPoints(), enemyBoard.get(0).getPoints());
     }
+
 
 
 }

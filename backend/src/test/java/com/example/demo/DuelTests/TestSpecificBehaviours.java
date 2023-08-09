@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static com.example.demo.TestsData.TestsUtils.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.demo.Consts.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -203,14 +204,21 @@ class TestSpecificBehaviours {
     @Test
     public void testRainRowStatus() {
         duel = createDuel(List.of(CardsFactory.rain, CardsFactory.viking, CardsFactory.paper ));
-        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, secondRow, firstPlayer);
-        TestsUtils.playSpecialCardWithRowTargeting(duel, CardsFactory.rain, secondRow, secondPlayer);
-        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, firstPlayer);
-        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, secondRow, secondPlayer);
-        duel.endRoundFor(firstPlayer);
-        int expected = CardsFactory.viking.getPoints() - 2*CardsFactory.rainDamage + CardsFactory.paper.getPoints();
-        int actual = getBoardPointsOf(firstPlayer, duel);
-        assertEquals(expected, actual);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, secondPlayer);
+        TestsUtils.playSpecialCardWithRowTargeting(duel, CardsFactory.rain, firstRow,firstPlayer);
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.paper, secondRow, secondPlayer);
+//        duel.endRoundFor(firstPlayer);
+
+        int expectedFirstPlayerPoints = CardsFactory.viking.getPoints() - CardsFactory.rainDamage ;
+        assertEquals(expectedFirstPlayerPoints, duel.getRowPointsOf(firstPlayer, firstRow));
+
+
+        int expectedSecondPlayerPoints = CardsFactory.viking.getPoints() - CardsFactory.rainDamage ;
+        assertEquals(expectedSecondPlayerPoints, duel.getRowPointsOf(secondPlayer, firstRow));
+
+        duel.endRoundFor(secondPlayer);
+        assertEquals("", duel.getRowStatusOf(firstPlayer, secondRow));
     }
 
     @Test
@@ -343,6 +351,52 @@ class TestSpecificBehaviours {
 
         assertEquals(playedChainCard, playChainCard);
     }
+    @Test
+    public void testCallingAllCardCopiesFromDeck() {
+        duel = createDuel(List.of(CardsFactory.wildRoam,CardsFactory.wildRoam, CardsFactory.viking, CardsFactory.knight, CardsFactory.capitan, CardsFactory.archer,
+                CardsFactory.armageddon, CardsFactory.wildRoam));
+
+
+
+        int onePlayedFromHand = 1;
+        int cardOccurences = onePlayedFromHand + duel.getDeckOf(firstPlayer)
+                .stream()
+                .filter(c -> c.equals(CardsFactory.wildRoam))
+                .collect(Collectors.toList()).size();
+        TestsUtils.playCardWithoutTargeting(duel, CardsFactory.wildRoam, firstRow, firstPlayer);
+        assertEquals(cardOccurences, duel.getRowOf(firstPlayer, firstRow).size());
+
+
+        int cardsOnHandLeft = duel.getHandOf(firstPlayer).stream()
+                .filter(c -> c.equals(CardsFactory.wildRoam))
+                .collect(Collectors.toList()).size();
+        assertEquals(1, cardsOnHandLeft);
+
+    }
+
+    @Test
+    public void testPlayingCopyOfCardOnBoardFromDeck() {
+        duel = createDuel(List.of(CardsFactory.supplier, CardsFactory.sharpshooter, CardsFactory.viking, CardsFactory.capitan, CardsFactory.warrior,
+                CardsFactory.minion, CardsFactory.paper, CardsFactory.thunder, CardsFactory.sharpshooter));
+
+        playCardWithoutTargeting(duel, CardsFactory.viking, firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, CardsFactory.sharpshooter, firstRow, CardsFactory.viking, secondPlayer);
+        playCardWithCardTargeting(duel, CardsFactory.sharpshooter, firstRow, CardsFactory.sharpshooter, firstPlayer);
+
+        CardDisplay loweredSharpShooter = duel.getRowOf(secondPlayer, firstRow).get(0);
+        CardDisplay sharpshooterChain = playCardWithCardTargeting(duel, CardsFactory.supplier, secondRow,loweredSharpShooter, secondPlayer);
+
+        playCardWithCardTargeting(duel, sharpshooterChain, thirdRow, CardsFactory.viking, secondPlayer);
+
+        assertEquals(CardsFactory.sharpshooter, duel.getRowOf(secondPlayer, thirdRow).get(0));
+        assertEquals(CardsFactory.sharpshooter.getPoints(), duel.getRowOf(secondPlayer, thirdRow).get(0).getPoints());
+
+        int actualVikingPoints= duel.getRowOf(firstPlayer, firstRow).get(0).getPoints();
+        int expectedVikingPoints = CardsFactory.viking.getPoints() - 2*CardsFactory.sharpshooterDamage;
+        assertEquals(expectedVikingPoints, actualVikingPoints);
+    }
+
+
 
 
 }

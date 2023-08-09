@@ -39,7 +39,7 @@ public class Deck {
         Card card = allCardsPossibleToAdd.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
         
 
-        if(cardsInDeck.size() == Consts.MaxDeckSize) {
+        if(cardsInDeck.size() == Consts.maxDeckSize) {
             responseMessage = Consts.DeckFullMessage;
             return responseMessage;
         }

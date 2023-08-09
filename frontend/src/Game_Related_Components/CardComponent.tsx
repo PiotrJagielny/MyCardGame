@@ -6,9 +6,10 @@ import {faHourglassHalf} from '@fortawesome/free-solid-svg-icons';
 
 interface CardComponentProps {
   card: Card;
+  isOnRow?: boolean;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
+const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) => {
   const blockContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
   }
@@ -66,8 +67,14 @@ const CardComponent: React.FC<CardComponentProps> = ({  card}) => {
   }
 
 
-  return <div id={card.id.toString()} onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+  return <div onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+
+        {isOnRow === true?
+        <div id={card.id.toString()} className="name">{card.name}</div>
+        :
         <div className="name">{card.name}</div>
+         }
+
         {card.points === 0 ?
         <div>.</div>
         :

@@ -91,6 +91,17 @@ public class CardEffects {
             int cardsOnGraveyard = player.getGraveyard().size();
             player.boostCard(playMade.getPlayedCard(), cardsOnGraveyard);
         }
+        else if(p.equals(CardsFactory.wildRoam)) {
+
+            List<CardDisplay> deck = player.getCardsInDeck();
+            for (CardDisplay card : deck) {
+                if(card.equals(CardsFactory.wildRoam)) {
+                    player.placeCardOnBoard(new PlayerPlay(card, playMade.getPlayedCardRowNum()));
+                }
+            }
+
+        }
+
     }
 
     public void boostRowBy(int amount){
@@ -185,5 +196,23 @@ public class CardEffects {
             }
         }
     }
+
+    public CardDisplay getPlayChainCard() {
+        if(playMade.getPlayedCard().equals(CardsFactory.priest)){
+            return playMade.getTargetedCard();
+        }
+        else if(playMade.getPlayedCard().equals(CardsFactory.witch)) {
+            return playMade.getTargetedCard();
+        }
+        else if(playMade.getPlayedCard().equals(CardsFactory.supplier)) {
+            CardDisplay cardFromDeckToChain= player.getCardsInDeck().stream().filter(c -> c.getName().equals(playMade.getTargetedCard().getName())).findFirst().orElse(null);
+            if(cardFromDeckToChain== null) {
+                return new CardDisplay();
+            }
+            return cardFromDeckToChain;
+        }
+        return new CardDisplay();
+    }
+
 
 }

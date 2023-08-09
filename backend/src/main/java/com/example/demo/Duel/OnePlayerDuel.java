@@ -164,9 +164,9 @@ public class OnePlayerDuel {
         for(int row = 0 ; row < Consts.rowsNumber ; ++row){
             graveyard.addAll(rows.get(row).getCards());
             rows.get(row).clearRow();
+            clearRowsStatus();
         }
     }
-
     public int getWonRounds(){
         return wonRounds;
     }
