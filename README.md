@@ -88,8 +88,32 @@ Now enemy choosed to end round. I have more points on board so i will end round 
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/e2b0bc61-41f1-48dc-911d-9f9012a2c00e)
 <br>When new round start, in the middle of screen this appears:<br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/d8634f5b-7e2f-4af6-80b9-b864f7702be3)
-<br>I won round so crown appeared in the middle.
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/d49a2618-52ba-4a57-927a-f3c5e8ac3773)
+<br>I won round so crown appeared in the middle. Also row status is cleared on new round
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/17448b7e-de27-4090-adeb-18e26657d421)
+I choose to end round. After i ended round enemy can play as many card as enemy wants. Enemy choosen to play caw to have more points than me.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/41957724-ef02-43a0-86a9-9df73ff403e9)
+Enemy ended round, so new round started and every played drawn a card. <br>
+When new round starts board is cleared, so cow died and spawned chort.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/ed907b04-4ffe-4302-a0be-bdf1fd597bfb)
+Enemy choosed to play priest, that allowed to play Doubler. Doubler can double points of one card on board, so enemy choosed to double Chort.
+I choose to play wild roam, that plays all copies of this card from deck.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/108aec71-c8c6-48de-a0ab-0471f07ed498)
+Enemy chosen to play Sharpshooter and deal 2 damage to my one card.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/9f5e1722-916c-4d9f-9b7b-57e8eeb6d640)
+I choose to play fireball and deal damage to chort.
+As you can see i can choose card to target and show of course show card info. When i hover on a card that i want to target,
+its copy on board lights with green, so i can see that this is this card(This is useful when two cards are the same, for example two wild roams).
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7bbc652a-cf38-46d9-a790-f280ee5c05c0)
+I chosen to target Chort and damage was dealt
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/f59ca257-1907-48c4-8416-a96ce2cecab1)
+
+
+
+
+
+
+
+
 
 
 
