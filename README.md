@@ -106,6 +106,10 @@ its copy on board lights with green, so i can see that this is this card(This is
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/7bbc652a-cf38-46d9-a790-f280ee5c05c0)
 I chosen to target Chort and damage was dealt
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/f59ca257-1907-48c4-8416-a96ce2cecab1)
+Enemy has one card but ended round, and now i can only play warrior.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/678a951e-1bbd-4e88-ad25-260a67963f29)
+Now i can only end round. I have less points so i will lose round and enemy will score a crown and win game. 
+
 
 
 
