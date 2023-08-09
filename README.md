@@ -133,21 +133,16 @@ Now i can only end round. I have less points so i will lose round and enemy will
 
 
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
 
 
 Player lost 2 rounds and lost game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/bbdc089a-5e84-48ac-a5fb-400f65c81e92)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/e8740511-dc1e-40e6-8174-b07ec354009d)
 
 
-Player won 2 rounds, 2 crowns appeared and won game <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/4b5ef239-0584-4ee7-8958-9456e663d57e)
+
+Player won 2 rounds and won game <br>
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/16fdb528-e908-457e-8943-2fbe81a2e3e9)
+
 
 
 <br>If both players had same amount of points, they both score a crown. Here two players had same amount of points and game ended with draw<br>
