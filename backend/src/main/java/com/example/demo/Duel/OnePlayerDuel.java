@@ -80,7 +80,7 @@ public class OnePlayerDuel {
         Card cc = null;
         for (List<Card> place : possiblePlayedCardPlaces) {
             cc = place.stream()
-                    .filter(c -> c.getDisplay().equals(playMade.getPlayedCard()))
+                    .filter(c -> c.getId() == playMade.getPlayedCard().getId())
                     .findFirst().orElse(null);
 
             if(cc != null) {
@@ -88,14 +88,14 @@ public class OnePlayerDuel {
                 break;
             }
         }
-        if(cc.getPoints() != 0)
+        if(cc != null && cc.getPoints() != 0)
             rows.get(playMade.getPlayedCardRowNum()).play(cc);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike))
+            Card card = row.getCards().stream().filter(c -> c.getId() == cardToStrike.getId())
                             .findFirst().orElse(Card.createEmptyCard());
             row.strikeCardBy(card, strikeAmount);
             if(card.getPoints() <= strikeAmount && !card.equals(Card.createEmptyCard())) {
@@ -105,9 +105,13 @@ public class OnePlayerDuel {
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
+        if(cardToBoost == null) return;
+
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost))
+//            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost))
+//                    .findFirst().orElse(Card.createEmptyCard());
+            Card card = row.getCards().stream().filter(c -> c.getId() == cardToBoost.getId())
                     .findFirst().orElse(Card.createEmptyCard());
             row.boostCardBy(card, boostAmount);
         }

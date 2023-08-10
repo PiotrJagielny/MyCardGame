@@ -26,14 +26,13 @@ public class Card {
 
     public CardDisplay getDisplay(){return new CardDisplay(name, points, CardsFactory.getCardInfo(name), id);}
     public int getPoints(){return points;}
+    public int getId() {return id;}
     public void boostPointsBy(int amount){
         points += amount;
     }
     public void strikeBy(int amount) {
         points -= amount;
     }
-
-
 
 
     public static Card createCard(CardDisplay cardDisplay){
@@ -46,7 +45,10 @@ public class Card {
     @Override
     public boolean equals(Object obj) {
         Card card = (Card)obj;
-        return card.getDisplay().equals(this.getDisplay());
+//        return card.getDisplay().equals(this.getDisplay());
+        return card.id == id;
+
 
     }
 }
+
