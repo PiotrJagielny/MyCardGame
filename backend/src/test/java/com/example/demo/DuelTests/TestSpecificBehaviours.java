@@ -1,10 +1,7 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Duel.CardDuel;
-import com.example.demo.TestsData.TestsUtils;
 import org.junit.jupiter.api.Test;
 
 import static com.example.demo.CardsServices.Cards.CardsFactory.*;
@@ -21,22 +18,22 @@ class TestSpecificBehaviours {
 
 
     private CardDuel duel;
-    private List<CardDisplay> hand11 = new ArrayList<>();
-    private List<CardDisplay> hand12 = new ArrayList<>();
+    private List<CardDisplay> hand1 = new ArrayList<>();
+    private List<CardDisplay> hand2 = new ArrayList<>();
 
 
     public void setHands() {
-        hand11 = duel.getHandOf(firstPlayer);
-        hand12 = duel.getHandOf(secondPlayer);
+        hand1 = duel.getHandOf(firstPlayer);
+        hand2 = duel.getHandOf(secondPlayer);
     }
     @Test
     public void testBoostingSingleRow(){
         duel  = createDuel(List.of(leader, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11,viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12,viking), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11,leader), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2,viking), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,leader), firstRow, firstPlayer);
         int expectedPoints = viking.getPoints() + leaderBoost + leader.getPoints();
         assertEquals(expectedPoints , getBoardPointsOf(firstPlayer, duel));
     }
@@ -46,11 +43,11 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(booster, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, viking), firstRow, secondPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand11, booster), secondRow, findCardByName(hand11,viking), firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
+        playCardWithCardTargeting(duel, findByName(hand1, booster), secondRow, findByName(hand1,viking), firstPlayer);
         int singleCardBoostAmount = 3;
-        CardDisplay boostedCard = findCardByName(duel.getRowOf(firstPlayer, firstRow), viking);
+        CardDisplay boostedCard = findByName(duel.getRowOf(firstPlayer, firstRow), viking);
         assertEquals(viking.getPoints() + singleCardBoostAmount, boostedCard.getPoints());
     }
 
@@ -59,14 +56,14 @@ class TestSpecificBehaviours {
         duel  = createDuel(List.of(healer, paper, minion, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, paper), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, paper), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, minion), secondRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, minion), secondRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), thirdRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, viking), thirdRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), secondRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, minion), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), thirdRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), thirdRow, secondPlayer);
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, healer), thirdRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, healer), thirdRow, firstPlayer);
 
         int expectedMinionPoints = minion.getPoints() + healerBoost;
         int expectedPaperPoints = paper.getPoints() + healerBoost;
@@ -81,9 +78,9 @@ class TestSpecificBehaviours {
         duel  = createDuel(List.of(archer, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, archer), firstRow,
-                findCardByName(hand11, viking), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow,
+                findByName(hand1, viking), secondPlayer);
 
         CardDisplay strikedVikingDisplay = duel.getRowOf(firstPlayer, firstRow).get(0);
 
@@ -98,8 +95,8 @@ class TestSpecificBehaviours {
         duel  = createDuel(List.of(fireball, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), firstRow, firstPlayer);
-        playSpecialCardWithCardTargeting(duel, findCardByName(hand12,fireball), findCardByName(hand11, viking), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2,fireball), findByName(hand1, viking), secondPlayer);
 
         assertTrue(duel.getRowOf(secondPlayer, thirdRow).isEmpty());
         boolean isFireballInHand = duel.getHandOf(secondPlayer)
@@ -118,10 +115,10 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(viking, paper, minion, warrior));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, warrior), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, paper), secondRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, minion), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, warrior), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), secondRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, minion), secondRow, secondPlayer);
 
         List<CardDisplay> possibleTargetsOfBooster = duel.getPossibleTargetsOf(booster, firstPlayer);
         assertTrue(possibleTargetsOfBooster.contains(viking));
@@ -139,7 +136,7 @@ class TestSpecificBehaviours {
     public void testCardsTargeting_ifThereIsNoTarget(){
         duel = createDuel(List.of(viking, booster, minion, warrior));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, booster), secondRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, booster), secondRow, firstPlayer);
         assertTrue(duel.getPossibleTargetsOf(booster, firstPlayer).isEmpty());
     }
 
@@ -147,8 +144,8 @@ class TestSpecificBehaviours {
     public void cardWithPointsBelowOneIsRemoved() {
         duel = createDuel(List.of(paper, archer));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, paper), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, archer), firstRow, findCardByName(hand11, paper), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, paper), secondPlayer);
         assertTrue(duel.getRowOf(firstPlayer, firstRow).isEmpty());
     }
 
@@ -157,9 +154,9 @@ class TestSpecificBehaviours {
     public void testBurningAllMaxPointsCards(){
         duel = createDuel(List.of(capitan, conflagration));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, capitan), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, capitan), firstRow, secondPlayer);
-        playSpecialCardWithoutTargeting(duel, findCardByName(hand11,conflagration), firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, capitan), firstRow, secondPlayer);
+        playSpecialCardWithoutTargeting(duel, findByName(hand1,conflagration), firstPlayer);
 
         int board = getBoardPointsOf(firstPlayer, duel);
         assertEquals(0, getBoardPointsOf(firstPlayer, duel));
@@ -171,9 +168,9 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(doubler, capitan, viking));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, capitan), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, capitan), firstRow, secondPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand11, doubler), secondRow, findCardByName(hand11,capitan ), firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, capitan), firstRow, secondPlayer);
+        playCardWithCardTargeting(duel, findByName(hand1, doubler), secondRow, findByName(hand1,capitan ), firstPlayer);
 
         int expectedPoints = capitan.getPoints() * 2;
         int actualPoints = duel.getRowOf(firstPlayer, firstRow).get(0).getPoints();
@@ -185,13 +182,13 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(rip, capitan, armageddon, paper));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, capitan), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, capitan), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, armageddon), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, armageddon), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, paper), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, paper), firstRow, secondPlayer);
-        playSpecialCardWithRowTargeting(duel, findCardByName(hand11,rip), firstRow ,firstPlayer );
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, capitan), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, armageddon), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), firstRow, secondPlayer);
+        playSpecialCardWithRowTargeting(duel, findByName(hand1,rip), firstRow ,firstPlayer );
 
         int firstUnitExpected = Math.max(capitan.getPoints() - ripDamage, 0);
         int secondUnitExpected = Math.max(armageddon.getPoints() - ripDamage, 0);
@@ -204,9 +201,9 @@ class TestSpecificBehaviours {
     public void testBoostingEveryTurn() {
         duel = createDuel(List.of(longer, paper, viking));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, longer), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, paper), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, paper), secondRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, longer), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), secondRow, firstPlayer);
         int expectedPoints= longer.getPoints() + 2* longerBoost;
         int actualPoints = duel.getRowOf( firstPlayer, firstRow).get(0).getPoints();
         assertEquals(expectedPoints, actualPoints);
@@ -216,10 +213,10 @@ class TestSpecificBehaviours {
     public void testRainRowStatus() {
         duel = createDuel(List.of(rain, viking, paper ));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, viking), firstRow, secondPlayer);
-        playSpecialCardWithRowTargeting(duel, findCardByName(hand11, rain), firstRow,firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, paper), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
+        playSpecialCardWithRowTargeting(duel, findByName(hand1, rain), firstRow,firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), secondRow, secondPlayer);
 
         int expectedFirstPlayerPoints = viking.getPoints() - rainDamage ;
         assertEquals(expectedFirstPlayerPoints, duel.getRowPointsOf(firstPlayer, firstRow));
@@ -236,8 +233,8 @@ class TestSpecificBehaviours {
     public void testClearingAllRowsStatus() {
         duel = createDuel(List.of(rain, viking, paper, clearSky));
         setHands();
-        playSpecialCardWithRowTargeting(duel, findCardByName(hand11, rain), firstRow, firstPlayer);
-        playSpecialCardWithoutTargeting(duel, findCardByName(hand12, clearSky), secondPlayer);
+        playSpecialCardWithRowTargeting(duel, findByName(hand1, rain), firstRow, firstPlayer);
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, clearSky), secondPlayer);
         String expectedRowStatus = "";
         String actualRowStatus = duel.getRowStatusOf(secondPlayer, firstRow);
         assertEquals(expectedRowStatus, actualRowStatus);
@@ -246,9 +243,9 @@ class TestSpecificBehaviours {
     public void testPlyingCardFromDeck() {
         duel = createDuel(List.of(priest, paper, capitan, hotdog, viking, warrior));
         setHands();
-        CardDisplay vikingFromDeck = findCardByName(duel.getDeckOf(firstPlayer), viking);
+        CardDisplay vikingFromDeck = findByName(duel.getDeckOf(firstPlayer), viking);
         CardDisplay nextCardInChain = playCardWithCardTargeting(
-                duel,findCardByName(hand11, priest) , firstRow,vikingFromDeck , firstPlayer);
+                duel, findByName(hand1, priest) , firstRow,vikingFromDeck , firstPlayer);
 
         int cardsInDeck = duel.getDeckOf(firstPlayer).size();
         CardDisplay vikingPlayed_noChainCard= playCardWithoutTargeting(duel, nextCardInChain,firstRow, firstPlayer);
@@ -267,16 +264,16 @@ class TestSpecificBehaviours {
         duel = createDuel(List.of(sharpshooter, paper, capitan));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, capitan), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, sharpshooter), firstRow, findCardByName(hand11, capitan), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, sharpshooter), firstRow, findByName(hand1, capitan), secondPlayer);
 
         assertEquals(sharpshooter.getPoints() ,duel.getRowPointsOf(secondPlayer, firstRow));
 
         duel = createDuel(List.of(sharpshooter, minion, capitan));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11, minion), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, sharpshooter), firstRow, findCardByName(hand11,minion), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, sharpshooter), firstRow, findByName(hand1,minion), secondPlayer);
 
         int expected = sharpshooter.getPoints() + sharpshooterSelfBoost;
         assertEquals(expected,duel.getRowPointsOf(secondPlayer, firstRow));
@@ -287,15 +284,15 @@ class TestSpecificBehaviours {
         //Spawn on strike
         duel = createDuel(List.of(cow, archer, viking));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, cow), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, archer), firstRow, findCardByName(hand11,cow), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, cow), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1,cow), secondPlayer);
         assertEquals(chort, duel.getRowOf(firstPlayer, firstRow).get(0));
 
 
         //Spawn on new round
         duel = createDuel(List.of(cow, archer, viking));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11,cow), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,cow), firstRow, firstPlayer);
         duel.endRoundFor(secondPlayer);
         duel.endRoundFor(firstPlayer);
         assertEquals(chort, duel.getRowOf(firstPlayer, firstRow).get(0));
@@ -303,8 +300,8 @@ class TestSpecificBehaviours {
         //Spawn on burn
         duel = createDuel(List.of(cow, conflagration));
         setHands();
-        playCardWithoutTargeting(duel,findCardByName(hand11,cow) , firstRow,firstPlayer);
-        playSpecialCardWithoutTargeting(duel, findCardByName(hand12, conflagration), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,cow) , firstRow,firstPlayer);
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
         CardDisplay chortSpawned = duel.getRowOf(firstPlayer, firstRow).get(0);
         assertEquals(chort, chortSpawned);
     }
@@ -314,8 +311,8 @@ class TestSpecificBehaviours {
 
         duel = createDuel(List.of(trebuchet, viking));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, trebuchet), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, viking), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, trebuchet), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
         duel.endRoundFor(firstPlayer);
 
         int expectedPoints = viking.getPoints() - trebuchetDamage;
@@ -327,9 +324,9 @@ class TestSpecificBehaviours {
     public void testBoostingCardEveryTwoTurns() {
         duel = createDuel(List.of(goodPerson, viking));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11,goodPerson), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand12, viking), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11,viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,goodPerson), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,viking), firstRow, firstPlayer);
 
         int expectedPoints = viking.getPoints() + goodPersonBoost;
         int actualPoints = duel.getRowOf(firstPlayer, firstRow).stream().filter(c -> c.equals(viking))
@@ -343,9 +340,9 @@ class TestSpecificBehaviours {
     public void testBoostingByNumberOfCardsOnGraveyard() {
         duel = createDuel(List.of(gravedigger, archer, minion));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, minion), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, archer), firstRow, findCardByName(hand11,minion), secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand11, gravedigger), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1,minion), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, gravedigger), firstRow, firstPlayer);
 
         int cardsOnGraveyard = 1;
         int expectedPoints = gravedigger.getPoints() + cardsOnGraveyard;
@@ -362,11 +359,11 @@ class TestSpecificBehaviours {
     public void testCardResurrectionFromGraveyard() {
         duel = createDuel(List.of(witch, archer, minion));
         setHands();
-        playCardWithoutTargeting(duel, findCardByName(hand11, minion), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand12, archer), firstRow, findCardByName(hand11, minion), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, minion), secondPlayer);
 
         CardDisplay playChainCard = playCardWithCardTargeting(
-                duel, findCardByName(hand11, witch), firstRow, findCardByName(hand11, minion), firstPlayer
+                duel, findByName(hand1, witch), firstRow, findByName(hand1, minion), firstPlayer
         );
         assertEquals(minion, playChainCard);
         playCardWithoutTargeting(duel, playChainCard, firstRow, firstPlayer);
@@ -387,7 +384,7 @@ class TestSpecificBehaviours {
                 .stream()
                 .filter(c -> c.equals(wildRoam))
                 .collect(Collectors.toList()).size();
-        playCardWithoutTargeting(duel, findCardByName(hand11, wildRoam), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, wildRoam), firstRow, firstPlayer);
         assertEquals(cardOccurences, duel.getRowOf(firstPlayer, firstRow).size());
 
 
@@ -404,16 +401,16 @@ class TestSpecificBehaviours {
                 minion, paper, thunder, sharpshooter));
         setHands();
 
-        playCardWithoutTargeting(duel, findCardByName(hand11,viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,viking), firstRow, firstPlayer);
         playCardWithCardTargeting(
-                duel, findCardByName(hand12, sharpshooter), firstRow, findCardByName(hand11, viking), secondPlayer);
+                duel, findByName(hand2, sharpshooter), firstRow, findByName(hand1, viking), secondPlayer);
         playCardWithCardTargeting(
-                duel, findCardByName(hand11, sharpshooter), firstRow, findCardByName(hand12, sharpshooter), firstPlayer);
+                duel, findByName(hand1, sharpshooter), firstRow, findByName(hand2, sharpshooter), firstPlayer);
 
         CardDisplay loweredSharpShooter = duel.getRowOf(secondPlayer, firstRow).get(0);
-        CardDisplay sharpshooterChain = playCardWithCardTargeting(duel, findCardByName(hand12, supplier), secondRow,loweredSharpShooter, secondPlayer);
+        CardDisplay sharpshooterChain = playCardWithCardTargeting(duel, findByName(hand2, supplier), secondRow,loweredSharpShooter, secondPlayer);
 
-        playCardWithCardTargeting(duel, sharpshooterChain, thirdRow, findCardByName(hand11, viking), secondPlayer);
+        playCardWithCardTargeting(duel, sharpshooterChain, thirdRow, findByName(hand1, viking), secondPlayer);
 
         assertEquals(sharpshooter, duel.getRowOf(secondPlayer, thirdRow).get(0));
         assertEquals(sharpshooter.getPoints(), duel.getRowOf(secondPlayer, thirdRow).get(0).getPoints());

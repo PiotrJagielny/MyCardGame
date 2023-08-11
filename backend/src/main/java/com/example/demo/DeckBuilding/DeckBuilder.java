@@ -54,11 +54,9 @@ public class DeckBuilder {
 
     public List<String> getDecksNames() {
         List<String> result = new ArrayList<String>();
-
         for (Map.Entry<String, Deck> entry : playerDecksBetter.entrySet()) {
             result.add(entry.getKey());
         }
-
         return result;
     }
 

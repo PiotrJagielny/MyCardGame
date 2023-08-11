@@ -1,11 +1,9 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
 import com.example.demo.Duel.CardDuel;
-import com.example.demo.TestsData.TestsUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -215,8 +213,8 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(minion, archer));
         List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
         List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand1, minion), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findCardByName(hand2, archer), firstRow, findCardByName(hand1,minion ), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1,minion ), secondPlayer);
         assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
 
     }
@@ -225,8 +223,8 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(knight, conflagration));
         List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
         List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand1, knight), firstRow, firstPlayer);
-        playSpecialCardWithoutTargeting(duel, findCardByName(hand2, conflagration), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
         assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
     }
     @Test
@@ -235,10 +233,10 @@ class TestDuelAfterDeal {
 
         List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
         List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand1, viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand2, viking), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand1, knight), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findCardByName(hand2, knight), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, knight), firstRow, secondPlayer);
         duel.endRoundFor(firstPlayer);
         duel.endRoundFor(secondPlayer);
 
@@ -259,7 +257,7 @@ class TestDuelAfterDeal {
         playCardWithoutTargeting(duel,handCards_firstPlayer.get(1), firstRow, firstPlayer);
         playCardWithoutTargeting(duel,handCards_secondPlayer.get(1), firstRow, secondPlayer);
         List<CardDisplay> rowCards = duel.getRowOf(firstPlayer, firstRow);
-        assertNotEquals(rowCards.get(0), rowCards.get(1));
+        assertNotEquals(rowCards.get(0).getId(), rowCards.get(1).getId());
     }
 
     @Test

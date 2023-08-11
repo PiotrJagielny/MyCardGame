@@ -38,7 +38,7 @@ public class TestsUtils {
         return duel.playCardAs(new PlayerPlay(rowTargeted, cardPlayed), player);
     }
 
-    public static CardDisplay findCardByName(List<CardDisplay> cards, CardDisplay cardToFind) {
+    public static CardDisplay findByName(List<CardDisplay> cards, CardDisplay cardToFind) {
         return cards.stream().filter(c -> c.equals(cardToFind)).findFirst().orElse(new CardDisplay());
     }
 
