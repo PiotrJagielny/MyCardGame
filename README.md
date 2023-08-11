@@ -4,7 +4,7 @@
 This is a project where i make a Gwent: The Witcher card game clone. <br>
 Backend is built with Spring boot with Java and frontend is made using React with Typescript. <br>
 To store important data on frontend such as username, i used react redux. <br>
-For multiplayer with STOMP i used Spring web sockets on backend, and SockJS on frontend. <br>
+For multiplayer messaging i used Spring web sockets and SockJS. <br>
 To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 
 ## Rules
