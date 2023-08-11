@@ -2,7 +2,6 @@ package com.example.demo.Duel;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.CardsServices.CardsEffects.RowStatus;
 import com.example.demo.CardsServices.CardsParser;
 import com.example.demo.Consts;
@@ -52,6 +51,12 @@ public class OnePlayerDuel {
         return rowCards;
     }
 
+    public void addCardToGraveyard(Card card) {
+        if(!card.equals(Card.emptyCard())) {
+            graveyard.add(card);
+        }
+    }
+
     public List<CardDisplay> getCardsOnBoard(){
         List<CardDisplay> wholeBoard = new ArrayList<>();
         for (int i = 0; i < Consts.rowsNumber; i++) {
@@ -77,29 +82,26 @@ public class OnePlayerDuel {
 
     public void placeCardOnBoard(PlayerPlay playMade){
         List<List<Card>> possiblePlayedCardPlaces = List.of(cardsInHand, cardsInDeck, graveyard);
-        Card cc = null;
-        for (List<Card> place : possiblePlayedCardPlaces) {
-            cc = place.stream()
-                    .filter(c -> c.getDisplay().equals(playMade.getPlayedCard()))
-                    .findFirst().orElse(null);
+        Card cc = Card.emptyCard();
+        for (List<Card> possiblePlace : possiblePlayedCardPlaces) {
+            cc = possiblePlace.stream()
+                    .filter(c -> c.getId() == playMade.getPlayedCard().getId())
+                    .findFirst().orElse(Card.emptyCard());
 
-            if(cc != null) {
-                place.remove(cc);
+            if(possiblePlace.remove(cc))
                 break;
-            }
         }
-        if(cc.getPoints() != 0)
-            rows.get(playMade.getPlayedCardRowNum()).play(cc);
+        rows.get(playMade.getPlayedCardRowNum()).play(cc);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToStrike))
-                            .findFirst().orElse(Card.createEmptyCard());
+            Card card = row.getCards().stream().filter(c -> c.getId() == cardToStrike.getId())
+                            .findFirst().orElse(Card.emptyCard());
             row.strikeCardBy(card, strikeAmount);
-            if(card.getPoints() <= strikeAmount && !card.equals(Card.createEmptyCard())) {
-                graveyard.add(card);
+            if(card.getPoints() <= strikeAmount ) {
+                addCardToGraveyard(card);
             }
         }
     }
@@ -107,8 +109,8 @@ public class OnePlayerDuel {
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getDisplay().equals(cardToBoost))
-                    .findFirst().orElse(Card.createEmptyCard());
+            Card card = row.getCards().stream().filter(c -> c.getId() == cardToBoost.getId())
+                    .findFirst().orElse(Card.emptyCard());
             row.boostCardBy(card, boostAmount);
         }
     }
@@ -117,12 +119,11 @@ public class OnePlayerDuel {
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
             Card card = row.getCards().stream()
-                    .filter(c -> c.getDisplay().equals(cardToBurn))
-                    .findFirst().orElse(Card.createEmptyCard());
+                    .filter(c -> c.getId() == cardToBurn.getId())
+                    .findFirst().orElse(Card.emptyCard());
 
             row.burnCard(card);
-            if(!card.equals(Card.createEmptyCard()))
-                graveyard.add(card);
+            addCardToGraveyard(card);
         }
     }
 
@@ -215,7 +216,7 @@ public class OnePlayerDuel {
     }
 
     public void mulliganCard(CardDisplay cardToMulligan) {
-        Card card = cardsInHand.stream().filter(c -> c.getDisplay().equals(cardToMulligan)).findFirst().orElse(Card.createEmptyCard());
+        Card card = cardsInHand.stream().filter(c -> c.getId() == cardToMulligan.getId()).findFirst().orElse(Card.emptyCard());
 
         int cardIndex = cardsInHand.indexOf(card);
 

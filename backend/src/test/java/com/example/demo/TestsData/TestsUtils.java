@@ -37,6 +37,11 @@ public class TestsUtils {
     public static CardDisplay playSpecialCardWithRowTargeting(CardDuel duel, CardDisplay cardPlayed, int rowTargeted, String player) {
         return duel.playCardAs(new PlayerPlay(rowTargeted, cardPlayed), player);
     }
+
+    public static CardDisplay findByName(List<CardDisplay> cards, CardDisplay cardToFind) {
+        return cards.stream().filter(c -> c.equals(cardToFind)).findFirst().orElse(new CardDisplay());
+    }
+
     public static CardDuel createDuel(List<CardDisplay> deck){
         CardDuel result = CardDuel.createDuel();
         result.registerPlayerToDuel(secondPlayer);
@@ -45,6 +50,10 @@ public class TestsUtils {
         result.parseCardsFor(deck , firstPlayer);
         result.dealCards();
         return result;
+    }
+    public static void setHands(List<CardDisplay> hand1, List<CardDisplay> hand2, CardDuel duel) {
+        hand1 = duel.getHandOf(firstPlayer);
+        hand2 = duel.getHandOf(secondPlayer);
     }
 
 }

@@ -46,7 +46,7 @@ public class Deck {
 
         if(card != null) {
             cardsInDeck.add(card);
-            allCardsPossibleToAdd.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
+            allCardsPossibleToAdd.removeIf(c -> c.equals(card) );
 
         }
         return responseMessage;

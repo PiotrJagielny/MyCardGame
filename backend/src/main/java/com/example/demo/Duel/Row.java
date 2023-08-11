@@ -35,7 +35,7 @@ public class Row {
 
 
     public void play(Card aCard){
-        if(aCard.getPoints() > 0) {
+        if(aCard.getPoints() > 0 && aCard != Card.emptyCard()) {
             cards.add(aCard);
             int cardTimer = CardsFactory.getCardTimer(aCard.getDisplay());
             if(cardTimer != CardsFactory.noTimer) {

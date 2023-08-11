@@ -31,24 +31,25 @@ public class PlayerPlay {
     public PlayerPlay(CardDisplay playedCard, int playedOnRow) {
         this.playedCard = playedCard;
         this.playedOnRow = playedOnRow;
-        this.affectedRow = -1;
+        this.affectedRow = 0;
+        this.cardTargeted = new CardDisplay();
     }
     public PlayerPlay(int rowTargeted, CardDisplay playedCard) {
         this.affectedRow = rowTargeted;
         this.playedCard = playedCard;
-        this.playedOnRow = -1;
+        this.playedOnRow = 0;
         this.cardTargeted = new CardDisplay();
     }
     public PlayerPlay(CardDisplay playedCard) {
         this.playedCard = playedCard;
-        this.affectedRow = -1;
-        this.playedOnRow = -1;
+        this.affectedRow = 0;
+        this.playedOnRow = 0;
         this.cardTargeted = new CardDisplay();
     }
     public PlayerPlay(CardDisplay playedCard, CardDisplay cardTargeted) {
         this.playedCard = playedCard;
-        this.affectedRow = -1;
-        this.playedOnRow = -1;
+        this.affectedRow = 0;
+        this.playedOnRow = 0;
         this.cardTargeted =cardTargeted;
     }
 

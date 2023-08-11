@@ -25,7 +25,7 @@ class TestDeckBuilder_OneDeck {
         deckBuilder.addCardToDeck(deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck);
         int cardsToAdd_AfterAddingToDeck = deckBuilder.getCardsPossibleToAdd(firstDeck).size();
 
-        assertEquals(1,deckBuilder.getCurrentDeck(firstDeck).size(), "Deck doens have 1 card after adding ");
+        assertEquals(1,deckBuilder.getCurrentDeck(firstDeck).size());
         assertEquals(cardsToAdd_AfterAddingToDeck + 1, cardsToAdd_BeforeAddingToDeck, "Card is still in cardsPossibleToAdd after adding to deck ");
     }
 
