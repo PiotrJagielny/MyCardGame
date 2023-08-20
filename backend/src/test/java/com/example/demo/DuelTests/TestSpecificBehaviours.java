@@ -435,7 +435,4 @@ class TestSpecificBehaviours {
         assertEquals(expectedUnitsOnFirstRow, duel.getRowOf(firstPlayer, firstRow).size());
 
     }
-
-
-
 }
