@@ -10,6 +10,13 @@ import java.util.List;
 
 public class DecksDatabase {
 
+
+
+
+
+
+
+    
     private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
 //    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
     public static void createDeck(String username, String deckname) {
