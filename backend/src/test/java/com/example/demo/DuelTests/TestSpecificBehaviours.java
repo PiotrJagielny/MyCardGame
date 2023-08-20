@@ -420,6 +420,21 @@ class TestSpecificBehaviours {
         assertEquals(expectedVikingPoints, actualVikingPoints);
     }
 
+    @Test
+    public void testCallingCardFromDeckAfterTurns() {
+        duel = createDuel(List.of(breaker, viking, minion, paper, warrior, armageddon, capitan, breaker));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, breaker), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, capitan), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, minion), secondRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, paper), secondRow, firstPlayer);
+
+        int expectedUnitsOnFirstRow = 2;
+        assertEquals(expectedUnitsOnFirstRow, duel.getRowOf(firstPlayer, firstRow).size());
+
+    }
 
 
 

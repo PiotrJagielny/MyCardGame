@@ -68,11 +68,14 @@ public class CardsFactory {
     public static final CardDisplay gravedigger = new CardDisplay("Gravedigger", 2);
     public static final CardDisplay wildRoam= new CardDisplay("Wild roam", 3);
     public static final CardDisplay supplier = new CardDisplay("Supplier", 1);
+    public static final CardDisplay breaker = new CardDisplay("Breaker", 3);
+    public static final int breakerTimer = 2;
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
         put(goodPerson.getName(), goodPersonTimer);
         put(longer.getName(), longerTimer);
+        put(breaker.getName(), breakerTimer);
     }};
     public static int getCardTimer(CardDisplay card) {
         return mapCardNameToTimer.getOrDefault(card.getName(), noTimer);
@@ -121,10 +124,10 @@ public class CardsFactory {
         put(witch.getName(), "Resurrect card from your graveyard");
         put(wildRoam.getName(), "Play all copies of this card from deck");
         put(supplier.getName(), "Play from deck copy of chosen card from board");
+        put(breaker.getName(), "After " + breakerTimer + " turns call copy of this card from deck to the same row");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
-
     }
 
     private static final Map<String, List<Integer>> mapCardNameToRowsAffect = new HashMap<>() {{
@@ -141,6 +144,8 @@ public class CardsFactory {
 
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
+                Card.createCard(breaker),
+                Card.createCard(breaker),
                 Card.createCard(knight),
                 Card.createCard(knight),
                 Card.createCard(hotdog),

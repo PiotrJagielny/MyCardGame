@@ -1,7 +1,7 @@
-package com.example.demo.DeckBuilding.DecksPersistence;
+package com.example.demo.DecksPersistence;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.DeckBuilding.DeckBuilder;
+import com.example.demo.Controllers.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
 import javax.persistence.*;
