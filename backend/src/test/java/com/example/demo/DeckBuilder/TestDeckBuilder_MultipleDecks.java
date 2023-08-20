@@ -1,7 +1,7 @@
 package com.example.demo.DeckBuilder;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.Controllers.DeckBuilding.DeckBuilder;
+import com.example.demo.DeckBuilding.DeckBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
