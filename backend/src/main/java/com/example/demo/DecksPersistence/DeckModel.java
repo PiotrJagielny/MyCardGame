@@ -1,4 +1,4 @@
-package com.example.demo.DeckBuilding.DecksPersistence;
+package com.example.demo.DecksPersistence;
 
 import javax.persistence.*;
 import java.io.Serializable;

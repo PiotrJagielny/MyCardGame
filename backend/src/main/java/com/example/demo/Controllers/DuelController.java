@@ -1,7 +1,9 @@
-package com.example.demo.Duel;
+package com.example.demo.Controllers;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Consts;
+import com.example.demo.Duel.CardDuel;
+import com.example.demo.Duel.PlayerPlay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

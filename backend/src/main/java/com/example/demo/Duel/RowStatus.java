@@ -1,4 +1,4 @@
-package com.example.demo.CardsServices.CardsEffects;
+package com.example.demo.Duel;
 
 
 public enum RowStatus {
