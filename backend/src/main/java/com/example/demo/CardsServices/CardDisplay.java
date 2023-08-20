@@ -79,15 +79,7 @@ public class CardDisplay{
     public boolean equals(Object obj) {
         if(obj instanceof CardDisplay){
             CardDisplay dis = (CardDisplay) obj;
-            if(dis.name.equals("") && name.equals(""))
-                return true;
-
-            if(dis.id == -1 || id == -1) {
-                return dis.getName().equals(name);
-            }
-            else {
-                return dis.id == id;
-            }
+            return dis.name.equals(name);
         }
         else
             return false;

@@ -5,7 +5,8 @@ import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.OnePlayerDuel;
-import com.example.demo.Utils;
+import com.example.demo.Duel.RowStatus;
+import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
 
 import java.util.List;
 
@@ -157,11 +158,13 @@ public class CardEffects {
     public void invokeOnTurnEndEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
         for (var card : cardsOnBoard) {
-            invokeSpecificCardTurnEffect(card);
+            int cardTimer = player.decrementAndGetTimer(card);
+
+            if(cardTimer != CardsFactory.noTimer)
+                invokeSpecificTurnEndCardEffect(card, cardTimer);
         }
     }
-    private void invokeSpecificCardTurnEffect(CardDisplay card) {
-        int cardTimer = player.decrementAndGetTimer(card);
+    private void invokeSpecificTurnEndCardEffect(CardDisplay card, int cardTimer) {
         if(cardTimer == 0) {
            if(card.equals(CardsFactory.trebuchet)) {
                 CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
@@ -180,6 +183,13 @@ public class CardEffects {
 
 
     public void invokeOnTurnStartEffect() {
+        List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
+        for (var card : cardsOnBoard) {
+            int cardTimer = player.decrementAndGetTimer(card);
+            if(cardTimer != CardsFactory.noTimer)
+                invokeSpecificTurnStartCardEffect(card);
+        }
+
         for (int i = 0; i < Consts.rowsNumber; i++) {
             String status = player.getRowStatusName(i);
             if(status.equals(RowStatus.Rain.toString())) {
@@ -193,6 +203,18 @@ public class CardEffects {
                     }
                 }
                 player.strikeCard(maxPointsCard, CardsFactory.rainDamage);
+            }
+        }
+    }
+
+    private void invokeSpecificTurnStartCardEffect(CardDisplay card) {
+
+        int cardTimer = player.decrementAndGetTimer(card);
+
+        if(cardTimer == 0) {
+            if(card.equals(CardsFactory.breaker)) {
+                CardDisplay anotherBreaker = player.getCardsInDeck().stream().filter(c -> c.equals(CardsFactory.breaker)).findFirst().orElse(new CardDisplay());
+                player.placeCardOnBoard(new PlayerPlay(anotherBreaker, player.getCardRow(card)));
             }
         }
     }

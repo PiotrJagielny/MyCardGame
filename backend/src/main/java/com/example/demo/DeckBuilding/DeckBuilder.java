@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class DeckBuilder {
     private Map<String, Deck> playerDecksBetter;
@@ -54,11 +53,9 @@ public class DeckBuilder {
 
     public List<String> getDecksNames() {
         List<String> result = new ArrayList<String>();
-
         for (Map.Entry<String, Deck> entry : playerDecksBetter.entrySet()) {
             result.add(entry.getKey());
         }
-
         return result;
     }
 
