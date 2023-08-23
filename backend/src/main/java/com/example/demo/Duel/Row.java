@@ -61,11 +61,7 @@ public class Row {
     }
 
     public int getRowPoints(){
-        int result = 0;
-        for(int i = 0 ; i < cards.size() ; ++i){
-            result += cards.get(i).getPoints();
-        }
-        return result;
+        return cards.stream().mapToInt(c -> c.getPoints()).sum();
     }
 
     public void burnCard(Card card){

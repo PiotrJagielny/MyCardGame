@@ -65,11 +65,7 @@ public class OnePlayerDuel {
     }
 
     public int getBoardPoints(){
-        int result = 0;
-        for(int i = 0 ; i < Consts.rowsNumber ; ++i){
-            result += rows.get(i).getRowPoints();
-        }
-        return result;
+        return rows.stream().mapToInt(r -> r.getRowPoints()).sum();
     }
     public int getRowPoints(int row) {
         return rows.get(row).getRowPoints();
