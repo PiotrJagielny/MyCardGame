@@ -1,6 +1,7 @@
 package com.example.demo.CardsServices.CardsEffects;
 
 import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
@@ -8,6 +9,7 @@ import com.example.demo.Duel.OnePlayerDuel;
 import com.example.demo.Duel.RowStatus;
 
 import java.util.List;
+import java.util.function.BiPredicate;
 
 public class CardEffects {
     private OnePlayerDuel player;
@@ -63,7 +65,11 @@ public class CardEffects {
             strikeCardBy(playMade.getTargetedCard(), CardsFactory.fireballDamage);
         }
         else if(p.equals(CardsFactory.conflagration)){
-            burnAllMaxPointsCards();
+            int maxPoints= Math.max(
+                    findPointsByCriteria(player.getCardsOnBoard(), 0,(element,result) -> element > result ),
+                    findPointsByCriteria(enemy.getCardsOnBoard(), 0,(element,result) -> element > result )
+            );
+            burnCardsWithSpecifiedPoints( maxPoints);
         }
         else if(p.equals(CardsFactory.doubler)){
             int boostAmount = playMade.getTargetedCard().getPoints();
@@ -102,8 +108,11 @@ public class CardEffects {
 
         }
         else if(p.equals(CardsFactory.epidemic)) {
-            burnAllMinPointsCards();
-
+            int minPoints = Math.min(
+                    findPointsByCriteria(player.getCardsOnBoard(), Integer.MAX_VALUE,(element,result) -> element < result ),
+                    findPointsByCriteria(enemy.getCardsOnBoard(), Integer.MAX_VALUE,(element,result) -> element < result )
+            );
+            burnCardsWithSpecifiedPoints( minPoints);
         }
 
     }
@@ -125,45 +134,26 @@ public class CardEffects {
         }
     }
 
-    private void burnAllMaxPointsCards() {
-        int playerMaxPoints = findMaxPoints(player.getCardsOnBoard());
-        int enemyMaxPoints = findMaxPoints(enemy.getCardsOnBoard());
-        int maxPoints = Math.max(playerMaxPoints, enemyMaxPoints);
-        burnCardsWithSpecifiedPoints(player, maxPoints);
-        burnCardsWithSpecifiedPoints(enemy, maxPoints);
-    }
-
-    private int findMaxPoints(List<CardDisplay> ofBoard){
-        int maxPoints = 0;
-        for (int j = 0; j < ofBoard.size(); j++) {
-            if(ofBoard.get(j).getPoints() > maxPoints)
-                maxPoints = ofBoard.get(j).getPoints();
-        }
-        return maxPoints;
-    }
-
-    private void burnCardsWithSpecifiedPoints(OnePlayerDuel ofPlayer, int points) {
-        List<CardDisplay> cardsOnBoard = ofPlayer.getCardsOnBoard();
-        for (int j = 0; j < cardsOnBoard.size(); j++) {
-            if(cardsOnBoard.get(j).getPoints() == points) {
-                burnCard(cardsOnBoard.get(j), ofPlayer);
+    private int findPointsByCriteria(List<CardDisplay> ofBoard, int initailValue, BiPredicate<Integer, Integer> criteria) {
+        int result = initailValue;
+        for (int i = 0; i < ofBoard.size(); i++) {
+            if(criteria.test(ofBoard.get(i).getPoints(), result)) {
+                result = ofBoard.get(i).getPoints();
             }
         }
+        return result;
+
     }
-    private void burnAllMinPointsCards() {
-        int minPoints = Math.min(
-                findMinPoints(player.getCardsOnBoard()), findMinPoints(enemy.getCardsOnBoard())
-        );
-        burnCardsWithSpecifiedPoints(player, minPoints);
-        burnCardsWithSpecifiedPoints(enemy, minPoints);
-    }
-    private int findMinPoints(List<CardDisplay> ofBoard){
-        int minPoints = Integer.MAX_VALUE;
-        for (int i = 0; i < ofBoard.size(); i++) {
-            if(ofBoard.get(i).getPoints() < minPoints)
-                minPoints = ofBoard.get(i).getPoints();
+    private void burnCardsWithSpecifiedPoints(int points) {
+        for (OnePlayerDuel oneOfBothPlayers: List.of(player, enemy)) {
+            List<CardDisplay> cardsOnBoard = oneOfBothPlayers.getCardsOnBoard();
+            for (int j = 0; j < cardsOnBoard.size(); j++) {
+                if(cardsOnBoard.get(j).getPoints() == points) {
+                    burnCard(cardsOnBoard.get(j), oneOfBothPlayers);
+                }
+            }
+
         }
-        return minPoints;
     }
 
     private void ripWholeRow() {
