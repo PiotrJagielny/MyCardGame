@@ -71,6 +71,8 @@ public class CardsFactory {
     public static final CardDisplay breaker = new CardDisplay("Breaker", 3);
     public static final int breakerTimer = 2;
 
+    public static final CardDisplay epidemic = new CardDisplay("Epidemic", 0);
+
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
         put(goodPerson.getName(), goodPersonTimer);
@@ -104,7 +106,7 @@ public class CardsFactory {
 
 
     private static final Map<String, String> mapCardNameToInfo = new HashMap<>() {{
-        put(conflagration.getName(), "Burn all cards that are have points");
+        put(conflagration.getName(), "Burn all cards that are max points");
         put(doubler.getName(), "Double chosen card points");
         put(booster.getName(), "Boost whole row by " + leaderBoost);
         put(healer.getName(), "Boost every card on your row by " + healerBoost + ", if card points is max " + healerMaxCardPointsWithBoost);
@@ -125,6 +127,7 @@ public class CardsFactory {
         put(wildRoam.getName(), "Play all copies of this card from deck");
         put(supplier.getName(), "Play from deck copy of chosen card from board");
         put(breaker.getName(), "After " + breakerTimer + " turns call copy of this card from deck to the same row");
+        put(epidemic.getName(), "Kill all cards with minimum points");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -145,6 +148,7 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(epidemic),
                 Card.createCard(breaker),
                 Card.createCard(knight),
                 Card.createCard(knight),

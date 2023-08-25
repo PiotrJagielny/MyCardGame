@@ -28,7 +28,7 @@ class TestDuelAfterDeal {
         duel.registerPlayerToDuel(firstPlayer);
         List<CardDisplay> allCards = CardsParser.getCardsDisplay(createAllCards());
         List<CardDisplay> noEffectCards = allCards.stream()
-                .filter(c -> !c.getCardInfo().equals(""))
+                .filter(c -> c.getCardInfo().equals(""))
                 .collect(Collectors.toList());
         duel.parseCardsFor( noEffectCards , firstPlayer);
         duel.parseCardsFor( noEffectCards , secondPlayer);

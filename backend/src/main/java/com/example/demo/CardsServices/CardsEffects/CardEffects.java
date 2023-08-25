@@ -6,7 +6,6 @@ import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
 import com.example.demo.Duel.OnePlayerDuel;
 import com.example.demo.Duel.RowStatus;
-import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
 
 import java.util.List;
 
@@ -102,17 +101,21 @@ public class CardEffects {
             }
 
         }
+        else if(p.equals(CardsFactory.epidemic)) {
+            burnAllMinPointsCards();
+
+        }
 
     }
 
-    public void boostRowBy(int amount){
+    private void boostRowBy(int amount){
         for(CardDisplay card: player.getCardsOnBoardOnRow(playMade.getPlayedCardRowNum())){
             if(card.equals(CardsFactory.leader) == false)
                 player.boostCard(card, amount);
         }
     }
 
-    public void healerBoost(int boostAmount){
+    private void healerBoost(int boostAmount){
         for(CardDisplay card: player.getCardsOnBoard()){
             if(card.equals(CardsFactory.healer) == false) {
                 if(card.getPoints() <= CardsFactory.healerMaxCardPointsWithBoost){
@@ -122,12 +125,12 @@ public class CardEffects {
         }
     }
 
-    public void burnAllMaxPointsCards() {
+    private void burnAllMaxPointsCards() {
         int playerMaxPoints = findMaxPoints(player.getCardsOnBoard());
         int enemyMaxPoints = findMaxPoints(enemy.getCardsOnBoard());
         int maxPoints = Math.max(playerMaxPoints, enemyMaxPoints);
-        burnCardsWithMaxPoints(player, maxPoints);
-        burnCardsWithMaxPoints(enemy, maxPoints);
+        burnCardsWithSpecifiedPoints(player, maxPoints);
+        burnCardsWithSpecifiedPoints(enemy, maxPoints);
     }
 
     private int findMaxPoints(List<CardDisplay> ofBoard){
@@ -139,13 +142,28 @@ public class CardEffects {
         return maxPoints;
     }
 
-    private void burnCardsWithMaxPoints(OnePlayerDuel ofPlayer, int maxPoints) {
+    private void burnCardsWithSpecifiedPoints(OnePlayerDuel ofPlayer, int points) {
         List<CardDisplay> cardsOnBoard = ofPlayer.getCardsOnBoard();
         for (int j = 0; j < cardsOnBoard.size(); j++) {
-            if(cardsOnBoard.get(j).getPoints() == maxPoints) {
+            if(cardsOnBoard.get(j).getPoints() == points) {
                 burnCard(cardsOnBoard.get(j), ofPlayer);
             }
         }
+    }
+    private void burnAllMinPointsCards() {
+        int minPoints = Math.min(
+                findMinPoints(player.getCardsOnBoard()), findMinPoints(enemy.getCardsOnBoard())
+        );
+        burnCardsWithSpecifiedPoints(player, minPoints);
+        burnCardsWithSpecifiedPoints(enemy, minPoints);
+    }
+    private int findMinPoints(List<CardDisplay> ofBoard){
+        int minPoints = Integer.MAX_VALUE;
+        for (int i = 0; i < ofBoard.size(); i++) {
+            if(ofBoard.get(i).getPoints() < minPoints)
+                minPoints = ofBoard.get(i).getPoints();
+        }
+        return minPoints;
     }
 
     private void ripWholeRow() {

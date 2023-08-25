@@ -2,6 +2,7 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.Duel.CardDuel;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.example.demo.CardsServices.Cards.CardsFactory.*;
@@ -435,4 +436,20 @@ class TestSpecificBehaviours {
         assertEquals(expectedUnitsOnFirstRow, duel.getRowOf(firstPlayer, firstRow).size());
 
     }
+
+    @Test
+    public void testKillingAllMinPointsCards() {
+        duel = createDuel(List.of(epidemic, minion, viking));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1,minion), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2,minion), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1,viking), firstRow, firstPlayer);
+        playSpecialCardWithoutTargeting(duel, findByName(hand2,epidemic), secondPlayer);
+
+        int expectedCardsLeft = 1;
+        int actualCardsLeft = duel.getRowOf(firstPlayer, firstRow).size() ;
+        assertEquals(expectedCardsLeft, actualCardsLeft );
+    }
+
 }
