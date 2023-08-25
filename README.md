@@ -15,7 +15,8 @@ In each move, a player can either play card or end round.<br>
 ## Cards
 Currently, there are about 30 cards. Most of them dont have any effects.<br>
 
-Here are cards with effect.
+Here are cards with effect. 
+(Some of these cards might not be available in production yet)
 
 Spells: <br>
 Fireball - Deals damage to an enemy card.<br>
@@ -40,6 +41,7 @@ Wild roam - Play all copies of this card from you deck on the same row<br>
 Supplier - Play from deck copy of chosen card from board <br>
 Breaker - After 2 turns, play copy of this cards from deck on the same row <br>
 Ginger - Deal 1 damage to every card on specified enemy row <br>
+Spy - Place this card on enemy opposite row and deal 1 card <br>
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
