@@ -20,6 +20,7 @@ Here are cards with effect.
 Spells: <br>
 Fireball - Deals damage to an enemy card.<br>
 Conflagration - Burns all cards with maximum points. <br>
+Epidemic - Destroy all min points cards on board <br>
 Rip - deals damage to whole row <br>
 Rain - deals damage to max points card every turn <br>
 
