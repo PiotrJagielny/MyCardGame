@@ -41,7 +41,7 @@ public class OnePlayerDuel {
         return CardsParser.getCardsDisplay(cardsInHand);
     }
 
-    public List<CardDisplay> getCardsOnBoardOnRow(int number) {
+    public List<CardDisplay> getRow(int number) {
         List<CardDisplay> rowCards =CardsParser.getCardsDisplay(rows.get(number).getCards());
         for (int i = 0; i < rowCards.size(); i++) {
             CardDisplay card = rowCards.get(i);
@@ -86,7 +86,7 @@ public class OnePlayerDuel {
             if(possiblePlace.remove(cc))
                 break;
         }
-        rows.get(playMade.getPlayedCardRowNum()).play(cc);
+        rows.get(playMade.playedOnRow()).play(cc);
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
@@ -182,6 +182,10 @@ public class OnePlayerDuel {
 
     public void spawnCard(CardDisplay card, int onRow) {
         rows.get(onRow).spawnCard(card);
+    }
+    public void deleteCardFromHand(CardDisplay card) {
+        Card handCard = cardsInHand.stream().filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+        cardsInHand.remove(handCard);
     }
 
     public int decrementAndGetTimer(CardDisplay card) {

@@ -58,7 +58,7 @@ public class PlayerPlay {
     }
 
 
-    public int getPlayedCardRowNum() {
+    public int playedOnRow() {
         return playedOnRow;
     }
 

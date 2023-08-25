@@ -36,7 +36,7 @@ public class CardDuel {
     }
 
     public List<CardDisplay> getRowOf(String player, int rowNumber) {
-        return players.get(player).getCardsOnBoardOnRow(rowNumber);
+        return players.get(player).getRow(rowNumber);
     }
 
     public int getRowPointsOf(String player, int row) {

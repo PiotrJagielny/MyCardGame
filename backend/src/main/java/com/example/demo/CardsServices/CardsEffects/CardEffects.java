@@ -1,7 +1,6 @@
 package com.example.demo.CardsServices.CardsEffects;
 
 import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
 import com.example.demo.CardsServices.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.PlayerPlay;
@@ -48,7 +47,9 @@ public class CardEffects {
 
     public void invokeOnPlaceEffect() {
         CardDisplay p = playMade.getPlayedCard();
-        player.placeCardOnBoard(playMade);
+
+        placeCardOnBoard();
+
         if(p.equals(CardsFactory.booster)){
             player.boostCard(playMade.getTargetedCard(), CardsFactory.boosterBoost);
         }
@@ -69,14 +70,28 @@ public class CardEffects {
                     findPointsByCriteria(player.getCardsOnBoard(), 0,(element,result) -> element > result ),
                     findPointsByCriteria(enemy.getCardsOnBoard(), 0,(element,result) -> element > result )
             );
-            burnCardsWithSpecifiedPoints( maxPoints);
+            burnCardsWithSpecifiedPoints(
+                    List.of(player,enemy),
+                    List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow),
+                    maxPoints
+            );
+        }
+        else if(p.equals(CardsFactory.blueFire)) {
+            if(CardsFactory.blueFireThreshold <= enemy.getRowPoints(playMade.playedOnRow())) {
+                int r = playMade.playedOnRow();
+                burnCardsWithSpecifiedPoints(
+                        List.of(enemy),
+                        List.of(playMade.playedOnRow()),
+                        findPointsByCriteria(enemy.getRow(r), 0,(element, result) -> element > result)
+                );
+            }
         }
         else if(p.equals(CardsFactory.doubler)){
             int boostAmount = playMade.getTargetedCard().getPoints();
             player.boostCard(playMade.getTargetedCard(), boostAmount);
         }
         else if(p.equals(CardsFactory.rip)) {
-            ripWholeRow();
+            dealDamageToWholeRow(CardsFactory.ripDamage);
         }
         else if(p.equals(CardsFactory.rain)) {
             enemy.setRowStatus(RowStatus.Rain, playMade.getAffectedRow());
@@ -102,7 +117,7 @@ public class CardEffects {
             List<CardDisplay> deck = player.getCardsInDeck();
             for (CardDisplay card : deck) {
                 if(card.equals(CardsFactory.wildRoam)) {
-                    player.placeCardOnBoard(new PlayerPlay(card, playMade.getPlayedCardRowNum()));
+                    player.placeCardOnBoard(new PlayerPlay(card, playMade.playedOnRow()));
                 }
             }
 
@@ -112,13 +127,32 @@ public class CardEffects {
                     findPointsByCriteria(player.getCardsOnBoard(), Integer.MAX_VALUE,(element,result) -> element < result ),
                     findPointsByCriteria(enemy.getCardsOnBoard(), Integer.MAX_VALUE,(element,result) -> element < result )
             );
-            burnCardsWithSpecifiedPoints( minPoints);
+            burnCardsWithSpecifiedPoints(
+                    List.of(player,enemy),
+                    List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow),
+                    minPoints
+            );
+        }
+        else if(p.equals(CardsFactory.ginger)) {
+            dealDamageToWholeRow(CardsFactory.gingerDamage);
+        }
+        else if(p.equals(CardsFactory.spy)){
+            player.dealCards(1);
         }
 
     }
+    private void placeCardOnBoard() {
+        if(CardsFactory.cardsThatArePlacedOnEnemyBoard.contains(playMade.getPlayedCard())){
+            enemy.spawnCard(playMade.getPlayedCard(), playMade.playedOnRow());
+            player.deleteCardFromHand(playMade.getPlayedCard());
+        }
+        else {
+            player.placeCardOnBoard(playMade);
+        }
+    }
 
     private void boostRowBy(int amount){
-        for(CardDisplay card: player.getCardsOnBoardOnRow(playMade.getPlayedCardRowNum())){
+        for(CardDisplay card: player.getRow(playMade.playedOnRow())){
             if(card.equals(CardsFactory.leader) == false)
                 player.boostCard(card, amount);
         }
@@ -144,22 +178,24 @@ public class CardEffects {
         return result;
 
     }
-    private void burnCardsWithSpecifiedPoints(int points) {
-        for (OnePlayerDuel oneOfBothPlayers: List.of(player, enemy)) {
-            List<CardDisplay> cardsOnBoard = oneOfBothPlayers.getCardsOnBoard();
-            for (int j = 0; j < cardsOnBoard.size(); j++) {
-                if(cardsOnBoard.get(j).getPoints() == points) {
-                    burnCard(cardsOnBoard.get(j), oneOfBothPlayers);
+    private void burnCardsWithSpecifiedPoints(List<OnePlayerDuel> players, List<Integer> rows,  int points) {
+        for (OnePlayerDuel oneOfBothPlayers : players) {
+            for (int row = 0; row < rows.size(); row++) {
+
+                List<CardDisplay> cardsOnRow= oneOfBothPlayers.getRow(row);
+                for (CardDisplay card : cardsOnRow) {
+                    if(card.getPoints() == points){
+                        burnCard(card, oneOfBothPlayers);
+                    }
                 }
             }
-
         }
     }
 
-    private void ripWholeRow() {
-        List<CardDisplay> row = enemy.getCardsOnBoardOnRow(playMade.getAffectedRow());
+    private void dealDamageToWholeRow(int damage){
+        List<CardDisplay> row = enemy.getRow(playMade.getAffectedRow());
         for (int i = 0; i < row.size(); i++) {
-            strikeCardBy(row.get(i), CardsFactory.ripDamage);
+            strikeCardBy(row.get(i), damage);
         }
     }
 

@@ -72,6 +72,14 @@ public class CardsFactory {
     public static final int breakerTimer = 2;
 
     public static final CardDisplay epidemic = new CardDisplay("Epidemic", 0);
+    public static final CardDisplay ginger = new CardDisplay("Ginger", 2);
+    public static final int gingerDamage = 1;
+    public static final CardDisplay spy = new CardDisplay("Spy", 8);
+
+
+    public static final CardDisplay blueFire = new CardDisplay("Blue fire", 2);
+    public static final int blueFireThreshold = 10;
+
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
@@ -128,6 +136,9 @@ public class CardsFactory {
         put(supplier.getName(), "Play from deck copy of chosen card from board");
         put(breaker.getName(), "After " + breakerTimer + " turns call copy of this card from deck to the same row");
         put(epidemic.getName(), "Kill all cards with minimum points");
+        put(ginger.getName(), "Deal " + gingerDamage + " damage to whole row");
+        put(spy.getName(), "Place this card on opposite enemy row and draw 1 card");
+        put(blueFire.getName(), "If opposite row has at least " + blueFireThreshold + " points burn all max points cards on this row");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -136,6 +147,7 @@ public class CardsFactory {
     private static final Map<String, List<Integer>> mapCardNameToRowsAffect = new HashMap<>() {{
         put(rip.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
         put(rain.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
+        put(ginger.getName(), List.of(Consts.firstRow, Consts.secondRow, Consts.thirdRow));
     }};
 
     public static List<Integer> getCardRowsToAffect(String cardName) {
@@ -143,11 +155,13 @@ public class CardsFactory {
     }
 
     public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest, witch, supplier);
+    public static final List<CardDisplay> cardsThatArePlacedOnEnemyBoard= List.of(spy);
 
 
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(ginger),
                 Card.createCard(epidemic),
                 Card.createCard(breaker),
                 Card.createCard(knight),

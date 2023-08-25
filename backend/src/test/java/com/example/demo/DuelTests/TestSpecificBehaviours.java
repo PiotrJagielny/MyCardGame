@@ -198,6 +198,7 @@ class TestSpecificBehaviours {
 
         assertEquals(expected, getBoardPointsOf(secondPlayer, duel));
     }
+
     @Test
     public void testBoostingEveryTurn() {
         duel = createDuel(List.of(longer, paper, viking));
@@ -450,6 +451,42 @@ class TestSpecificBehaviours {
         int expectedCardsLeft = 1;
         int actualCardsLeft = duel.getRowOf(firstPlayer, firstRow).size() ;
         assertEquals(expectedCardsLeft, actualCardsLeft );
+    }
+    @Test
+    public void testSpyThatDrawsCard() {
+        duel = createDuel(List.of(spy, warrior, minion, paper, viking, capitan, wildRoam, wildRoam,archer, priest, witch));
+        setHands();
+
+        int initialHandSize = duel.getHandOf(firstPlayer).size();
+        playCardWithoutTargeting(duel, findByName(hand1, spy), firstRow, firstPlayer);
+        int handSizeAfterPlayingSpy= duel.getHandOf(firstPlayer).size();
+
+        assertEquals(spy.getPoints(), duel.getRowPointsOf(secondPlayer, firstRow));
+        assertEquals(0, duel.getRowPointsOf(firstPlayer, firstRow));
+        assertEquals(initialHandSize, handSizeAfterPlayingSpy);
+
+    }
+
+    @Test
+    public void testBurningOppositeRow() {
+        duel = createDuel(List.of(blueFire, warrior, capitan, armageddon));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, warrior), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, blueFire), firstRow, secondPlayer);
+
+        assertEquals(1,duel.getRowOf(firstPlayer, firstRow).size() );
+
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, armageddon), firstRow, secondPlayer);
+
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, capitan), firstRow, secondPlayer);
+
+        playCardWithoutTargeting(duel, findByName(hand1, blueFire), firstRow, firstPlayer);
+        assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
+
+
     }
 
 }
