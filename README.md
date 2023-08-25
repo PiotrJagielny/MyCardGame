@@ -41,7 +41,7 @@ Wild roam - Play all copies of this card from you deck on the same row<br>
 Supplier - Play from deck copy of chosen card from board <br>
 Breaker - After 2 turns, play copy of this cards from deck on the same row <br>
 Ginger - Deal 1 damage to every card on specified enemy row <br>
-Spy - After playing on your row this card moves to enemy opposite row and player draws 1 card <br>
+Spy - After playing this card it moves to enemy row, and player draws 1 card <br>
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
