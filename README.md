@@ -38,6 +38,7 @@ Gravedigger - Boost by number of cards on your graveyard on deploy<br>
 Witch - Ressurect card from your graveyard<br>
 Wild roam - Play all copies of this card from you deck on the same row<br>
 Supplier - Play from deck copy of chosen card from board <br>
+Breaker - After 2 turns, play copy of this cards from deck on the same row <br>
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
