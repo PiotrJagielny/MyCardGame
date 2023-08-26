@@ -1,13 +1,18 @@
-package com.example.demo;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Collections;
 
 @SpringBootApplication
 public class CardGameApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CardGameApplication.class, args);
+		SpringApplication app = new SpringApplication(CardGameApplication.class);
+		app.setDefaultProperties(Collections
+				.singletonMap("server.port", "8000"));
+		app.run(args);
 	}
 
 }
