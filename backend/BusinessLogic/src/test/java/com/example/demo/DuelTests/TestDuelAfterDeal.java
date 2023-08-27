@@ -301,34 +301,37 @@ class TestDuelAfterDeal {
         assertEquals(armageddon.getPoints(), duel.getGraveyardOf(firstPlayer).get(0).getPoints());
     }
 
-//    @Test
-//    public void testEndRoundEffectsAfterPass() {
-//        duel = createDuel(List.of(viking, minion, trebuchet, warrior));
-//        setHands();
-//
-//        playCardWithoutTargeting(duel , findByName(hand1, trebuchet), firstRow, firstPlayer);
-//        playCardWithoutTargeting(duel , findByName(hand2, viking), firstRow, secondPlayer);
-//        duel.endRoundFor(firstPlayer); //firstTrebuchetDamage
-//        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
-//        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
-//        assertEquals(viking.getPoints() - 2*trebuchetDamage, duel.getRowPointsOf(secondPlayer,firstRow));
-//
-//    }
-//    @Test
-//    public void testStartRoundEffectsAfterPass() {
-//        duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, thunder, breaker));
-//        setHands();
-//
-//        playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, firstPlayer);
-//        playCardWithoutTargeting(duel , findByName(hand2, breaker), firstRow, secondPlayer);
-//        duel.endRoundFor(firstPlayer);
-//        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
-//        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
-//        assertEquals(2, duel.getRowOf(firstPlayer, firstRow).size());
-//        assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
-//
-//
-//    }
-//
+    @Test
+    public void testEndRoundEffectsAfterPass() {
+        duel = createDuel(List.of(viking, minion, trebuchet, warrior));
+        setHands();
+
+
+
+        playCardWithoutTargeting(duel , findByName(hand1, trebuchet), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel , findByName(hand2, viking), firstRow, secondPlayer);
+        duel.endRoundFor(firstPlayer); //firstTrebuchetDamage
+        playCardWithoutTargeting(duel , findByName(hand2, minion), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel , findByName(hand2, warrior), firstRow, secondPlayer);
+        int expectedPoints =viking.getPoints() + minion.getPoints() + warrior.getPoints() - 2*trebuchetDamage;
+        assertEquals(expectedPoints, duel.getRowPointsOf(secondPlayer,firstRow));
+
+    }
+    @Test
+    public void testStartRoundEffectsAfterPass() {
+        duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, thunder, breaker));
+        setHands();
+
+        playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel , findByName(hand2, breaker), firstRow, secondPlayer);
+        duel.endRoundFor(firstPlayer);
+        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
+        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
+        assertEquals(2, duel.getRowOf(firstPlayer, firstRow).size());
+        assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
+
+
+    }
+
 
 }

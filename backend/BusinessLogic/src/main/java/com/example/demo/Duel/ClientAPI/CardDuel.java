@@ -58,10 +58,12 @@ public class CardDuel {
                 effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
                 effects.invokeOnTurnStartEffect();
 
-                changeTurn();
                 if(players.get(getOpponentOf(player)).didEndRound()) {
                     effects.invokeOnTurnEndEffect();
+                    effects.changePerspective(players.get(player), players.get(getOpponentOf(player)));
+                    effects.invokeOnTurnStartEffect();
                 }
+                changeTurn();
             }
         }
         return new CardDisplay();

@@ -220,6 +220,7 @@ public class CardEffects {
             player.restartTimer(card);
             if(card.equals(CardsFactory.trebuchet)) {
                  CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
+                 System.out.println(cardToStrike);
                  strikeCardBy(cardToStrike, CardsFactory.trebuchetDamage);
             }
             else if(card.equals(CardsFactory.goodPerson)) {
