@@ -1,6 +1,4 @@
-package com.example.demo.CardsServices.Cards;
-
-import com.example.demo.CardsServices.CardDisplay;
+package com.example.demo.Cards;
 
 
 public class Card {

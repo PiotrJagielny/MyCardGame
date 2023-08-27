@@ -1,13 +1,17 @@
 package com.example.demo.Duel;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.CardsParser;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.Card;
+import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
+import com.example.demo.Duel.Rows.Row;
+import com.example.demo.Duel.Rows.RowStatus;
 import com.example.demo.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OnePlayerDuel {
 
@@ -19,6 +23,7 @@ public class OnePlayerDuel {
     private int wonRounds;
 
 
+    private Map<String, Integer> cardsTimers;
 
     public OnePlayerDuel() {
         rows = new ArrayList<>();
@@ -26,6 +31,7 @@ public class OnePlayerDuel {
         rows.add(new Row());
         rows.add(new Row());
         graveyard = new ArrayList<>();
+        cardsTimers = new HashMap<>();
 
         cardsInDeck = new ArrayList<Card>();
         cardsInHand = new ArrayList<Card>();
@@ -34,18 +40,18 @@ public class OnePlayerDuel {
     }
 
     public List<CardDisplay> getCardsInDeck() {
-        return CardsParser.getCardsDisplay(cardsInDeck);
+        return CardsFactory.getCardsDisplay(cardsInDeck);
     }
 
     public List<CardDisplay> getCardsInHand() {
-        return CardsParser.getCardsDisplay(cardsInHand);
+        return CardsFactory.getCardsDisplay(cardsInHand);
     }
 
     public List<CardDisplay> getRow(int number) {
-        List<CardDisplay> rowCards =CardsParser.getCardsDisplay(rows.get(number).getCards());
+        List<CardDisplay> rowCards = CardsFactory.getCardsDisplay(rows.get(number).getCards());
         for (int i = 0; i < rowCards.size(); i++) {
             CardDisplay card = rowCards.get(i);
-            rowCards.get(i).setTimer(rows.get(number).getTimer(card));
+            rowCards.get(i).setTimer(getTimer(card));
         }
         return rowCards;
     }
@@ -60,7 +66,7 @@ public class OnePlayerDuel {
     public List<CardDisplay> getCardsOnBoard(){
         List<CardDisplay> wholeBoard = new ArrayList<>();
         for (int i = 0; i < Consts.rowsNumber; i++) {
-            wholeBoard.addAll(CardsParser.getCardsDisplay(rows.get(i).getCards()) );
+            wholeBoard.addAll(CardsFactory.getCardsDisplay(rows.get(i).getCards()) );
         }
         return wholeBoard;
     }
@@ -73,7 +79,7 @@ public class OnePlayerDuel {
     }
 
     public void parseCards(List<CardDisplay> cardsDisplay) {
-        cardsInDeck = CardsParser.getCardsFromDisplays(cardsDisplay);
+        cardsInDeck = CardsFactory.getCardsFromDisplays(cardsDisplay);
     }
 
     public void placeCardOnBoard(PlayerPlay playMade){
@@ -88,6 +94,11 @@ public class OnePlayerDuel {
                 break;
         }
         rows.get(playMade.playedOnRow()).play(cc);
+
+        int timer = CardsFactory.getCardTimer(cc.getDisplay());
+        if(timer != CardsFactory.noTimer) {
+            cardsTimers.put(cc.getDisplay().getName(), timer);
+        }
     }
 
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
@@ -130,7 +141,7 @@ public class OnePlayerDuel {
     public int getCardRow(CardDisplay card) {
         for (int i = 0; i < Consts.rowsNumber; i++) {
 
-            if(CardsParser.getCardsDisplay(rows.get(i).getCards()).contains(card))
+            if(CardsFactory.getCardsDisplay(rows.get(i).getCards()).contains(card))
                 return i;
         }
         return -1;
@@ -193,11 +204,20 @@ public class OnePlayerDuel {
         cardsInHand.remove(handCard);
     }
 
-    public int decrementAndGetTimer(CardDisplay card) {
-        int cardRow = getCardRow(card);
-        if(cardRow == -1)
-            return -1;
-        return rows.get(cardRow).decrementAndGetTimer(card);
+    public void restartTimer(CardDisplay card) {
+        if(cardsTimers.containsKey(card.getName())) {
+            cardsTimers.put(card.getName(), CardsFactory.getCardTimer(card));
+        }
+    }
+    public void decrementTimer(CardDisplay card) {
+        if(cardsTimers.containsKey(card.getName())) {
+            cardsTimers.put(card.getName(), cardsTimers.get(card.getName()) - 1);
+        }
+    }
+    public int getTimer(CardDisplay card) {
+        if(cardsTimers.containsKey(card.getName()) == false) return -1;
+
+        return cardsTimers.get(card.getName());
     }
 
     public CardDisplay getRandomCardFromBoardWithout(CardDisplay card) {
@@ -216,7 +236,7 @@ public class OnePlayerDuel {
     }
 
     public List<CardDisplay> getGraveyard() {
-        return CardsParser.getCardsDisplay(graveyard);
+        return CardsFactory.getCardsDisplay(graveyard);
     }
 
     public void mulliganCard(CardDisplay cardToMulligan) {

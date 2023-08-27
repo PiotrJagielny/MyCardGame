@@ -1,8 +1,8 @@
 package com.example.demo.TestsData;
 
-import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Consts;
-import com.example.demo.Duel.CardDuel;
+import com.example.demo.Duel.ClientAPI.CardDuel;
 import com.example.demo.Duel.PlayerPlay;
 
 import java.util.List;

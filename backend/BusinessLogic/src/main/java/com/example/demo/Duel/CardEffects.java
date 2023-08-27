@@ -1,11 +1,9 @@
-package com.example.demo.CardsServices.CardsEffects;
+package com.example.demo.Duel;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.CardsFactory;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
-import com.example.demo.Duel.OnePlayerDuel;
-import com.example.demo.Duel.PlayerPlay;
-import com.example.demo.Duel.RowStatus;
+import com.example.demo.Duel.Rows.RowStatus;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -210,25 +208,27 @@ public class CardEffects {
     public void invokeOnTurnEndEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
         for (var card : cardsOnBoard) {
-            int cardTimer = player.decrementAndGetTimer(card);
-
-            if(cardTimer != CardsFactory.noTimer)
-                invokeSpecificTurnEndCardEffect(card, cardTimer);
+            if(CardsFactory.cardsWithTurnEndTimer.contains(card)) {
+                player.decrementTimer(card);
+                int timer = player.getTimer(card);
+                invokeSpecificTurnEndCardEffect(card, timer);
+            }
         }
     }
     private void invokeSpecificTurnEndCardEffect(CardDisplay card, int cardTimer) {
         if(cardTimer == 0) {
-           if(card.equals(CardsFactory.trebuchet)) {
-                CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
-                strikeCardBy(cardToStrike, CardsFactory.trebuchetDamage);
-           }
-           else if(card.equals(CardsFactory.goodPerson)) {
-                CardDisplay cardToStrike = player.getRandomCardFromBoardWithout(CardsFactory.goodPerson);
-                player.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
-           }
-           else if(card.equals(CardsFactory.longer)) {
-               player.boostCard(card, CardsFactory.longerBoost);
-           }
+            player.restartTimer(card);
+            if(card.equals(CardsFactory.trebuchet)) {
+                 CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
+                 strikeCardBy(cardToStrike, CardsFactory.trebuchetDamage);
+            }
+            else if(card.equals(CardsFactory.goodPerson)) {
+                 CardDisplay cardToStrike = player.getRandomCardFromBoardWithout(CardsFactory.goodPerson);
+                 player.boostCard(cardToStrike, CardsFactory.goodPersonBoost);
+            }
+            else if(card.equals(CardsFactory.longer)) {
+                player.boostCard(card, CardsFactory.longerBoost);
+            }
         }
     }
 
@@ -237,9 +237,11 @@ public class CardEffects {
     public void invokeOnTurnStartEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
         for (var card : cardsOnBoard) {
-            int cardTimer = player.decrementAndGetTimer(card);
-            if(cardTimer != CardsFactory.noTimer)
-                invokeSpecificTurnStartCardEffect(card);
+            if(CardsFactory.cardsWithTurnStartTimer.contains(card)) {
+                player.decrementTimer(card);
+                int timer = player.getTimer(card);
+                invokeSpecificTurnStartCardEffect(card, timer );
+            }
         }
 
         for (int i = 0; i < Consts.rowsNumber; i++) {
@@ -259,11 +261,11 @@ public class CardEffects {
         }
     }
 
-    private void invokeSpecificTurnStartCardEffect(CardDisplay card) {
+    private void invokeSpecificTurnStartCardEffect(CardDisplay card, int cardTimer) {
 
-        int cardTimer = player.decrementAndGetTimer(card);
 
         if(cardTimer == 0) {
+            player.restartTimer(card);
             if(card.equals(CardsFactory.breaker)) {
                 CardDisplay anotherBreaker = player.getCardsInDeck().stream().filter(c -> c.equals(CardsFactory.breaker)).findFirst().orElse(new CardDisplay());
                 player.placeCardOnBoard(new PlayerPlay(anotherBreaker, player.getCardRow(card)));

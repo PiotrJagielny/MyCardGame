@@ -1,9 +1,8 @@
-package com.example.demo.Duel;
+package com.example.demo.Duel.Rows;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.Cards.CardsFactory;
-import com.example.demo.CardsServices.CardsParser;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.Card;
+import com.example.demo.Cards.CardsFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,16 +13,14 @@ public class Row {
 
     private List<Card> cards;
     private RowStatus status;
-    private Map<String, Integer> cardsTimers;
 
     public Row() {
-        cardsTimers = new HashMap<>();
         cards = new ArrayList<>();
         status = RowStatus.NoStatus;
     }
 
     public void clearRow(){
-        List<CardDisplay> clearedCards = CardsParser.getCardsDisplay(cards);
+        List<CardDisplay> clearedCards = CardsFactory.getCardsDisplay(cards);
         cards.clear();
         for (CardDisplay card : clearedCards) {
            if(card.equals(CardsFactory.cow)) {
@@ -36,10 +33,6 @@ public class Row {
     public void play(Card aCard){
         if(aCard.getPoints() > 0 && aCard != Card.emptyCard()) {
             cards.add(aCard);
-            int cardTimer = CardsFactory.getCardTimer(aCard.getDisplay());
-            if(cardTimer != CardsFactory.noTimer) {
-                cardsTimers.put(aCard.getDisplay().getName(), cardTimer);
-            }
         }
     }
 
@@ -91,20 +84,4 @@ public class Row {
         cards.add(Card.createCard(card));
     }
 
-    public int decrementAndGetTimer(CardDisplay card) {
-        if(cardsTimers.containsKey(card.getName()) == false) return -1;
-
-        int result = cardsTimers.get(card.getName()) - 1;
-        cardsTimers.put(card.getName(), result);
-        if(cardsTimers.get(card.getName()) == 0)  {
-            cardsTimers.put(card.getName(), CardsFactory.getCardTimer(card));
-        }
-        return result;
-    }
-    public int getTimer(CardDisplay card) {
-        if(cardsTimers.containsKey(card.getName())) {
-            return cardsTimers.get(card.getName());
-        }
-        return -1;
-    }
 }

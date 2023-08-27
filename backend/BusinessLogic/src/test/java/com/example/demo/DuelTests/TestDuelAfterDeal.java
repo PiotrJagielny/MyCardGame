@@ -1,18 +1,19 @@
 package com.example.demo.DuelTests;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardsParser;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
-import com.example.demo.Duel.CardDuel;
+import com.example.demo.Duel.ClientAPI.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.demo.CardsServices.Cards.CardsFactory.*;
+import static com.example.demo.Cards.CardsFactory.*;
 import static com.example.demo.TestsData.TestConsts.*;
 import static com.example.demo.TestsData.TestsUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,13 +21,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestDuelAfterDeal {
     CardDuel duel;
 
+    private List<CardDisplay> hand1 = new ArrayList<>();
+    private List<CardDisplay> hand2 = new ArrayList<>();
+
+
+    public void setHands() {
+        hand1.clear();
+        hand2.clear();
+        hand1 = duel.getHandOf(firstPlayer);
+        hand2 = duel.getHandOf(secondPlayer);
+    }
 
     @BeforeEach
     public void setUp(){
         duel = CardDuel.createDuel();
         duel.registerPlayerToDuel(secondPlayer);
         duel.registerPlayerToDuel(firstPlayer);
-        List<CardDisplay> allCards = CardsParser.getCardsDisplay(createAllCards());
+        List<CardDisplay> allCards = getCardsDisplay(createAllCards());
         List<CardDisplay> noEffectCards = allCards.stream()
                 .filter(c -> c.getCardInfo().equals(""))
                 .collect(Collectors.toList());
@@ -290,7 +301,34 @@ class TestDuelAfterDeal {
         assertEquals(armageddon.getPoints(), duel.getGraveyardOf(firstPlayer).get(0).getPoints());
     }
 
-
-
+//    @Test
+//    public void testEndRoundEffectsAfterPass() {
+//        duel = createDuel(List.of(viking, minion, trebuchet, warrior));
+//        setHands();
+//
+//        playCardWithoutTargeting(duel , findByName(hand1, trebuchet), firstRow, firstPlayer);
+//        playCardWithoutTargeting(duel , findByName(hand2, viking), firstRow, secondPlayer);
+//        duel.endRoundFor(firstPlayer); //firstTrebuchetDamage
+//        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
+//        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
+//        assertEquals(viking.getPoints() - 2*trebuchetDamage, duel.getRowPointsOf(secondPlayer,firstRow));
+//
+//    }
+//    @Test
+//    public void testStartRoundEffectsAfterPass() {
+//        duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, thunder, breaker));
+//        setHands();
+//
+//        playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, firstPlayer);
+//        playCardWithoutTargeting(duel , findByName(hand2, breaker), firstRow, secondPlayer);
+//        duel.endRoundFor(firstPlayer);
+//        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
+//        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
+//        assertEquals(2, duel.getRowOf(firstPlayer, firstRow).size());
+//        assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
+//
+//
+//    }
+//
 
 }

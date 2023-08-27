@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.CardsServices.CardDisplay;
-
 import java.util.Random;
 
 public class Utils {

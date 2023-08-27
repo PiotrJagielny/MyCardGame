@@ -1,8 +1,10 @@
-package com.example.demo.Duel;
+package com.example.demo.Duel.ClientAPI;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.CardsFactory;
-import com.example.demo.CardsServices.CardsEffects.CardEffects;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.CardsFactory;
+import com.example.demo.Duel.CardEffects;
+import com.example.demo.Duel.OnePlayerDuel;
+import com.example.demo.Duel.PlayerPlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +57,11 @@ public class CardDuel {
                 effects.invokeOnTurnEndEffect();
                 effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
                 effects.invokeOnTurnStartEffect();
+
                 changeTurn();
+                if(players.get(getOpponentOf(player)).didEndRound()) {
+                    effects.invokeOnTurnEndEffect();
+                }
             }
         }
         return new CardDisplay();
@@ -116,7 +122,10 @@ public class CardDuel {
             effects.invokeOnTurnStartEffect();
             changeTurn();
             players.get(player).endRound();
-            if (didPlayersEndedRound()) startNewRound();
+
+            if (didPlayersEndedRound()) {
+                startNewRound();
+            }
 
         }
     }

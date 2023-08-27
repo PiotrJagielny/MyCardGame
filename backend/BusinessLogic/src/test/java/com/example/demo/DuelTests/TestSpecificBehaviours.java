@@ -1,14 +1,14 @@
 package com.example.demo.DuelTests;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.Duel.CardDuel;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Duel.ClientAPI.CardDuel;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.demo.CardsServices.Cards.CardsFactory.*;
+import static com.example.demo.Cards.CardsFactory.*;
 import static com.example.demo.Consts.*;
 import static com.example.demo.TestsData.TestsUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -501,5 +501,6 @@ class TestSpecificBehaviours {
         int expectedPoints = viking.getPoints() - archerDamage - numberOfWeakenedCards;
         assertEquals(expectedPoints, duel.getRowPointsOf(firstPlayer, firstRow));
     }
+
 
 }

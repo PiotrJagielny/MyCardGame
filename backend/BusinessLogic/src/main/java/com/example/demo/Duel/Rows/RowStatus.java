@@ -1,4 +1,4 @@
-package com.example.demo.Duel;
+package com.example.demo.Duel.Rows;
 
 
 public enum RowStatus {

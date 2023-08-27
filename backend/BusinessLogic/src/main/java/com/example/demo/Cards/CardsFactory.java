@@ -1,7 +1,6 @@
-package com.example.demo.CardsServices.Cards;
+package com.example.demo.Cards;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.CardTargetStrattegies.*;
+import com.example.demo.Cards.CardTargetStrattegies.*;
 import com.example.demo.Consts;
 import com.example.demo.Duel.OnePlayerDuel;
 
@@ -159,6 +158,8 @@ public class CardsFactory {
 
     public static final List<CardDisplay> cardsWithPlayChainPossibility = List.of(priest, witch, supplier);
     public static final List<CardDisplay> cardsThatArePlacedOnEnemyBoard= List.of(spy);
+    public static final List<CardDisplay> cardsWithTurnEndTimer = List.of(trebuchet, goodPerson, longer);
+    public static final List<CardDisplay> cardsWithTurnStartTimer = List.of(breaker);
 
 
     public static List<Card> createAllCards(){
@@ -199,5 +200,23 @@ public class CardsFactory {
                 Card.createCard(wildRoam),
                 Card.createCard(supplier)
         ));
+    }
+    public static List<Card> getCardsFromDisplays(List<CardDisplay> cardsToParse) {
+        List<Card> result = new ArrayList<Card>();
+
+        for (int i = 0; i < cardsToParse.size(); ++i) {
+            Card createdCard = Card.createCard(cardsToParse.get(i));
+            result.add(createdCard);
+        }
+        return result;
+    }
+
+    public static List<CardDisplay> getCardsDisplay(List<Card> cards) {
+        List<CardDisplay> result = new ArrayList<CardDisplay>();
+        for(int i = 0 ; i < cards.size() ; ++i){
+            result.add(cards.get(i).getDisplay());
+        }
+        return result;
+
     }
 }

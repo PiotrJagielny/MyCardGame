@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Cards.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
