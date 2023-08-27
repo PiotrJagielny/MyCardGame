@@ -79,6 +79,8 @@ public class CardsFactory {
     public static final CardDisplay blueFire = new CardDisplay("Blue fire", 2);
     public static final int blueFireThreshold = 10;
 
+    public static final CardDisplay axer= new CardDisplay("Axer", 4);
+
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
@@ -101,6 +103,7 @@ public class CardsFactory {
         put(sharpshooter.getName(), new EnemyCardsTargetable());
         put(witch.getName(), new GraveyardCardsTargetable());
         put(supplier.getName(), new PlayerCardsTargetable());
+        put(axer.getName(), new EnemyCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -138,6 +141,7 @@ public class CardsFactory {
         put(ginger.getName(), "Deal " + gingerDamage + " damage to whole row");
         put(spy.getName(), "Place this card on opposite enemy row and draw 1 card");
         put(blueFire.getName(), "If opposite row has at least " + blueFireThreshold + " points burn all max points cards on this row");
+        put(axer.getName(), "Deal damage to enemy card by number of weakened cards on enemy board");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");

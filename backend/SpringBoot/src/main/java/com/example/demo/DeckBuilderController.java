@@ -1,4 +1,4 @@
-package com.example;
+package com.example.demo;
 
 import com.example.demo.CardsServices.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;

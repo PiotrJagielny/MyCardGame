@@ -276,6 +276,21 @@ class TestDuelAfterDeal {
         assertEquals(viking.getPoints(), enemyBoard.get(0).getPoints());
     }
 
+    @Test
+    public void afterCardKill_itsPowerResetsOnGraveyard() {
+        duel = createDuel(List.of(archer, armageddon, fireball));
+        List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
+        List<CardDisplay> hand2 = duel.getHandOf(secondPlayer);
+
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, fireball), findByName(hand1, armageddon), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, archer), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, armageddon), secondPlayer);
+
+        assertEquals(armageddon.getPoints(), duel.getGraveyardOf(firstPlayer).get(0).getPoints());
+    }
+
+
 
 
 }

@@ -84,8 +84,7 @@ class TestSpecificBehaviours {
 
         CardDisplay strikedVikingDisplay = duel.getRowOf(firstPlayer, firstRow).get(0);
 
-        int fireballStrikeAmount = 3;
-        assertEquals(viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
+        assertEquals(viking.getPoints() - archerDamage,  strikedVikingDisplay.getPoints());
         assertTrue(duel.getHandOf(firstPlayer).contains(archer));
         assertEquals(1, getBoardPointsOf(secondPlayer, duel));
     }
@@ -486,6 +485,21 @@ class TestSpecificBehaviours {
         assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
 
 
+    }
+
+    @Test
+    public void testDamageDealtByNumberOfWeakenedCards() {
+        duel = createDuel(List.of(axer, archer, viking));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, viking), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, archer), secondRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, axer), firstRow, findByName(hand1, viking), secondPlayer);
+
+        int numberOfWeakenedCards = 1;
+        int expectedPoints = viking.getPoints() - archerDamage - numberOfWeakenedCards;
+        assertEquals(expectedPoints, duel.getRowPointsOf(firstPlayer, firstRow));
     }
 
 }

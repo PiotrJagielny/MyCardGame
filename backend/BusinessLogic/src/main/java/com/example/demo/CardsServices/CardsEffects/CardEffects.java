@@ -9,6 +9,7 @@ import com.example.demo.Duel.RowStatus;
 
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 public class CardEffects {
     private OnePlayerDuel player;
@@ -138,6 +139,13 @@ public class CardEffects {
         }
         else if(p.equals(CardsFactory.spy)){
             player.dealCards(1);
+        }
+        else if(p.equals(CardsFactory.axer)) {
+            int weakenedCards = enemy.getCardsOnBoard().stream()
+                    .filter(c -> c.getPoints() < c.getBasePoints())
+                    .collect(Collectors.toList()).size();
+
+            strikeCardBy(playMade.getTargetedCard(), weakenedCards);
         }
 
     }
