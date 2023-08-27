@@ -52,12 +52,10 @@ public class Row {
     public void strikeCardBy(Card aCard, int strikeAmount){
         int cardIndex = cards.indexOf(aCard);
         if(cardIndex == -1) return;
-        if(cards.get(cardIndex).getPoints() - strikeAmount < 1) {
-            cards.remove(cardIndex);
-        }
-        else {
-            cards.get(cardIndex).strikeBy(strikeAmount);
-        }
+        cards.get(cardIndex).strikeBy(strikeAmount);
+    }
+    public void deleteCard(Card aCard) {
+        cards.remove(aCard);
     }
 
     public int getRowPoints(){

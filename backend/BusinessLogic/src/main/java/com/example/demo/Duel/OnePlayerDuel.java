@@ -52,6 +52,7 @@ public class OnePlayerDuel {
 
     public void addCardToGraveyard(Card card) {
         if(!card.equals(Card.emptyCard())) {
+            card.resetCard();
             graveyard.add(card);
         }
     }
@@ -94,9 +95,13 @@ public class OnePlayerDuel {
             Row row = rows.get(i);
             Card card = row.getCards().stream().filter(c -> c.getId() == cardToStrike.getId())
                             .findFirst().orElse(Card.emptyCard());
-            row.strikeCardBy(card, strikeAmount);
+
             if(card.getPoints() <= strikeAmount ) {
                 addCardToGraveyard(card);
+                row.deleteCard(card);
+            }
+            else {
+                row.strikeCardBy(card, strikeAmount);
             }
         }
     }

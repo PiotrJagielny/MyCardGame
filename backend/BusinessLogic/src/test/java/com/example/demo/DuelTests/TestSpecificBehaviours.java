@@ -84,8 +84,7 @@ class TestSpecificBehaviours {
 
         CardDisplay strikedVikingDisplay = duel.getRowOf(firstPlayer, firstRow).get(0);
 
-        int fireballStrikeAmount = 3;
-        assertEquals(viking.getPoints() - fireballStrikeAmount,  strikedVikingDisplay.getPoints());
+        assertEquals(viking.getPoints() - archerDamage,  strikedVikingDisplay.getPoints());
         assertTrue(duel.getHandOf(firstPlayer).contains(archer));
         assertEquals(1, getBoardPointsOf(secondPlayer, duel));
     }

@@ -7,28 +7,33 @@ public class CardDisplay{
 
     private String name;
     private int points;
+    private int basePoints;
     private String cardInfo;
     private int timer;
     private int id;
 
-    public CardDisplay(String name, int points, String cardInfo, int id) {
+    public CardDisplay(String name, int points, int basePoints, String cardInfo, int id) {
         this.name = name;
         this.points = points;
+        this.basePoints = basePoints;
         this.cardInfo = cardInfo;
         this.id = id;
         timer = CardsFactory.noTimer;
     }
 
-    public CardDisplay(String name, int points) {
+
+    public CardDisplay(String name, int basePoints) {
         this.name = name;
-        this.points = points;
+        this.basePoints = basePoints;
+        this.points = basePoints;
         cardInfo = "";
         timer = CardsFactory.noTimer;
         this.id = -1;
     }
-    public CardDisplay(String name, int points, String cardInfo) {
+    public CardDisplay(String name, int points, int basePoints, String cardInfo) {
         this.name = name;
         this.points = points;
+        this.basePoints = basePoints;
         this.cardInfo = cardInfo;
         timer = CardsFactory.noTimer;
         this.id = -1;
@@ -39,6 +44,7 @@ public class CardDisplay{
         this.name = name;
         points = 1;
         cardInfo = "";
+        basePoints = 0;
         this.id = -1;
         timer = CardsFactory.noTimer;
     }
@@ -46,6 +52,7 @@ public class CardDisplay{
     public CardDisplay() {
         name="";
         points = 0;
+        basePoints = 0;
         cardInfo = "";
         timer = CardsFactory.noTimer;
         this.id = -1;
@@ -66,6 +73,7 @@ public class CardDisplay{
     public int getPoints() {
         return points;
     }
+    public int getBasePoints(){return basePoints;}
 
     public String getName() {
         return name;

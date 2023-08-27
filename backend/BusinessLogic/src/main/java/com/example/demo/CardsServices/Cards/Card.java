@@ -10,29 +10,36 @@ public class Card {
 
     private String name;
 
-    private int points;
+    private int basePoints;
+
+    private int boost;
+    private int damage;
     private int id;
 
     public Card() {
         name="";
-        points = 0;
+        basePoints = 0;
+        boost = 0;
+        damage = 0;
         id = idStart - 1 ;
     }
 
     public Card(String name, int points){
         this.name = name;
-        this.points = points;
+        this.basePoints = points;
         id = uniqueCardId++;
+        boost = 0;
+        damage = 0;
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name, points, CardsFactory.getCardInfo(name), id);}
-    public int getPoints(){return points;}
+    public CardDisplay getDisplay(){return new CardDisplay(name, getPoints(),basePoints, CardsFactory.getCardInfo(name), id);}
+    public int getPoints(){return basePoints + boost - damage;}
     public int getId() {return id;}
     public void boostPointsBy(int amount){
-        points += amount;
+        boost += amount;
     }
     public void strikeBy(int amount) {
-        points -= amount;
+        damage += amount;
     }
 
 
@@ -47,6 +54,11 @@ public class Card {
     public boolean equals(Object obj) {
         Card card = (Card)obj;
         return card.id == id;
+    }
+
+    public void resetCard() {
+        damage = 0;
+        boost = 0;
     }
 }
 
