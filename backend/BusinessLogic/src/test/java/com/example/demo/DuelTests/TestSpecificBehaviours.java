@@ -487,4 +487,19 @@ class TestSpecificBehaviours {
 
     }
 
+    @Test
+    public void testDamageDealtByNumberOfWeakenedCards() {
+        duel = createDuel(List.of(axer, archer, viking));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, viking), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, archer), secondRow, firstPlayer);
+        playCardWithCardTargeting(duel, findByName(hand2, axer), firstRow, findByName(hand1, viking), secondPlayer);
+
+        int numberOfWeakenedCards = 1;
+        int expectedPoints = viking.getPoints() - archerDamage - numberOfWeakenedCards;
+        assertEquals(expectedPoints, duel.getRowPointsOf(firstPlayer, firstRow));
+    }
+
 }
