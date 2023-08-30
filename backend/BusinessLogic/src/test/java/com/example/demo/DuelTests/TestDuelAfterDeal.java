@@ -222,8 +222,8 @@ class TestDuelAfterDeal {
     @Test
     public void afterCardDies_goesToGraveyard() {
         duel = createDuel(List.of(minion, archer));
-        List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
-        List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
+        setHands();
+
         playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
         playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1,minion ), secondPlayer);
         assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
@@ -232,8 +232,8 @@ class TestDuelAfterDeal {
     @Test
     public void afterCardIsBurned_goesToGraveyard() {
         duel = createDuel(List.of(knight, conflagration));
-        List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
-        List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
+        setHands();
+
         playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
         playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
         assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
@@ -241,9 +241,8 @@ class TestDuelAfterDeal {
     @Test
     public void afterNewRound_everyCardGoesToGraveyard() {
         duel = createDuel(List.of(viking, knight));
+        setHands();
 
-        List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
-        List<CardDisplay> hand2= duel.getHandOf(secondPlayer);
         playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
         playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
         playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
@@ -261,12 +260,12 @@ class TestDuelAfterDeal {
     @Test
     public void testPlayingTwoSameCards() {
         duel = createDuel(List.of(viking, viking));
-        List<CardDisplay> handCards_firstPlayer = duel.getHandOf(firstPlayer);
-        List<CardDisplay> handCards_secondPlayer = duel.getHandOf(secondPlayer);
-        playCardWithoutTargeting(duel,handCards_firstPlayer.get(0), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel,handCards_secondPlayer.get(0), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel,handCards_firstPlayer.get(1), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel,handCards_secondPlayer.get(1), firstRow, secondPlayer);
+        setHands();
+
+        playCardWithoutTargeting(duel,hand1.get(0), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel,hand2.get(0), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel,hand1.get(1), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel,hand2.get(1), firstRow, secondPlayer);
         List<CardDisplay> rowCards = duel.getRowOf(firstPlayer, firstRow);
         assertNotEquals(rowCards.get(0).getId(), rowCards.get(1).getId());
     }
@@ -274,14 +273,15 @@ class TestDuelAfterDeal {
     @Test
     public void testDealingDamageToOneOfTwoSameCards() {
         duel = createDuel(List.of(viking, viking, archer));
-        List<CardDisplay> handCards_firstPlayer = duel.getHandOf(firstPlayer);
-        List<CardDisplay> handCards_secondPlayer = duel.getHandOf(secondPlayer);
-        playCardWithoutTargeting(duel, handCards_firstPlayer.get(0), firstRow, firstPlayer );
-        playCardWithoutTargeting(duel, handCards_secondPlayer.get(0), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, handCards_firstPlayer.get(1), firstRow, firstPlayer );
+        setHands();
+
+
+        playCardWithoutTargeting(duel, hand1.get(0), firstRow, firstPlayer );
+        playCardWithoutTargeting(duel, hand2.get(0), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel, hand1.get(1), firstRow, firstPlayer );
 
         List<CardDisplay> enemyBoard = duel.getRowOf(firstPlayer, firstRow);
-        playCardWithCardTargeting(duel, handCards_secondPlayer.get(2), firstRow,enemyBoard.get(1), secondPlayer);
+        playCardWithCardTargeting(duel, hand2.get(2), firstRow,enemyBoard.get(1), secondPlayer);
         enemyBoard = duel.getRowOf(firstPlayer, firstRow);
         assertEquals(viking.getPoints() - archerDamage, enemyBoard.get(1).getPoints());
         assertEquals(viking.getPoints(), enemyBoard.get(0).getPoints());
@@ -290,8 +290,7 @@ class TestDuelAfterDeal {
     @Test
     public void afterCardKill_itsPowerResetsOnGraveyard() {
         duel = createDuel(List.of(archer, armageddon, fireball));
-        List<CardDisplay> hand1 = duel.getHandOf(firstPlayer);
-        List<CardDisplay> hand2 = duel.getHandOf(secondPlayer);
+        setHands();
 
         playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
         playSpecialCardWithCardTargeting(duel, findByName(hand2, fireball), findByName(hand1, armageddon), secondPlayer);
@@ -332,6 +331,19 @@ class TestDuelAfterDeal {
 
     }
 
+    @Test
+    public void testPuttingBasePowerCardToDeck() {
+        duel = createDuel(List.of(ginger, warrior, copier));
+        setHands();
 
+        playCardWithoutTargeting(duel, findByName(hand1, warrior), firstRow, firstPlayer);
+        playCardWithRowTargeting(duel, findByName(hand2, ginger), secondRow, firstRow, secondPlayer);
+        playCardWithCardTargeting(duel, findByName(hand1, copier), secondRow, duel.getRowOf(firstPlayer,firstRow).get(0), firstPlayer);
+
+        int expectedPointsSum = copierCopiesCount * warrior.getPoints();
+        int actualPointsSum = duel.getDeckOf(firstPlayer)
+                .stream().mapToInt(c -> c.getPoints()).sum();
+        assertEquals(expectedPointsSum, actualPointsSum);
+    }
 
 }

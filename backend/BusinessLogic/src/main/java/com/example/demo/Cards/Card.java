@@ -39,10 +39,13 @@ public class Card {
     public void strikeBy(int amount) {
         damage += amount;
     }
+    public void decreaseBasePower(int amount) {
+        basePoints -= amount;
+    }
 
 
     public static Card createCard(CardDisplay cardDisplay){
-        return new Card(cardDisplay.getName(), cardDisplay.getPoints());
+        return new Card(cardDisplay.getName(), cardDisplay.getBasePoints());
     }
     public static Card emptyCard(){
         return new Card();

@@ -527,6 +527,33 @@ class TestSpecificBehaviours {
 
     }
 
+    @Test
+    public void testDecreasingBasePower() {
+        duel = createDuel(List.of(mushrooms, armageddon, minion));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, mushrooms), findByName(hand1, armageddon), secondPlayer);
+
+        CardDisplay damagedCard = duel.getRowOf(firstPlayer, firstRow).get(0);
+        assertEquals(damagedCard.getBasePoints(), damagedCard.getPoints());
+
+        int expectedBasePower = armageddon.getBasePoints() - mushroomsBaseDamage;
+        assertEquals(expectedBasePower, damagedCard.getBasePoints());
+    }
+
+    @Test
+    public void afterBasePowerEqualsZero_cardIsTotallyDestroyed() {
+        duel = createDuel(List.of(mushrooms, minion));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, mushrooms), findByName(hand1, minion), secondPlayer);
+
+        assertEquals(0, duel.getRowOf(firstPlayer, firstRow).size());
+        assertEquals(0, duel.getGraveyardOf(firstPlayer).size());
+    }
+
 
 
 }

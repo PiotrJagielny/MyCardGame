@@ -156,6 +156,10 @@ public class CardEffects {
                 player.insertCardIntoDeck(playMade.getTargetedCard(), randomPlace);
             }
         }
+        else if(p.equals(CardsFactory.mushrooms)) {
+            enemy.decreaseBasePower(playMade.getTargetedCard(), CardsFactory.mushroomsBaseDamage);
+
+        }
 
     }
     private void placeCardOnBoard() {

@@ -60,6 +60,12 @@ public class OnePlayerDuel {
         }
     }
 
+    public void insertCardIntoDeck(CardDisplay card, int inPlace) {
+        Card cardToInsert = Card.createCard(card);
+        cardToInsert.resetCard();
+        deck.add(inPlace, cardToInsert);
+    }
+
     public List<CardDisplay> getCardsOnBoard(){
         List<CardDisplay> wholeBoard = new ArrayList<>();
         for (int i = 0; i < Consts.rowsNumber; i++) {
@@ -98,6 +104,20 @@ public class OnePlayerDuel {
         }
     }
 
+    public void decreaseBasePower(CardDisplay card, int decreaseAmount) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1) {
+            return;
+        }
+
+        Card cardToDecrease = rows.get(cardRow).getCards().stream()
+                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+
+        cardToDecrease.decreaseBasePower(decreaseAmount);
+        if(cardToDecrease.getDisplay().getBasePoints() <= 0)  {
+            rows.get(cardRow).deleteCard(cardToDecrease);
+        }
+    }
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
@@ -137,9 +157,11 @@ public class OnePlayerDuel {
 
     public int getCardRow(CardDisplay card) {
         for (int i = 0; i < Consts.rowsNumber; i++) {
-
-            if(CardsFactory.getCardsDisplay(rows.get(i).getCards()).contains(card))
-                return i;
+            for (Card cardOnRow : rows.get(i).getCards()) {
+                if(cardOnRow.getId() == card.getId()) {
+                    return i;
+                }
+            }
         }
         return -1;
     }
@@ -247,7 +269,4 @@ public class OnePlayerDuel {
         }
     }
 
-    public void insertCardIntoDeck(CardDisplay card, int inPlace) {
-        deck.add(inPlace, Card.createCard(card));
-    }
 }

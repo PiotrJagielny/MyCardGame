@@ -82,6 +82,10 @@ public class CardsFactory {
     public static final CardDisplay copier = new CardDisplay("Copier", 3);
     public static final int copierCopiesCount = 2;
 
+    public static final CardDisplay mushrooms = new CardDisplay("Mushrooms", 0);
+    public static final int mushroomsBaseDamage= 3;
+
+
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
@@ -105,6 +109,8 @@ public class CardsFactory {
         put(witch.getName(), new GraveyardCardsTargetable());
         put(supplier.getName(), new PlayerCardsTargetable());
         put(axer.getName(), new EnemyCardsTargetable());
+        put(copier.getName(), new PlayerCardsTargetable());
+        put(mushrooms.getName(), new EnemyCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -143,6 +149,8 @@ public class CardsFactory {
         put(spy.getName(), "Place this card on opposite enemy row and draw 1 card");
         put(blueFire.getName(), "If opposite row has at least " + blueFireThreshold + " points burn all max points cards on this row");
         put(axer.getName(), "Deal damage to enemy card by number of weakened cards on enemy board");
+        put(copier.getName(), "Choose card on your board and insert " + copierCopiesCount + " copier into your deck");
+        put(mushrooms.getName(), "Decrease base power of enemy card by " + mushroomsBaseDamage);
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
