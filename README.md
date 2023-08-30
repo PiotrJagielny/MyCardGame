@@ -11,7 +11,7 @@ To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 Game consists of 3 rounds, player who wins 2 rounds wins game. When both players end round, one with more points on board wins round. <br>
 For every won round a crown appears in the middle of board. <br>
 In each move, a player can either play card or end round.<br>
-
+(card that base power is 0 or below is destroyed from game) <br>
 ## Cards
 Currently, there are about 30 cards. Most of them dont have any effects.<br>
 
@@ -45,6 +45,8 @@ Spy - After playing this card it moves to enemy row, and player draws 1 card <br
 Blue fire - If opposite row has at least 10 points, burn all max points cards on this row <br>
 Axer - Deal damage to enemy card by number of weakened cards on enemy board <br>
 Copier - Choose card on your board and insert 2 base copier of this card into your deck <br>
+Mushrooms - Decrease base power of enemy card by 3<br>
+
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
