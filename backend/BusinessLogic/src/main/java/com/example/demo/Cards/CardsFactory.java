@@ -85,6 +85,9 @@ public class CardsFactory {
     public static final CardDisplay mushrooms = new CardDisplay("Mushrooms", 0);
     public static final int mushroomsBaseDamage= 3;
 
+    public static final CardDisplay tastyMushroom = new CardDisplay("Tasty mushroom", 0);
+    public static final int tastyMushroomBaseIncrease = 3;
+
 
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
@@ -111,6 +114,7 @@ public class CardsFactory {
         put(axer.getName(), new EnemyCardsTargetable());
         put(copier.getName(), new PlayerCardsTargetable());
         put(mushrooms.getName(), new EnemyCardsTargetable());
+        put(tastyMushroom.getName(), new PlayerCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -151,6 +155,7 @@ public class CardsFactory {
         put(axer.getName(), "Deal damage to enemy card by number of weakened cards on enemy board");
         put(copier.getName(), "Choose card on your board and insert " + copierCopiesCount + " copier into your deck");
         put(mushrooms.getName(), "Decrease base power of enemy card by " + mushroomsBaseDamage);
+        put(tastyMushroom.getName(), "Increase base power of enemy card by " + tastyMushroomBaseIncrease);
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -175,6 +180,9 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(mushrooms),
+                Card.createCard(copier),
+                Card.createCard(tastyMushroom),
                 Card.createCard(ginger),
                 Card.createCard(epidemic),
                 Card.createCard(breaker),

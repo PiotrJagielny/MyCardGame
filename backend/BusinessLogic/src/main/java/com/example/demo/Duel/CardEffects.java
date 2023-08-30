@@ -158,7 +158,9 @@ public class CardEffects {
         }
         else if(p.equals(CardsFactory.mushrooms)) {
             enemy.decreaseBasePower(playMade.getTargetedCard(), CardsFactory.mushroomsBaseDamage);
-
+        }
+        else if(p.equals(CardsFactory.tastyMushroom)) {
+            player.increaseBasePower(playMade.getTargetedCard(), CardsFactory.tastyMushroomBaseIncrease);
         }
 
     }

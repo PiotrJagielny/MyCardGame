@@ -554,6 +554,25 @@ class TestSpecificBehaviours {
         assertEquals(0, duel.getGraveyardOf(firstPlayer).size());
     }
 
+    @Test
+    public void testIncreasingBasePower() {
+        duel = createDuel(List.of(tastyMushroom, paper, conflagration));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, paper), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), firstRow, secondPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand1, tastyMushroom), findByName(hand1, paper), firstPlayer);
+
+        int expectedBasePower = paper.getBasePoints() + tastyMushroomBaseIncrease;
+        assertEquals(expectedBasePower , duel.getRowPointsOf(firstPlayer, firstRow));
+
+
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
+        assertEquals(0, duel.getRowOf(firstPlayer, firstRow).size());
+        assertEquals(expectedBasePower, duel.getGraveyardOf(firstPlayer).get(0).getBasePoints());
+
+    }
+
 
 
 }

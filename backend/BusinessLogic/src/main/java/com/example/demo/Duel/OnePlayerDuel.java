@@ -104,6 +104,16 @@ public class OnePlayerDuel {
         }
     }
 
+    public void increaseBasePower(CardDisplay card, int increaseAmount) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1) {
+            return;
+        }
+        Card cardToDecrease = rows.get(cardRow).getCards().stream()
+                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+        cardToDecrease.increaseBasePower(increaseAmount);
+
+    }
     public void decreaseBasePower(CardDisplay card, int decreaseAmount) {
         int cardRow = getCardRow(card);
         if(cardRow == -1) {

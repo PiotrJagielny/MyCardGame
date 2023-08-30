@@ -61,5 +61,9 @@ public class Card {
         damage = 0;
         boost = 0;
     }
+
+    public void increaseBasePower(int increaseAmount) {
+        basePoints += increaseAmount;
+    }
 }
 
