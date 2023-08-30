@@ -24,7 +24,8 @@ Conflagration - Burns all cards with maximum points. <br>
 Epidemic - Destroy all min points cards on board <br>
 Rip - deals damage to whole row <br>
 Rain - deals damage to max points card every turn <br>
-Mushrooms - Decrease base power of enemy card by 3<br>
+Mushrooms - Decrease base power of enemy card<br>
+Tasty mushrooms - Increase base power of enemy card<br>
 
 Units: <br>
 Archer - A unit that can be placed and deals damage to an enemy card. <br>
