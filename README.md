@@ -44,6 +44,7 @@ Ginger - Deal 1 damage to every card on specified enemy row <br>
 Spy - After playing this card it moves to enemy row, and player draws 1 card <br>
 Blue fire - If opposite row has at least 10 points, burn all max points cards on this row <br>
 Axer - Deal damage to enemy card by number of weakened cards on enemy board <br>
+Copier - Choose card on your board and insert 2 base copier of this card into your deck <br>
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
