@@ -8,6 +8,6 @@ import java.util.List;
 public class CardsInDeckTargetable implements CardTargeting {
     @Override
     public List<CardDisplay> getPossibleTargets(OnePlayerDuel player, OnePlayerDuel enemy) {
-        return player.getCardsInDeck();
+        return player.getDeck();
     }
 }

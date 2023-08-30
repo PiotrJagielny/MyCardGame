@@ -8,15 +8,12 @@ import com.example.demo.Duel.Rows.Row;
 import com.example.demo.Duel.Rows.RowStatus;
 import com.example.demo.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OnePlayerDuel {
 
-    private List<Card> cardsInDeck;
-    private List<Card> cardsInHand;
+    private List<Card> deck;
+    private List<Card> hand;
     private List<Card> graveyard;
     private List<Row> rows;
     private boolean isRoundOverForPlayer;
@@ -33,18 +30,18 @@ public class OnePlayerDuel {
         graveyard = new ArrayList<>();
         cardsTimers = new HashMap<>();
 
-        cardsInDeck = new ArrayList<Card>();
-        cardsInHand = new ArrayList<Card>();
+        deck = new ArrayList<Card>();
+        hand = new ArrayList<Card>();
         isRoundOverForPlayer = false;
         wonRounds = 0;
     }
 
-    public List<CardDisplay> getCardsInDeck() {
-        return CardsFactory.getCardsDisplay(cardsInDeck);
+    public List<CardDisplay> getDeck() {
+        return CardsFactory.getCardsDisplay(deck);
     }
 
-    public List<CardDisplay> getCardsInHand() {
-        return CardsFactory.getCardsDisplay(cardsInHand);
+    public List<CardDisplay> getHand() {
+        return CardsFactory.getCardsDisplay(hand);
     }
 
     public List<CardDisplay> getRow(int number) {
@@ -79,11 +76,11 @@ public class OnePlayerDuel {
     }
 
     public void parseCards(List<CardDisplay> cardsDisplay) {
-        cardsInDeck = CardsFactory.getCardsFromDisplays(cardsDisplay);
+        deck = CardsFactory.getCardsFromDisplays(cardsDisplay);
     }
 
     public void placeCardOnBoard(PlayerPlay playMade){
-        List<List<Card>> possiblePlayedCardPlaces = List.of(cardsInHand, cardsInDeck, graveyard);
+        List<List<Card>> possiblePlayedCardPlaces = List.of(hand, deck, graveyard);
         Card cc = Card.emptyCard();
         for (List<Card> possiblePlace : possiblePlayedCardPlaces) {
             cc = possiblePlace.stream()
@@ -148,10 +145,10 @@ public class OnePlayerDuel {
     }
 
     public void dealCards(int howMany) {
-        for(int i = 0 ; i < howMany && cardsInDeck.isEmpty() == false ; ++i){
-            Card toDeal = cardsInDeck.get(0);
-            cardsInDeck.remove(0);
-            cardsInHand.add(toDeal);
+        for(int i = 0; i < howMany && deck.isEmpty() == false ; ++i){
+            Card toDeal = deck.get(0);
+            deck.remove(0);
+            hand.add(toDeal);
         }
     }
 
@@ -200,8 +197,8 @@ public class OnePlayerDuel {
         rows.get(onRow).spawnCard(card);
     }
     public void deleteCardFromHand(CardDisplay card) {
-        Card handCard = cardsInHand.stream().filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
-        cardsInHand.remove(handCard);
+        Card handCard = hand.stream().filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+        hand.remove(handCard);
     }
 
     public void restartTimer(CardDisplay card) {
@@ -240,13 +237,17 @@ public class OnePlayerDuel {
     }
 
     public void mulliganCard(CardDisplay cardToMulligan) {
-        Card card = cardsInHand.stream().filter(c -> c.getId() == cardToMulligan.getId()).findFirst().orElse(Card.emptyCard());
+        Card card = hand.stream().filter(c -> c.getId() == cardToMulligan.getId()).findFirst().orElse(Card.emptyCard());
 
-        int cardIndex = cardsInHand.indexOf(card);
+        int cardIndex = hand.indexOf(card);
 
-        if(cardsInDeck.size() > 0) {
-            cardsInHand.set(cardIndex,cardsInDeck.get(0));
-            cardsInDeck.set(0, card);
+        if(deck.size() > 0) {
+            hand.set(cardIndex, deck.get(0));
+            deck.set(0, card);
         }
+    }
+
+    public void insertCardIntoDeck(CardDisplay card, int inPlace) {
+        deck.add(inPlace, Card.createCard(card));
     }
 }

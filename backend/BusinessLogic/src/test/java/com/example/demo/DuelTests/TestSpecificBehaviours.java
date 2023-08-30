@@ -2,6 +2,7 @@ package com.example.demo.DuelTests;
 
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Duel.ClientAPI.CardDuel;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -376,7 +377,7 @@ class TestSpecificBehaviours {
     @Test
     public void testCallingAllCardCopiesFromDeck() {
         duel = createDuel(List.of(wildRoam, wildRoam, viking, knight, capitan, archer,
-                armageddon, wildRoam));
+                armageddon, wildRoam, wildRoam));
         setHands();
 
         int onePlayedFromHand = 1;
@@ -501,6 +502,31 @@ class TestSpecificBehaviours {
         int expectedPoints = viking.getPoints() - archerDamage - numberOfWeakenedCards;
         assertEquals(expectedPoints, duel.getRowPointsOf(firstPlayer, firstRow));
     }
+
+    @Test
+    public void testMakingCopyOfCardInDeck() {
+        duel = createDuel(List.of(wildRoam, wildRoam, copier));
+        setHands();
+
+        playCardWithoutTargeting(duel, hand1.get(0), firstRow, firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        playCardWithCardTargeting(duel, findByName(hand1, copier), secondRow, hand1.get(0), firstPlayer);
+
+        //Are copies created in deck
+        int expectedWildRoamsNumber = copierCopiesCount;
+        int actualWildRoamsInDeck = duel.getDeckOf(firstPlayer).stream()
+                .filter(c -> c.getName().equals(wildRoam.getName()))
+                .collect(Collectors.toList()).size();
+        assertEquals(expectedWildRoamsNumber, actualWildRoamsInDeck);
+
+
+        //Will wild roam call this copies from deck
+        playCardWithoutTargeting(duel, hand1.get(1), thirdRow, firstPlayer);
+        assertEquals(3, duel.getRowOf(firstPlayer, thirdRow).size());
+
+
+    }
+
 
 
 }

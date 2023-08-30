@@ -30,11 +30,11 @@ public class CardDuel {
     }
 
     public List<CardDisplay> getDeckOf(String player) {
-        return players.get(player).getCardsInDeck();
+        return players.get(player).getDeck();
     }
 
     public List<CardDisplay> getHandOf(String player) {
-        return players.get(player).getCardsInHand();
+        return players.get(player).getHand();
     }
 
     public List<CardDisplay> getRowOf(String player, int rowNumber) {

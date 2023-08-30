@@ -79,6 +79,8 @@ public class CardsFactory {
     public static final int blueFireThreshold = 10;
 
     public static final CardDisplay axer= new CardDisplay("Axer", 4);
+    public static final CardDisplay copier = new CardDisplay("Copier", 3);
+    public static final int copierCopiesCount = 2;
 
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{

@@ -4,6 +4,7 @@ import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.Rows.RowStatus;
+import com.example.demo.Utils;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -113,7 +114,7 @@ public class CardEffects {
         }
         else if(p.equals(CardsFactory.wildRoam)) {
 
-            List<CardDisplay> deck = player.getCardsInDeck();
+            List<CardDisplay> deck = player.getDeck();
             for (CardDisplay card : deck) {
                 if(card.equals(CardsFactory.wildRoam)) {
                     player.placeCardOnBoard(new PlayerPlay(card, playMade.playedOnRow()));
@@ -144,6 +145,16 @@ public class CardEffects {
                     .collect(Collectors.toList()).size();
 
             strikeCardBy(playMade.getTargetedCard(), weakenedCards);
+        }
+        else if(p.equals(CardsFactory.copier)) {
+            int cardsInDeck = player.getDeck().size();
+            for (int i = 0; i < CardsFactory.copierCopiesCount; i++) {
+                int randomPlace = 0;
+                if(cardsInDeck != 0) {
+                    randomPlace = Utils.getRandomNumber(0, cardsInDeck - 1);
+                }
+                player.insertCardIntoDeck(playMade.getTargetedCard(), randomPlace);
+            }
         }
 
     }
@@ -220,7 +231,6 @@ public class CardEffects {
             player.restartTimer(card);
             if(card.equals(CardsFactory.trebuchet)) {
                  CardDisplay cardToStrike = enemy.getRandomCardFromBoardWithout(CardsFactory.trebuchet);
-                 System.out.println(cardToStrike);
                  strikeCardBy(cardToStrike, CardsFactory.trebuchetDamage);
             }
             else if(card.equals(CardsFactory.goodPerson)) {
@@ -268,7 +278,7 @@ public class CardEffects {
         if(cardTimer == 0) {
             player.restartTimer(card);
             if(card.equals(CardsFactory.breaker)) {
-                CardDisplay anotherBreaker = player.getCardsInDeck().stream().filter(c -> c.equals(CardsFactory.breaker)).findFirst().orElse(new CardDisplay());
+                CardDisplay anotherBreaker = player.getDeck().stream().filter(c -> c.equals(CardsFactory.breaker)).findFirst().orElse(new CardDisplay());
                 player.placeCardOnBoard(new PlayerPlay(anotherBreaker, player.getCardRow(card)));
             }
         }
@@ -282,7 +292,7 @@ public class CardEffects {
             return playMade.getTargetedCard();
         }
         else if(playMade.getPlayedCard().equals(CardsFactory.supplier)) {
-            CardDisplay cardFromDeckToChain= player.getCardsInDeck().stream().filter(c -> c.getName().equals(playMade.getTargetedCard().getName())).findFirst().orElse(null);
+            CardDisplay cardFromDeckToChain= player.getDeck().stream().filter(c -> c.getName().equals(playMade.getTargetedCard().getName())).findFirst().orElse(null);
             if(cardFromDeckToChain== null) {
                 return new CardDisplay();
             }

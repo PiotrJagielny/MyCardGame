@@ -330,8 +330,8 @@ class TestDuelAfterDeal {
         assertEquals(2, duel.getRowOf(firstPlayer, firstRow).size());
         assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
 
-
     }
+
 
 
 }
