@@ -24,6 +24,7 @@ Conflagration - Burns all cards with maximum points. <br>
 Epidemic - Destroy all min points cards on board <br>
 Rip - deals damage to whole row <br>
 Rain - deals damage to max points card every turn <br>
+Mushrooms - Decrease base power of enemy card by 3<br>
 
 Units: <br>
 Archer - A unit that can be placed and deals damage to an enemy card. <br>
@@ -45,7 +46,7 @@ Spy - After playing this card it moves to enemy row, and player draws 1 card <br
 Blue fire - If opposite row has at least 10 points, burn all max points cards on this row <br>
 Axer - Deal damage to enemy card by number of weakened cards on enemy board <br>
 Copier - Choose card on your board and insert 2 base copier of this card into your deck <br>
-Mushrooms - Decrease base power of enemy card by 3<br>
+
 
 
 ## Entry page
