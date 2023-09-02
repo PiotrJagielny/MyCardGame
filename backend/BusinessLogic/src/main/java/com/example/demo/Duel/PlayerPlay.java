@@ -1,6 +1,6 @@
 package com.example.demo.Duel;
 
-import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Cards.CardDisplay;
 
 public class PlayerPlay {
     private CardDisplay playedCard;

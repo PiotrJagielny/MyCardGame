@@ -1,6 +1,8 @@
 package com.example.demo;
 
 
+import com.example.demo.Cards.CardDisplay;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ class CardDisplayModel {
 
     private String cardname;
     private int cardpoints;
+    private String color;
 
     @ManyToOne
     @JoinColumn(name="deckid", nullable = false)
@@ -48,5 +51,13 @@ class CardDisplayModel {
 
     public void setDeck(DeckModel deck) {
         this.deck = deck;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

@@ -1,18 +1,18 @@
 package com.example.demo.DuelTests;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.Duel.CardDuel;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Duel.ClientAPI.CardDuel;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.demo.CardsServices.Cards.CardsFactory.*;
+import static com.example.demo.Cards.CardsFactory.*;
 import static com.example.demo.Consts.*;
 import static com.example.demo.TestsData.TestsUtils.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestSpecificBehaviours {
 
@@ -376,7 +376,7 @@ class TestSpecificBehaviours {
     @Test
     public void testCallingAllCardCopiesFromDeck() {
         duel = createDuel(List.of(wildRoam, wildRoam, viking, knight, capitan, archer,
-                armageddon, wildRoam));
+                armageddon, wildRoam, wildRoam));
         setHands();
 
         int onePlayedFromHand = 1;
@@ -501,5 +501,88 @@ class TestSpecificBehaviours {
         int expectedPoints = viking.getPoints() - archerDamage - numberOfWeakenedCards;
         assertEquals(expectedPoints, duel.getRowPointsOf(firstPlayer, firstRow));
     }
+
+    @Test
+    public void testMakingCopyOfCardInDeck() {
+        duel = createDuel(List.of(wildRoam, wildRoam, copier));
+        setHands();
+
+        playCardWithoutTargeting(duel, hand1.get(0), firstRow, firstPlayer);
+        duel.endRoundFor(secondPlayer);
+        playCardWithCardTargeting(duel, findByName(hand1, copier), secondRow, hand1.get(0), firstPlayer);
+
+        //Are copies created in deck
+        int expectedWildRoamsNumber = copierCopiesCount;
+        int actualWildRoamsInDeck = duel.getDeckOf(firstPlayer).stream()
+                .filter(c -> c.getName().equals(wildRoam.getName()))
+                .collect(Collectors.toList()).size();
+        assertEquals(expectedWildRoamsNumber, actualWildRoamsInDeck);
+
+
+        //Will wild roam call this copies from deck
+        playCardWithoutTargeting(duel, hand1.get(1), thirdRow, firstPlayer);
+        assertEquals(3, duel.getRowOf(firstPlayer, thirdRow).size());
+
+
+    }
+
+    @Test
+    public void testDecreasingBasePower() {
+        duel = createDuel(List.of(mushrooms, armageddon, minion));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, mushrooms), findByName(hand1, armageddon), secondPlayer);
+
+        CardDisplay damagedCard = duel.getRowOf(firstPlayer, firstRow).get(0);
+        assertEquals(damagedCard.getBasePoints(), damagedCard.getPoints());
+
+        int expectedBasePower = armageddon.getBasePoints() - mushroomsBaseDamage;
+        assertEquals(expectedBasePower, damagedCard.getBasePoints());
+    }
+
+    @Test
+    public void afterBasePowerEqualsZero_cardIsTotallyDestroyed() {
+        duel = createDuel(List.of(mushrooms, minion));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, mushrooms), findByName(hand1, minion), secondPlayer);
+
+        assertEquals(0, duel.getRowOf(firstPlayer, firstRow).size());
+        assertEquals(0, duel.getGraveyardOf(firstPlayer).size());
+    }
+
+    @Test
+    public void testIncreasingBasePower() {
+        duel = createDuel(List.of(tastyMushroom, paper, conflagration));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, paper), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, paper), firstRow, secondPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand1, tastyMushroom), findByName(hand1, paper), firstPlayer);
+
+        int expectedBasePower = paper.getBasePoints() + tastyMushroomBaseIncrease;
+        assertEquals(expectedBasePower , duel.getRowPointsOf(firstPlayer, firstRow));
+
+
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
+        assertEquals(0, duel.getRowOf(firstPlayer, firstRow).size());
+        assertEquals(expectedBasePower, duel.getGraveyardOf(firstPlayer).get(0).getBasePoints());
+    }
+
+    @Test
+    public void testTargetingGoldCard() {
+        duel = createDuel(List.of(giant, archer, sharpshooter));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1,giant ), firstRow, firstPlayer);
+
+        assertTrue(duel.getPossibleTargetsOf(archer, secondPlayer).isEmpty());
+        assertFalse(duel.getPossibleTargetsOf(sharpshooter, secondPlayer).isEmpty());
+
+    }
+
+
 
 }
