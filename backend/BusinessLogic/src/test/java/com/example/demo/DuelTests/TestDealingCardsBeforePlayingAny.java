@@ -1,7 +1,7 @@
 package com.example.demo.DuelTests;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.Duel.CardDuel;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Duel.ClientAPI.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

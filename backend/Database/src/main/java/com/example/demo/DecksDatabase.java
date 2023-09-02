@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.CardsServices.CardDisplay;
+import com.example.demo.Cards.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
@@ -70,8 +70,9 @@ public class DecksDatabase {
             for (CardDisplay card : cards) {
                 CardDisplayModel c = new CardDisplayModel();
                 c.setCardname(card.getName());
-                c.setCardpoints(card.getPoints());
+                c.setCardpoints(card.getBasePoints());
                 c.setDeck(deckToSave);
+                c.setColor(card.getColor());
                 cardsToSave.add(c);
             }
 
@@ -119,7 +120,7 @@ public class DecksDatabase {
 
         for (int i = 0; i < cards.size(); i++) {
             CardDisplayModel card = cards.get(i);
-            result.add(new CardDisplay(card.getCardname(), card.getCardpoints()));
+            result.add(new CardDisplay(card.getCardname(), card.getCardpoints(), card.getColor()));
         }
         return result;
     }

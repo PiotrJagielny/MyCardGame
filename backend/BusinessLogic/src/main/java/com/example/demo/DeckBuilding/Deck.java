@@ -1,8 +1,8 @@
 package com.example.demo.DeckBuilding;
 
-import com.example.demo.CardsServices.CardDisplay;
-import com.example.demo.CardsServices.Cards.Card;
-import com.example.demo.CardsServices.CardsParser;
+import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.Card;
+import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class Deck {
     }
 
     public List<CardDisplay> getCardsInDeck() {
-        return CardsParser.getCardsDisplay(cardsInDeck);
+        return CardsFactory.getCardsDisplay(cardsInDeck);
     }
 
     public String getDeckName() {
@@ -70,7 +70,7 @@ public class Deck {
     }
 
     public List<CardDisplay> getCardsPossibleToAdd() {
-        return CardsParser.getCardsDisplay(allCardsPossibleToAdd);
+        return CardsFactory.getCardsDisplay(allCardsPossibleToAdd);
     }
 
 }

@@ -27,7 +27,6 @@ var rowStatusToImageUrl: Map<string,string> = new Map<string,string>([
 const DuelPage = () => {
 
   let navigate = useNavigate();
-  const [refresh, setRefresh] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
   const [isDeckCardsModalOpen, setIsDeckCardsModalOpen] = useState(false);
@@ -204,7 +203,6 @@ const DuelPage = () => {
       })
       .catch(console.error);
 
-    setRefresh(true);
   }
 
   const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
