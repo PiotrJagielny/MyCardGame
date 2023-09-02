@@ -30,7 +30,7 @@ public class CardEffects {
         enemy = newEnemy;
     }
     private void strikeCardBy(CardDisplay targetedCard, int strikeAmoutn) {
-        if(targetedCard.getPoints() <= strikeAmoutn) {
+        if(targetedCard.getPoints() <= strikeAmoutn && !targetedCard.getStatuses().contains(Consts.locked)) {
             onDeathEffect(targetedCard,enemy.getCardRow(targetedCard) ,enemy);
         }
         enemy.strikeCard(targetedCard, strikeAmoutn);
@@ -162,6 +162,14 @@ public class CardEffects {
         else if(p.equals(CardsFactory.tastyMushroom)) {
             player.increaseBasePower(playMade.getTargetedCard(), CardsFactory.tastyMushroomBaseIncrease);
         }
+        else if(p.equals(CardsFactory.handcuffs)) {
+            enemy.addStatusToCard(playMade.getTargetedCard(), Consts.locked);
+            strikeCardBy(playMade.getTargetedCard(), CardsFactory.handcuffsDamage);
+        }
+        else if(p.equals(CardsFactory.key)) {
+            player.removeStatusFromCard(playMade.getTargetedCard(), Consts.locked);
+            player.boostCard(playMade.getTargetedCard(), CardsFactory.keyBoost);
+        }
 
     }
     private void placeCardOnBoard() {
@@ -225,7 +233,8 @@ public class CardEffects {
     public void invokeOnTurnEndEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
         for (var card : cardsOnBoard) {
-            if(CardsFactory.cardsWithTurnEndTimer.contains(card)) {
+
+            if(CardsFactory.cardsWithTurnEndTimer.contains(card) && !card.getStatuses().contains(Consts.locked)) {
                 player.decrementTimer(card);
                 int timer = player.getTimer(card);
                 invokeSpecificTurnEndCardEffect(card, timer);
@@ -254,7 +263,7 @@ public class CardEffects {
     public void invokeOnTurnStartEffect() {
         List<CardDisplay> cardsOnBoard = player.getCardsOnBoard();
         for (var card : cardsOnBoard) {
-            if(CardsFactory.cardsWithTurnStartTimer.contains(card)) {
+            if(CardsFactory.cardsWithTurnStartTimer.contains(card) && !card.getStatuses().contains(Consts.locked)) {
                 player.decrementTimer(card);
                 int timer = player.getTimer(card);
                 invokeSpecificTurnStartCardEffect(card, timer );
