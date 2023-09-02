@@ -47,7 +47,7 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
         font-size: 30px; 
         color: black;
         margin-left: 10%;
-       ">${card.points}
+       ">${card.basePoints}
        </div>
        <div style="
         font-size: 30px; 
@@ -66,6 +66,18 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
       wholeCardDisplay.remove();
   }
 
+  const getCardPointsColor = (points: number, basePoints: number) => {
+    if(points === basePoints) {
+      return "";
+    }
+    else if(points > basePoints) {
+      return "green";
+    }
+    else if(points < basePoints) {
+      return "red";
+    }
+  }
+
 
   return <div onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
 
@@ -78,7 +90,7 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
         {card.points === 0 ?
         <div>.</div>
         :
-        <div>{card.points}</div>
+        <div style={{color: getCardPointsColor(card.points, card.basePoints)}}>{card.points}</div>
         }
         {card.timer !== -1 && <div><FontAwesomeIcon icon={faHourglassHalf} /> {card.timer}</div>}
   </div>

@@ -203,7 +203,7 @@ public class OnePlayerDuel {
 
     private void clearRows(){
         for(int row = 0 ; row < Consts.rowsNumber ; ++row){
-            graveyard.addAll(rows.get(row).getCards());
+            rows.get(row).getCards().forEach(c -> addCardToGraveyard(c));
             rows.get(row).clearRow();
             clearRowsStatus();
         }
