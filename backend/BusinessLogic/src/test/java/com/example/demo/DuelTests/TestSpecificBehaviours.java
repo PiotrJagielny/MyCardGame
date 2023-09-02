@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 import static com.example.demo.Cards.CardsFactory.*;
 import static com.example.demo.Consts.*;
 import static com.example.demo.TestsData.TestsUtils.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestSpecificBehaviours {
 
@@ -570,6 +569,17 @@ class TestSpecificBehaviours {
         playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
         assertEquals(0, duel.getRowOf(firstPlayer, firstRow).size());
         assertEquals(expectedBasePower, duel.getGraveyardOf(firstPlayer).get(0).getBasePoints());
+    }
+
+    @Test
+    public void testTargetingGoldCard() {
+        duel = createDuel(List.of(giant, archer, sharpshooter));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1,giant ), firstRow, firstPlayer);
+
+        assertTrue(duel.getPossibleTargetsOf(archer, secondPlayer).isEmpty());
+        assertFalse(duel.getPossibleTargetsOf(sharpshooter, secondPlayer).isEmpty());
 
     }
 

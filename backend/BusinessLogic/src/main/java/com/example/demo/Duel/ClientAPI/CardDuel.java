@@ -2,6 +2,7 @@ package com.example.demo.Duel.ClientAPI;
 
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Cards.CardsFactory;
+import com.example.demo.Consts;
 import com.example.demo.Duel.CardEffects;
 import com.example.demo.Duel.OnePlayerDuel;
 import com.example.demo.Duel.PlayerPlay;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CardDuel {
     private String whosTurn;
@@ -180,10 +183,18 @@ public class CardDuel {
         if(whosTurn.equals(player) == true){
             return CardsFactory.getPossibleTargetsOf(
                     cardPlayed, players.get(player), players.get(getOpponentOf(player))
-            );
+            ).stream().filter(addFilter(cardPlayed)).collect(Collectors.toList());
         }
         else
             return List.of();
+    }
+    private Predicate<CardDisplay> addFilter(CardDisplay c) {
+        if(c.getColor().equals(Consts.silver)||c.getColor().equals(Consts.bronze)) {
+            return card -> !card.getColor().equals(Consts.gold);
+        }
+        else {
+            return card -> true;
+        }
     }
     public List<Integer> getPossibleRowsToAffect(CardDisplay cardPlayed) {
         return CardsFactory.getCardRowsToAffect(cardPlayed.getName());

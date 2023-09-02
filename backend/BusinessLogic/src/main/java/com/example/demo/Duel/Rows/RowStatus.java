@@ -6,7 +6,7 @@ public enum RowStatus {
     NoStatus("");
     private final String rowStatusName;
 
-    private RowStatus(String rowStatusName) {
+    RowStatus(String rowStatusName) {
         this.rowStatusName = rowStatusName;
     }
 

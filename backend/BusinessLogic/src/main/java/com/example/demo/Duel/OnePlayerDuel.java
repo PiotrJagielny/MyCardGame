@@ -244,9 +244,8 @@ public class OnePlayerDuel {
         }
     }
     public int getTimer(CardDisplay card) {
-        if(cardsTimers.containsKey(card.getName()) == false) return -1;
-
-        return cardsTimers.get(card.getName());
+//        if(cardsTimers.containsKey(card.getName()) == false) return -1;
+        return cardsTimers.getOrDefault(card.getName(), -1);
     }
 
     public CardDisplay getRandomCardFromBoardWithout(CardDisplay card) {

@@ -2,6 +2,9 @@ package com.example.demo;
 
 public class Consts {
     public static String DeckFullMessage = "Deck is full(Max 4 cards)";
+    public static String gold= "gold";
+    public static String silver= "silver";
+    public static String bronze= "bronze";
 
     public static final String firstPlayer = "first";
     public static final String secondPlayer = "second";
