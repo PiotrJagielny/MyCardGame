@@ -49,7 +49,7 @@ Axer - Deal damage to enemy card by number of weakened cards on enemy board <br>
 Copier - Choose card on your board and insert 2 base copier of this card into your deck <br>
 
 ## New features
-Points of weaknessed cards have red color, and green color for boosted cards. <br>
+Points of weakened cards have red color and and boosted cards have green points. <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/3f0d6ccf-ec18-4e0c-8370-495f4dfe2441)
 
 
