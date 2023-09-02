@@ -4,10 +4,11 @@ package com.example.demo;
 import com.example.demo.Cards.CardDisplay;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cardsindeck")
-class CardDisplayModel {
+class CardDisplayModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

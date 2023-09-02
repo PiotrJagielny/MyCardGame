@@ -16,7 +16,8 @@
     </persistence-unit>
     <persistence-unit name="production" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.example.demo.DeckBuilding.DecksPersistence.DeckModel</class>
+        <class>com.example.demo.DeckModel</class>
+        <class>com.example.demo.CardDisplayModel</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dpg-citnnqtiuiedpv4sj9hg-a.frankfurt-postgres.render.com/cardgame"/>
