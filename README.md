@@ -52,6 +52,11 @@ Copier - Choose card on your board and insert 2 base copier of this card into yo
 Points of weakened cards have red color and and boosted cards have green points. <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/3f0d6ccf-ec18-4e0c-8370-495f4dfe2441)
 
+There are bronze, silver and gold cards. Gold cards can only be targetter by other gold cards, for example <br>
+archer cant shoot Priest <br>
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/3e948464-8128-4e59-a98c-e32fe139894a)
+
+
 
 ## Entry page
 To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
