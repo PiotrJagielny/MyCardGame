@@ -189,6 +189,8 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(handcuffs),
+                Card.createCard(key),
                 Card.createCard(mushrooms),
                 Card.createCard(copier),
                 Card.createCard(tastyMushroom),
