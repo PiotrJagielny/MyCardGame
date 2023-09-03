@@ -29,8 +29,5 @@
             <version>5.6.12.Final</version>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>cardsDatabase-1.0.0</finalName>
-    </build>
 
 </project>

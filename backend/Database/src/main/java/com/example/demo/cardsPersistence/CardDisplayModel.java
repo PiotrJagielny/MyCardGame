@@ -1,7 +1,5 @@
-package com.example.demo;
+package com.example.demo.cardsPersistence;
 
-
-import com.example.demo.Cards.CardDisplay;
 
 import javax.persistence.*;
 import java.io.Serializable;

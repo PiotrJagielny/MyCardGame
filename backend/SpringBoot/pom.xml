@@ -49,6 +49,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>cardGame-1.0.0</finalName>
     </build>
 </project>
