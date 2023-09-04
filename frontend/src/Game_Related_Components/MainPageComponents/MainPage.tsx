@@ -35,6 +35,7 @@ const MainPage = () => {
     .then((res) => res.json())
     .then((isDeckValid: boolean) => {
       if(isDeckValid) {
+        setChosenDeck("")
         setChosenDeck(deck);
       }
       else {

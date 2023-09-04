@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.cardsPersistence;
 
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;
@@ -8,20 +8,27 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DecksDatabase {
 
+    public static void setProdDbPassword(String password) {
+        Map<String, String> dbProperties_prod = new HashMap<>() {{
+            put("javax.persistence.jdbc.password", password);
+        }};
+        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
+//        emf = Persistence.createEntityManagerFactory("development");
+    }
 
-//    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development");
-    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("production");
+    private static EntityManagerFactory emf;
     public static void createDeck(String username, String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         try {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setUsername(username);
             deckToSave.setDeckname(deckname);
-
 
             s.getTransaction().begin();
 

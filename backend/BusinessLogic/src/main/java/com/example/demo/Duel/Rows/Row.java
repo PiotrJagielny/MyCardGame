@@ -41,6 +41,16 @@ public class Row {
         if(cardIndex == -1) return;
         cards.get(cardIndex).boostPointsBy(boostAmount);
     }
+    public void addStatusTo(Card card, String status) {
+        int cardIndex = cards.indexOf(card);
+        if(cardIndex == -1) return;
+        cards.get(cardIndex).addStatus(status);
+    }
+    public void removeStatusFromCard(Card card, String status) {
+        int cardIndex = cards.indexOf(card);
+        if(cardIndex == -1) return;
+        cards.get(cardIndex).removeStatus(status);
+    }
 
     public void strikeCardBy(Card aCard, int strikeAmount){
         int cardIndex = cards.indexOf(aCard);

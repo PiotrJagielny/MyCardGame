@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.cardsPersistence;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -99,7 +99,6 @@ const DeckBuilderPage = () => {
   return (
     <div className="DeckBuilderPage">
       <h2>Build your deck! : Deck has to have 6-10 cards </h2>
-      <h4>You can click with right mouse button on a card, to get its info. If there is no card info, there wont be any text</h4>
       <h4>Left click twice on a deck to select</h4>
 
       
