@@ -467,6 +467,7 @@ const DuelPage = () => {
         ))}
       </Modal>
       <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'500px', height:'200px', background:'gray',},}}>
+        <button onClick={fetchCardsData}>load data</button>
         <h2>Choose a card to mulligan</h2>
         {cardsInHand.map((card, index) =>(
           <button onClick= { () => {mulliganCard(card)} }><CardComponent  card={card}></CardComponent></button>

@@ -25,7 +25,6 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dpg-citnnqtiuiedpv4sj9hg-a.frankfurt-postgres.render.com/cardgame"/>
             <property name="javax.persistence.jdbc.user" value="cardgame_user"/>
             <property name="javax.persistence.jdbc.password" value = "hidden"/>
-
         </properties>
     </persistence-unit>
 </persistence>

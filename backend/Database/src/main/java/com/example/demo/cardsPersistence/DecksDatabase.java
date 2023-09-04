@@ -22,7 +22,6 @@ public class DecksDatabase {
 //        emf = Persistence.createEntityManagerFactory("development");
     }
 
-//    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("development" );
     private static EntityManagerFactory emf;
     public static void createDeck(String username, String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
@@ -30,7 +29,6 @@ public class DecksDatabase {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setUsername(username);
             deckToSave.setDeckname(deckname);
-
 
             s.getTransaction().begin();
 

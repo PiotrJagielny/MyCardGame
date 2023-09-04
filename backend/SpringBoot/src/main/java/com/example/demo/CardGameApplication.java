@@ -13,9 +13,12 @@ public class CardGameApplication {
 		if(args.length == 1) {
 			DecksDatabase.setProdDbPassword(args[0]);
 		}
+		else {
+			DecksDatabase.setProdDbPassword("1234");
+		}
 		SpringApplication app = new SpringApplication(CardGameApplication.class);
-		app.setDefaultProperties(Collections
-				.singletonMap("server.port", "8000"));
+//		app.setDefaultProperties(Collections
+//				.singletonMap("server.port", "8000"));
 		app.run(args);
 	}
 
