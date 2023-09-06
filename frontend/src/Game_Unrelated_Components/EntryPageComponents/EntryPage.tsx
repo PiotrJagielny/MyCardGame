@@ -18,8 +18,7 @@ const EntryPage = () => {
 
     dispatch({type:"SET_USERNAME", payload: userName});
     // dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
-    dispatch({type: "SET_SERVER_URL", payload: 'https://13.48.247.47'}); //aws server
-    // dispatch({type: "SET_SERVER_URL", payload: 'https://card-game-9dmt.onrender.com'}); //render servet
+    dispatch({type: "SET_SERVER_URL", payload: 'https://13.51.147.93'}); 
     navigate("/Main");
   }  
 
@@ -30,7 +29,8 @@ const EntryPage = () => {
           Welcome to my card game!! <br />
         </h1>
         <h6>To test duel you have to first build your deck. When deck is read click find enemy two times and you will start game with yourself.</h6>
-        <h6>Sometimes you have to refresh page or clock load data to load most recent updates</h6>
+        <h6>Sometimes you have to refresh page or click load data to load most recent updates</h6>
+        {/* <h6>(I am so sorry but i have problems with server and i am fixing this right now)</h6> */}
 
       </div>
         <div className="inputBox">
