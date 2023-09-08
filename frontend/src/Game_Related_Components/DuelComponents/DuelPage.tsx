@@ -12,7 +12,7 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
-import {renderWonRounds} from '../../Game_Unrelated_Components/utils/utilss';
+import {renderWonRounds} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
 var stompClient:any = null;
 var firstRow: number = 0;
@@ -26,6 +26,54 @@ var rowStatusToImageUrl: Map<string,string> = new Map<string,string>([
   ["Rain", "https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png"],
 ]);
 const DuelPage = () => {
+  const alert= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    const alertButton = document.createElement('button');
+    alertButton.innerText = 'Back to main menu';
+    alert.setAttribute('style', `
+      position: fixed;
+      top: 30%;
+      left:50%;
+      padding:20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 5px 0 #00000022; 
+      display:flex;
+      flex-direction:column;
+      background-image: url(${imageURL});
+      background-size: cover;
+      background-position: center;
+      height: 200px;
+      width: 200px;
+    `);
+    alertButton.setAttribute('style', `
+      border: 1px solidd #333;
+      background:white;
+      border-radius: 5px;
+      padding: 5px;
+    
+    `);
+    alert.innerHTML= `<span style="
+      font-size: 20px;
+      padding: 29%;
+      padding-left: 59px;
+      ">
+     ${msg}
+     </span>`;
+     if(appearButton) {
+      alert.appendChild(alertButton);
+      alertButton.addEventListener('click',(e) => {
+        alert.remove();
+        navigate("/Main");
+      });
+     }
+    if(timeout !== 0) {
+      setTimeout(() => {
+        alert.remove();
+      }, Number(timeout))
+    }
+    document.body.appendChild(alert);
+  }
 
   let navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,6 +122,15 @@ const DuelPage = () => {
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
 
+
+
+  useEffect(() => {
+    connectToSocket();
+    const controller = new AbortController();
+      return () => {
+        controller.abort();
+      };
+  }, []);
 
 
   const connectToSocket= () =>{
@@ -144,13 +201,6 @@ const DuelPage = () => {
   }
 
 
-  useEffect(() => {
-    connectToSocket();
-    const controller = new AbortController();
-      return () => {
-        controller.abort();
-      };
-  }, []);
 
 
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
@@ -206,54 +256,6 @@ const DuelPage = () => {
 
   }
 
-  const alert= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
-    const alert = document.createElement('div');
-    alert.classList.add('alert');
-    const alertButton = document.createElement('button');
-    alertButton.innerText = 'Back to main menu';
-    alert.setAttribute('style', `
-      position: fixed;
-      top: 30%;
-      left:50%;
-      padding:20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 5px 0 #00000022; 
-      display:flex;
-      flex-direction:column;
-      background-image: url(${imageURL});
-      background-size: cover;
-      background-position: center;
-      height: 200px;
-      width: 200px;
-    `);
-    alertButton.setAttribute('style', `
-      border: 1px solidd #333;
-      background:white;
-      border-radius: 5px;
-      padding: 5px;
-    
-    `);
-    alert.innerHTML= `<span style="
-      font-size: 20px;
-      padding: 29%;
-      padding-left: 59px;
-      ">
-     ${msg}
-     </span>`;
-     if(appearButton) {
-      alert.appendChild(alertButton);
-      alertButton.addEventListener('click',(e) => {
-        alert.remove();
-        navigate("/Main");
-      });
-     }
-    if(timeout !== 0) {
-      setTimeout(() => {
-        alert.remove();
-      }, Number(timeout))
-    }
-    document.body.appendChild(alert);
-  }
 
 
 
@@ -396,16 +398,6 @@ const DuelPage = () => {
       fetchCardsData()
     });
   }
-  // const renderWonRounds = (wonRoudnsOfPlayer: number) => {
-  //   const wonRoundsDivs = [];
-  //   for(let i = 0 ; i < wonRoudnsOfPlayer; i++) {
-  //     wonRoundsDivs.push(<div key={i}><img src="https://cdn-icons-png.flaticon.com/512/6941/6941697.png" style={{width: 30, height: 30}} alt=""/></div>)
-  //   }
-  //   if(wonRoundsDivs.length === 0) {
-  //     wonRoundsDivs.push(<div style={{width: 30, height: 30}} > </div>)
-  //   }
-  //   return wonRoundsDivs;
-  // } 
   const getEnemyHandBlankCards = () => {
     let cards: Card[] = [];
     for(let i = 0 ; i < enemyHandSize ; ++i ) {

@@ -15,6 +15,11 @@ const DeckBuilderPage = () => {
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [currentDeck, setCurrentDeck] = useState<string>("");
 
+  useEffect(() => {
+    fetchCardsData();
+
+  }, [currentDeck])
+
 
   const userName = useSelector<StateData, string>((state) => state.userName);
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
@@ -54,7 +59,7 @@ const DeckBuilderPage = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data.name)
+      body: JSON.stringify(cardToPost.name)
     });
 
     
@@ -90,17 +95,15 @@ const DeckBuilderPage = () => {
     ChangeDecksState(cardDragged, PostURL); 
   }
 
-  const handleDecksSwitch = () => {
-    fetchCardsData();
+
+  const ddddd= () => {
     fetchCardsData();
   }
-
 
   return (
     <div className="DeckBuilderPage">
       <h2>Build your deck! : Deck has to have 6-10 cards </h2>
-      <h4>Left click twice on a deck to select</h4>
-
+      <h4>Left click on a deck to select</h4>
       
 
       <div className="Decks">
@@ -119,7 +122,7 @@ const DeckBuilderPage = () => {
             </div>
           </div>
           <div className="PlayersDecks">
-            <DecksManager OnDecksSwitched={handleDecksSwitch} currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
+            <DecksManager  onDeckDelete={ddddd} currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
           </div>
         </DragDropContext>
       </div>

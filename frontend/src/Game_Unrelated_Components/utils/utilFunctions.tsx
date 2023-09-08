@@ -1,3 +1,4 @@
+
 export const renderWonRounds = (wonRoudnsOfPlayer: number) => {
     const wonRoundsDivs = [];
     for(let i = 0 ; i < wonRoudnsOfPlayer; i++) {
@@ -8,6 +9,3 @@ export const renderWonRounds = (wonRoudnsOfPlayer: number) => {
     }
     return wonRoundsDivs;
 } 
-
-
-

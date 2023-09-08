@@ -4,12 +4,12 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import './DecksManager.css';
 
 interface Props{
-    OnDecksSwitched: (deckName:string) => void;
+  onDeckDelete: () => void;
     currentDeckSetter: React.Dispatch<React.SetStateAction<string>>;
     currentDeck: string;
 }
 
-export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSetter, currentDeck}) => {
+export const DecksManager: React.FC<Props> = ({ onDeckDelete, currentDeckSetter, currentDeck}) => {
   const [refresh, setRefresh] = useState(false);
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
@@ -39,24 +39,17 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
     };
   }, [userName]);
 
-
-  const handleDeckSwitch = (selectedDeckName: string) => {
-      currentDeckSetter(selectedDeckName);
-      currentDeckSetter(selectedDeckName);
-      OnDecksSwitched(selectedDeckName);
-  }
-
   const handleNewDeckPostRequest = () => {
-
     fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: inputNewDeckName
+    }).then(() => {
+      fetchDecksNames();
     });
 
-    fetchDecksNames();
   }
 
   const handleDeckDeletePostRequest = () => {
@@ -66,8 +59,13 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
         'Content-Type': 'application/json'
       },
       body: "" 
+    }).then(() => {
+      return fetchDecksNames();
+    }).then(() => {
+      return currentDeckSetter(decksNames[0]);
+    }).then(() => {
+      onDeckDelete();
     });
-    fetchDecksNames();
   }
 
   return (
@@ -75,7 +73,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
         <ul className="decks">
             {decksNames.map(name => (
               <li>
-                <button className="deckBtn" onClick={() => (handleDeckSwitch(name))}>{name}</button>
+                <button className="deckBtn" onClick={() => (currentDeckSetter(name))}>{name}</button>
 
               </li>
             ))}

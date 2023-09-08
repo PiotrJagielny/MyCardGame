@@ -29,7 +29,7 @@ const EntryPage = () => {
           Welcome to my card game!! <br />
         </h1>
         <h6>To test duel you have to first build your deck. When deck is read click find enemy two times and you will start game with yourself.</h6>
-        <h6>Sometimes you have to refresh page or click load data to load most recent updates</h6>
+        <h6>Sometimes you have to refresh page and click load data to load most recent updates on duel page</h6>
         {/* <h6>(I am so sorry but i have problems with server and i am fixing this right now)</h6> */}
 
       </div>
