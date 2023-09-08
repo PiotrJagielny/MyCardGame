@@ -23,7 +23,6 @@
         <class>com.example.demo.cardsPersistence.CardDisplayModel</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-<!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dpg-citnnqtiuiedpv4sj9hg-a.frankfurt-postgres.render.com/cardgame"/>-->
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://database-1.cinbnwioajix.eu-north-1.rds.amazonaws.com/cardgame"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value = "hidden"/>

@@ -12,6 +12,7 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
+import {renderWonRounds} from '../../Game_Unrelated_Components/utils/utilss';
 
 var stompClient:any = null;
 var firstRow: number = 0;
@@ -96,7 +97,7 @@ const DuelPage = () => {
     setEnemyEndRoundMessage("Enemy ended round");
   }
   const newRoundStarted = (payload: any) => {
-    alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+    alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     setEnemyEndRoundBackground('');
     setEnemyEndRoundMessage('');
     setPlayerEndRoundBackground('');
@@ -191,13 +192,13 @@ const DuelPage = () => {
 
       }).then(() => {
         if(wonRounds === enemyWonRounds && wonRounds === 2) {
-          alertt("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
+          alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
         }
         else if(wonRounds === 2) {
-          alertt("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
+          alert("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
         }
         else if(enemyWonRounds === 2) {
-          alertt("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
+          alert("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
         }
 
       })
@@ -205,7 +206,7 @@ const DuelPage = () => {
 
   }
 
-  const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
+  const alert= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
     const alert = document.createElement('div');
     alert.classList.add('alert');
     const alertButton = document.createElement('button');
@@ -395,16 +396,16 @@ const DuelPage = () => {
       fetchCardsData()
     });
   }
-  const renderWonRounds = (wonRoudnsOfPlayer: number) => {
-    const wonRoundsDivs = [];
-    for(let i = 0 ; i < wonRoudnsOfPlayer; i++) {
-      wonRoundsDivs.push(<div key={i}><img src="https://cdn-icons-png.flaticon.com/512/6941/6941697.png" style={{width: 30, height: 30}} alt=""/></div>)
-    }
-    if(wonRoundsDivs.length === 0) {
-      wonRoundsDivs.push(<div style={{width: 30, height: 30}} > </div>)
-    }
-    return wonRoundsDivs;
-  } 
+  // const renderWonRounds = (wonRoudnsOfPlayer: number) => {
+  //   const wonRoundsDivs = [];
+  //   for(let i = 0 ; i < wonRoudnsOfPlayer; i++) {
+  //     wonRoundsDivs.push(<div key={i}><img src="https://cdn-icons-png.flaticon.com/512/6941/6941697.png" style={{width: 30, height: 30}} alt=""/></div>)
+  //   }
+  //   if(wonRoundsDivs.length === 0) {
+  //     wonRoundsDivs.push(<div style={{width: 30, height: 30}} > </div>)
+  //   }
+  //   return wonRoundsDivs;
+  // } 
   const getEnemyHandBlankCards = () => {
     let cards: Card[] = [];
     for(let i = 0 ; i < enemyHandSize ; ++i ) {
