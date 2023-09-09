@@ -1,3 +1,4 @@
+import { Card,createEmptyCard } from './../../Game_Related_Components/Interfaces/Card';
 
 export const renderWonRounds = (wonRoudnsOfPlayer: number) => {
     const wonRoundsDivs = [];
@@ -9,3 +10,12 @@ export const renderWonRounds = (wonRoudnsOfPlayer: number) => {
     }
     return wonRoundsDivs;
 } 
+
+
+export const getEnemyHandBlankCards = (blankCardsSize: number) => {
+    let cards: Card[] = [];
+    for(let i = 0 ; i < blankCardsSize; ++i ) {
+      cards.push(createEmptyCard());
+    }
+    return cards;
+  }
