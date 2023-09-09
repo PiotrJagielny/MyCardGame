@@ -6,11 +6,10 @@ import CardComponent from '../CardComponent';
 
 interface Props{
     Cards: Card[];
-    refresh: boolean;
     droppableName: string;
 }
 
-export const CardsCollectionDisplay: React.FC<Props> = ({Cards, refresh, droppableName}) => {
+export const CardsCollectionDisplay: React.FC<Props> = ({Cards, droppableName}) => {
   return (
     <div>
         <Droppable droppableId={droppableName}>

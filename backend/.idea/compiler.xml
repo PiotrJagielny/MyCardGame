@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Database" />
+        <module name="BusinessLogic" />
+        <module name="SpringBoot" />
+        <module name="CardGame" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BusinessLogicc" target="19" />
+      <module name="ffgfdgdfgdf" target="19" />
+      <module name="sdfdaf" target="19" />
+      <module name="vvvvvvvvv" target="19" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="BusinessLogic" options="-parameters" />
+      <module name="BusinessLogicc" options="-parameters" />
+      <module name="CardGame" options="-parameters" />
+      <module name="Database" options="-parameters" />
+      <module name="SpringBoot" options="-parameters" />
+      <module name="backend" options="" />
+      <module name="ffgfdgdfgdf" options="-parameters" />
+      <module name="sdfdaf" options="-parameters" />
+      <module name="vvvvvvvvv" options="-parameters" />
+    </option>
+  </component>
+</project>
