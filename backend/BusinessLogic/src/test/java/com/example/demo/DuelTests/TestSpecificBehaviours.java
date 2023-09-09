@@ -241,7 +241,7 @@ class TestSpecificBehaviours {
     }
     @Test
     public void testPlyingCardFromDeck() {
-        duel = createDuel(List.of(priest, paper, capitan, hotdog, viking, warrior));
+        duel = createDuel(List.of(priest, paper, capitan, hotdog,wildRoam, wildRoam, wildRoam, warrior, viking, warrior));
         setHands();
         CardDisplay vikingFromDeck = findByName(duel.getDeckOf(firstPlayer), viking);
         CardDisplay nextCardInChain = playCardWithCardTargeting(
@@ -581,6 +581,55 @@ class TestSpecificBehaviours {
         assertTrue(duel.getPossibleTargetsOf(archer, secondPlayer).isEmpty());
         assertFalse(duel.getPossibleTargetsOf(sharpshooter, secondPlayer).isEmpty());
 
+    }
+
+    @Test
+    public void testLockingCard() {
+        duel = createDuel(List.of(handcuffs, key, goodPerson, booster, capitan, warrior));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, goodPerson), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, goodPerson), firstRow, secondPlayer);
+        playCardWithCardTargeting(duel,findByName(hand1, booster), firstRow, findByName(hand1,goodPerson), firstPlayer);
+        playSpecialCardWithCardTargeting(duel,findByName(hand2, handcuffs), findByName(hand1, goodPerson), secondPlayer);
+        playSpecialCardWithCardTargeting(duel,findByName(hand1, handcuffs), findByName(hand2, goodPerson), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+
+        int pointsBeforeGoodPersonBoost = duel.getRowPointsOf(firstPlayer,firstRow) + capitan.getPoints();
+        playCardWithoutTargeting(duel,findByName(hand1, capitan ), firstRow, firstPlayer);
+        int pointsAfterGoodPersonBoost = duel.getRowPointsOf(firstPlayer,firstRow) ;
+
+        assertEquals(pointsBeforeGoodPersonBoost , pointsAfterGoodPersonBoost);
+    }
+    @Test
+    public void testUnlockingCard() {
+        duel = createDuel(List.of(handcuffs, key, goodPerson, booster, capitan, warrior));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, goodPerson), firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand2, goodPerson), firstRow, secondPlayer);
+        playCardWithCardTargeting(duel,findByName(hand1, booster), firstRow, findByName(hand1,goodPerson), firstPlayer);
+        playSpecialCardWithCardTargeting(duel,findByName(hand2, handcuffs), findByName(hand1, goodPerson), secondPlayer);
+        playSpecialCardWithCardTargeting(duel,findByName(hand1, key), findByName(hand1, goodPerson), firstPlayer);
+        duel.endRoundFor(secondPlayer);
+
+        int pointsBeforeGoodPersonBoost = duel.getRowPointsOf(firstPlayer,firstRow) + capitan.getPoints();
+        playCardWithoutTargeting(duel,findByName(hand1, capitan), firstRow,firstPlayer);
+        int pointsAfterGoodPersonBoost = duel.getRowPointsOf(firstPlayer,firstRow) ;
+
+        assertEquals(pointsBeforeGoodPersonBoost +1, pointsAfterGoodPersonBoost);
+
+    }
+
+
+    @Test
+    public void lockedCards_dontTriggerOnDeathEffects() {
+        duel = createDuel(List.of(cow, handcuffs));
+        setHands();
+
+        playCardWithoutTargeting(duel, findByName(hand1, cow), firstRow, firstPlayer);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, handcuffs), findByName(hand1,cow), secondPlayer);
+        assertTrue(duel.getRowOf(firstPlayer,firstRow).isEmpty());
     }
 
 

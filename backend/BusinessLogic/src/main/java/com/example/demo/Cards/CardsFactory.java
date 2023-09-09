@@ -91,6 +91,11 @@ public class CardsFactory {
 
     public static final CardDisplay giant= new CardDisplay("Giant", 9, Consts.gold);
 
+    public static final CardDisplay handcuffs= new CardDisplay("Handcuffs", 0, Consts.silver);
+    public static final int handcuffsDamage = 3;
+    public static final CardDisplay key = new CardDisplay("Key", 0, Consts.silver);
+    public static final int keyBoost = 4;
+
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
         put(trebuchet.getName(), trebuchetTimer);
@@ -158,6 +163,8 @@ public class CardsFactory {
         put(copier.getName(), "Choose card on your board and insert " + copierCopiesCount + " copier into your deck");
         put(mushrooms.getName(), "Decrease base power of enemy card by " + mushroomsBaseDamage);
         put(tastyMushroom.getName(), "Increase base power of enemy card by " + tastyMushroomBaseIncrease);
+        put(handcuffs.getName(), "Lock enemy card and deal " + handcuffsDamage + " damage");
+        put(key.getName(), "Unlock your card and boost it by " + keyBoost);
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -182,6 +189,8 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(handcuffs),
+                Card.createCard(key),
                 Card.createCard(mushrooms),
                 Card.createCard(copier),
                 Card.createCard(tastyMushroom),

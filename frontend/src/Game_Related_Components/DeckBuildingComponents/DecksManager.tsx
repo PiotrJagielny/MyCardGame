@@ -4,13 +4,11 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import './DecksManager.css';
 
 interface Props{
-    OnDecksSwitched: (deckName:string) => void;
     currentDeckSetter: React.Dispatch<React.SetStateAction<string>>;
     currentDeck: string;
 }
 
-export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSetter, currentDeck}) => {
-  const [refresh, setRefresh] = useState(false);
+export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck}) => {
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
   const [inputNewDeckName, setNewDeckName] = useState<string>();
@@ -19,17 +17,18 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchDecksNames = () => {
-    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
+    return fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecksNames(decksNames);
-      if(currentDeck === "") {
-        currentDeckSetter(decksNames[0]);
-      }
     })
     .catch(console.error);
-    setRefresh(true);
   }
+
+  useEffect(() => {
+    console.log(decksNames[0]);
+    currentDeckSetter(decksNames[0]);
+  }, [decksNames])
 
   useEffect(() => {
     const controller = new AbortController();
@@ -39,24 +38,17 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
     };
   }, [userName]);
 
-
-  const handleDeckSwitch = (selectedDeckName: string) => {
-      currentDeckSetter(selectedDeckName);
-      currentDeckSetter(selectedDeckName);
-      OnDecksSwitched(selectedDeckName);
-  }
-
   const handleNewDeckPostRequest = () => {
-
     fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: inputNewDeckName
+    }).then(() => {
+      return fetchDecksNames();
     });
 
-    fetchDecksNames();
   }
 
   const handleDeckDeletePostRequest = () => {
@@ -66,8 +58,9 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
         'Content-Type': 'application/json'
       },
       body: "" 
+    }).then(() => {
+      return fetchDecksNames();
     });
-    fetchDecksNames();
   }
 
   return (
@@ -75,7 +68,7 @@ export const DecksManager: React.FC<Props> = ({OnDecksSwitched, currentDeckSette
         <ul className="decks">
             {decksNames.map(name => (
               <li>
-                <button className="deckBtn" onClick={() => (handleDeckSwitch(name))}>{name}</button>
+                <button className="deckBtn" onClick={() => (currentDeckSetter(name))}>{name}</button>
 
               </li>
             ))}

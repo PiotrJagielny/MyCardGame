@@ -82,6 +82,7 @@ public class DuelController {
         }
         else {
             simpMessagingTemplate.convertAndSendToUser(duels.get(gameID).getOpponentOf(userName), "/enemyEndRound", "Enemy ended round");
+            simpMessagingTemplate.convertAndSendToUser(userName, "/playerEndedRound", "Player ended round");
         }
         duels.get(gameID).endRoundFor(userName);
     }

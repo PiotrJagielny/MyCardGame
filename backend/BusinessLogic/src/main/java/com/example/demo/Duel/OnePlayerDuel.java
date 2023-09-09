@@ -20,7 +20,7 @@ public class OnePlayerDuel {
     private int wonRounds;
 
 
-    private Map<String, Integer> cardsTimers;
+    private Map<Integer, Integer> cardsTimers;
 
     public OnePlayerDuel() {
         rows = new ArrayList<>();
@@ -100,7 +100,7 @@ public class OnePlayerDuel {
 
         int timer = CardsFactory.getCardTimer(cc.getDisplay());
         if(timer != CardsFactory.noTimer) {
-            cardsTimers.put(cc.getDisplay().getName(), timer);
+            cardsTimers.put(cc.getDisplay().getId(), timer);
         }
     }
 
@@ -127,6 +127,27 @@ public class OnePlayerDuel {
         if(cardToDecrease.getDisplay().getBasePoints() <= 0)  {
             rows.get(cardRow).deleteCard(cardToDecrease);
         }
+    }
+    public void addStatusToCard(CardDisplay card, String status) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1) {
+            return;
+        }
+
+        Card cardToAddStatusTo = rows.get(cardRow).getCards().stream()
+                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+        rows.get(cardRow).addStatusTo(cardToAddStatusTo, status);
+    }
+    public void removeStatusFromCard(CardDisplay card, String status) {
+        int cardRow = getCardRow(card);
+        if(cardRow == -1) {
+            return;
+        }
+
+        Card cardToRemoveStatusFrom = rows.get(cardRow).getCards().stream()
+                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
+
+        rows.get(cardRow).removeStatusFromCard(cardToRemoveStatusFrom, status);
     }
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
         for (int i = 0; i < rows.size(); i++) {
@@ -234,28 +255,32 @@ public class OnePlayerDuel {
     }
 
     public void restartTimer(CardDisplay card) {
-        if(cardsTimers.containsKey(card.getName())) {
-            cardsTimers.put(card.getName(), CardsFactory.getCardTimer(card));
+        if(cardsTimers.containsKey(card.getId())) {
+            cardsTimers.put(card.getId(), CardsFactory.getCardTimer(card));
         }
     }
     public void decrementTimer(CardDisplay card) {
-        if(cardsTimers.containsKey(card.getName())) {
-            cardsTimers.put(card.getName(), cardsTimers.get(card.getName()) - 1);
+        if(cardsTimers.containsKey(card.getId())) {
+            cardsTimers.put(card.getId(), cardsTimers.get(card.getId()) - 1);
         }
     }
     public int getTimer(CardDisplay card) {
-//        if(cardsTimers.containsKey(card.getName()) == false) return -1;
-        return cardsTimers.getOrDefault(card.getName(), -1);
+        return cardsTimers.getOrDefault(card.getId(), -1);
     }
 
     public CardDisplay getRandomCardFromBoardWithout(CardDisplay card) {
-        int lastCardIndex = getCardsOnBoard().size() - 1;
+        List<CardDisplay> cardsOnBoard = getCardsOnBoard();
+        if(cardsOnBoard.size() == 1 && cardsOnBoard.get(0).equals(card) ) {
+            return new CardDisplay();
+        }
+
+        int lastCardIndex = cardsOnBoard.size() - 1;
         int randomCard = Utils.getRandomNumber(0, lastCardIndex);
 
-        CardDisplay cardRolled = getCardsOnBoard().get(randomCard);
+        CardDisplay cardRolled = cardsOnBoard.get(randomCard);
         while(cardRolled.equals(card) == true) {
             randomCard = Utils.getRandomNumber(0, lastCardIndex);
-            cardRolled = getCardsOnBoard().get(randomCard);
+            cardRolled = cardsOnBoard.get(randomCard);
         }
 
         return cardRolled;

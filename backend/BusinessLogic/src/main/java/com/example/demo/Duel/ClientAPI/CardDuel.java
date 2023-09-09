@@ -57,19 +57,28 @@ public class CardDuel {
                 return effects.getPlayChainCard();
             }
             else {
-                effects.invokeOnTurnEndEffect();
-                effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
-                effects.invokeOnTurnStartEffect();
+//                effects.invokeOnTurnEndEffect();
+//                effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
+//                effects.invokeOnTurnStartEffect();
+                invokeOnTurnsEffects(effects, getOpponentOf(player), player);
 
                 if(players.get(getOpponentOf(player)).didEndRound()) {
-                    effects.invokeOnTurnEndEffect();
-                    effects.changePerspective(players.get(player), players.get(getOpponentOf(player)));
-                    effects.invokeOnTurnStartEffect();
+//                    effects.invokeOnTurnEndEffect();
+//                    effects.changePerspective(players.get(player), players.get(getOpponentOf(player)));
+//                    effects.invokeOnTurnStartEffect();
+                    invokeOnTurnsEffects(effects,player, getOpponentOf(player) );
                 }
                 changeTurn();
             }
         }
         return new CardDisplay();
+    }
+
+    private void invokeOnTurnsEffects(CardEffects effects, String player, String enemy) {
+        effects.invokeOnTurnEndEffect();
+        effects.changePerspective(players.get(player), players.get(enemy));
+        effects.invokeOnTurnStartEffect();
+
     }
 
     private boolean isNullOrEmpty(CardDisplay card) {
@@ -108,7 +117,7 @@ public class CardDuel {
     public void dealCards() {
         for (Map.Entry<String, OnePlayerDuel> entry : players.entrySet()) {
             OnePlayerDuel obj = entry.getValue();
-            obj.dealCards(4);
+            obj.dealCards(6);
         }
     }
 
@@ -122,9 +131,10 @@ public class CardDuel {
     public void endRoundFor(String player) {
         if(whosTurn.equals(player)){
             CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)));
-            effects.invokeOnTurnEndEffect();
-            effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
-            effects.invokeOnTurnStartEffect();
+//            effects.invokeOnTurnEndEffect();
+//            effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
+//            effects.invokeOnTurnStartEffect();
+            invokeOnTurnsEffects(effects, getOpponentOf(player), player);
             changeTurn();
             players.get(player).endRound();
 

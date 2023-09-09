@@ -12,6 +12,7 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
+import {renderWonRounds, getEnemyHandBlankCards} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
 var stompClient:any = null;
 var firstRow: number = 0;
@@ -25,6 +26,54 @@ var rowStatusToImageUrl: Map<string,string> = new Map<string,string>([
   ["Rain", "https://parspng.com/wp-content/uploads/2022/06/rainpng.parspng.com-4.png"],
 ]);
 const DuelPage = () => {
+  const alert= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    const alertButton = document.createElement('button');
+    alertButton.innerText = 'Back to main menu';
+    alert.setAttribute('style', `
+      position: fixed;
+      top: 30%;
+      left:50%;
+      padding:20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 5px 0 #00000022; 
+      display:flex;
+      flex-direction:column;
+      background-image: url(${imageURL});
+      background-size: cover;
+      background-position: center;
+      height: 200px;
+      width: 200px;
+    `);
+    alertButton.setAttribute('style', `
+      border: 1px solidd #333;
+      background:white;
+      border-radius: 5px;
+      padding: 5px;
+    
+    `);
+    alert.innerHTML= `<span style="
+      font-size: 20px;
+      padding: 29%;
+      padding-left: 59px;
+      ">
+     ${msg}
+     </span>`;
+     if(appearButton) {
+      alert.appendChild(alertButton);
+      alertButton.addEventListener('click',(e) => {
+        alert.remove();
+        navigate("/Main");
+      });
+     }
+    if(timeout !== 0) {
+      setTimeout(() => {
+        alert.remove();
+      }, Number(timeout))
+    }
+    document.body.appendChild(alert);
+  }
 
   let navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +124,15 @@ const DuelPage = () => {
 
 
 
+  useEffect(() => {
+    connectToSocket();
+    const controller = new AbortController();
+      return () => {
+        controller.abort();
+      };
+  }, []);
+
+
   const connectToSocket= () =>{
     let Sock = new SockJS(serverURL + '/ws');
     stompClient = over(Sock);
@@ -83,8 +141,10 @@ const DuelPage = () => {
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
     stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
+    stompClient.subscribe('/user/' + userName + '/playerEndedRound', playerEndedRound);
     stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
     stompClient.subscribe('/user/' + userName + '/mulligan', mulliganMessage);
+    fetchCardsData();
     setIsMulliganModalOpen(true);
   }
   const onMessageReceived = (payload: any) => {
@@ -95,17 +155,23 @@ const DuelPage = () => {
     setEnemyEndRoundBackground('rgba(0,0,0,0.4');
     setEnemyEndRoundMessage("Enemy ended round");
   }
+  const playerEndedRound= (payload: any) => {
+    fetchCardsData();
+    setPlayerEndRoundBackground('rgba(0,0,0,0.4');
+    setPlayerEndRoundMessage("You ended round");
+  }
   const newRoundStarted = (payload: any) => {
-    alertt("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+    console.log(playerEndRoundMessage);
+    alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+    fetchCardsData();
     setEnemyEndRoundBackground('');
     setEnemyEndRoundMessage('');
     setPlayerEndRoundBackground('');
     setPlayerEndRoundMessage('');
-    fetchCardsData();
   }
 
 
-  const [mulliganedCards, setMulliganedCards] = useState<number>(1);
+  const [mulliganedCards, setMulliganedCards] = useState<number>(0);
   const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
   const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
   const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
@@ -113,17 +179,12 @@ const DuelPage = () => {
     setDidEnemyEndedMulligan(true);
   }
   useEffect(() => {
-    endMulligan();
-  }, [didEnemyEndedMulligan]);
-  useEffect(() => {
-    endMulligan();
-  }, [didPlayerEndedMulligan]);
-  const endMulligan = () => {
     if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
       setMulliganedCards(1);
       setIsMulliganModalOpen(false);
     }
-  }
+  }, [didEnemyEndedMulligan, didPlayerEndedMulligan]);
+
   const mulliganCard = (cardToMulligan: Card) => {
     if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
       fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
@@ -133,23 +194,17 @@ const DuelPage = () => {
       }).then(() => {
         fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
         setMulliganedCards(mulliganedCards + 1);
-      }).then(() => {
-        if(mulliganedCards === 3) {
-          stompClient.send('/app/mulliganEnded', {}, userName);
-          setDidPlayerEndedMulligan(true);
-        }
       });
     }
   }
-
-
   useEffect(() => {
-    connectToSocket();
-    const controller = new AbortController();
-      return () => {
-        controller.abort();
-      };
-  }, []);
+    if (mulliganedCards === 3) {
+      stompClient.send("/app/mulliganEnded", {}, userName);
+      setDidPlayerEndedMulligan(true);
+    }
+  }, [mulliganedCards]);
+
+
 
 
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
@@ -166,99 +221,48 @@ const DuelPage = () => {
   const fetchCardsData = () => {
     fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`)
       .then((res) => res.text())
-      .then((data: string) => {
-        setEnemyName(data);
-        let userEnemy:string = data;
+      .then((userEnemy: string) => {
+        setEnemyName(userEnemy);
         fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${0}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${1}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${2}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${firstRow}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${secondRow}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${thirdRow}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows);
         fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userName}/${gameID}`, rowsStatus,setRowsStatus);
 
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${0}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${1}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${2}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${firstRow}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${secondRow}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${thirdRow}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
         fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus);
         fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize);
-
-      }).then(() => {
-        if(wonRounds === enemyWonRounds && wonRounds === 2) {
-          alertt("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
-        }
-        else if(wonRounds === 2) {
-          alertt("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
-        }
-        else if(enemyWonRounds === 2) {
-          alertt("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
-        }
-
-      })
-      .catch(console.error);
-
+      }).catch(console.error);
   }
 
-  const alertt= (msg:string, imageURL:string, timeout:number, appearButton: boolean) => {
-    const alert = document.createElement('div');
-    alert.classList.add('alert');
-    const alertButton = document.createElement('button');
-    alertButton.innerText = 'Back to main menu';
-    alert.setAttribute('style', `
-      position: fixed;
-      top: 30%;
-      left:50%;
-      padding:20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 5px 0 #00000022; 
-      display:flex;
-      flex-direction:column;
-      background-image: url(${imageURL});
-      background-size: cover;
-      background-position: center;
-      height: 200px;
-      width: 200px;
-    `);
-    alertButton.setAttribute('style', `
-      border: 1px solidd #333;
-      background:white;
-      border-radius: 5px;
-      padding: 5px;
-    
-    `);
-    alert.innerHTML= `<span style="
-      font-size: 20px;
-      padding: 29%;
-      padding-left: 59px;
-      ">
-     ${msg}
-     </span>`;
-     if(appearButton) {
-      alert.appendChild(alertButton);
-      alertButton.addEventListener('click',(e) => {
-        alert.remove();
-        navigate("/Main");
-      });
-     }
-    if(timeout !== 0) {
-      setTimeout(() => {
-        alert.remove();
-      }, Number(timeout))
+  useEffect(() => {
+    if(wonRounds === enemyWonRounds && wonRounds === 2) {
+      alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
     }
-    document.body.appendChild(alert);
-  }
+    else if(wonRounds === 2) {
+      alert("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
+    }
+    else if(enemyWonRounds === 2) {
+      alert("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
+    }
+  }, [wonRounds, enemyWonRounds])
+
 
 
 
   const [cardDragged, setCardDragged] = useState<Card>(createEmptyCard());
   const [playChainCard, setPlayChainCard] = useState<Card>(createEmptyCard());
-  const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
+  const [cardPlayedRow, setCardPlayedRow] = useState<number>(0);
   const [cardAffected, setCardAffected] = useState<Card>(createEmptyCard());
   const handleModalClose = (card: Card) => {
     setBackgroundOnElement(card.id, '');
@@ -276,7 +280,6 @@ const DuelPage = () => {
     if(element) {
       element.style.background= background;
     }
-
   }
   useEffect(() => {
     fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
@@ -285,29 +288,26 @@ const DuelPage = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(cardDragged)
-    }).then(async (response) => {
-
-      const possibleAffectedRows = await response.json();
-
-      await makeMove(possibleAffectedRows);
-
-    });
+    }).then((response) => response.json())
+    .then((targetableRows: number[]) => {
+      makeMove(targetableRows);
+    })
 
   }, [cardAffected]);
   
 
-  const makeMove = async (possibleAffectedRows: number[]) => {
+  const makeMove = (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
+      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${cardPlayedRow}&gameID=${gameID}`,  cardAffected);
     } 
     else {
       setAffectableRows(possibleAffectedRows);
       setIsRowsModalOpen(true);
     } 
 
-  }
+  };
   const handleRowsModalClose = (affectedRow: number) => {
-    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
+    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${cardPlayedRow}&gameID=${gameID}`,  cardAffected);
     setIsRowsModalOpen(false);
   }
 
@@ -318,15 +318,15 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    setPostOnRowNumberOf(-1);
+    setCardPlayedRow(-1);
     if(destination.droppableId === firstRowId){
-      setPostOnRowNumberOf(0);
+      setCardPlayedRow(0);
     }
     else if(destination.droppableId === secondRowId){
-      setPostOnRowNumberOf(1);
+      setCardPlayedRow(1);
     }
     else if(destination.droppableId === thirdRowId){
-      setPostOnRowNumberOf(2);
+      setCardPlayedRow(2);
     }
     if(Number(result.draggableId) === playChainCard.id && playChainCard.name !== "") {
       setCardDragged(playChainCard);
@@ -336,34 +336,33 @@ const DuelPage = () => {
     }
 
 
-
   }
-  useEffect( () => {
-    fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(cardDragged)
-    }).then(async (response) => {
-
-      const targetableCardsResponse= await response.json();
-
-      await ensure(targetableCardsResponse);
-
-    });
+  useEffect(() => {
+    if(cardDragged.name !== "") {
+      fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
+        method: 'POST',
+        headers:  {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      }).then((response) => response.json())
+      .then((cards: Card[]) => {
+        selectCardToTargetFrom(cards);
+      });
+    }
 
   }, [cardDragged])
 
-  const ensure = async (targetableCardsArg:Card[]) => {
 
-      if(targetableCardsArg.length === 0) {
-        setCardAffected(createEmptyCard());
-      }
-      else {
-        setTargetableCards(targetableCardsArg);
-        setIsModalOpen(true);
-      }
+  const selectCardToTargetFrom = (targetableCardsArg:Card[]) => {
+
+    if (targetableCardsArg.length === 0) {
+      setCardAffected(createEmptyCard());
+    } 
+    else {
+      setTargetableCards(targetableCardsArg);
+      setIsModalOpen(true);
+    }
   }
 
 
@@ -389,28 +388,7 @@ const DuelPage = () => {
         'Content-Type': 'application/json'
       },
       body: null
-    }).then( () => {
-      setPlayerEndRoundBackground('rgba(0,0,0,0.4');
-      setPlayerEndRoundMessage("You ended round");
-      fetchCardsData()
     });
-  }
-  const renderWonRounds = (wonRoudnsOfPlayer: number) => {
-    const wonRoundsDivs = [];
-    for(let i = 0 ; i < wonRoudnsOfPlayer; i++) {
-      wonRoundsDivs.push(<div key={i}><img src="https://cdn-icons-png.flaticon.com/512/6941/6941697.png" style={{width: 30, height: 30}} alt=""/></div>)
-    }
-    if(wonRoundsDivs.length === 0) {
-      wonRoundsDivs.push(<div style={{width: 30, height: 30}} > </div>)
-    }
-    return wonRoundsDivs;
-  } 
-  const getEnemyHandBlankCards = () => {
-    let cards: Card[] = [];
-    for(let i = 0 ; i < enemyHandSize ; ++i ) {
-      cards.push(createEmptyCard());
-    }
-    return cards;
   }
   const handleGraveyardOpen = () => {
     fetch(serverURL + `/Duel/getGraveyardCards/${userName}/${gameID}`)
@@ -467,6 +445,7 @@ const DuelPage = () => {
         ))}
       </Modal>
       <Modal isOpen={isMulliganModalOpen} onRequestClose={() => mulliganCard(createEmptyCard())}style={{content: {width:'500px', height:'200px', background:'gray',},}}>
+        <button onClick={fetchCardsData}>load data</button>
         <h2>Choose a card to mulligan</h2>
         {cardsInHand.map((card, index) =>(
           <button onClick= { () => {mulliganCard(card)} }><CardComponent  card={card}></CardComponent></button>
@@ -516,7 +495,7 @@ const DuelPage = () => {
         <RowComponent cardsOnRow = {enemyCardsOnFirstRow} pointsOnRow={enemyPointsOnRows[firstRow]} rowDroppableId={firstRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[firstRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnSecondRow} pointsOnRow={enemyPointsOnRows[secondRow]} rowDroppableId={secondRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[secondRow]) ||''}></RowComponent>
         <RowComponent cardsOnRow = {enemyCardsOnThirdRow} pointsOnRow={enemyPointsOnRows[thirdRow]} rowDroppableId={thirdRowId}rowStatusImageURL={rowStatusToImageUrl.get(rowsStatus[thirdRow]) ||''}></RowComponent>
-        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards()} cardInPlayChain={createEmptyCard()}></EnemyHandComponent>
+        <EnemyHandComponent cardsInHand={getEnemyHandBlankCards(enemyHandSize)} cardInPlayChain={createEmptyCard()}></EnemyHandComponent>
       </DragDropContext>
 
 

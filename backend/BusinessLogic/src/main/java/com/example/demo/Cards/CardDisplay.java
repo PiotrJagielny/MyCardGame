@@ -1,6 +1,9 @@
 package com.example.demo.Cards;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CardDisplay{
 
     private String name;
@@ -10,9 +13,11 @@ public class CardDisplay{
     private int timer;
     private int id;
     private String color;
+    private List<String> statuses;
 
-    public CardDisplay(String name, int points, int basePoints, String cardInfo, int id, String color) {
+    public CardDisplay(String name, int points, int basePoints, String cardInfo, int id, String color, List<String> statuses) {
         this.color = color;
+        this.statuses = statuses;
         this.name = name;
         this.points = points;
         this.basePoints = basePoints;
@@ -30,6 +35,8 @@ public class CardDisplay{
         cardInfo = "";
         timer = CardsFactory.noTimer;
         this.id = -1;
+        this.statuses = new ArrayList<>();
+
     }
     public CardDisplay(String name, int points, int basePoints, String cardInfo) {
         this.name = name;
@@ -39,6 +46,7 @@ public class CardDisplay{
         timer = CardsFactory.noTimer;
         this.id = -1;
         this.color = "";
+        this.statuses = new ArrayList<>();
     }
 
 
@@ -50,6 +58,7 @@ public class CardDisplay{
         this.id = -1;
         timer = CardsFactory.noTimer;
         this.color = "";
+        this.statuses = new ArrayList<>();
     }
 
     public CardDisplay() {
@@ -60,6 +69,7 @@ public class CardDisplay{
         timer = CardsFactory.noTimer;
         this.id = -1;
         this.color = "";
+        this.statuses = new ArrayList<>();
     }
 
 
@@ -81,6 +91,10 @@ public class CardDisplay{
 
     public String getName() {
         return name;
+    }
+
+    public List<String> getStatuses() {
+        return statuses;
     }
 
     public String getCardInfo() {

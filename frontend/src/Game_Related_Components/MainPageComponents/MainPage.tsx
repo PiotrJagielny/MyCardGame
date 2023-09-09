@@ -35,6 +35,7 @@ const MainPage = () => {
     .then((res) => res.json())
     .then((isDeckValid: boolean) => {
       if(isDeckValid) {
+        setChosenDeck("");
         setChosenDeck(deck);
       }
       else {
@@ -84,7 +85,6 @@ const MainPage = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(deckData),
-          }).then(() => {
           });
         })
         .catch(console.error);
@@ -104,6 +104,12 @@ const MainPage = () => {
         {decks.map((deck, index) =>(
           <button className="btn" onClick= { () => handleModalClose(deck) }>{deck}</button>
         ))}
+        <br/>
+        <br/>
+        <br/>
+        <div>
+          <button className="btn" onClick={() => setIsModalOpen(false)}>Close</button>
+        </div>
       </Modal>
       <h1>Hello {userName}</h1>
       <button className="btn" onClick={RedirectToDeckBuilder}>Build your deck</button> <br />

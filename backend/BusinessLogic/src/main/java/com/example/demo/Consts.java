@@ -6,6 +6,8 @@ public class Consts {
     public static String silver= "silver";
     public static String bronze= "bronze";
 
+    public static String locked = "locked";
+
     public static final String firstPlayer = "first";
     public static final String secondPlayer = "second";
 

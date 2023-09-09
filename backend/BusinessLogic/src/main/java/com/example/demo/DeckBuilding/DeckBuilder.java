@@ -10,26 +10,29 @@ import java.util.List;
 import java.util.Map;
 
 public class DeckBuilder {
-    private Map<String, Deck> playerDecksBetter;
+    private Map<String, Deck> playerDecks;
 
     public DeckBuilder() {
 
-        playerDecksBetter = new HashMap<>();
-        playerDecksBetter.put("Deck", new Deck(CardsFactory.createAllCards()));
+        playerDecks = new HashMap<>();
+        playerDecks.put("Deck", new Deck(CardsFactory.createAllCards()));
     }
 
 
     public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
-        return playerDecksBetter.get( deckName ).getCardsPossibleToAdd();
+        return playerDecks.get( deckName ).getCardsPossibleToAdd();
+    }
+    public List<CardDisplay> getCurrentDeck(String deckName) {
+        return playerDecks.get(deckName).getCardsInDeck();
     }
 
     public String addCardToDeck(CardDisplay card, String deckName) {
-        return playerDecksBetter.get( deckName ).addCard(card);
+        return playerDecks.get( deckName ).addCard(card);
     }
 
 
     public void putCardFromDeckBack(CardDisplay cardDisplay, String deckName) {
-        playerDecksBetter.get(deckName).putCardFromDeckBack(cardDisplay);
+        playerDecks.get(deckName).putCardFromDeckBack(cardDisplay);
     }
 
 
@@ -43,31 +46,28 @@ public class DeckBuilder {
         return responseMessage;
     }
 
-    private Boolean isAbleToDeleteDeck(String deckName){return playerDecksBetter.size() != 1;}
+    private Boolean isAbleToDeleteDeck(String deckName){return playerDecks.size() != 1;}
 
     private void deleteDeck(String deckName) {
-        playerDecksBetter.remove(deckName);
+        playerDecks.remove(deckName);
     }
 
 
 
     public List<String> getDecksNames() {
         List<String> result = new ArrayList<String>();
-        for (Map.Entry<String, Deck> entry : playerDecksBetter.entrySet()) {
+        for (Map.Entry<String, Deck> entry : playerDecks.entrySet()) {
             result.add(entry.getKey());
         }
         return result;
     }
 
 
-    public List<CardDisplay> getCurrentDeck(String deckName) {
-        return playerDecksBetter.get(deckName).getCardsInDeck();
-    }
 
 
     public void createDeck(String deckName) {
         if(getDecksNames().contains(deckName) == false){
-            playerDecksBetter.put(deckName, new Deck(CardsFactory.createAllCards()));
+            playerDecks.put(deckName, new Deck(CardsFactory.createAllCards()));
         }
     }
 
@@ -75,7 +75,7 @@ public class DeckBuilder {
 
 
     public boolean isDeckValid(String deckName) {
-        Deck deck = playerDecksBetter.get(deckName);
+        Deck deck = playerDecks.get(deckName);
         return deck.getCardsInDeck().size() >= Consts.minDeckSize && deck.getCardsInDeck().size() <= Consts.maxDeckSize;
     }
 }

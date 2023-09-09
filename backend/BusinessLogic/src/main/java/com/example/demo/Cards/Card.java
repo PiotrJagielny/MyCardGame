@@ -1,6 +1,9 @@
 package com.example.demo.Cards;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Card {
     private final static int idStart = 1;
     private static int uniqueCardId = idStart;
@@ -14,6 +17,7 @@ public class Card {
     private int damage;
     private int id;
     private String color;
+    private List<String> statuses;
 
     public Card() {
         name="";
@@ -22,6 +26,7 @@ public class Card {
         damage = 0;
         id = idStart - 1 ;
         this.color = "";
+        statuses = new ArrayList<>();
     }
 
     public Card(String name, int points, String color){
@@ -31,9 +36,10 @@ public class Card {
         id = uniqueCardId++;
         boost = 0;
         damage = 0;
+        statuses = new ArrayList<>();
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name, getPoints(),basePoints, CardsFactory.getCardInfo(name), id, color);}
+    public CardDisplay getDisplay(){return new CardDisplay(name, getPoints(),basePoints, CardsFactory.getCardInfo(name), id, color, statuses);}
     public int getPoints(){return basePoints + boost - damage;}
     public int getId() {return id;}
     public void boostPointsBy(int amount){
@@ -44,6 +50,12 @@ public class Card {
     }
     public void decreaseBasePower(int amount) {
         basePoints -= amount;
+    }
+    public void addStatus(String status) {
+        statuses.add(status);
+    }
+    public void removeStatus(String status) {
+        statuses.remove(status);
     }
 
 
@@ -68,5 +80,6 @@ public class Card {
     public void increaseBasePower(int increaseAmount) {
         basePoints += increaseAmount;
     }
+
 }
 
