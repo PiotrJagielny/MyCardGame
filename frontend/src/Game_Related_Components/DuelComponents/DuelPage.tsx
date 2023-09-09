@@ -141,8 +141,10 @@ const DuelPage = () => {
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
     stompClient.subscribe('/user/' + userName + '/enemyEndRound', enemyEndRoundTrigger);
+    stompClient.subscribe('/user/' + userName + '/playerEndedRound', playerEndedRound);
     stompClient.subscribe('/user/' + userName + '/newRoundStarted', newRoundStarted);
     stompClient.subscribe('/user/' + userName + '/mulligan', mulliganMessage);
+    fetchCardsData();
     setIsMulliganModalOpen(true);
   }
   const onMessageReceived = (payload: any) => {
@@ -153,13 +155,19 @@ const DuelPage = () => {
     setEnemyEndRoundBackground('rgba(0,0,0,0.4');
     setEnemyEndRoundMessage("Enemy ended round");
   }
+  const playerEndedRound= (payload: any) => {
+    fetchCardsData();
+    setPlayerEndRoundBackground('rgba(0,0,0,0.4');
+    setPlayerEndRoundMessage("You ended round");
+  }
   const newRoundStarted = (payload: any) => {
+    console.log(playerEndRoundMessage);
     alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+    fetchCardsData();
     setEnemyEndRoundBackground('');
     setEnemyEndRoundMessage('');
     setPlayerEndRoundBackground('');
     setPlayerEndRoundMessage('');
-    fetchCardsData();
   }
 
 
@@ -171,17 +179,11 @@ const DuelPage = () => {
     setDidEnemyEndedMulligan(true);
   }
   useEffect(() => {
-    endMulligan();
-  }, [didEnemyEndedMulligan]);
-  useEffect(() => {
-    endMulligan();
-  }, [didPlayerEndedMulligan]);
-  const endMulligan = () => {
     if(didEnemyEndedMulligan === true && didPlayerEndedMulligan === true) {
       setMulliganedCards(1);
       setIsMulliganModalOpen(false);
     }
-  }
+  }, [didEnemyEndedMulligan, didPlayerEndedMulligan]);
 
   const mulliganCard = (cardToMulligan: Card) => {
     if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
@@ -222,47 +224,45 @@ const DuelPage = () => {
       .then((userEnemy: string) => {
         setEnemyName(userEnemy);
         fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${0}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${1}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${2}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${firstRow}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${secondRow}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${thirdRow}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows);
         fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userName}/${gameID}`, rowsStatus,setRowsStatus);
 
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${0}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${1}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${2}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${firstRow}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${secondRow}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
+        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${thirdRow}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
         fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn);
         fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
         fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
         fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
         fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus);
         fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize);
-
-      }).then(() => {
-        if(wonRounds === enemyWonRounds && wonRounds === 2) {
-          alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
-        }
-        else if(wonRounds === 2) {
-          alert("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
-        }
-        else if(enemyWonRounds === 2) {
-          alert("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
-        }
-
-      })
-      .catch(console.error);
-
+      }).catch(console.error);
   }
+
+  useEffect(() => {
+    if(wonRounds === enemyWonRounds && wonRounds === 2) {
+      alert("Draw","https://c4.wallpaperflare.com/wallpaper/103/477/186/forest-light-nature-forest-wallpaper-preview.jpg", 0, true );
+    }
+    else if(wonRounds === 2) {
+      alert("You won!","https://png.pngtree.com/thumb_back/fh260/background/20220523/pngtree-stage-podium-with-rays-of-spotlights-for-award-ceremony-winner-with-image_1400291.jpg", 0, true );
+    }
+    else if(enemyWonRounds === 2) {
+      alert("You lost!","https://c4.wallpaperflare.com/wallpaper/33/477/228/rain-showers-forest-illustration-wallpaper-preview.jpg", 0, true );
+    }
+  }, [wonRounds, enemyWonRounds])
 
 
 
 
   const [cardDragged, setCardDragged] = useState<Card>(createEmptyCard());
   const [playChainCard, setPlayChainCard] = useState<Card>(createEmptyCard());
-  const [postOnRowNumberOf, setPostOnRowNumberOf] = useState<number>(0);
+  const [cardPlayedRow, setCardPlayedRow] = useState<number>(0);
   const [cardAffected, setCardAffected] = useState<Card>(createEmptyCard());
   const handleModalClose = (card: Card) => {
     setBackgroundOnElement(card.id, '');
@@ -280,7 +280,6 @@ const DuelPage = () => {
     if(element) {
       element.style.background= background;
     }
-
   }
   useEffect(() => {
     fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
@@ -289,29 +288,26 @@ const DuelPage = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(cardDragged)
-    }).then(async (response) => {
-
-      const possibleAffectedRows = await response.json();
-
-      await makeMove(possibleAffectedRows);
-
-    });
+    }).then((response) => response.json())
+    .then((targetableRows: number[]) => {
+      makeMove(targetableRows);
+    })
 
   }, [cardAffected]);
   
 
-  const makeMove = async (possibleAffectedRows: number[]) => {
+  const makeMove = (possibleAffectedRows: number[]) => {
     if(possibleAffectedRows.length === 0) {
-      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
+      playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${-1}&rowNumber=${cardPlayedRow}&gameID=${gameID}`,  cardAffected);
     } 
     else {
       setAffectableRows(possibleAffectedRows);
       setIsRowsModalOpen(true);
     } 
 
-  }
+  };
   const handleRowsModalClose = (affectedRow: number) => {
-    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${postOnRowNumberOf}&gameID=${gameID}`,  cardAffected);
+    playDraggedCard(`${serverURL}/Duel/playCard?userName=${userName}&affectedRow=${affectedRow}&rowNumber=${cardPlayedRow}&gameID=${gameID}`,  cardAffected);
     setIsRowsModalOpen(false);
   }
 
@@ -322,15 +318,15 @@ const DuelPage = () => {
     if(!destination){return;}
     if(destination.droppableId === "Hand"){return;}
 
-    setPostOnRowNumberOf(-1);
+    setCardPlayedRow(-1);
     if(destination.droppableId === firstRowId){
-      setPostOnRowNumberOf(0);
+      setCardPlayedRow(0);
     }
     else if(destination.droppableId === secondRowId){
-      setPostOnRowNumberOf(1);
+      setCardPlayedRow(1);
     }
     else if(destination.droppableId === thirdRowId){
-      setPostOnRowNumberOf(2);
+      setCardPlayedRow(2);
     }
     if(Number(result.draggableId) === playChainCard.id && playChainCard.name !== "") {
       setCardDragged(playChainCard);
@@ -340,23 +336,25 @@ const DuelPage = () => {
     }
 
 
-
   }
-  useEffect( () => {
-    fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(cardDragged)
-    }).then((response) => response.json())
-    .then((cards: Card[]) => {
-      selectCardToTarget(cards);
-    });
+  useEffect(() => {
+    if(cardDragged.name !== "") {
+      fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
+        method: 'POST',
+        headers:  {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      }).then((response) => response.json())
+      .then((cards: Card[]) => {
+        selectCardToTargetFrom(cards);
+      });
+    }
 
   }, [cardDragged])
 
-  const selectCardToTarget = (targetableCardsArg:Card[]) => {
+
+  const selectCardToTargetFrom = (targetableCardsArg:Card[]) => {
 
     if (targetableCardsArg.length === 0) {
       setCardAffected(createEmptyCard());
@@ -390,10 +388,6 @@ const DuelPage = () => {
         'Content-Type': 'application/json'
       },
       body: null
-    }).then( () => {
-      setPlayerEndRoundBackground('rgba(0,0,0,0.4');
-      setPlayerEndRoundMessage("You ended round");
-      fetchCardsData()
     });
   }
   const handleGraveyardOpen = () => {

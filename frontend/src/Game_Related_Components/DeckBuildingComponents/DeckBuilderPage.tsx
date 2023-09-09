@@ -15,15 +15,14 @@ const DeckBuilderPage = () => {
   const [currentDeck, setCurrentDeck] = useState<string>("");
 
   useEffect(() => {
-    fetchCardsData();
+    if(currentDeck !== "" && currentDeck !== undefined) {
+      fetchCardsData();
+    }
   }, [currentDeck])
 
 
   const userName = useSelector<StateData, string>((state) => state.userName);
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
-  const refreshPage = () => {
-    window.location.reload();
-  }
 
   const fetchCardsData = () => {
     console.log(`deck i get cards from ${currentDeck}`)
