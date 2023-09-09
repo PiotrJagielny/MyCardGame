@@ -10,14 +10,12 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 
 
 const DeckBuilderPage = () => {
-  const [refresh, setRefresh] = useState(false);
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [currentDeck, setCurrentDeck] = useState<string>("");
 
   useEffect(() => {
     fetchCardsData();
-
   }, [currentDeck])
 
 
@@ -28,6 +26,7 @@ const DeckBuilderPage = () => {
   }
 
   const fetchCardsData = () => {
+    console.log(`deck i get cards from ${currentDeck}`)
     fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`)
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
@@ -53,7 +52,6 @@ const DeckBuilderPage = () => {
   }, [userName]);
 
   const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
-    let data = {name: cardToPost.name};
     const response = await fetch(PostURL, {
       method: 'POST',
       headers: {
@@ -96,9 +94,6 @@ const DeckBuilderPage = () => {
   }
 
 
-  const ddddd= () => {
-    fetchCardsData();
-  }
 
   return (
     <div className="DeckBuilderPage">
@@ -112,17 +107,17 @@ const DeckBuilderPage = () => {
           <div>
             <h3>All cards</h3>
            <div className = "AllCards">
-              <CardsCollectionDisplay Cards={cardsData} refresh={refresh} droppableName="AllCards"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsData}  droppableName="AllCards"></CardsCollectionDisplay>
            </div>
           </div>
           <div>
             <h3> Cards in deck : {currentDeck}</h3>
             <div className = "AllCardsInDeck">
-              <CardsCollectionDisplay Cards={cardsInDeck} refresh={refresh} droppableName="CardsInDeck"></CardsCollectionDisplay>
+              <CardsCollectionDisplay Cards={cardsInDeck}  droppableName="CardsInDeck"></CardsCollectionDisplay>
             </div>
           </div>
           <div className="PlayersDecks">
-            <DecksManager  onDeckDelete={ddddd} currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
+            <DecksManager  currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
           </div>
         </DragDropContext>
       </div>

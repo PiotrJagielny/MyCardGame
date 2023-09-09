@@ -4,13 +4,11 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import './DecksManager.css';
 
 interface Props{
-  onDeckDelete: () => void;
     currentDeckSetter: React.Dispatch<React.SetStateAction<string>>;
     currentDeck: string;
 }
 
-export const DecksManager: React.FC<Props> = ({ onDeckDelete, currentDeckSetter, currentDeck}) => {
-  const [refresh, setRefresh] = useState(false);
+export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck}) => {
 
   const [decksNames, setDecksNames] = useState<string[]>([]);
   const [inputNewDeckName, setNewDeckName] = useState<string>();
@@ -19,17 +17,18 @@ export const DecksManager: React.FC<Props> = ({ onDeckDelete, currentDeckSetter,
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchDecksNames = () => {
-    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
+    return fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecksNames(decksNames);
-      if(currentDeck === "") {
-        currentDeckSetter(decksNames[0]);
-      }
     })
     .catch(console.error);
-    setRefresh(true);
   }
+
+  useEffect(() => {
+    console.log(decksNames[0]);
+    currentDeckSetter(decksNames[0]);
+  }, [decksNames])
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,7 +46,7 @@ export const DecksManager: React.FC<Props> = ({ onDeckDelete, currentDeckSetter,
       },
       body: inputNewDeckName
     }).then(() => {
-      fetchDecksNames();
+      return fetchDecksNames();
     });
 
   }
@@ -61,10 +60,6 @@ export const DecksManager: React.FC<Props> = ({ onDeckDelete, currentDeckSetter,
       body: "" 
     }).then(() => {
       return fetchDecksNames();
-    }).then(() => {
-      return currentDeckSetter(decksNames[0]);
-    }).then(() => {
-      onDeckDelete();
     });
   }
 

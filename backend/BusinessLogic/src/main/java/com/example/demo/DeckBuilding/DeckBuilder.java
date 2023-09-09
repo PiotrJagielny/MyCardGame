@@ -20,10 +20,22 @@ public class DeckBuilder {
 
 
     public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
-        return playerDecks.get( deckName ).getCardsPossibleToAdd();
+        try {
+            return playerDecks.get( deckName ).getCardsPossibleToAdd();
+        }
+        catch(Exception e) {
+            System.out.println("deck name is: " +deckName);
+            return List.of();
+        }
     }
     public List<CardDisplay> getCurrentDeck(String deckName) {
-        return playerDecks.get(deckName).getCardsInDeck();
+        try {
+            return playerDecks.get(deckName).getCardsInDeck();
+        }
+        catch(Exception e) {
+            System.out.println("There was no such deck as: " + deckName);
+            return List.of();
+        }
     }
 
     public String addCardToDeck(CardDisplay card, String deckName) {
