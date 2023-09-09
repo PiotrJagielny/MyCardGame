@@ -18,8 +18,8 @@ public class DecksDatabase {
         Map<String, String> dbProperties_prod = new HashMap<>() {{
             put("javax.persistence.jdbc.password", password);
         }};
-//        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
-        emf = Persistence.createEntityManagerFactory("development");
+        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
+//        emf = Persistence.createEntityManagerFactory("development");
     }
 
     private static EntityManagerFactory emf;

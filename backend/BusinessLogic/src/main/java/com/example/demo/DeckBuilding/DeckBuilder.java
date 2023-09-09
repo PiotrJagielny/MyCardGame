@@ -20,11 +20,9 @@ public class DeckBuilder {
 
 
     public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
-        System.out.println("deck is: " + deckName);
         return playerDecks.get( deckName ).getCardsPossibleToAdd();
     }
     public List<CardDisplay> getCurrentDeck(String deckName) {
-        System.out.println("deck is: " + deckName);
         return playerDecks.get(deckName).getCardsInDeck();
     }
 
