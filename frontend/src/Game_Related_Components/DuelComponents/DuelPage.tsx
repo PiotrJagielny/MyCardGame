@@ -240,7 +240,9 @@ const DuelPage = () => {
           fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows),
           fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus),
           fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize)
-        ]).then((values) => { console.log("all fetched")})
+        ]).then((values) => { 
+          console.log("all fetched")
+        })
       }).catch(console.error);
   }
 
@@ -281,16 +283,18 @@ const DuelPage = () => {
     }
   }
   useEffect(() => {
-    fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(cardDragged)
-    }).then((response) => response.json())
-    .then((targetableRows: number[]) => {
-      makeMove(targetableRows);
-    })
+    if(cardAffected.id !== -1) {
+      fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      }).then((response) => response.json())
+      .then((targetableRows: number[]) => {
+        makeMove(targetableRows);
+      })
+    }
 
   }, [cardAffected]);
   
@@ -339,7 +343,7 @@ const DuelPage = () => {
 
   }
   useEffect(() => {
-    if(cardDragged.name !== "") {
+    if(cardDragged.id !== -1) {
       fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
         method: 'POST',
         headers:  {

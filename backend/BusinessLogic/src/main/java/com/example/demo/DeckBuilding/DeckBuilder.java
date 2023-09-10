@@ -13,9 +13,7 @@ public class DeckBuilder {
     private Map<String, Deck> playerDecks;
 
     public DeckBuilder() {
-
         playerDecks = new HashMap<>();
-        playerDecks.put("Deck", new Deck(CardsFactory.createAllCards()));
     }
 
 

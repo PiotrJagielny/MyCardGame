@@ -346,4 +346,5 @@ class TestDuelAfterDeal {
         assertEquals(expectedPointsSum, actualPointsSum);
     }
 
+
 }

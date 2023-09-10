@@ -122,6 +122,8 @@ public class CardsFactory {
         put(copier.getName(), new PlayerCardsTargetable());
         put(mushrooms.getName(), new EnemyCardsTargetable());
         put(tastyMushroom.getName(), new PlayerCardsTargetable());
+        put(handcuffs.getName(), new EnemyCardsTargetable());
+        put(key.getName(), new PlayerCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -189,6 +191,7 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(giant),
                 Card.createCard(handcuffs),
                 Card.createCard(key),
                 Card.createCard(mushrooms),

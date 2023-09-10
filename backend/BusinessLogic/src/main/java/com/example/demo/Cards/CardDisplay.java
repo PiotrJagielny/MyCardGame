@@ -104,6 +104,7 @@ public class CardDisplay{
         return color;
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof CardDisplay){

@@ -102,8 +102,9 @@ public class CardEffects {
             enemy.clearRowsStatus();
         }
         else if(p.equals(CardsFactory.sharpshooter)) {
-            int targetPoints = playMade.getTargetedCard().getPoints();
-            if(targetPoints <= CardsFactory.sharpshooterDamage) {
+            CardDisplay tc = playMade.getTargetedCard();
+            int targetPoints = tc.getPoints();
+            if(targetPoints <= CardsFactory.sharpshooterDamage && tc.getId() != -1) {
                 player.boostCard(playMade.getPlayedCard(),CardsFactory.sharpshooterSelfBoost);
             }
             strikeCardBy(playMade.getTargetedCard(), CardsFactory.sharpshooterDamage);
