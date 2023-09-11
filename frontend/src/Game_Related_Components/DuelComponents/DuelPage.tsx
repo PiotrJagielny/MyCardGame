@@ -354,7 +354,10 @@ const DuelPage = () => {
     .then((cards: Card[]) => {
       selectCardToTargetFrom(cards);
     })
-    .catch((err) => console.log(err));
+    .catch((err) =>{
+     console.log(err)
+    });
+
 
   }, [cardDragged])
 

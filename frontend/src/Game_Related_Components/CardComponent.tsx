@@ -53,7 +53,7 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
         color: black;
         margin-left: 10%;
         margin-top: 20%
-       ">${card.cardInfo}
+       ">${card.cardInfo + " \n" + (card.statuses.length === 1? card.statuses[0]: "")}
        </div>`;
       document.body.appendChild(wholeCardDisplay);
 
