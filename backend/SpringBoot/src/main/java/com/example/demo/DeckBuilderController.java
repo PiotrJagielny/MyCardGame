@@ -39,6 +39,12 @@ public class DeckBuilderController {
         return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
     }
 
+    @PostMapping(path = "SearchForCards/{userName}/{deckName}/{searchString}")
+    @CrossOrigin
+    public List<CardDisplay> searchForCards(@PathVariable String userName,@PathVariable String deckName,@PathVariable String searchString) {
+        return deckBuilders.get(userName).searchForCards(deckName, searchString);
+    }
+
     @GetMapping(path = "GetCardsInDeck/{userName}/{deckName}")
     @CrossOrigin
     public List<CardDisplay> GetCardsInDeck(@PathVariable String userName, @PathVariable String deckName){

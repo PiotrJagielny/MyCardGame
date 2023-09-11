@@ -8,6 +8,7 @@ import com.example.demo.Consts;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Deck {
     private List<Card> cardsInDeck;
@@ -76,5 +77,12 @@ public class Deck {
 
     public void sortCardsPossibleToAddBy(Comparator<Card> sortCriteria) {
         allCardsPossibleToAdd.sort(sortCriteria);
+    }
+
+    public List<CardDisplay> searchForCards(String searchString) {
+        return allCardsPossibleToAdd.stream()
+                .filter(c -> c.getDisplay().getName().contains(searchString))
+                .map(c -> c.getDisplay())
+                .collect(Collectors.toList());
     }
 }

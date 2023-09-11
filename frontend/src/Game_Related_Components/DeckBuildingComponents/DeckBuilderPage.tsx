@@ -13,6 +13,7 @@ const DeckBuilderPage = () => {
   const [cardsData, setCardsData] = useState<Card[]>([]);
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>([]);
   const [currentDeck, setCurrentDeck] = useState<string>("");
+  const [searchString, setSearchString] = useState<string>("");
 
   useEffect(() => {
     if(currentDeck !== "" && currentDeck !== undefined) {
@@ -92,11 +93,22 @@ const DeckBuilderPage = () => {
     fetch(`${serverURL}/DeckBuilder/SortAddableCardsBy/${userName}/${currentDeck}/${criteria}`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: null
+      body: JSON.stringify("")
     }).then((response) => response.json())
     .then((sortedCards: Card[]) => {
       setCardsData(sortedCards);
     }).catch((err) => console.log(err));
+  }
+  const searchForCards = () => {
+    fetch(`${serverURL}/DeckBuilder/SearchForCards/${userName}/${currentDeck}/${searchString}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify("")
+    }).then((response) => response.json())
+    .then((foundCards: Card[]) => {
+      setCardsData(foundCards);
+    }).catch((err) => console.log(err));
+
   }
 
   return (
@@ -133,6 +145,10 @@ const DeckBuilderPage = () => {
               <li><button onClick={() => sortAddableCardsBy("color")} className="btn">Color</button></li>
               <li><button onClick={() => sortAddableCardsBy("name")} className="btn">Name</button></li>
             </ul>
+          </div>
+          <div className="searchBar">
+            <input onChange={(event:any) => {setSearchString(event.target.value)}}/>
+            <button className="btn" onClick={searchForCards}>Search</button>
           </div>
         </div>
       </div>

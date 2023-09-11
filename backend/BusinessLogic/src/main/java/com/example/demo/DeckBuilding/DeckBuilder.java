@@ -8,26 +8,26 @@ import com.example.demo.Consts;
 import java.util.*;
 
 public class DeckBuilder {
-    private Map<String, Deck> playerDecks;
+    private Map<String, Deck> decks;
 
     public DeckBuilder() {
-        playerDecks = new HashMap<>();
+        decks = new HashMap<>();
     }
 
 
     public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
-        return playerDecks.get( deckName ).getCardsPossibleToAdd();
+        return decks.get( deckName ).getCardsPossibleToAdd();
     }
     public List<CardDisplay> getCurrentDeck(String deckName) {
-        return playerDecks.get(deckName).getCardsInDeck();
+        return decks.get(deckName).getCardsInDeck();
     }
 
     public String addCardToDeck(CardDisplay card, String deckName) {
-        return playerDecks.get( deckName ).addCard(card);
+        return decks.get( deckName ).addCard(card);
     }
 
     public void sortCardsPossibleToAddBy(String deckName, String criteria) {
-        playerDecks.get(deckName).sortCardsPossibleToAddBy(getComparator(criteria));
+        decks.get(deckName).sortCardsPossibleToAddBy(getComparator(criteria));
     }
 
     private Comparator<Card> getComparator(String criteria) {
@@ -84,7 +84,7 @@ public class DeckBuilder {
 
 
     public void putCardFromDeckBack(CardDisplay cardDisplay, String deckName) {
-        playerDecks.get(deckName).putCardFromDeckBack(cardDisplay);
+        decks.get(deckName).putCardFromDeckBack(cardDisplay);
     }
 
 
@@ -98,17 +98,17 @@ public class DeckBuilder {
         return responseMessage;
     }
 
-    private Boolean isAbleToDeleteDeck(String deckName){return playerDecks.size() != 1;}
+    private Boolean isAbleToDeleteDeck(String deckName){return decks.size() != 1;}
 
     private void deleteDeck(String deckName) {
-        playerDecks.remove(deckName);
+        decks.remove(deckName);
     }
 
 
 
     public List<String> getDecksNames() {
         List<String> result = new ArrayList<String>();
-        for (Map.Entry<String, Deck> entry : playerDecks.entrySet()) {
+        for (Map.Entry<String, Deck> entry : decks.entrySet()) {
             result.add(entry.getKey());
         }
         return result;
@@ -119,7 +119,7 @@ public class DeckBuilder {
 
     public void createDeck(String deckName) {
         if(getDecksNames().contains(deckName) == false){
-            playerDecks.put(deckName, new Deck(CardsFactory.createAllCards()));
+            decks.put(deckName, new Deck(CardsFactory.createAllCards()));
         }
     }
 
@@ -127,7 +127,11 @@ public class DeckBuilder {
 
 
     public boolean isDeckValid(String deckName) {
-        Deck deck = playerDecks.get(deckName);
+        Deck deck = decks.get(deckName);
         return deck.getCardsInDeck().size() >= Consts.minDeckSize && deck.getCardsInDeck().size() <= Consts.maxDeckSize;
+    }
+
+    public List<CardDisplay> searchForCards(String deckName, String searchString) {
+        return decks.get(deckName).searchForCards(searchString);
     }
 }
