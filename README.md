@@ -60,22 +60,14 @@ There are bronze, silver and gold cards. Gold cards can only be targetter by oth
 archer cant shoot Priest <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/3e948464-8128-4e59-a98c-e32fe139894a)
 
-
-
-## Entry page
-To log in you have to enter name. Every user have its own instance of deck builder so there cannot be two users with same name.
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/b6a77471-4af0-4eed-ba58-181bf8404602)
-
-## Main menu
-This is multiplayer game, so when you click find enemy, there has to be other player waiting for fight to start a game (normally this ring on bottom is rotating).<br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/8be324bf-0f42-4e03-8533-e739ee734c1d)
-<br>
-Before you find an enemy, you have to choose which deck you want to use, and if this deck is not build correctly, you can't start Duel. <br>
-![image](https://github.com/PiotrJagla/MyCardGame-MainProj/assets/76881722/0b5d2490-8119-4521-8f04-c64df069d3e7)
-
 ## Deck builder
-There is deck builder where you can add and remove cards from deck, add and remove decks
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/04792da9-0cdb-4f88-bfb6-9f24efb63e2d)
+There is deck builder where you can add and remove cards from deck, add and remove decks. 
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2b47af2e-84f5-41cb-82a5-351d2bb7c9e2)
+
+You can also search for specific cards and sort by different criteria. Here i search for cards that have oo in name and sort them by points.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/a5d2eda3-b992-46bd-9550-afad9b383ed2)
+
+
 
 ## Duel demo
 This is duel page where battle is taking place. <br>
