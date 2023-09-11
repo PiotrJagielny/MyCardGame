@@ -243,6 +243,8 @@ const DuelPage = () => {
         ]).then((values) => { 
           console.log("all fetched")
         })
+        .catch((err) => console.log(err));
+
       }).catch(console.error);
   }
 
@@ -283,7 +285,6 @@ const DuelPage = () => {
     }
   }
   useEffect(() => {
-    if(cardAffected.id !== -1) {
       fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
         method: 'POST',
         headers: {
@@ -294,7 +295,7 @@ const DuelPage = () => {
       .then((targetableRows: number[]) => {
         makeMove(targetableRows);
       })
-    }
+      .catch((err) => console.log(err))
 
   }, [cardAffected]);
   
@@ -343,18 +344,17 @@ const DuelPage = () => {
 
   }
   useEffect(() => {
-    if(cardDragged.id !== -1) {
-      fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
-        method: 'POST',
-        headers:  {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      }).then((response) => response.json())
-      .then((cards: Card[]) => {
-        selectCardToTargetFrom(cards);
-      });
-    }
+    fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
+      method: 'POST',
+      headers:  {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardDragged)
+    }).then((response) => response.json())
+    .then((cards: Card[]) => {
+      selectCardToTargetFrom(cards);
+    })
+    .catch((err) => console.log(err));
 
   }, [cardDragged])
 

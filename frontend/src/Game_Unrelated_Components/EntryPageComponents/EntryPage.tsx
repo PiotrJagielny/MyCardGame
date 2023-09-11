@@ -17,8 +17,8 @@ const EntryPage = () => {
 
 
     dispatch({type:"SET_USERNAME", payload: userName});
-    // dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
-    dispatch({type: "SET_SERVER_URL", payload: 'https://13.51.147.93'}); 
+    dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
+    // dispatch({type: "SET_SERVER_URL", payload: 'https://13.51.147.93'}); 
     navigate("/Main");
   }  
 

@@ -6,6 +6,7 @@ import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Deck {
@@ -73,4 +74,7 @@ public class Deck {
         return CardsFactory.getCardsDisplay(allCardsPossibleToAdd);
     }
 
+    public void sortCardsPossibleToAddBy(Comparator<Card> sortCriteria) {
+        allCardsPossibleToAdd.sort(sortCriteria);
+    }
 }

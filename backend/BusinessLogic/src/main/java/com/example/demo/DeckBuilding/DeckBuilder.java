@@ -1,13 +1,11 @@
 package com.example.demo.DeckBuilding;
 
+import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DeckBuilder {
     private Map<String, Deck> playerDecks;
@@ -27,6 +25,62 @@ public class DeckBuilder {
     public String addCardToDeck(CardDisplay card, String deckName) {
         return playerDecks.get( deckName ).addCard(card);
     }
+
+    public void sortCardsPossibleToAddBy(String deckName, String criteria) {
+        playerDecks.get(deckName).sortCardsPossibleToAddBy(getComparator(criteria));
+    }
+
+    private Comparator<Card> getComparator(String criteria) {
+        switch(criteria.toLowerCase()) {
+            case "points":
+                return new Comparator<Card>() {
+                    @Override
+                    public int compare(Card o1, Card o2) {
+                        return Integer.compare(o1.getPoints(), o2.getPoints());
+                    }
+                };
+            case "color":
+                return new Comparator<Card>() {
+                    @Override
+                    public int compare(Card o1, Card o2) {
+                        return Integer.compare(
+                                getColorNumber(o1.getDisplay().getColor()), getColorNumber(o2.getDisplay().getColor())
+                        );
+                    }
+                };
+            case "name":
+                return new Comparator<Card>() {
+                    @Override
+                    public int compare(Card o1, Card o2) {
+                        return o1.getDisplay().getName().compareTo(o2.getDisplay().getName());
+                    }
+                };
+            default:
+                return new Comparator<Card>() {
+                    @Override
+                    public int compare(Card o1, Card o2) {
+                        return 0;
+                    }
+                };
+        }
+    }
+
+    private int getColorNumber(String color) {
+        if(color.equals(Consts.gold)) {
+            return 1;
+        }
+        else if(color.equals(Consts.silver)) {
+            return 2;
+        }
+        else if(color.equals(Consts.bronze)) {
+            return 3;
+        }
+        else {
+            return -1;
+        }
+    }
+
+
 
 
     public void putCardFromDeckBack(CardDisplay cardDisplay, String deckName) {

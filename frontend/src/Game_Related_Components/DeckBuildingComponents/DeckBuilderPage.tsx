@@ -25,21 +25,21 @@ const DeckBuilderPage = () => {
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchCardsData = () => {
-    console.log(`deck i get cards from ${currentDeck}`)
+    Promise.all([
     fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`)
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
         setCardsData(cardsData);
       })
-      .catch(console.error);
+      .catch(console.error),
 
       fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${currentDeck}`)
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
       })
-      .catch(console.error);
-
+      .catch(console.error)
+    ]);
   }
 
   useEffect(() => {
@@ -50,21 +50,16 @@ const DeckBuilderPage = () => {
     };
   }, [userName]);
 
-  const ChangeDecksState = async (cardToPost: Card, PostURL: string) =>{
-    const response = await fetch(PostURL, {
+  const ChangeDecksState = (cardToPost: Card, PostURL: string) =>{
+    fetch(PostURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(cardToPost.name)
+    }).then(() => {
+      fetchCardsData();
     });
-
-    
-    if(!response.ok){
-      throw new Error('Failed to change deck state');
-    }
-
-    fetchCardsData();
   };
 
 
@@ -93,6 +88,16 @@ const DeckBuilderPage = () => {
   }
 
 
+  const sortAddableCardsBy = (criteria: string) => {
+    fetch(`${serverURL}/DeckBuilder/SortAddableCardsBy/${userName}/${currentDeck}/${criteria}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: null
+    }).then((response) => response.json())
+    .then((sortedCards: Card[]) => {
+      setCardsData(sortedCards);
+    }).catch((err) => console.log(err));
+  }
 
   return (
     <div className="DeckBuilderPage">
@@ -115,10 +120,21 @@ const DeckBuilderPage = () => {
               <CardsCollectionDisplay Cards={cardsInDeck}  droppableName="CardsInDeck"></CardsCollectionDisplay>
             </div>
           </div>
-          <div className="PlayersDecks">
-            <DecksManager  currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
-          </div>
         </DragDropContext>
+
+
+
+        <div className="PlayersDecks">
+          <DecksManager  currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
+          <div className="sortCriteria">
+            <p >sort addable cards by 🡣</p>
+            <ul>
+              <li><button onClick={() => sortAddableCardsBy("points")} className="btn">Points</button></li>
+              <li><button onClick={() => sortAddableCardsBy("color")} className="btn">Color</button></li>
+              <li><button onClick={() => sortAddableCardsBy("name")} className="btn">Name</button></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

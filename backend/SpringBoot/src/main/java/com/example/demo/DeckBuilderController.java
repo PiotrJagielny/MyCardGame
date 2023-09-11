@@ -32,6 +32,13 @@ public class DeckBuilderController {
         return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
     }
 
+    @PostMapping(path = "SortAddableCardsBy/{userName}/{deckName}/{criteria}")
+    @CrossOrigin
+    public List<CardDisplay> sortAddableCardsBy(@PathVariable String userName, @PathVariable String deckName, @PathVariable String criteria) {
+        deckBuilders.get(userName).sortCardsPossibleToAddBy(deckName,criteria);
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
+
     @GetMapping(path = "GetCardsInDeck/{userName}/{deckName}")
     @CrossOrigin
     public List<CardDisplay> GetCardsInDeck(@PathVariable String userName, @PathVariable String deckName){

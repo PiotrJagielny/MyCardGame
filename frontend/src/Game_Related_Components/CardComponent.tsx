@@ -16,7 +16,6 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
 
   const showInfo = () => {
     if(card.name !== "") {
-      console.log(card.statuses);
       const wholeCardDisplay = document.createElement('div');
       wholeCardDisplay.classList.add('wholeCardDisplay');
       wholeCardDisplay.setAttribute('style', `
