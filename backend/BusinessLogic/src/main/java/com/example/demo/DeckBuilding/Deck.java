@@ -15,26 +15,19 @@ public class Deck {
     private List<Card> allCardsPossibleToAdd;
     private String deckName;
 
+    private String currentNamesFilter;
+    private Comparator<CardDisplay> currentSortCriteria;
+
 
     public Deck(List<Card> allCards) {
 
         cardsInDeck = new ArrayList<Card>();
         deckName="";
         this.allCardsPossibleToAdd = allCards;
+        currentNamesFilter = "";
+        currentSortCriteria = getComparator("");
     }
 
-    public Deck() {
-        this.deckName = "";
-        cardsInDeck = new ArrayList<Card>();
-        this.allCardsPossibleToAdd = new ArrayList<Card>();
-    }
-
-    private void copyAllCards(List<Card> allCards) {
-        this.allCardsPossibleToAdd = new ArrayList<Card>();
-        for (int i = 0; i < allCards.size(); ++i) {
-            this.allCardsPossibleToAdd.add(allCards.get(i));
-        }
-    }
 
     public String addCard(CardDisplay cardDisplay){
         String responseMessage="";
@@ -67,22 +60,70 @@ public class Deck {
         return CardsFactory.getCardsDisplay(cardsInDeck);
     }
 
-    public String getDeckName() {
-        return deckName;
-    }
 
     public List<CardDisplay> getCardsPossibleToAdd() {
-        return CardsFactory.getCardsDisplay(allCardsPossibleToAdd);
-    }
-
-    public void sortCardsPossibleToAddBy(Comparator<Card> sortCriteria) {
-        allCardsPossibleToAdd.sort(sortCriteria);
-    }
-
-    public List<CardDisplay> searchForCards(String searchString) {
         return allCardsPossibleToAdd.stream()
-                .filter(c -> c.getDisplay().getName().contains(searchString))
+                .filter(c -> c.getDisplay().getName().contains(currentNamesFilter))
                 .map(c -> c.getDisplay())
+                .sorted(currentSortCriteria)
                 .collect(Collectors.toList());
     }
+
+    public void sortCardsPossibleToAddBy(String criteria) {
+        currentSortCriteria = getComparator(criteria);
+    }
+
+    public void searchForCards(String searchString) {
+        currentNamesFilter = searchString;
+    }
+    private Comparator<CardDisplay> getComparator(String criteria) {
+        switch(criteria.toLowerCase()) {
+            case "points":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return Integer.compare(o1.getPoints(), o2.getPoints());
+                    }
+                };
+            case "color":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return Integer.compare(
+                                getColorNumber(o1.getColor()), getColorNumber(o2.getColor())
+                        );
+                    }
+                };
+            case "name":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                };
+            default:
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return 0;
+                    }
+                };
+        }
+    }
+
+    private int getColorNumber(String color) {
+        if(color.equals(Consts.gold)) {
+            return 1;
+        }
+        else if(color.equals(Consts.silver)) {
+            return 2;
+        }
+        else if(color.equals(Consts.bronze)) {
+            return 3;
+        }
+        else {
+            return -1;
+        }
+    }
+
 }

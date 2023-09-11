@@ -27,60 +27,8 @@ public class DeckBuilder {
     }
 
     public void sortCardsPossibleToAddBy(String deckName, String criteria) {
-        decks.get(deckName).sortCardsPossibleToAddBy(getComparator(criteria));
+        decks.get(deckName).sortCardsPossibleToAddBy(criteria);
     }
-
-    private Comparator<Card> getComparator(String criteria) {
-        switch(criteria.toLowerCase()) {
-            case "points":
-                return new Comparator<Card>() {
-                    @Override
-                    public int compare(Card o1, Card o2) {
-                        return Integer.compare(o1.getPoints(), o2.getPoints());
-                    }
-                };
-            case "color":
-                return new Comparator<Card>() {
-                    @Override
-                    public int compare(Card o1, Card o2) {
-                        return Integer.compare(
-                                getColorNumber(o1.getDisplay().getColor()), getColorNumber(o2.getDisplay().getColor())
-                        );
-                    }
-                };
-            case "name":
-                return new Comparator<Card>() {
-                    @Override
-                    public int compare(Card o1, Card o2) {
-                        return o1.getDisplay().getName().compareTo(o2.getDisplay().getName());
-                    }
-                };
-            default:
-                return new Comparator<Card>() {
-                    @Override
-                    public int compare(Card o1, Card o2) {
-                        return 0;
-                    }
-                };
-        }
-    }
-
-    private int getColorNumber(String color) {
-        if(color.equals(Consts.gold)) {
-            return 1;
-        }
-        else if(color.equals(Consts.silver)) {
-            return 2;
-        }
-        else if(color.equals(Consts.bronze)) {
-            return 3;
-        }
-        else {
-            return -1;
-        }
-    }
-
-
 
 
     public void putCardFromDeckBack(CardDisplay cardDisplay, String deckName) {
@@ -131,7 +79,7 @@ public class DeckBuilder {
         return deck.getCardsInDeck().size() >= Consts.minDeckSize && deck.getCardsInDeck().size() <= Consts.maxDeckSize;
     }
 
-    public List<CardDisplay> searchForCards(String deckName, String searchString) {
-        return decks.get(deckName).searchForCards(searchString);
+    public void searchForCards(String deckName, String searchString) {
+        decks.get(deckName).searchForCards(searchString);
     }
 }
