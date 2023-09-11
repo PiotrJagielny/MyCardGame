@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Card {
-    private final static int idStart = 1;
+    private final static int idStart = 0;
     private static int uniqueCardId = idStart;
 
 

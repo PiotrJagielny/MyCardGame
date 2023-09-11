@@ -5,6 +5,7 @@ import com.example.demo.Consts;
 import com.example.demo.Duel.ClientAPI.CardDuel;
 import com.example.demo.Duel.PlayerPlay;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -42,18 +43,29 @@ public class TestsUtils {
         return cards.stream().filter(c -> c.equals(cardToFind)).findFirst().orElse(new CardDisplay());
     }
 
+    public static List<CardDisplay> board(CardDuel duel, String player) {
+        List<CardDisplay> allCards = new ArrayList<>();
+        for (int i = 0; i < Consts.rowsNumber; i++) {
+            allCards.addAll(duel.getRowOf(player, i));
+        }
+        return allCards;
+    }
+
+
+
+
     public static CardDuel createDuel(List<CardDisplay> deck){
         CardDuel result = CardDuel.createDuel();
-        result.registerPlayerToDuel(secondPlayer);
-        result.registerPlayerToDuel(firstPlayer);
-        result.parseCardsFor(deck , secondPlayer);
-        result.parseCardsFor(deck , firstPlayer);
+        result.registerPlayerToDuel(player2);
+        result.registerPlayerToDuel(player1);
+        result.parseCardsFor(deck , player2);
+        result.parseCardsFor(deck , player1);
         result.dealCards();
         return result;
     }
     public static void setHands(List<CardDisplay> hand1, List<CardDisplay> hand2, CardDuel duel) {
-        hand1 = duel.getHandOf(firstPlayer);
-        hand2 = duel.getHandOf(secondPlayer);
+        hand1 = duel.getHandOf(player1);
+        hand2 = duel.getHandOf(player2);
     }
 
 }

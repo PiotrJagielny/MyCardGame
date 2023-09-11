@@ -8,8 +8,8 @@ public class Consts {
 
     public static String locked = "locked";
 
-    public static final String firstPlayer = "first";
-    public static final String secondPlayer = "second";
+    public static final String player1 = "first";
+    public static final String player2 = "second";
 
     public static final int firstRow = 0;
     public static final int secondRow = 1;

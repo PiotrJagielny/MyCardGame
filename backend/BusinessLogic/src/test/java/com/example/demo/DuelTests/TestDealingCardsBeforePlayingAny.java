@@ -21,33 +21,33 @@ class TestDealingCardsBeforePlayingAny {
 
         cardsDisplay = List.of(new CardDisplay("Knight"),new CardDisplay( "Viking"));
         duel = CardDuel.createDuel();
-        duel.registerPlayerToDuel(firstPlayer);
-        duel.registerPlayerToDuel(secondPlayer);
-        duel.parseCardsFor(cardsDisplay, firstPlayer);
-        duel.parseCardsFor(cardsDisplay, secondPlayer);
+        duel.registerPlayerToDuel(player1);
+        duel.registerPlayerToDuel(player2);
+        duel.parseCardsFor(cardsDisplay, player1);
+        duel.parseCardsFor(cardsDisplay, player2);
     }
 
     @Test
     public void afterAddingCardsDisplaysToParse_deckIsFilled() {
-        assertEquals(cardsDisplay.size() , duel.getDeckOf(firstPlayer).size());
+        assertEquals(cardsDisplay.size() , duel.getDeckOf(player1).size());
         for(int i = 0 ; i < cardsDisplay.size() ; ++i){
-            assertEquals(cardsDisplay.get(i).getName(), duel.getDeckOf(firstPlayer).get(i).getName());
+            assertEquals(cardsDisplay.get(i).getName(), duel.getDeckOf(player1).get(i).getName());
         }
     }
 
     @Test
     public void beforeDealingCards_handIsEmpty(){
-        assertTrue(duel.getHandOf(firstPlayer).isEmpty());
+        assertTrue(duel.getHandOf(player1).isEmpty());
     }
 
     @Test
     public void afterDealingCards_handIsNotEmpty(){
-        int cardsInDeck_beforeDeal = duel.getDeckOf(firstPlayer).size();
+        int cardsInDeck_beforeDeal = duel.getDeckOf(player1).size();
         duel.dealCards();
-        int cardsInDeck_afterDeal = duel.getDeckOf(firstPlayer).size();
+        int cardsInDeck_afterDeal = duel.getDeckOf(player1).size();
 
         assertNotEquals(cardsInDeck_beforeDeal, cardsInDeck_afterDeal);
-        assertFalse(duel.getHandOf(firstPlayer).isEmpty());
+        assertFalse(duel.getHandOf(player1).isEmpty());
     }
 
 }

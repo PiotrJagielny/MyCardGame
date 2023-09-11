@@ -95,6 +95,7 @@ public class CardsFactory {
     public static final int handcuffsDamage = 3;
     public static final CardDisplay key = new CardDisplay("Key", 0, Consts.silver);
     public static final int keyBoost = 4;
+    public static final CardDisplay trex= new CardDisplay("Trex", 5, Consts.gold);
 
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
@@ -124,6 +125,7 @@ public class CardsFactory {
         put(tastyMushroom.getName(), new PlayerCardsTargetable());
         put(handcuffs.getName(), new EnemyCardsTargetable());
         put(key.getName(), new PlayerCardsTargetable());
+        put(trex.getName(), new PlayerCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -167,6 +169,7 @@ public class CardsFactory {
         put(tastyMushroom.getName(), "Increase base power of enemy card by " + tastyMushroomBaseIncrease);
         put(handcuffs.getName(), "Lock enemy card and deal " + handcuffsDamage + " damage");
         put(key.getName(), "Unlock your card and boost it by " + keyBoost);
+        put(trex.getName(), "Eat your card on board, and this card will be boosted by power of consumed card");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -192,6 +195,7 @@ public class CardsFactory {
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
                 Card.createCard(breaker),
+                Card.createCard(trex),
                 Card.createCard(spy),
                 Card.createCard(giant),
                 Card.createCard(handcuffs),

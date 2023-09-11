@@ -171,6 +171,11 @@ public class CardEffects {
             player.removeStatusFromCard(playMade.getTargetedCard(), Consts.locked);
             player.boostCard(playMade.getTargetedCard(), CardsFactory.keyBoost);
         }
+        else if(p.equals(CardsFactory.trex)) {
+            player.boostCard(playMade.getPlayedCard(), playMade.getTargetedCard().getPoints());
+            burnCard(playMade.getTargetedCard(), player);
+        }
+
 
     }
     private void placeCardOnBoard() {
