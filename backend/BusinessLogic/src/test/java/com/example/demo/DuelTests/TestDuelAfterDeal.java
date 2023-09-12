@@ -317,7 +317,7 @@ class TestDuelAfterDeal {
     }
     @Test
     public void testStartRoundEffectsAfterPass() {
-        duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, thunder, breaker));
+        duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, badDog, breaker));
         setHands();
 
         playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, player1);
@@ -345,6 +345,28 @@ class TestDuelAfterDeal {
         assertEquals(expectedPointsSum, actualPointsSum);
     }
 
+    @Test
+    public void testHumansFractionAbility() {
+        duel = createDuel(List.of(giant));
+        setHands();
+        duel.setFractionFor(player1, Consts.Fraction.humans);
+        playCardWithoutTargeting(duel, findByName(hand1,giant), firstRow, player1);
+        assertEquals(giant.getPoints() + Consts.Fraction.humansGoldBoost, duel.getRowPointsOf(player1, firstRow));
+    }
+
+    @Test
+    public void testMonstersFractionAbility() {
+        duel = createDuel(List.of(badDog, giant));
+        setHands();
+
+        duel.setFractionFor(player1, Consts.Fraction.monsters);
+        playCardWithoutTargeting(duel,findByName(hand1, badDog), firstRow, player1);
+        duel.endRoundFor(player2);
+        duel.endRoundFor(player1);
+        assertEquals(badDog.getPoints(), duel.getRowPointsOf(player1, firstRow));
+
+
+    }
 
 
 

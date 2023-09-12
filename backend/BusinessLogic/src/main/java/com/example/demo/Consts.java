@@ -4,14 +4,16 @@ public class Consts {
     public class Fraction{
         public static final String neutral = "neutral";
         public static final String monsters= "monsters";
+
         public static final String humans= "humans";
+        public static final int humansGoldBoost = 2;
 
     }
-    public static String gold= "gold";
-    public static String silver= "silver";
-    public static String bronze= "bronze";
+    public static final String gold= "gold";
+    public static final String silver= "silver";
+    public static final String bronze= "bronze";
 
-    public static String locked = "locked";
+    public static final String locked = "locked";
 
     public static final String player1 = "first";
     public static final String player2 = "second";

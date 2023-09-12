@@ -10,7 +10,7 @@ public class CardsFactory {
 
     public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2, Consts.bronze, Consts.Fraction.neutral);
     public static final CardDisplay knight = new CardDisplay("Knight", 3, Consts.bronze, Consts.Fraction.neutral);
-    public static final CardDisplay thunder = new CardDisplay("Thunder", 4, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay badDog = new CardDisplay("Thunder", 4, Consts.bronze, Consts.Fraction.monsters);
     public static final CardDisplay warrior = new CardDisplay("Warrior",5, Consts.bronze, Consts.Fraction.neutral);
     public static final CardDisplay viking = new CardDisplay("Viking",6, Consts.silver, Consts.Fraction.neutral);
     public static final CardDisplay capitan = new CardDisplay("Capitan",7, Consts.silver, Consts.Fraction.neutral);
@@ -195,6 +195,7 @@ public class CardsFactory {
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
                 Card.createCard(breaker),
+                Card.createCard(blueFire),
                 Card.createCard(trex),
                 Card.createCard(spy),
                 Card.createCard(giant),
@@ -209,7 +210,7 @@ public class CardsFactory {
                 Card.createCard(knight),
                 Card.createCard(knight),
                 Card.createCard(hotdog),
-                Card.createCard(thunder),
+                Card.createCard(badDog),
                 Card.createCard(warrior),
                 Card.createCard(viking),
                 Card.createCard(capitan),

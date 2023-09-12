@@ -394,7 +394,7 @@ class TestSpecificBehaviours {
     @Test
     public void testPlayingCopyOfCardOnBoardFromDeck() {
         duel = createDuel(List.of(supplier, sharpshooter, viking, capitan, warrior,
-                minion, paper, thunder, sharpshooter));
+                minion, paper, badDog, sharpshooter));
         setHands();
 
         playCardWithoutTargeting(duel, findByName(hand1,viking), firstRow, player1);

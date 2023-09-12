@@ -57,15 +57,9 @@ public class CardDuel {
                 return effects.getPlayChainCard();
             }
             else {
-//                effects.invokeOnTurnEndEffect();
-//                effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
-//                effects.invokeOnTurnStartEffect();
                 invokeOnTurnsEffects(effects, getOpponentOf(player), player);
 
                 if(players.get(getOpponentOf(player)).didEndRound()) {
-//                    effects.invokeOnTurnEndEffect();
-//                    effects.changePerspective(players.get(player), players.get(getOpponentOf(player)));
-//                    effects.invokeOnTurnStartEffect();
                     invokeOnTurnsEffects(effects,player, getOpponentOf(player) );
                 }
                 changeTurn();
@@ -80,6 +74,7 @@ public class CardDuel {
         effects.invokeOnTurnStartEffect();
 
     }
+    public void setFractionFor(String player, String fraction) {players.get(player).setFraction(fraction);}
 
     private boolean isNullOrEmpty(CardDisplay card) {
         return card == null || card.equals(new CardDisplay());

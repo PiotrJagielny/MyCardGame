@@ -20,6 +20,8 @@ public class OnePlayerDuel {
     private boolean isRoundOverForPlayer;
     private int wonRounds;
 
+    private String fraction;
+
 
     private Map<Integer, Integer> cardsTimers;
 
@@ -35,7 +37,10 @@ public class OnePlayerDuel {
         hand = new ArrayList<Card>();
         isRoundOverForPlayer = false;
         wonRounds = 0;
+        this.fraction = "";
     }
+
+    public void setFraction(String fraction){this.fraction = fraction;}
 
     public List<CardDisplay> getDeck() {
         return CardsFactory.getCardsDisplay(deck);
@@ -96,6 +101,9 @@ public class OnePlayerDuel {
 
             if(possiblePlace.remove(cc))
                 break;
+        }
+        if(fraction.equals(Consts.Fraction.humans) ) {
+            cc.boostPointsBy(Consts.Fraction.humansGoldBoost);
         }
         rows.get(playMade.playedOnRow()).play(cc);
 
@@ -184,11 +192,30 @@ public class OnePlayerDuel {
         if (playerBoardPoints >= opponentBoardPoints) ++wonRounds;
     }
 
+
     private void clearRows(){
+        List<Card> board = new ArrayList<>();
+        List<Integer> cardsRows = new ArrayList<>();
+        for (int row = 0; row < rows.size(); row++) {
+            for (int j = 0; j < rows.get(row).getCards().size(); j++) {
+                board.add(rows.get(row).get(j));
+                cardsRows.add(row);
+            }
+        }
+        int randomCardIndex = -1;
+        if(board.size() > 0) {
+            randomCardIndex = Utils.getRandomNumber(0, board.size() - 1);
+        }
+
         for(int row = 0 ; row < Consts.rowsNumber ; ++row){
             rows.get(row).getCards().forEach(c -> addCardToGraveyard(c));
             rows.get(row).clearRow();
             clearRowsStatus();
+        }
+
+        
+        if(fraction.equals(Consts.Fraction.monsters)) {
+            rows.get(cardsRows.get(randomCardIndex)).play(board.get(randomCardIndex));
         }
     }
     public int getWonRounds(){
