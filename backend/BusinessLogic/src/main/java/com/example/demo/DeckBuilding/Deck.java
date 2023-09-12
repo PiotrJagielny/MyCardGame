@@ -6,57 +6,52 @@ import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Deck {
     private List<Card> cardsInDeck;
-    private List<Card> allCardsPossibleToAdd;
-    private String deckName;
+    private List<Card> addableCards;
+    private String fraction;
+
+    private String currentNamesFilter;
+    private Comparator<CardDisplay> currentSortCriteria;
+
 
 
     public Deck(List<Card> allCards) {
-
         cardsInDeck = new ArrayList<Card>();
-        deckName="";
-        this.allCardsPossibleToAdd = allCards;
+        this.addableCards = allCards;
+        currentNamesFilter = "";
+        currentSortCriteria = getComparator("");
     }
-
-    public Deck() {
-        this.deckName = "";
+    public Deck(List<Card> allCards, String fraction) {
         cardsInDeck = new ArrayList<Card>();
-        this.allCardsPossibleToAdd = new ArrayList<Card>();
+        currentNamesFilter = "";
+        currentSortCriteria = getComparator("");
+        this.fraction = fraction;
+        this.addableCards = allCards.stream()
+                .filter(c -> c.getDisplay().getFraction().equals(Consts.Fraction.neutral) ||
+                        c.getDisplay().getFraction().equals(fraction))
+                .collect(Collectors.toList());
     }
 
-    private void copyAllCards(List<Card> allCards) {
-        this.allCardsPossibleToAdd = new ArrayList<Card>();
-        for (int i = 0; i < allCards.size(); ++i) {
-            this.allCardsPossibleToAdd.add(allCards.get(i));
-        }
-    }
 
     public String addCard(CardDisplay cardDisplay){
-        String responseMessage="";
-        Card card = allCardsPossibleToAdd.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
-        
-
-        if(cardsInDeck.size() == Consts.maxDeckSize) {
-            responseMessage = Consts.DeckFullMessage;
-            return responseMessage;
-        }
-
-        if(card != null) {
+        Card card = addableCards.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
+        if(card != null && cardsInDeck.size() < Consts.maxDeckSize) {
             cardsInDeck.add(card);
-            allCardsPossibleToAdd.removeIf(c -> c.equals(card) );
-
+            addableCards.removeIf(c -> c.equals(card) );
         }
-        return responseMessage;
+        return "";
     }
 
     public void putCardFromDeckBack(CardDisplay cardDisplay){
         Card card = cardsInDeck.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
 
         if(card != null){
-            allCardsPossibleToAdd.add(card);
+            addableCards.add(card);
             cardsInDeck.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
         }
     }
@@ -65,12 +60,85 @@ public class Deck {
         return CardsFactory.getCardsDisplay(cardsInDeck);
     }
 
-    public String getDeckName() {
-        return deckName;
+
+    public List<CardDisplay> getAddableCards() {
+        return addableCards.stream()
+                .filter(c -> c.getDisplay().getName().contains(currentNamesFilter))
+                .map(c -> c.getDisplay())
+                .sorted(currentSortCriteria)
+                .collect(Collectors.toList());
     }
 
-    public List<CardDisplay> getCardsPossibleToAdd() {
-        return CardsFactory.getCardsDisplay(allCardsPossibleToAdd);
+    public void sortCardsPossibleToAddBy(String criteria) {
+        currentSortCriteria = getComparator(criteria);
     }
 
+    public void searchForCards(String searchString) {
+        if(searchString.equals("all")) {
+            currentNamesFilter = "";
+        }
+        else {
+            currentNamesFilter = searchString;
+        }
+    }
+    private Comparator<CardDisplay> getComparator(String criteria) {
+        switch(criteria.toLowerCase()) {
+            case "points":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return Integer.compare(o1.getPoints(), o2.getPoints());
+                    }
+                };
+            case "color":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return Integer.compare(
+                                getColorNumber(o1.getColor()), getColorNumber(o2.getColor())
+                        );
+                    }
+                };
+            case "name":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                };
+            case "fraction":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return o1.getFraction().compareTo(o2.getFraction());
+                    }
+                };
+            default:
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return 0;
+                    }
+                };
+        }
+    }
+
+    private int getColorNumber(String color) {
+        if(color.equals(Consts.gold)) {
+            return 1;
+        }
+        else if(color.equals(Consts.silver)) {
+            return 2;
+        }
+        else if(color.equals(Consts.bronze)) {
+            return 3;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    public String getFraction() {
+        return fraction;
+    }
 }

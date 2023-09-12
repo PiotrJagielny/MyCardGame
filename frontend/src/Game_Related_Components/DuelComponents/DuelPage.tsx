@@ -161,7 +161,6 @@ const DuelPage = () => {
     setPlayerEndRoundMessage("You ended round");
   }
   const newRoundStarted = (payload: any) => {
-    console.log(playerEndRoundMessage);
     alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     fetchCardsData();
     setEnemyEndRoundBackground('');
@@ -206,9 +205,8 @@ const DuelPage = () => {
 
 
 
-
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
-    fetch(url)
+    return fetch(url)
       .then((res) => res.json())
       .then((data: T) => {
         setter(data);
@@ -216,32 +214,36 @@ const DuelPage = () => {
       .catch(console.error);
   }
 
-
-  
   const fetchCardsData = () => {
     fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`)
       .then((res) => res.text())
       .then((userEnemy: string) => {
         setEnemyName(userEnemy);
-        fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${firstRow}/${gameID}`,cardsOnBoard ,setCardsOnBoard);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${secondRow}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${thirdRow}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow);
-        fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1);
-        fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds);
-        fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon);
-        fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows);
-        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userName}/${gameID}`, rowsStatus,setRowsStatus);
+        Promise.all([
+          fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand),
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${firstRow}/${gameID}`,cardsOnBoard ,setCardsOnBoard),
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${secondRow}/${gameID}`, cardsOnSecondRow ,setCardsOnSecondRow),
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${thirdRow}/${gameID}`, cardsOnThirdRow ,setCardsOnThirdRow),
+          fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userName}/${gameID}`, isTurnOfPlayer1 ,setIsTurnOfPlayer1),
+          fetchData<number>(`${serverURL}/Duel/getWonRounds/${userName}/${gameID}`, wonRounds ,setWonRounds),
+          fetchData<boolean>(`${serverURL}/Duel/didWon/${userName}/${gameID}`, didWon ,setDidWon),
+          fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userName}/${gameID}`, pointsOnRows,setPointsOnRows),
+          fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userName}/${gameID}`, rowsStatus,setRowsStatus),
 
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${firstRow}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${secondRow}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow);
-        fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${thirdRow}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2);
-        fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn);
-        fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds);
-        fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon);
-        fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows);
-        fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus);
-        fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize);
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${firstRow}/${gameID}`,enemyCardsOnFirstRow ,setenemyCardsOnFirstRow),
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${secondRow}/${gameID}`, enemyCardsOnSecondRow,setenemyCardsOnSecondRow),
+          fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userEnemy}/${thirdRow}/${gameID}`, enemyCardsOnThirdRow ,setCardsOnThirdRow2),
+          fetchData<boolean>(`${serverURL}/Duel/isTurnOf/${userEnemy}/${gameID}`, isEnemyTurn ,setisEnemyTurn),
+          fetchData<number>(`${serverURL}/Duel/getWonRounds/${userEnemy}/${gameID}`, enemyWonRounds ,setenemyWonRounds),
+          fetchData<boolean>(`${serverURL}/Duel/didWon/${userEnemy}/${gameID}`, didEnemyWon ,setdidEnemyWon),
+          fetchData<number[]>(`${serverURL}/Duel/getRowsPoints/${userEnemy}/${gameID}`, enemyPointsOnRows,setEnemyPointsOnRows),
+          fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus),
+          fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize)
+        ]).then((values) => { 
+          console.log("all fetched")
+        })
+        .catch((err) => console.log(err));
+
       }).catch(console.error);
   }
 
@@ -282,16 +284,17 @@ const DuelPage = () => {
     }
   }
   useEffect(() => {
-    fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(cardDragged)
-    }).then((response) => response.json())
-    .then((targetableRows: number[]) => {
-      makeMove(targetableRows);
-    })
+      fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardDragged)
+      }).then((response) => response.json())
+      .then((targetableRows: number[]) => {
+        makeMove(targetableRows);
+      })
+      .catch((err) => console.log(err))
 
   }, [cardAffected]);
   
@@ -328,7 +331,9 @@ const DuelPage = () => {
     else if(destination.droppableId === thirdRowId){
       setCardPlayedRow(2);
     }
-    if(Number(result.draggableId) === playChainCard.id && playChainCard.name !== "") {
+
+
+    if(Number(result.draggableId) === playChainCard.id) {
       setCardDragged(playChainCard);
     }
     else {
@@ -338,18 +343,20 @@ const DuelPage = () => {
 
   }
   useEffect(() => {
-    if(cardDragged.name !== "") {
-      fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
-        method: 'POST',
-        headers:  {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDragged)
-      }).then((response) => response.json())
-      .then((cards: Card[]) => {
-        selectCardToTargetFrom(cards);
-      });
-    }
+    fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
+      method: 'POST',
+      headers:  {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardDragged)
+    }).then((response) => response.json())
+    .then((cards: Card[]) => {
+      selectCardToTargetFrom(cards);
+    })
+    .catch((err) =>{
+     console.log(err)
+    });
+
 
   }, [cardDragged])
 

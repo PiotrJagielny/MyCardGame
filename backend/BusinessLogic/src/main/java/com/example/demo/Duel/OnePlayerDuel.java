@@ -9,6 +9,7 @@ import com.example.demo.Duel.Rows.RowStatus;
 import com.example.demo.Utils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OnePlayerDuel {
 
@@ -105,85 +106,46 @@ public class OnePlayerDuel {
     }
 
     public void increaseBasePower(CardDisplay card, int increaseAmount) {
-        int cardRow = getCardRow(card);
-        if(cardRow == -1) {
-            return;
-        }
-        Card cardToDecrease = rows.get(cardRow).getCards().stream()
-                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
-        cardToDecrease.increaseBasePower(increaseAmount);
+        Card target = findCard(card);
+        target.increaseBasePower(increaseAmount);
 
     }
     public void decreaseBasePower(CardDisplay card, int decreaseAmount) {
-        int cardRow = getCardRow(card);
-        if(cardRow == -1) {
-            return;
-        }
-
-        Card cardToDecrease = rows.get(cardRow).getCards().stream()
-                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
-
-        cardToDecrease.decreaseBasePower(decreaseAmount);
-        if(cardToDecrease.getDisplay().getBasePoints() <= 0)  {
-            rows.get(cardRow).deleteCard(cardToDecrease);
-        }
+        rows.forEach(r -> r.decreaseBasePower(card, decreaseAmount));
     }
     public void addStatusToCard(CardDisplay card, String status) {
-        int cardRow = getCardRow(card);
-        if(cardRow == -1) {
-            return;
-        }
-
-        Card cardToAddStatusTo = rows.get(cardRow).getCards().stream()
-                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
-        rows.get(cardRow).addStatusTo(cardToAddStatusTo, status);
+        rows.forEach(r -> r.addStatusTo(card, status));
     }
     public void removeStatusFromCard(CardDisplay card, String status) {
-        int cardRow = getCardRow(card);
-        if(cardRow == -1) {
-            return;
+        rows.forEach(r -> r.removeStatusFromCard(card, status));
+    }
+    private Card findCard(CardDisplay card) {
+        for (int i = 0; i < rows.size(); i++) {
+            for (Card cardOnRow : rows.get(i).getCards()) {
+                if(cardOnRow.getId() == card.getId()) {
+                    return cardOnRow;
+                }
+            }
         }
-
-        Card cardToRemoveStatusFrom = rows.get(cardRow).getCards().stream()
-                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
-
-        rows.get(cardRow).removeStatusFromCard(cardToRemoveStatusFrom, status);
+        return Card.emptyCard();
     }
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
-        for (int i = 0; i < rows.size(); i++) {
-            Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getId() == cardToStrike.getId())
-                            .findFirst().orElse(Card.emptyCard());
-
-            if(card.getPoints() <= strikeAmount ) {
-                addCardToGraveyard(card);
-                row.deleteCard(card);
-            }
-            else {
-                row.strikeCardBy(card, strikeAmount);
-            }
+        if(cardToStrike.getPoints() <= strikeAmount) {
+            addCardToGraveyard(findCard(cardToStrike));
+            rows.forEach(r -> r.deleteCard(cardToStrike));
+        }
+        else {
+            rows.forEach(r -> r.strikeCardBy(cardToStrike, strikeAmount));
         }
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
-        for (int i = 0; i < rows.size(); i++) {
-            Row row = rows.get(i);
-            Card card = row.getCards().stream().filter(c -> c.getId() == cardToBoost.getId())
-                    .findFirst().orElse(Card.emptyCard());
-            row.boostCardBy(card, boostAmount);
-        }
+        rows.forEach(r -> r.boostCardBy(cardToBoost, boostAmount));
     }
 
     public void burnCard(CardDisplay cardToBurn) {
-        for (int i = 0; i < rows.size(); i++) {
-            Row row = rows.get(i);
-            Card card = row.getCards().stream()
-                    .filter(c -> c.getId() == cardToBurn.getId())
-                    .findFirst().orElse(Card.emptyCard());
-
-            row.burnCard(card);
-            addCardToGraveyard(card);
-        }
+        addCardToGraveyard(findCard(cardToBurn));
+        rows.forEach(r -> r.burnCard(cardToBurn));
     }
 
     public int getCardRow(CardDisplay card) {
@@ -289,7 +251,7 @@ public class OnePlayerDuel {
     }
 
     public List<CardDisplay> getGraveyard() {
-        return CardsFactory.getCardsDisplay(graveyard);
+        return graveyard.stream().map(c -> c.getDisplay()).collect(Collectors.toList());
     }
 
     public void mulliganCard(CardDisplay cardToMulligan) {

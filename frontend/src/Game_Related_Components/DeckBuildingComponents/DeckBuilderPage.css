@@ -32,3 +32,29 @@
   margin-left:5%;
 }
   
+.sortCriteria ul{
+  color:white;
+  list-style: none;
+  display:none;
+  float:left;
+}
+
+.sortCriteria {
+  height: 200px;
+}
+.sortCriteria p{
+  font-size: 21px;
+}
+
+.sortCriteria:hover ul{
+  display:block;
+}
+
+.searchBar input{
+    width: 300px;
+    height:40px;
+    font-size: 1em;
+    background-color: #282c34;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+}

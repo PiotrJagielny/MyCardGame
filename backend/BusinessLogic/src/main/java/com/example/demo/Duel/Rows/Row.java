@@ -36,37 +36,44 @@ public class Row {
         }
     }
 
-    public void boostCardBy(Card aCard, int boostAmount){
-        int cardIndex = cards.indexOf(aCard);
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).boostPointsBy(boostAmount);
+    public void boostCardBy(CardDisplay aCard, int boostAmount){
+        Card c = findCard(aCard);
+        c.boostPointsBy(boostAmount);
     }
-    public void addStatusTo(Card card, String status) {
-        int cardIndex = cards.indexOf(card);
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).addStatus(status);
+    public void decreaseBasePower(CardDisplay card, int amount) {
+        Card c = findCard(card);
+        c.decreaseBasePower(amount);
+        if(c.getDisplay().getBasePoints() <= 0) {
+            cards.remove(c);
+        }
     }
-    public void removeStatusFromCard(Card card, String status) {
-        int cardIndex = cards.indexOf(card);
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).removeStatus(status);
+    public void addStatusTo(CardDisplay card, String status) {
+        Card c = findCard(card);
+        c.addStatus(status);
+    }
+    public void removeStatusFromCard(CardDisplay card, String status) {
+        Card c = findCard(card);
+        c.removeStatus(status);
     }
 
-    public void strikeCardBy(Card aCard, int strikeAmount){
-        int cardIndex = cards.indexOf(aCard);
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).strikeBy(strikeAmount);
+    private Card findCard(CardDisplay card) {
+        return cards.stream().filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
     }
-    public void deleteCard(Card aCard) {
-        cards.remove(aCard);
+
+    public void strikeCardBy(CardDisplay aCard, int strikeAmount){
+        Card c = findCard(aCard);
+        c.strikeBy(strikeAmount);
+    }
+    public void deleteCard(CardDisplay aCard) {
+        cards.remove(findCard(aCard));
     }
 
     public int getRowPoints(){
         return cards.stream().mapToInt(c -> c.getPoints()).sum();
     }
 
-    public void burnCard(Card card){
-        cards.remove(card);
+    public void burnCard(CardDisplay card){
+        cards.remove(findCard(card));
     }
 
 

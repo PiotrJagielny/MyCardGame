@@ -1,7 +1,5 @@
-com\example\demo\DeckBuilder\TestDeckBuilder_MultipleDecks.class
-com\example\demo\DeckBuilder\TestDeckBuilder_OneDeck.class
+com\example\demo\DuelTests\TestDuelAfterDeal.class
+com\example\demo\DeckBuilder\TestDeckBuilder.class
 com\example\demo\TestsData\TestConsts.class
 com\example\demo\TestsData\TestsUtils.class
 com\example\demo\DuelTests\TestSpecificBehaviours.class
-com\example\demo\DuelTests\TestDealingCardsBeforePlayingAny.class
-com\example\demo\DuelTests\TestDuelAfterDeal.class

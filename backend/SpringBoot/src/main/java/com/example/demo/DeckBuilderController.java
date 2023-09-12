@@ -32,6 +32,26 @@ public class DeckBuilderController {
         return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
     }
 
+    @PostMapping(path = "SortAddableCardsBy/{userName}/{deckName}/{criteria}")
+    @CrossOrigin
+    public List<CardDisplay> sortAddableCardsBy(@PathVariable String userName, @PathVariable String deckName, @PathVariable String criteria) {
+        deckBuilders.get(userName).sortCardsPossibleToAddBy(deckName,criteria);
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
+
+    @PostMapping(path = "SearchForCards/{userName}/{deckName}/{searchString}")
+    @CrossOrigin
+    public List<CardDisplay> searchForCards(@PathVariable String userName,@PathVariable String deckName,@PathVariable String searchString) {
+        deckBuilders.get(userName).searchForCards(deckName, searchString);
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
+    @PostMapping(path = "ClearSearch/{userName}/{deckName}")
+    @CrossOrigin
+    public List<CardDisplay> clearSearchString(@PathVariable String userName,@PathVariable String deckName) {
+        deckBuilders.get(userName).searchForCards(deckName, "");
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
+
     @GetMapping(path = "GetCardsInDeck/{userName}/{deckName}")
     @CrossOrigin
     public List<CardDisplay> GetCardsInDeck(@PathVariable String userName, @PathVariable String deckName){
@@ -46,7 +66,7 @@ public class DeckBuilderController {
     @CrossOrigin
     public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName) {
         String ResponseMessage = deckBuilders.get(userName).addCardToDeck(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
         return ResponseMessage;
     }
 
@@ -54,17 +74,23 @@ public class DeckBuilderController {
     @CrossOrigin
     public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName){
         deckBuilders.get(userName).putCardFromDeckBack(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
     }
 
-    @PostMapping(path = "CreateDeck/{userName}")
+    @PostMapping(path = "CreateDeck/{userName}/{fraction}")
     @CrossOrigin
-    public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
-        deckBuilders.get(userName).createDeck(deckName);
+    public void CreateDeck(@RequestBody String deckName, @PathVariable String userName, @PathVariable String fraction) {
+        deckBuilders.get(userName).createDeck(deckName, fraction);
         List<String> decks = deckBuilders.get(userName).getDecksNames();
         if(decks.contains(deckName)) {
-            DecksDatabase.createDeck(userName,deckName);
+            DecksDatabase.createDeck(userName,fraction,deckName);
         }
+    }
+
+    @GetMapping(path = "GetFractions")
+    @CrossOrigin
+    public List<String> getFractions() {
+        return List.of(Consts.Fraction.humans, Consts.Fraction.monsters);
     }
 
     @PostMapping(path = "DeleteDeck/{userName}/{deckName}")

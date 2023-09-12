@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Card {
-    private final static int idStart = 1;
+    private final static int idStart = 0;
     private static int uniqueCardId = idStart;
 
 
@@ -18,6 +18,7 @@ public class Card {
     private int id;
     private String color;
     private List<String> statuses;
+    private String fraction;
 
     public Card() {
         name="";
@@ -27,19 +28,21 @@ public class Card {
         id = idStart - 1 ;
         this.color = "";
         statuses = new ArrayList<>();
+        fraction = "";
     }
 
-    public Card(String name, int points, String color){
+    public Card(String name, int basePoints, String color, String fraction){
         this.color = color;
         this.name = name;
-        this.basePoints = points;
+        this.basePoints = basePoints;
         id = uniqueCardId++;
         boost = 0;
         damage = 0;
         statuses = new ArrayList<>();
+        this.fraction = fraction;
     }
 
-    public CardDisplay getDisplay(){return new CardDisplay(name, getPoints(),basePoints, CardsFactory.getCardInfo(name), id, color, statuses);}
+    public CardDisplay getDisplay(){return new CardDisplay(name, getPoints(),basePoints, CardsFactory.getCardInfo(name), id, color, statuses, fraction);}
     public int getPoints(){return basePoints + boost - damage;}
     public int getId() {return id;}
     public void boostPointsBy(int amount){
@@ -60,7 +63,7 @@ public class Card {
 
 
     public static Card createCard(CardDisplay c){
-        return new Card(c.getName(), c.getBasePoints(), c.getColor());
+        return new Card(c.getName(), c.getBasePoints(), c.getColor(), c.getFraction());
     }
     public static Card emptyCard(){
         return new Card();

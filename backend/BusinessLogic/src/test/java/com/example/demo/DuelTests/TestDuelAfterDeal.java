@@ -1,7 +1,6 @@
 package com.example.demo.DuelTests;
 
 import com.example.demo.Cards.CardDisplay;
-import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
 import com.example.demo.Duel.ClientAPI.CardDuel;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,131 +27,131 @@ class TestDuelAfterDeal {
     public void setHands() {
         hand1.clear();
         hand2.clear();
-        hand1 = duel.getHandOf(firstPlayer);
-        hand2 = duel.getHandOf(secondPlayer);
+        hand1 = duel.getHandOf(player1);
+        hand2 = duel.getHandOf(player2);
     }
 
     @BeforeEach
     public void setUp(){
         duel = CardDuel.createDuel();
-        duel.registerPlayerToDuel(secondPlayer);
-        duel.registerPlayerToDuel(firstPlayer);
+        duel.registerPlayerToDuel(player2);
+        duel.registerPlayerToDuel(player1);
         List<CardDisplay> allCards = getCardsDisplay(createAllCards());
         List<CardDisplay> noEffectCards = allCards.stream()
                 .filter(c -> c.getCardInfo().equals(""))
                 .collect(Collectors.toList());
-        duel.parseCardsFor( noEffectCards , firstPlayer);
-        duel.parseCardsFor( noEffectCards , secondPlayer);
+        duel.parseCardsFor( noEffectCards , player1);
+        duel.parseCardsFor( noEffectCards , player2);
         duel.dealCards();
     }
 
     @Test
     public void beforePlayingCard_boardIsEmpty(){
-        assertTrue(duel.getRowOf(firstPlayer, Consts.firstRow).isEmpty());
+        assertTrue(duel.getRowOf(player1, Consts.firstRow).isEmpty());
     }
 
     @Test
     public void afterPlayingCard_boardIsNotEmpty(){
-        int cardsInHandBeforePlaying = duel.getHandOf(firstPlayer).size();
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        assertFalse(duel.getRowOf(firstPlayer, Consts.firstRow).isEmpty());
-        assertNotEquals(cardsInHandBeforePlaying, duel.getHandOf(firstPlayer).size());
+        int cardsInHandBeforePlaying = duel.getHandOf(player1).size();
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        assertFalse(duel.getRowOf(player1, Consts.firstRow).isEmpty());
+        assertNotEquals(cardsInHandBeforePlaying, duel.getHandOf(player1).size());
     }
 
     @Test
     public void clearBoard_hasNoPoints(){
-        assertEquals(0, getBoardPointsOf(firstPlayer, duel));
+        assertEquals(0, getBoardPointsOf(player1, duel));
     }
 
     @Test
     public void onFirstPlayerTurn_player2CantPlayCard(){
-        playCardWithoutTargeting(duel, duel.getHandOf(secondPlayer).get(0), Consts.firstRow, secondPlayer);
-        assertTrue(duel.getRowOf(secondPlayer, Consts.firstRow).isEmpty());
+        playCardWithoutTargeting(duel, duel.getHandOf(player2).get(0), Consts.firstRow, player2);
+        assertTrue(duel.getRowOf(player2, Consts.firstRow).isEmpty());
     }
 
     @Test
     public void afterPlayingCardsWithPoints_theSamePointsAreOnBoard(){
-        CardDisplay cardToPlay_first = duel.getHandOf(firstPlayer).get(0);
-        CardDisplay cardToPlay_second = duel.getHandOf(firstPlayer).get(1);
-        playCardWithoutTargeting(duel, cardToPlay_first, Consts.firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(secondPlayer).get(0), Consts.firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, cardToPlay_second, Consts.secondRow, firstPlayer);
-        assertEquals(cardToPlay_first.getPoints() + cardToPlay_second.getPoints(), getBoardPointsOf(firstPlayer, duel));
+        CardDisplay cardToPlay_first = duel.getHandOf(player1).get(0);
+        CardDisplay cardToPlay_second = duel.getHandOf(player1).get(1);
+        playCardWithoutTargeting(duel, cardToPlay_first, Consts.firstRow, player1);
+        playCardWithoutTargeting(duel, duel.getHandOf(player2).get(0), Consts.firstRow, player2);
+        playCardWithoutTargeting(duel, cardToPlay_second, Consts.secondRow, player1);
+        assertEquals(cardToPlay_first.getPoints() + cardToPlay_second.getPoints(), getBoardPointsOf(player1, duel));
     }
 
     @Test
     public void afterPlayingCard_cantPlayAnother(){
         int expectedCardsOnBoard = 1;
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        assertEquals(expectedCardsOnBoard, duel.getRowOf(firstPlayer, Consts.firstRow).size());
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        assertEquals(expectedCardsOnBoard, duel.getRowOf(player1, Consts.firstRow).size());
 
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        assertEquals(expectedCardsOnBoard, duel.getRowOf(firstPlayer, Consts.firstRow).size());
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        assertEquals(expectedCardsOnBoard, duel.getRowOf(player1, Consts.firstRow).size());
 
-        playCardWithoutTargeting(duel, duel.getHandOf(secondPlayer).get(0), Consts.firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(secondPlayer).get(0), Consts.firstRow, secondPlayer);
-        assertEquals(expectedCardsOnBoard, duel.getRowOf(secondPlayer, Consts.firstRow).size());
+        playCardWithoutTargeting(duel, duel.getHandOf(player2).get(0), Consts.firstRow, player2);
+        playCardWithoutTargeting(duel, duel.getHandOf(player2).get(0), Consts.firstRow, player2);
+        assertEquals(expectedCardsOnBoard, duel.getRowOf(player2, Consts.firstRow).size());
     }
 
     @Test
     public void playerCanEndRound(){
-        duel.endRoundFor(firstPlayer);
-        assertTrue(duel.didEndRound(firstPlayer));
+        duel.endRoundFor(player1);
+        assertTrue(duel.didEndRound(player1));
     }
 
     @Test
     public void atStartOfGame_nobodyEndedRound(){
-        assertFalse(duel.didEndRound(firstPlayer));
-        assertFalse(duel.didEndRound(secondPlayer));
+        assertFalse(duel.didEndRound(player1));
+        assertFalse(duel.didEndRound(player2));
     }
 
     @Test
     public void afterOnePlayerEndsRound_turnsDontSwitch() {
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        duel.endRoundFor(secondPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        duel.endRoundFor(player2);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
         int expectedNumberOfCardsOnBoard = 3;
-        assertEquals(expectedNumberOfCardsOnBoard, duel.getRowOf(firstPlayer, Consts.firstRow).size());
+        assertEquals(expectedNumberOfCardsOnBoard, duel.getRowOf(player1, Consts.firstRow).size());
     }
 
     @Test
     public void afterTwoPlayerEndRound_newRoundStarts(){
         startNextRound_firstPlayerFirst();
-        assertFalse(duel.didEndRound(firstPlayer));
-        assertFalse(duel.didEndRound(secondPlayer));
+        assertFalse(duel.didEndRound(player1));
+        assertFalse(duel.didEndRound(player2));
     }
 
     @Test
     public void afterEndingFirstRound_newCardsAreDealt() {
-        int cardsInHandBeforeNewTurn = duel.getHandOf(firstPlayer).size();
+        int cardsInHandBeforeNewTurn = duel.getHandOf(player1).size();
         startNextRound_firstPlayerFirst();
-        int cardsInHandAfterNewTurn = duel.getHandOf(firstPlayer).size();
+        int cardsInHandAfterNewTurn = duel.getHandOf(player1).size();
         assertNotEquals(cardsInHandAfterNewTurn, cardsInHandBeforeNewTurn);
     }
 
     @Test
     public void atTheGameStart_noOneWonRound(){
-        assertEquals(0, duel.getWonRoundsOf(firstPlayer));
-        assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+        assertEquals(0, duel.getWonRoundsOf(player1));
+        assertEquals(0, duel.getWonRoundsOf(player2));
     }
 
     @Test
     public void afterWinningTurn_onePlayerScoresPoints(){
         playCardAsFirstPlayer_startNextRound();
-        assertEquals(1, duel.getWonRoundsOf(firstPlayer));
-        assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+        assertEquals(1, duel.getWonRoundsOf(player1));
+        assertEquals(0, duel.getWonRoundsOf(player2));
     }
 
     @Test
     public void afterNewRound_boardIsEmpty(){
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.secondRow, firstPlayer);
-        duel.endRoundFor(secondPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.thirdRow, firstPlayer);
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        duel.endRoundFor(firstPlayer);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.secondRow, player1);
+        duel.endRoundFor(player2);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.thirdRow, player1);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        duel.endRoundFor(player1);
         for(int row = 0 ; row < Consts.rowsNumber ; ++row){
-            assertTrue(duel.getRowOf(firstPlayer, row).isEmpty());
+            assertTrue(duel.getRowOf(player1, row).isEmpty());
         }
     }
 
@@ -160,63 +159,63 @@ class TestDuelAfterDeal {
     public void afterTwoRoundsWon_playerWonGame(){
         playCardAsFirstPlayer_startNextRound();
         playCardAsFirstPlayer_startNextRound();
-        assertTrue(duel.didWon(firstPlayer));
+        assertTrue(duel.didWon(player1));
     }
 
     @Test
     public void afterWonGame_cantPlayCard(){
         playCardAsFirstPlayer_startNextRound();
         playCardAsFirstPlayer_startNextRound();
-        int cardsOnBoard_beforePlay = duel.getRowOf(firstPlayer, Consts.firstRow).size();
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
-        int cardsOnBoard_afterPlay = duel.getRowOf(firstPlayer, Consts.firstRow).size();
+        int cardsOnBoard_beforePlay = duel.getRowOf(player1, Consts.firstRow).size();
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
+        int cardsOnBoard_afterPlay = duel.getRowOf(player1, Consts.firstRow).size();
         assertEquals(cardsOnBoard_afterPlay, cardsOnBoard_beforePlay);
     }
 
     public void playCardAsFirstPlayer_startNextRound(){
-        playCardWithoutTargeting(duel, duel.getHandOf(firstPlayer).get(0), Consts.firstRow, firstPlayer);
+        playCardWithoutTargeting(duel, duel.getHandOf(player1).get(0), Consts.firstRow, player1);
         startNextRound_secondPlayerFirst();
     }
 
     public void startNextRound_secondPlayerFirst(){
-        duel.endRoundFor(secondPlayer);
-        duel.endRoundFor(firstPlayer);
+        duel.endRoundFor(player2);
+        duel.endRoundFor(player1);
     }
     public void startNextRound_firstPlayerFirst(){
-        duel.endRoundFor(firstPlayer);
-        duel.endRoundFor(secondPlayer);
+        duel.endRoundFor(player1);
+        duel.endRoundFor(player2);
     }
 
     @Test
     public void testCalculatingWonRounds(){
         CardDisplay morePointsCard = Collections.max(
-                duel.getHandOf(firstPlayer), Comparator.comparingInt(CardDisplay::getPoints)
+                duel.getHandOf(player1), Comparator.comparingInt(CardDisplay::getPoints)
         );
         CardDisplay lessPointsCard = Collections.min(
-                duel.getHandOf(secondPlayer), Comparator.comparingInt(CardDisplay::getPoints)
+                duel.getHandOf(player2), Comparator.comparingInt(CardDisplay::getPoints)
         );
-        playCardWithoutTargeting(duel, morePointsCard, Consts.firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, lessPointsCard, Consts.firstRow, secondPlayer);
-        duel.endRoundFor(firstPlayer);
-        duel.endRoundFor(secondPlayer);
+        playCardWithoutTargeting(duel, morePointsCard, Consts.firstRow, player1);
+        playCardWithoutTargeting(duel, lessPointsCard, Consts.firstRow, player2);
+        duel.endRoundFor(player1);
+        duel.endRoundFor(player2);
 
-        assertEquals(1, duel.getWonRoundsOf(firstPlayer));
-        assertEquals(0, duel.getWonRoundsOf(secondPlayer));
+        assertEquals(1, duel.getWonRoundsOf(player1));
+        assertEquals(0, duel.getWonRoundsOf(player2));
     }
 
     @Test
     public void afterTie_bothPlayersScoresPoint(){
-        CardDisplay theSamePoints_firstPlayer = duel.getHandOf(firstPlayer).get(0);
-        CardDisplay theSamePoints_secondPlayer = duel.getHandOf(secondPlayer).stream()
+        CardDisplay theSamePoints_firstPlayer = duel.getHandOf(player1).get(0);
+        CardDisplay theSamePoints_secondPlayer = duel.getHandOf(player2).stream()
                 .filter(c -> c.getPoints() == theSamePoints_firstPlayer.getPoints())
                 .findFirst().orElse(null);
-        playCardWithoutTargeting(duel, theSamePoints_firstPlayer, Consts.firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, theSamePoints_secondPlayer, Consts.firstRow, secondPlayer);
-        duel.endRoundFor(firstPlayer);
-        duel.endRoundFor(secondPlayer);
+        playCardWithoutTargeting(duel, theSamePoints_firstPlayer, Consts.firstRow, player1);
+        playCardWithoutTargeting(duel, theSamePoints_secondPlayer, Consts.firstRow, player2);
+        duel.endRoundFor(player1);
+        duel.endRoundFor(player2);
 
-        assertEquals(1, duel.getWonRoundsOf(firstPlayer));
-        assertEquals(1, duel.getWonRoundsOf(secondPlayer));
+        assertEquals(1, duel.getWonRoundsOf(player1));
+        assertEquals(1, duel.getWonRoundsOf(player2));
     }
 
     @Test
@@ -224,9 +223,9 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(minion, archer));
         setHands();
 
-        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1,minion ), secondPlayer);
-        assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
+        playCardWithoutTargeting(duel, findByName(hand1, minion), firstRow, player1);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(board(duel,player1), minion), player2);
+        assertEquals(1, duel.getGraveyardOf(player1).size());
 
     }
     @Test
@@ -234,27 +233,27 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(knight, conflagration));
         setHands();
 
-        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
-        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), secondPlayer);
-        assertEquals(1, duel.getGraveyardOf(firstPlayer).size());
+        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, player1);
+        playSpecialCardWithoutTargeting(duel, findByName(hand2, conflagration), player2);
+        assertEquals(1, duel.getGraveyardOf(player1).size());
     }
     @Test
     public void afterNewRound_everyCardGoesToGraveyard() {
         duel = createDuel(List.of(viking, knight));
         setHands();
 
-        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel, findByName(hand2, knight), firstRow, secondPlayer);
-        duel.endRoundFor(firstPlayer);
-        duel.endRoundFor(secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, viking), firstRow, player1);
+        playCardWithoutTargeting(duel, findByName(hand2, viking), firstRow, player2);
+        playCardWithoutTargeting(duel, findByName(hand1, knight), firstRow, player1);
+        playCardWithoutTargeting(duel, findByName(hand2, knight), firstRow, player2);
+        duel.endRoundFor(player1);
+        duel.endRoundFor(player2);
 
-        assertTrue(duel.getRowOf(firstPlayer, firstRow).isEmpty());
-        assertTrue(duel.getRowOf(secondPlayer, firstRow).isEmpty());
+        assertTrue(duel.getRowOf(player1, firstRow).isEmpty());
+        assertTrue(duel.getRowOf(player2, firstRow).isEmpty());
 
-        assertEquals(2,duel.getGraveyardOf(firstPlayer).size());
-        assertEquals(2,duel.getGraveyardOf(secondPlayer).size());
+        assertEquals(2,duel.getGraveyardOf(player1).size());
+        assertEquals(2,duel.getGraveyardOf(player2).size());
     }
 
     @Test
@@ -262,11 +261,11 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(viking, viking));
         setHands();
 
-        playCardWithoutTargeting(duel,hand1.get(0), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel,hand2.get(0), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel,hand1.get(1), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel,hand2.get(1), firstRow, secondPlayer);
-        List<CardDisplay> rowCards = duel.getRowOf(firstPlayer, firstRow);
+        playCardWithoutTargeting(duel,hand1.get(0), firstRow, player1);
+        playCardWithoutTargeting(duel,hand2.get(0), firstRow, player2);
+        playCardWithoutTargeting(duel,hand1.get(1), firstRow, player1);
+        playCardWithoutTargeting(duel,hand2.get(1), firstRow, player2);
+        List<CardDisplay> rowCards = duel.getRowOf(player1, firstRow);
         assertNotEquals(rowCards.get(0).getId(), rowCards.get(1).getId());
     }
 
@@ -276,13 +275,13 @@ class TestDuelAfterDeal {
         setHands();
 
 
-        playCardWithoutTargeting(duel, hand1.get(0), firstRow, firstPlayer );
-        playCardWithoutTargeting(duel, hand2.get(0), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel, hand1.get(1), firstRow, firstPlayer );
+        playCardWithoutTargeting(duel, hand1.get(0), firstRow, player1);
+        playCardWithoutTargeting(duel, hand2.get(0), firstRow, player2);
+        playCardWithoutTargeting(duel, hand1.get(1), firstRow, player1);
 
-        List<CardDisplay> enemyBoard = duel.getRowOf(firstPlayer, firstRow);
-        playCardWithCardTargeting(duel, hand2.get(2), firstRow,enemyBoard.get(1), secondPlayer);
-        enemyBoard = duel.getRowOf(firstPlayer, firstRow);
+        List<CardDisplay> enemyBoard = duel.getRowOf(player1, firstRow);
+        playCardWithCardTargeting(duel, hand2.get(2), firstRow,enemyBoard.get(1), player2);
+        enemyBoard = duel.getRowOf(player1, firstRow);
         assertEquals(viking.getPoints() - archerDamage, enemyBoard.get(1).getPoints());
         assertEquals(viking.getPoints(), enemyBoard.get(0).getPoints());
     }
@@ -292,12 +291,12 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(archer, armageddon, fireball));
         setHands();
 
-        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, firstPlayer);
-        playSpecialCardWithCardTargeting(duel, findByName(hand2, fireball), findByName(hand1, armageddon), secondPlayer);
-        playCardWithoutTargeting(duel, findByName(hand1, archer), firstRow, firstPlayer);
-        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(hand1, armageddon), secondPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, armageddon), firstRow, player1);
+        playSpecialCardWithCardTargeting(duel, findByName(hand2, fireball), findByName(board(duel, player1), armageddon), player2);
+        playCardWithoutTargeting(duel, findByName(hand1, archer), firstRow, player1);
+        playCardWithCardTargeting(duel, findByName(hand2, archer), firstRow, findByName(board(duel,player1), armageddon), player2);
 
-        assertEquals(armageddon.getPoints(), duel.getGraveyardOf(firstPlayer).get(0).getPoints());
+        assertEquals(armageddon.getPoints(), duel.getGraveyardOf(player1).get(0).getPoints());
     }
 
     @Test
@@ -307,13 +306,13 @@ class TestDuelAfterDeal {
 
 
 
-        playCardWithoutTargeting(duel , findByName(hand1, trebuchet), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel , findByName(hand2, viking), firstRow, secondPlayer);
-        duel.endRoundFor(firstPlayer); //firstTrebuchetDamage
-        playCardWithoutTargeting(duel , findByName(hand2, minion), firstRow, secondPlayer);
-        playCardWithoutTargeting(duel , findByName(hand2, warrior), firstRow, secondPlayer);
+        playCardWithoutTargeting(duel , findByName(hand1, trebuchet), firstRow, player1);
+        playCardWithoutTargeting(duel , findByName(hand2, viking), firstRow, player2);
+        duel.endRoundFor(player1); //firstTrebuchetDamage
+        playCardWithoutTargeting(duel , findByName(hand2, minion), firstRow, player2);
+        playCardWithoutTargeting(duel , findByName(hand2, warrior), firstRow, player2);
         int expectedPoints =viking.getPoints() + minion.getPoints() + warrior.getPoints() - 2*trebuchetDamage;
-        assertEquals(expectedPoints, duel.getRowPointsOf(secondPlayer,firstRow));
+        assertEquals(expectedPoints, duel.getRowPointsOf(player2,firstRow));
 
     }
     @Test
@@ -321,13 +320,13 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(viking, minion, breaker, warrior, capitan, armageddon, paper, knight, thunder, breaker));
         setHands();
 
-        playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, firstPlayer);
-        playCardWithoutTargeting(duel , findByName(hand2, breaker), firstRow, secondPlayer);
-        duel.endRoundFor(firstPlayer);
-        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, secondPlayer);
-        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, secondPlayer);
-        assertEquals(2, duel.getRowOf(firstPlayer, firstRow).size());
-        assertEquals(2, duel.getRowOf(secondPlayer, firstRow).size());
+        playCardWithoutTargeting(duel , findByName(hand1, breaker), firstRow, player1);
+        playCardWithoutTargeting(duel , findByName(hand2, breaker), firstRow, player2);
+        duel.endRoundFor(player1);
+        playCardWithoutTargeting(duel , findByName(hand2, warrior), secondRow, player2);
+        playCardWithoutTargeting(duel , findByName(hand2, minion), secondRow, player2);
+        assertEquals(2, duel.getRowOf(player1, firstRow).size());
+        assertEquals(2, duel.getRowOf(player2, firstRow).size());
 
     }
 
@@ -336,14 +335,17 @@ class TestDuelAfterDeal {
         duel = createDuel(List.of(ginger, warrior, copier));
         setHands();
 
-        playCardWithoutTargeting(duel, findByName(hand1, warrior), firstRow, firstPlayer);
-        playCardWithRowTargeting(duel, findByName(hand2, ginger), secondRow, firstRow, secondPlayer);
-        playCardWithCardTargeting(duel, findByName(hand1, copier), secondRow, duel.getRowOf(firstPlayer,firstRow).get(0), firstPlayer);
+        playCardWithoutTargeting(duel, findByName(hand1, warrior), firstRow, player1);
+        playCardWithRowTargeting(duel, findByName(hand2, ginger), secondRow, firstRow, player2);
+        playCardWithCardTargeting(duel, findByName(hand1, copier), secondRow, duel.getRowOf(player1,firstRow).get(0), player1);
 
         int expectedPointsSum = copierCopiesCount * warrior.getPoints();
-        int actualPointsSum = duel.getDeckOf(firstPlayer)
+        int actualPointsSum = duel.getDeckOf(player1)
                 .stream().mapToInt(c -> c.getPoints()).sum();
         assertEquals(expectedPointsSum, actualPointsSum);
     }
+
+
+
 
 }

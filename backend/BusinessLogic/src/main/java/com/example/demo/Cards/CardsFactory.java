@@ -8,93 +8,94 @@ import java.util.*;
 
 public class CardsFactory {
 
-    public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2, Consts.bronze);
-    public static final CardDisplay knight = new CardDisplay("Knight", 3, Consts.bronze);
-    public static final CardDisplay thunder = new CardDisplay("Thunder", 4, Consts.bronze);
-    public static final CardDisplay warrior = new CardDisplay("Warrior",5, Consts.bronze);
-    public static final CardDisplay viking = new CardDisplay("Viking",6, Consts.silver);
-    public static final CardDisplay capitan = new CardDisplay("Capitan",7, Consts.silver);
-    public static final CardDisplay armageddon =new CardDisplay("Armageddon",8, Consts.silver);
-    public static final CardDisplay conflagration =new CardDisplay("Conflagration",0, Consts.silver);
-    public static final CardDisplay doubler =new CardDisplay("Doubler",2, Consts.silver);
+    public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay knight = new CardDisplay("Knight", 3, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay thunder = new CardDisplay("Thunder", 4, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay warrior = new CardDisplay("Warrior",5, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay viking = new CardDisplay("Viking",6, Consts.silver, Consts.Fraction.neutral);
+    public static final CardDisplay capitan = new CardDisplay("Capitan",7, Consts.silver, Consts.Fraction.neutral);
+    public static final CardDisplay armageddon =new CardDisplay("Armageddon",8, Consts.silver, Consts.Fraction.neutral);
+    public static final CardDisplay conflagration =new CardDisplay("Conflagration",0, Consts.silver, Consts.Fraction.neutral);
+    public static final CardDisplay doubler =new CardDisplay("Doubler",2, Consts.silver, Consts.Fraction.neutral);
 
-    public static final CardDisplay booster = new CardDisplay("Booster", 1, Consts.bronze);
+    public static final CardDisplay booster = new CardDisplay("Booster", 1, Consts.bronze, Consts.Fraction.neutral);
     public static final int boosterBoost = 3;
 
-    public static final CardDisplay leader = new CardDisplay("Leader", 1, Consts.bronze);
+    public static final CardDisplay leader = new CardDisplay("Leader", 1, Consts.bronze, Consts.Fraction.neutral);
     public static final int leaderBoost = 2;
 
-    public static final CardDisplay healer = new CardDisplay("Healer", 2, Consts.silver);
+    public static final CardDisplay healer = new CardDisplay("Healer", 2, Consts.silver, Consts.Fraction.neutral);
     public static final int healerBoost = 2;
     public static final int healerMaxCardPointsWithBoost = 2;
 
-    public static final CardDisplay paper = new CardDisplay("Paper", 1, Consts.bronze);
-    public static final CardDisplay minion = new CardDisplay("Minion", 2, Consts.bronze);
-    public static final CardDisplay archer = new CardDisplay("Archer", 1, Consts.bronze);
+    public static final CardDisplay paper = new CardDisplay("Paper", 1, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay minion = new CardDisplay("Minion", 2, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay archer = new CardDisplay("Archer", 1, Consts.bronze, Consts.Fraction.neutral);
     public static final int archerDamage = 3;
 
-    public static final CardDisplay fireball = new CardDisplay("Fireball", 0, Consts.bronze);
+    public static final CardDisplay fireball = new CardDisplay("Fireball", 0, Consts.bronze, Consts.Fraction.neutral);
     public static final int fireballDamage = 5;
 
-    public static final CardDisplay rip = new CardDisplay("Rip", 0, Consts.bronze);
+    public static final CardDisplay rip = new CardDisplay("Rip", 0, Consts.bronze, Consts.Fraction.neutral);
     public static final int ripDamage = 2;
 
 
-    public static final CardDisplay longer= new CardDisplay("Longer",1, Consts.bronze);
+    public static final CardDisplay longer= new CardDisplay("Longer",1, Consts.bronze, Consts.Fraction.neutral);
     public static final int longerTimer = 1;
     public static final int longerBoost = 2;
 
-    public static final CardDisplay rain= new CardDisplay("Rain",0, Consts.bronze);
+    public static final CardDisplay rain= new CardDisplay("Rain",0, Consts.bronze, Consts.Fraction.neutral);
 
     public static final int rainDamage =  2;
-    public static final CardDisplay clearSky= new CardDisplay("Clear sky",0, Consts.bronze);
-    public static final CardDisplay sharpshooter= new CardDisplay("Sharpshooter", 4, Consts.gold);
-    public static final CardDisplay cow= new CardDisplay("Cow", 1, Consts.silver);
+    public static final CardDisplay clearSky= new CardDisplay("Clear sky",0, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay sharpshooter= new CardDisplay("Sharpshooter", 4, Consts.gold, Consts.Fraction.humans);
+    public static final CardDisplay cow= new CardDisplay("Cow", 1, Consts.silver, Consts.Fraction.neutral);
     public static final int sharpshooterDamage = 2;
     public static final int sharpshooterSelfBoost= 2;
-    public static final CardDisplay chort= new CardDisplay("Chort", 6, Consts.silver);
+    public static final CardDisplay chort= new CardDisplay("Chort", 6, Consts.silver, Consts.Fraction.neutral);
 
-    public static final CardDisplay priest = new CardDisplay("Priest", 1, Consts.gold);
-    public static final CardDisplay witch= new CardDisplay("Witch", 1, Consts.bronze);
-    public static final CardDisplay trebuchet = new CardDisplay("Trebuchet", 2, Consts.bronze);
+    public static final CardDisplay priest = new CardDisplay("Priest", 1, Consts.gold, Consts.Fraction.humans);
+    public static final CardDisplay witch= new CardDisplay("Witch", 1, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay trebuchet = new CardDisplay("Trebuchet", 2, Consts.bronze, Consts.Fraction.humans);
     public static final int trebuchetDamage = 1;
     public static final int trebuchetTimer = 2;
 
-    public static final CardDisplay goodPerson = new CardDisplay("Good person", 2, Consts.bronze);
+    public static final CardDisplay goodPerson = new CardDisplay("Good person", 2, Consts.bronze, Consts.Fraction.neutral);
     public static final int goodPersonBoost= 1;
     public static final int goodPersonTimer= 2;
 
-    public static final CardDisplay gravedigger = new CardDisplay("Gravedigger", 2, Consts.silver);
-    public static final CardDisplay wildRoam= new CardDisplay("Wild roam", 3, Consts.bronze);
-    public static final CardDisplay supplier = new CardDisplay("Supplier", 1, Consts.bronze);
-    public static final CardDisplay breaker = new CardDisplay("Breaker", 3, Consts.bronze);
+    public static final CardDisplay gravedigger = new CardDisplay("Gravedigger", 2, Consts.silver, Consts.Fraction.neutral);
+    public static final CardDisplay wildRoam= new CardDisplay("Wild roam", 3, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay supplier = new CardDisplay("Supplier", 1, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay breaker = new CardDisplay("Breaker", 3, Consts.bronze, Consts.Fraction.neutral);
     public static final int breakerTimer = 2;
 
-    public static final CardDisplay epidemic = new CardDisplay("Epidemic", 0, Consts.bronze);
-    public static final CardDisplay ginger = new CardDisplay("Ginger", 2, Consts.silver);
+    public static final CardDisplay epidemic = new CardDisplay("Epidemic", 0, Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay ginger = new CardDisplay("Ginger", 2, Consts.silver, Consts.Fraction.neutral);
     public static final int gingerDamage = 1;
-    public static final CardDisplay spy = new CardDisplay("Spy", 8, Consts.silver);
+    public static final CardDisplay spy = new CardDisplay("Spy", 8, Consts.silver, Consts.Fraction.neutral);
 
 
-    public static final CardDisplay blueFire = new CardDisplay("Blue fire", 2, Consts.gold);
+    public static final CardDisplay blueFire = new CardDisplay("Blue fire", 2, Consts.gold, Consts.Fraction.neutral);
     public static final int blueFireThreshold = 10;
 
-    public static final CardDisplay axer= new CardDisplay("Axer", 4 , Consts.bronze);
-    public static final CardDisplay copier = new CardDisplay("Copier", 3, Consts.bronze);
+    public static final CardDisplay axer= new CardDisplay("Axer", 4 , Consts.bronze, Consts.Fraction.neutral);
+    public static final CardDisplay copier = new CardDisplay("Copier", 3, Consts.bronze, Consts.Fraction.neutral);
     public static final int copierCopiesCount = 2;
 
-    public static final CardDisplay mushrooms = new CardDisplay("Mushrooms", 0, Consts.bronze);
+    public static final CardDisplay mushrooms = new CardDisplay("Mushrooms", 0, Consts.bronze, Consts.Fraction.neutral);
     public static final int mushroomsBaseDamage= 3;
 
-    public static final CardDisplay tastyMushroom = new CardDisplay("Tasty mushroom", 0, Consts.bronze);
+    public static final CardDisplay tastyMushroom = new CardDisplay("Tasty mushroom", 0, Consts.bronze, Consts.Fraction.neutral);
     public static final int tastyMushroomBaseIncrease = 3;
 
-    public static final CardDisplay giant= new CardDisplay("Giant", 9, Consts.gold);
+    public static final CardDisplay giant= new CardDisplay("Giant", 9, Consts.gold, Consts.Fraction.monsters);
 
-    public static final CardDisplay handcuffs= new CardDisplay("Handcuffs", 0, Consts.silver);
+    public static final CardDisplay handcuffs= new CardDisplay("Handcuffs", 0, Consts.silver, Consts.Fraction.neutral);
     public static final int handcuffsDamage = 3;
-    public static final CardDisplay key = new CardDisplay("Key", 0, Consts.silver);
+    public static final CardDisplay key = new CardDisplay("Key", 0, Consts.silver, Consts.Fraction.neutral);
     public static final int keyBoost = 4;
+    public static final CardDisplay trex= new CardDisplay("Trex", 5, Consts.gold, Consts.Fraction.monsters);
 
 
     private static final Map<String,Integer > mapCardNameToTimer = new HashMap<>() {{
@@ -122,6 +123,9 @@ public class CardsFactory {
         put(copier.getName(), new PlayerCardsTargetable());
         put(mushrooms.getName(), new EnemyCardsTargetable());
         put(tastyMushroom.getName(), new PlayerCardsTargetable());
+        put(handcuffs.getName(), new EnemyCardsTargetable());
+        put(key.getName(), new PlayerCardsTargetable());
+        put(trex.getName(), new PlayerCardsTargetable());
     }};
 
     public static List<CardDisplay> getPossibleTargetsOf(CardDisplay card, OnePlayerDuel player, OnePlayerDuel enemy) {
@@ -165,6 +169,7 @@ public class CardsFactory {
         put(tastyMushroom.getName(), "Increase base power of enemy card by " + tastyMushroomBaseIncrease);
         put(handcuffs.getName(), "Lock enemy card and deal " + handcuffsDamage + " damage");
         put(key.getName(), "Unlock your card and boost it by " + keyBoost);
+        put(trex.getName(), "Eat your card on board, and this card will be boosted by power of consumed card");
     }};
     public static String getCardInfo(String cardName){
         return mapCardNameToInfo.getOrDefault(cardName, "");
@@ -189,6 +194,10 @@ public class CardsFactory {
     public static List<Card> createAllCards(){
         return new ArrayList<Card>(Arrays.asList(
                 Card.createCard(breaker),
+                Card.createCard(breaker),
+                Card.createCard(trex),
+                Card.createCard(spy),
+                Card.createCard(giant),
                 Card.createCard(handcuffs),
                 Card.createCard(key),
                 Card.createCard(mushrooms),

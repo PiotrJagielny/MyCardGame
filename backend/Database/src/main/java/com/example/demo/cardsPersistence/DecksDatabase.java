@@ -1,6 +1,7 @@
 package com.example.demo.cardsPersistence;
 
 import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Consts;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
@@ -18,17 +19,18 @@ public class DecksDatabase {
         Map<String, String> dbProperties_prod = new HashMap<>() {{
             put("javax.persistence.jdbc.password", password);
         }};
-        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
-//        emf = Persistence.createEntityManagerFactory("development");
+//        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
+        emf = Persistence.createEntityManagerFactory("development");
     }
 
     private static EntityManagerFactory emf;
-    public static void createDeck(String username, String deckname) {
+    public static void createDeck(String username, String deckFraction,String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         try {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setUsername(username);
             deckToSave.setDeckname(deckname);
+            deckToSave.setFraction(deckFraction);
 
             s.getTransaction().begin();
 
@@ -63,7 +65,7 @@ public class DecksDatabase {
         s.close();
 
     }
-    public static void saveDeck(String username, String deckname, List<CardDisplay> cards) {
+    public static void saveDeck(String username, String deckname,String deckFraction, List<CardDisplay> cards) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         deleteDeck(username, deckname);
         try {
@@ -72,6 +74,7 @@ public class DecksDatabase {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setDeckname(deckname);
             deckToSave.setUsername(username);
+            deckToSave.setFraction(deckFraction);
 
             List<CardDisplayModel> cardsToSave = new ArrayList<>();
             for (CardDisplay card : cards) {
@@ -80,6 +83,7 @@ public class DecksDatabase {
                 c.setCardpoints(card.getBasePoints());
                 c.setDeck(deckToSave);
                 c.setColor(card.getColor());
+                c.setFraction(card.getFraction());
                 cardsToSave.add(c);
             }
 
@@ -105,7 +109,7 @@ public class DecksDatabase {
 
         DeckBuilder result = new DeckBuilder();
         for (DeckModel deck : decks) {
-            result.createDeck(deck.getDeckname());
+            result.createDeck(deck.getDeckname(), deck.getFraction());
 
             try{
                 List<CardDisplay> cards = cardDisplayModel_to_cardDisplay(deck.getCards());
@@ -127,7 +131,7 @@ public class DecksDatabase {
 
         for (int i = 0; i < cards.size(); i++) {
             CardDisplayModel card = cards.get(i);
-            result.add(new CardDisplay(card.getCardname(), card.getCardpoints(), card.getColor()));
+            result.add(new CardDisplay(card.getCardname(), card.getCardpoints(), card.getColor(), card.getFraction()) );
         }
         return result;
     }

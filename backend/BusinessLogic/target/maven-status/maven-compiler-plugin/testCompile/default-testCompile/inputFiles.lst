@@ -1,7 +1,5 @@
 D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DuelTests\TestSpecificBehaviours.java
-D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DeckBuilder\TestDeckBuilder_MultipleDecks.java
-D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DuelTests\TestDealingCardsBeforePlayingAny.java
 D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DuelTests\TestDuelAfterDeal.java
-D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DeckBuilder\TestDeckBuilder_OneDeck.java
 D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\TestsData\TestsUtils.java
+D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\DeckBuilder\TestDeckBuilder.java
 D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\src\test\java\com\example\demo\TestsData\TestConsts.java
