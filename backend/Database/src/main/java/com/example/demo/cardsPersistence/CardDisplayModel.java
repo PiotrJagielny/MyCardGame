@@ -15,6 +15,7 @@ class CardDisplayModel implements Serializable {
     private String cardname;
     private int cardpoints;
     private String color;
+    private String fraction;
 
     @ManyToOne
     @JoinColumn(name="deckid", nullable = false)
@@ -58,5 +59,13 @@ class CardDisplayModel implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getFraction() {
+        return fraction;
+    }
+
+    public void setFraction(String fraction) {
+        this.fraction = fraction;
     }
 }

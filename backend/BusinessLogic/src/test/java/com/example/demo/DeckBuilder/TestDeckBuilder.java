@@ -1,15 +1,18 @@
 package com.example.demo.DeckBuilder;
 
 import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Cards.CardsFactory;
+import com.example.demo.Consts;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.example.demo.TestsData.TestConsts.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
 
-class TestDeckBuilder_MultipleDecks {
+import static com.example.demo.TestsData.TestConsts.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class TestDeckBuilder {
 
     private DeckBuilder deckBuilder;
     @BeforeEach
@@ -75,6 +78,44 @@ class TestDeckBuilder_MultipleDecks {
         int decksNumberAfterDelete = deckBuilder.getDecksNames().size();
 
         assertEquals(1 + decksNumberAfterDelete, decksNumber, "Cant delete a deck");
+
+        decksNumber = deckBuilder.getDecksNames().size();
+        deckBuilder.deleteCurrentDeck(secondDeck);
+        decksNumberAfterDelete = deckBuilder.getDecksNames().size();
+        assertEquals(decksNumber,decksNumberAfterDelete);
+
+    }
+
+    @Test
+    public void testAddingCardToFullDeck() {
+        for(int i = 1; i <= Consts.maxDeckSize+ 1 ; ++i){
+            deckBuilder.addCardToDeck( deckBuilder.getCardsPossibleToAdd(firstDeck).get(0), firstDeck );
+        }
+        assertEquals(Consts.maxDeckSize, deckBuilder.getCurrentDeck(firstDeck).size(), "Can add cards after reaching max cards amount");
+    }
+
+    @Test
+    public void testDifferentFractionDecks() {
+        deckBuilder.createDeck("nowy", Consts.Fraction.monsters);
+        CardDisplay humansCard = CardsFactory.createAllCards().stream()
+                .map(c -> c.getDisplay())
+                .filter(c -> c.getFraction().equals(Consts.Fraction.humans))
+                .findFirst().orElse(new CardDisplay());
+
+        CardDisplay monsterCard = CardsFactory.createAllCards().stream()
+                .map(c -> c.getDisplay())
+                .filter(c -> c.getFraction().equals(Consts.Fraction.monsters))
+                .findFirst().orElse(new CardDisplay());
+
+        CardDisplay neutralCard= CardsFactory.createAllCards().stream()
+                .map(c -> c.getDisplay())
+                .filter(c -> c.getFraction().equals(Consts.Fraction.neutral))
+                .findFirst().orElse(new CardDisplay());
+
+        assertFalse(deckBuilder.getCardsPossibleToAdd("nowy").contains(humansCard));
+        assertTrue(deckBuilder.getCardsPossibleToAdd("nowy").contains(monsterCard));
+        assertTrue(deckBuilder.getCardsPossibleToAdd("nowy").contains(neutralCard));
+
     }
 
 }

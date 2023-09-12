@@ -37,27 +37,23 @@ public class Row {
     }
 
     public void boostCardBy(CardDisplay aCard, int boostAmount){
-        int cardIndex = cards.indexOf(findCard(aCard));
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).boostPointsBy(boostAmount);
+        Card c = findCard(aCard);
+        c.boostPointsBy(boostAmount);
     }
     public void decreaseBasePower(CardDisplay card, int amount) {
-        int cardIndex = cards.indexOf(findCard(card));
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).decreaseBasePower(amount);
-        if(cards.get(cardIndex).getDisplay().getBasePoints() <= 0) {
-            cards.remove(cardIndex);
+        Card c = findCard(card);
+        c.decreaseBasePower(amount);
+        if(c.getDisplay().getBasePoints() <= 0) {
+            cards.remove(c);
         }
     }
     public void addStatusTo(CardDisplay card, String status) {
-        int cardIndex = cards.indexOf(findCard(card));
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).addStatus(status);
+        Card c = findCard(card);
+        c.addStatus(status);
     }
     public void removeStatusFromCard(CardDisplay card, String status) {
-        int cardIndex = cards.indexOf(findCard(card));
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).removeStatus(status);
+        Card c = findCard(card);
+        c.removeStatus(status);
     }
 
     private Card findCard(CardDisplay card) {
@@ -65,9 +61,8 @@ public class Row {
     }
 
     public void strikeCardBy(CardDisplay aCard, int strikeAmount){
-        int cardIndex = cards.indexOf(findCard(aCard));
-        if(cardIndex == -1) return;
-        cards.get(cardIndex).strikeBy(strikeAmount);
+        Card c = findCard(aCard);
+        c.strikeBy(strikeAmount);
     }
     public void deleteCard(CardDisplay aCard) {
         cards.remove(findCard(aCard));

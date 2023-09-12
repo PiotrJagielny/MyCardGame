@@ -7,19 +7,20 @@ export interface Card{
     timer: number;
     color: string;
     statuses: string[];
+    fraction: string;
 }
 
 export {}; 
 
 export function createEmptyCard() : Card {
-    return {name:"", points:0, basePoints: 0, cardInfo:"", timer:-1, id: -1, color:"", statuses:[]};
+    return {name:"", points:0, basePoints: 0, cardInfo:"", timer:-1, id: -1, color:"", statuses:[], fraction:""};
 }
 
 
 export function createCardWithName(cardName: string) : Card {
-    return {name:cardName, points:0, basePoints: 0, cardInfo:"", timer:-1, id: -1, color:"", statuses:[]};
+    return {name:cardName, points:0, basePoints: 0, cardInfo:"", timer:-1, id: -1, color:"", statuses:[], fraction: ""};
 }
 
 export function createCardWithIdAndName(cardName: string, cardId: number) {
-    return {name: cardName, points: 0, basePoints: 0, cardInfo:"", timer:-1, id:cardId, color:"", statuses:[]}
+    return {name: cardName, points: 0, basePoints: 0, cardInfo:"", timer:-1, id:cardId, color:"", statuses:[], fraction:""}
 }

@@ -12,46 +12,44 @@ import java.util.stream.Collectors;
 
 public class Deck {
     private List<Card> cardsInDeck;
-    private List<Card> allCardsPossibleToAdd;
-    private String deckName;
+    private List<Card> addableCards;
 
     private String currentNamesFilter;
     private Comparator<CardDisplay> currentSortCriteria;
 
 
-    public Deck(List<Card> allCards) {
 
+    public Deck(List<Card> allCards) {
         cardsInDeck = new ArrayList<Card>();
-        deckName="";
-        this.allCardsPossibleToAdd = allCards;
+        this.addableCards = allCards;
         currentNamesFilter = "";
         currentSortCriteria = getComparator("");
+    }
+    public Deck(List<Card> allCards, String fraction) {
+        cardsInDeck = new ArrayList<Card>();
+        currentNamesFilter = "";
+        currentSortCriteria = getComparator("");
+        this.addableCards = allCards.stream()
+                .filter(c -> c.getDisplay().getFraction().equals(Consts.Fraction.neutral) ||
+                        c.getDisplay().getFraction().equals(fraction))
+                .collect(Collectors.toList());
     }
 
 
     public String addCard(CardDisplay cardDisplay){
-        String responseMessage="";
-        Card card = allCardsPossibleToAdd.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
-        
-
-        if(cardsInDeck.size() == Consts.maxDeckSize) {
-            responseMessage = Consts.DeckFullMessage;
-            return responseMessage;
-        }
-
-        if(card != null) {
+        Card card = addableCards.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
+        if(card != null && cardsInDeck.size() < Consts.maxDeckSize) {
             cardsInDeck.add(card);
-            allCardsPossibleToAdd.removeIf(c -> c.equals(card) );
-
+            addableCards.removeIf(c -> c.equals(card) );
         }
-        return responseMessage;
+        return "";
     }
 
     public void putCardFromDeckBack(CardDisplay cardDisplay){
         Card card = cardsInDeck.stream().filter(c -> c.getDisplay().equals(cardDisplay)).findFirst().orElse(null);
 
         if(card != null){
-            allCardsPossibleToAdd.add(card);
+            addableCards.add(card);
             cardsInDeck.removeIf(c -> c.getDisplay().equals(card.getDisplay()) );
         }
     }
@@ -61,8 +59,8 @@ public class Deck {
     }
 
 
-    public List<CardDisplay> getCardsPossibleToAdd() {
-        return allCardsPossibleToAdd.stream()
+    public List<CardDisplay> getAddableCards() {
+        return addableCards.stream()
                 .filter(c -> c.getDisplay().getName().contains(currentNamesFilter))
                 .map(c -> c.getDisplay())
                 .sorted(currentSortCriteria)

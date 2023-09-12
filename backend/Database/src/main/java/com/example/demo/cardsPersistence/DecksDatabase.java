@@ -80,6 +80,7 @@ public class DecksDatabase {
                 c.setCardpoints(card.getBasePoints());
                 c.setDeck(deckToSave);
                 c.setColor(card.getColor());
+                c.setFraction(card.getFraction());
                 cardsToSave.add(c);
             }
 
@@ -127,7 +128,7 @@ public class DecksDatabase {
 
         for (int i = 0; i < cards.size(); i++) {
             CardDisplayModel card = cards.get(i);
-            result.add(new CardDisplay(card.getCardname(), card.getCardpoints(), card.getColor()));
+            result.add(new CardDisplay(card.getCardname(), card.getCardpoints(), card.getColor(), card.getFraction()) );
         }
         return result;
     }

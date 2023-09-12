@@ -74,7 +74,7 @@ public class DeckBuilderController {
     @PostMapping(path = "CreateDeck/{userName}")
     @CrossOrigin
     public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
-        deckBuilders.get(userName).createDeck(deckName);
+        deckBuilders.get(userName).createDeck(deckName, Consts.Fraction.humans);
         List<String> decks = deckBuilders.get(userName).getDecksNames();
         if(decks.contains(deckName)) {
             DecksDatabase.createDeck(userName,deckName);

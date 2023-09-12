@@ -1,6 +1,5 @@
 package com.example.demo.DeckBuilding;
 
-import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Cards.CardsFactory;
 import com.example.demo.Consts;
@@ -16,7 +15,7 @@ public class DeckBuilder {
 
 
     public List<CardDisplay> getCardsPossibleToAdd(String deckName) {
-        return decks.get( deckName ).getCardsPossibleToAdd();
+        return decks.get( deckName ).getAddableCards();
     }
     public List<CardDisplay> getCurrentDeck(String deckName) {
         return decks.get(deckName).getCardsInDeck();
@@ -68,6 +67,12 @@ public class DeckBuilder {
     public void createDeck(String deckName) {
         if(getDecksNames().contains(deckName) == false){
             decks.put(deckName, new Deck(CardsFactory.createAllCards()));
+        }
+    }
+
+    public void createDeck(String deckName, String fraction) {
+        if(getDecksNames().contains(deckName) == false){
+            decks.put(deckName, new Deck(CardsFactory.createAllCards(), fraction));
         }
     }
 

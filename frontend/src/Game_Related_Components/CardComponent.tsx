@@ -42,17 +42,27 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
         ">
        ${card.name}
        </div>
+
+       <div style="
+        font-size: 23px; 
+        color: black;
+        margin-left: 10%;
+       ">${card.fraction}
+       </div>
+
        <div style="
         font-size: 30px; 
         color: black;
         margin-left: 10%;
        ">${card.basePoints}
        </div>
+
+
        <div style="
         font-size: 30px; 
         color: black;
-        margin-left: 10%;
-        margin-top: 20%
+        margin-left: 5%;
+        margin-top: 8%
        ">${card.cardInfo + " \n" + (card.statuses.length === 1? card.statuses[0]: "")}
        </div>`;
       document.body.appendChild(wholeCardDisplay);

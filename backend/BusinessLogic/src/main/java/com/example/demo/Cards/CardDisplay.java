@@ -14,8 +14,9 @@ public class CardDisplay{
     private int id;
     private String color;
     private List<String> statuses;
+    private String fraction;
 
-    public CardDisplay(String name, int points, int basePoints, String cardInfo, int id, String color, List<String> statuses) {
+    public CardDisplay(String name, int points, int basePoints, String cardInfo, int id, String color, List<String> statuses, String fraction) {
         this.color = color;
         this.statuses = statuses;
         this.name = name;
@@ -24,10 +25,11 @@ public class CardDisplay{
         this.cardInfo = cardInfo;
         this.id = id;
         timer = CardsFactory.noTimer;
+        this.fraction = fraction;
     }
 
 
-    public CardDisplay(String name, int basePoints, String color) {
+    public CardDisplay(String name, int basePoints, String color, String fraction) {
         this.name = name;
         this.color = color;
         this.basePoints = basePoints;
@@ -36,6 +38,7 @@ public class CardDisplay{
         timer = CardsFactory.noTimer;
         this.id = -1;
         this.statuses = new ArrayList<>();
+        this.fraction = fraction;
 
     }
     public CardDisplay(String name, int points, int basePoints, String cardInfo) {
@@ -47,6 +50,7 @@ public class CardDisplay{
         this.id = -1;
         this.color = "";
         this.statuses = new ArrayList<>();
+        this.fraction = "";
     }
 
 
@@ -59,6 +63,7 @@ public class CardDisplay{
         timer = CardsFactory.noTimer;
         this.color = "";
         this.statuses = new ArrayList<>();
+        this.fraction = "";
     }
 
     public CardDisplay() {
@@ -70,6 +75,7 @@ public class CardDisplay{
         this.id = -1;
         this.color = "";
         this.statuses = new ArrayList<>();
+        this.fraction = "";
     }
 
 
@@ -103,6 +109,9 @@ public class CardDisplay{
     public String getColor() {
         return color;
     }
+    public String getFraction() {
+        return fraction;
+    }
 
 
     @Override
@@ -127,4 +136,5 @@ public class CardDisplay{
                 ", color=" + color +
                 '}';
     }
+
 }

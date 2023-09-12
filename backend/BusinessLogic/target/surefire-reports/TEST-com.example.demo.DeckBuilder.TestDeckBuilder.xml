@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.019" tests="27" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.039" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="19"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,31 +58,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="63.0"/>
   </properties>
-  <testcase name="onFirstPlayerTurn_player2CantPlayCard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="testDealingDamageToOneOfTwoSameCards" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterPlayingCard_cantPlayAnother" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="beforePlayingCard_boardIsEmpty" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterTwoPlayerEndRound_newRoundStarts" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="testStartRoundEffectsAfterPass" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="atTheGameStart_noOneWonRound" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterWinningTurn_onePlayerScoresPoints" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterTie_bothPlayersScoresPoint" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="testEndRoundEffectsAfterPass" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterCardIsBurned_goesToGraveyard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="testPlayingTwoSameCards" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterWonGame_cantPlayCard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="testPuttingBasePowerCardToDeck" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterEndingFirstRound_newCardsAreDealt" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="testCalculatingWonRounds" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterOnePlayerEndsRound_turnsDontSwitch" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterCardDies_goesToGraveyard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterNewRound_everyCardGoesToGraveyard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterCardKill_itsPowerResetsOnGraveyard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterPlayingCard_boardIsNotEmpty" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="clearBoard_hasNoPoints" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="afterPlayingCardsWithPoints_theSamePointsAreOnBoard" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterTwoRoundsWon_playerWonGame" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0.001"/>
-  <testcase name="atStartOfGame_nobodyEndedRound" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="playerCanEndRound" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
-  <testcase name="afterNewRound_boardIsEmpty" classname="com.example.demo.DuelTests.TestDuelAfterDeal" time="0"/>
+  <testcase name="testDeckDelete" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.024"/>
+  <testcase name="testAddingCardToFullDeck" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.002"/>
+  <testcase name="testCardsPossibleToAddWhenSwitchingDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
+  <testcase name="testDeckCreation" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
+  <testcase name="testAddingDeckWithExistingName" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
+  <testcase name="testPuttingCardFromCorrectDeckBack" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
+  <testcase name="testDifferentFractionDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.002"/>
+  <testcase name="testAddingCardsToDifferentDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
 </testsuite>

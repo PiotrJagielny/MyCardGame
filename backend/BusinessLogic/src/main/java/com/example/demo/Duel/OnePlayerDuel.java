@@ -120,13 +120,6 @@ public class OnePlayerDuel {
         rows.forEach(r -> r.removeStatusFromCard(card, status));
     }
     private Card findCard(CardDisplay card) {
-//        int cardRow = getCardRow(card);
-//        if(cardRow == -1){
-//            return Card.emptyCard();
-//        }
-//
-//        return rows.get( cardRow ).getCards().stream()
-//                .filter(c -> c.getId() == card.getId()).findFirst().orElse(Card.emptyCard());
         for (int i = 0; i < rows.size(); i++) {
             for (Card cardOnRow : rows.get(i).getCards()) {
                 if(cardOnRow.getId() == card.getId()) {
@@ -137,27 +130,6 @@ public class OnePlayerDuel {
         return Card.emptyCard();
     }
     public void strikeCard(CardDisplay cardToStrike, int strikeAmount){
-//        for (int i = 0; i < rows.size(); i++) {
-//            Row row = rows.get(i);
-//            Card card = row.getCards().stream().filter(c -> c.getId() == cardToStrike.getId())
-//                            .findFirst().orElse(Card.emptyCard());
-//
-//            if(card.getPoints() <= strikeAmount ) {
-//                System.out.println("-----------");
-//                System.out.println(card.getDisplay());
-//                System.out.println(findCard(cardToStrike).getDisplay());
-//                System.out.println(cardToStrike);
-//
-//                //Tutja jest blad, cos z find card jest nie tak
-//                //problem jest z tym ze w tastach ja szukam karty nie z pola bitwy, a z początkowej ręki
-//                //i przez to cardToStrike to nei jest faktyczna karta z pola walki, jedynie id sie zgadza na pewno
-//                addCardToGraveyard(findCard(cardToStrike));
-//                row.deleteCard(cardToStrike);
-//            }
-//            else {
-//                row.strikeCardBy(cardToStrike, strikeAmount);
-//            }
-//        }
         if(cardToStrike.getPoints() <= strikeAmount) {
             addCardToGraveyard(findCard(cardToStrike));
             rows.forEach(r -> r.deleteCard(cardToStrike));
@@ -165,11 +137,6 @@ public class OnePlayerDuel {
         else {
             rows.forEach(r -> r.strikeCardBy(cardToStrike, strikeAmount));
         }
-//        rows.forEach(r -> {
-//           Card card = r.getCards().stream().findFirst()
-//
-//        });
-
     }
 
     public void boostCard(CardDisplay cardToBoost, int boostAmount){
