@@ -61,6 +61,14 @@ There are bronze, silver and gold cards. Gold cards can only be targetter by oth
 archer cant shoot Priest <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/3e948464-8128-4e59-a98c-e32fe139894a)
 
+I added three fractions: Monsters, Humans and neutral cards.
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/82891e53-d20c-48e6-95a0-aa027e553bde)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/094b976c-6ba7-4129-a99f-e3c04618fe8c)
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/0cc04074-9f49-4e9d-ac9c-66c4517ce172)
+
+
+
+
 ## Deck builder
 There is deck builder where you can add and remove cards from deck, add and remove decks. 
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2b47af2e-84f5-41cb-82a5-351d2bb7c9e2)
