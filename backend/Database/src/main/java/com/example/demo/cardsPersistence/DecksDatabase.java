@@ -1,6 +1,7 @@
 package com.example.demo.cardsPersistence;
 
 import com.example.demo.Cards.CardDisplay;
+import com.example.demo.Consts;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
@@ -23,12 +24,13 @@ public class DecksDatabase {
     }
 
     private static EntityManagerFactory emf;
-    public static void createDeck(String username, String deckname) {
+    public static void createDeck(String username, String deckFraction,String deckname) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         try {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setUsername(username);
             deckToSave.setDeckname(deckname);
+            deckToSave.setFraction(deckFraction);
 
             s.getTransaction().begin();
 
@@ -63,7 +65,7 @@ public class DecksDatabase {
         s.close();
 
     }
-    public static void saveDeck(String username, String deckname, List<CardDisplay> cards) {
+    public static void saveDeck(String username, String deckname,String deckFraction, List<CardDisplay> cards) {
         Session s = emf.createEntityManager().unwrap(Session.class);
         deleteDeck(username, deckname);
         try {
@@ -72,6 +74,7 @@ public class DecksDatabase {
             DeckModel deckToSave = new DeckModel();
             deckToSave.setDeckname(deckname);
             deckToSave.setUsername(username);
+            deckToSave.setFraction(deckFraction);
 
             List<CardDisplayModel> cardsToSave = new ArrayList<>();
             for (CardDisplay card : cards) {
@@ -106,7 +109,7 @@ public class DecksDatabase {
 
         DeckBuilder result = new DeckBuilder();
         for (DeckModel deck : decks) {
-            result.createDeck(deck.getDeckname());
+            result.createDeck(deck.getDeckname(), deck.getFraction());
 
             try{
                 List<CardDisplay> cards = cardDisplayModel_to_cardDisplay(deck.getCards());

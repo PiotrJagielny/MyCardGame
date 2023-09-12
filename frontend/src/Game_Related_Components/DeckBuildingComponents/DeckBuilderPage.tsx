@@ -43,13 +43,6 @@ const DeckBuilderPage = () => {
     ]);
   }
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchCardsData();
-    return () => {
-      controller.abort();
-    };
-  }, [userName]);
 
   const ChangeDecksState = (cardToPost: Card, PostURL: string) =>{
     fetch(PostURL, {
@@ -145,7 +138,6 @@ const DeckBuilderPage = () => {
           <DecksManager  currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
           <div className="searchBar">
             <input placeholder="Search for cards" onChange={(event:any) => {searchForCards(event.target.value)}}/>
-            {/* <button className="btn" onClick={fetchCardsData}>X</button> */}
           </div>
           <div className="sortCriteria">
             <p >sort addable cards by 🡣</p>
@@ -153,6 +145,7 @@ const DeckBuilderPage = () => {
               <li><button onClick={() => sortAddableCardsBy("points")} className="btn">Points</button></li>
               <li><button onClick={() => sortAddableCardsBy("color")} className="btn">Color</button></li>
               <li><button onClick={() => sortAddableCardsBy("name")} className="btn">Name</button></li>
+              <li><button onClick={() => sortAddableCardsBy("fraction")} className="btn">Fraction</button></li>
             </ul>
           </div>
         </div>

@@ -18,13 +18,13 @@ class TestDeckBuilder {
     @BeforeEach
     public void init() {
         deckBuilder = new DeckBuilder();
-        deckBuilder.createDeck(firstDeck);
-        deckBuilder.createDeck(secondDeck);
+        deckBuilder.createDeck(firstDeck, Consts.Fraction.humans);
+        deckBuilder.createDeck(secondDeck, Consts.Fraction.humans);
     }
 
     @Test
     public void testDeckCreation(){
-        deckBuilder.createDeck("FirstDeck");
+        deckBuilder.createDeck("FirstDeck", Consts.Fraction.humans);
         assertTrue(deckBuilder.getDecksNames().contains("FirstDeck"));
     }
 
@@ -33,8 +33,8 @@ class TestDeckBuilder {
 
         int decksBeforeCreating = deckBuilder.getDecksNames().size();
         String singleName = "NewDeck";
-        deckBuilder.createDeck(singleName);
-        deckBuilder.createDeck(singleName);
+        deckBuilder.createDeck(singleName, Consts.Fraction.humans);
+        deckBuilder.createDeck(singleName, Consts.Fraction.humans);
         int decksAfterCreating = deckBuilder.getDecksNames().size();
 
         assertEquals(decksAfterCreating, decksBeforeCreating + 1, "there are two decks with same names");

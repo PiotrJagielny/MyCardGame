@@ -37,7 +37,6 @@ export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck})
   }, [])
 
   useEffect(() => {
-    console.log(decksNames[0]);
     currentDeckSetter(decksNames[0]);
   }, [decksNames])
 

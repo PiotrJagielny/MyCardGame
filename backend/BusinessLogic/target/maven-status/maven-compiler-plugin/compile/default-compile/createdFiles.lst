@@ -1,3 +1,4 @@
+com\example\demo\Consts$Fraction.class
 com\example\demo\Duel\OnePlayerDuel.class
 com\example\demo\Consts.class
 com\example\demo\Duel\CardEffects.class
@@ -25,3 +26,4 @@ com\example\demo\Cards\CardsFactory$1.class
 com\example\demo\Duel\PlayerPlay.class
 com\example\demo\Cards\CardTargetStrattegies\EnemyCardsTargetable.class
 com\example\demo\Cards\CardTargetStrattegies\NoCardTargetable.class
+com\example\demo\DeckBuilding\Deck$5.class

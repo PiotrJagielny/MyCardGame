@@ -161,7 +161,6 @@ const DuelPage = () => {
     setPlayerEndRoundMessage("You ended round");
   }
   const newRoundStarted = (payload: any) => {
-    console.log(playerEndRoundMessage);
     alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
     fetchCardsData();
     setEnemyEndRoundBackground('');

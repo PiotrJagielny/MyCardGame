@@ -66,7 +66,7 @@ public class DeckBuilderController {
     @CrossOrigin
     public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName) {
         String ResponseMessage = deckBuilders.get(userName).addCardToDeck(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
         return ResponseMessage;
     }
 
@@ -74,7 +74,7 @@ public class DeckBuilderController {
     @CrossOrigin
     public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName){
         deckBuilders.get(userName).putCardFromDeckBack(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
+        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
     }
 
     @PostMapping(path = "CreateDeck/{userName}/{fraction}")
@@ -83,7 +83,7 @@ public class DeckBuilderController {
         deckBuilders.get(userName).createDeck(deckName, fraction);
         List<String> decks = deckBuilders.get(userName).getDecksNames();
         if(decks.contains(deckName)) {
-            DecksDatabase.createDeck(userName,deckName);
+            DecksDatabase.createDeck(userName,fraction,deckName);
         }
     }
 

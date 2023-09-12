@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class Deck {
     private List<Card> cardsInDeck;
     private List<Card> addableCards;
+    private String fraction;
 
     private String currentNamesFilter;
     private Comparator<CardDisplay> currentSortCriteria;
@@ -29,6 +30,7 @@ public class Deck {
         cardsInDeck = new ArrayList<Card>();
         currentNamesFilter = "";
         currentSortCriteria = getComparator("");
+        this.fraction = fraction;
         this.addableCards = allCards.stream()
                 .filter(c -> c.getDisplay().getFraction().equals(Consts.Fraction.neutral) ||
                         c.getDisplay().getFraction().equals(fraction))
@@ -104,6 +106,13 @@ public class Deck {
                         return o1.getName().compareTo(o2.getName());
                     }
                 };
+            case "fraction":
+                return new Comparator<CardDisplay>() {
+                    @Override
+                    public int compare(CardDisplay o1, CardDisplay o2) {
+                        return o1.getFraction().compareTo(o2.getFraction());
+                    }
+                };
             default:
                 return new Comparator<CardDisplay>() {
                     @Override
@@ -129,4 +138,7 @@ public class Deck {
         }
     }
 
+    public String getFraction() {
+        return fraction;
+    }
 }

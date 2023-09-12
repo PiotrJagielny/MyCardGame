@@ -64,11 +64,6 @@ public class DeckBuilder {
 
 
 
-    public void createDeck(String deckName) {
-        if(getDecksNames().contains(deckName) == false){
-            decks.put(deckName, new Deck(CardsFactory.createAllCards()));
-        }
-    }
 
     public void createDeck(String deckName, String fraction) {
         if(getDecksNames().contains(deckName) == false){
@@ -86,5 +81,9 @@ public class DeckBuilder {
 
     public void searchForCards(String deckName, String searchString) {
         decks.get(deckName).searchForCards(searchString);
+    }
+
+    public String getDeckFraction(String deckName) {
+        return decks.get(deckName).getFraction();
     }
 }

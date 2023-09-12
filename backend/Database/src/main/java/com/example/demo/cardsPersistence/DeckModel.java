@@ -15,6 +15,8 @@ class DeckModel implements Serializable {
     private String deckname;
     private String username;
 
+    private String fraction;
+
 
     @OneToMany(mappedBy = "deck")
     private List<CardDisplayModel> cards;
@@ -33,6 +35,14 @@ class DeckModel implements Serializable {
 
     public void setDeckname(String deckname) {
         this.deckname = deckname;
+    }
+
+    public String getFraction() {
+        return fraction;
+    }
+
+    public void setFraction(String fraction) {
+        this.fraction = fraction;
     }
 
     public String getUsername() {
