@@ -45,6 +45,12 @@ public class DeckBuilderController {
         deckBuilders.get(userName).searchForCards(deckName, searchString);
         return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
     }
+    @PostMapping(path = "ClearSearch/{userName}/{deckName}")
+    @CrossOrigin
+    public List<CardDisplay> clearSearchString(@PathVariable String userName,@PathVariable String deckName) {
+        deckBuilders.get(userName).searchForCards(deckName, "");
+        return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
 
     @GetMapping(path = "GetCardsInDeck/{userName}/{deckName}")
     @CrossOrigin
@@ -71,14 +77,20 @@ public class DeckBuilderController {
         DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getCurrentDeck(deckName));
     }
 
-    @PostMapping(path = "CreateDeck/{userName}")
+    @PostMapping(path = "CreateDeck/{userName}/{fraction}")
     @CrossOrigin
-    public void CreateDeck(@RequestBody String deckName, @PathVariable String userName) {
-        deckBuilders.get(userName).createDeck(deckName, Consts.Fraction.humans);
+    public void CreateDeck(@RequestBody String deckName, @PathVariable String userName, @PathVariable String fraction) {
+        deckBuilders.get(userName).createDeck(deckName, fraction);
         List<String> decks = deckBuilders.get(userName).getDecksNames();
         if(decks.contains(deckName)) {
             DecksDatabase.createDeck(userName,deckName);
         }
+    }
+
+    @GetMapping(path = "GetFractions")
+    @CrossOrigin
+    public List<String> getFractions() {
+        return List.of(Consts.Fraction.humans, Consts.Fraction.monsters);
     }
 
     @PostMapping(path = "DeleteDeck/{userName}/{deckName}")

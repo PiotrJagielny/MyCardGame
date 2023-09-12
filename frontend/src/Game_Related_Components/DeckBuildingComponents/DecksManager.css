@@ -54,3 +54,13 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.DeleteDeck{ 
+    padding-left: 8%;
+    padding-top: 19%;
+
+}
+
+.decksManager{ 
+    display:flex;
+}

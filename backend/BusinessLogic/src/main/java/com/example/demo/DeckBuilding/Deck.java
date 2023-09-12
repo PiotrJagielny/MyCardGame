@@ -72,7 +72,12 @@ public class Deck {
     }
 
     public void searchForCards(String searchString) {
-        currentNamesFilter = searchString;
+        if(searchString.equals("all")) {
+            currentNamesFilter = "";
+        }
+        else {
+            currentNamesFilter = searchString;
+        }
     }
     private Comparator<CardDisplay> getComparator(String criteria) {
         switch(criteria.toLowerCase()) {

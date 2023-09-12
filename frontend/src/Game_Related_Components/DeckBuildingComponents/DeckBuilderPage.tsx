@@ -99,8 +99,13 @@ const DeckBuilderPage = () => {
       setCardsData(sortedCards);
     }).catch((err) => console.log(err));
   }
-  const searchForCards = () => {
-    fetch(`${serverURL}/DeckBuilder/SearchForCards/${userName}/${currentDeck}/${searchString}`, {
+  const searchForCards = (searchValue: string) => {
+    let postURL:string = `${serverURL}/DeckBuilder/SearchForCards/${userName}/${currentDeck}/${searchValue}`;
+    if(searchValue === "") {
+      postURL = `${serverURL}/DeckBuilder/ClearSearch/${userName}/${currentDeck}`;
+    }
+
+    fetch(postURL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify("")
@@ -138,17 +143,17 @@ const DeckBuilderPage = () => {
 
         <div className="PlayersDecks">
           <DecksManager  currentDeck={currentDeck} currentDeckSetter={setCurrentDeck} ></DecksManager>
+          <div className="searchBar">
+            <input placeholder="Search for cards" onChange={(event:any) => {searchForCards(event.target.value)}}/>
+            {/* <button className="btn" onClick={fetchCardsData}>X</button> */}
+          </div>
           <div className="sortCriteria">
             <p >sort addable cards by 🡣</p>
-            <ul>
+            <ul style={{paddingLeft:'27%'}}>
               <li><button onClick={() => sortAddableCardsBy("points")} className="btn">Points</button></li>
               <li><button onClick={() => sortAddableCardsBy("color")} className="btn">Color</button></li>
               <li><button onClick={() => sortAddableCardsBy("name")} className="btn">Name</button></li>
             </ul>
-          </div>
-          <div className="searchBar">
-            <input onChange={(event:any) => {setSearchString(event.target.value)}}/>
-            <button className="btn" onClick={searchForCards}>Search</button>
           </div>
         </div>
       </div>
