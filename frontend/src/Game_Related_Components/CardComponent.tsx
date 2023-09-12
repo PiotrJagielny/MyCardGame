@@ -2,7 +2,7 @@ import React from 'react';
 import './CardComponent.css';
 import {Card} from './Interfaces/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faHourglassHalf} from '@fortawesome/free-solid-svg-icons';
+import {faHourglassHalf, faGhost, faChessRook, faLifeRing} from '@fortawesome/free-solid-svg-icons';
 
 interface CardComponentProps {
   card: Card;
@@ -101,13 +101,38 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
     }
 
   }
+  const getCardFractionIcon = (fraction:string) => {
+    if(fraction === "neutral") {
+      return <FontAwesomeIcon icon={faLifeRing}></FontAwesomeIcon>;
+    }
+    else if(fraction === "monsters") {
+      return <FontAwesomeIcon icon={faGhost}></FontAwesomeIcon>;
+    }
+    else if(fraction === "humans") {
+      return <FontAwesomeIcon icon={faChessRook}></FontAwesomeIcon>;
+    }
+  }
+
+  const getCardFractionNameColor = (fraction:string) => {
+    if(fraction === "neutral") {
+      return "black";
+    }
+    else if(fraction === "monsters") {
+      return "red";
+    }
+    else if(fraction === "humans") {
+      return "blue";
+    }
+  }
 
 
   return <div style={{border: `2px solid ${getCardOutlineColor(card.color)}`}} onContextMenu={blockContextMenu} onMouseEnter={showInfo}  onMouseLeave={hideInfo} onMouseDown={hideInfo} className="card">
+
+        {getCardFractionIcon(card.fraction)}
         {isOnRow === true?
-        <div id={card.id.toString()} className="name">{card.name}</div>
+        <div id={card.id.toString()}style={{color:getCardFractionNameColor(card.fraction)}} className="name">{card.name}</div>
         :
-        <div className="name">{card.name}</div>
+        <div className="name" style={{color:getCardFractionNameColor(card.fraction)}}>{card.name}</div>
          }
 
         {card.points === 0 ?

@@ -209,7 +209,9 @@ public class CardEffects {
         int result = initailValue;
         for (int i = 0; i < ofBoard.size(); i++) {
             if(criteria.test(ofBoard.get(i).getPoints(), result)) {
-                result = ofBoard.get(i).getPoints();
+                if(!ofBoard.get(i).getColor().equals(Consts.gold)) {
+                    result = ofBoard.get(i).getPoints();
+                }
             }
         }
         return result;
@@ -221,7 +223,7 @@ public class CardEffects {
 
                 List<CardDisplay> cardsOnRow= oneOfBothPlayers.getRow(row);
                 for (CardDisplay card : cardsOnRow) {
-                    if(card.getPoints() == points){
+                    if(card.getPoints() == points && !card.getColor().equals(Consts.gold)){
                         burnCard(card, oneOfBothPlayers);
                     }
                 }

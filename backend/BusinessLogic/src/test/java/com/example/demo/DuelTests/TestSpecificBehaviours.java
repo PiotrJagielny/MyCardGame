@@ -142,14 +142,14 @@ class TestSpecificBehaviours {
 
     @Test
     public void testBurningAllMaxPointsCards(){
-        duel = createDuel(List.of(capitan, conflagration));
+        duel = createDuel(List.of(capitan, conflagration, giant));
         setHands();
-        playCardWithoutTargeting(duel, findByName(hand1, capitan), firstRow, player1);
+        playCardWithoutTargeting(duel, findByName(hand1, giant), firstRow, player1);
         playCardWithoutTargeting(duel, findByName(hand2, capitan), firstRow, player2);
         playSpecialCardWithoutTargeting(duel, findByName(hand1,conflagration), player1);
 
         int board = getBoardPointsOf(player1, duel);
-        assertEquals(0, getBoardPointsOf(player1, duel));
+        assertEquals(giant.getPoints(), getBoardPointsOf(player1, duel));
         assertEquals(0, getBoardPointsOf(player2, duel));
     }
 
