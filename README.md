@@ -75,16 +75,6 @@ are available with every fraction (not in production yet)<br>
 ![ezgif com-video-to-gif (3)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/b0575655-54c8-4e7c-adbb-eb686bbc594a)
 
 
-
-
-There is deck builder where you can add and remove cards from deck, add and remove decks. 
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2b47af2e-84f5-41cb-82a5-351d2bb7c9e2)
-
-You can also search for specific cards and sort by different criteria. Here i search for cards that have oo in name and sort them by points.
-![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/a5d2eda3-b992-46bd-9550-afad9b383ed2)
-
-
-
 ## Duel demo
 This is duel page where battle is taking place. <br>
 There will be quick demo of how whole game runs. <br>
