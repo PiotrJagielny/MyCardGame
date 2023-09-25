@@ -70,24 +70,42 @@ const MainPage = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
     stompClient.send('/app/findEnemy', {}, userName);
   }
-  const onMessageReceived = (payload: any) => {
+  const onMessageReceived = async (payload: any) => {
     if(payload.body.includes("Found enemy") ) {
 
       let gameID = payload.body.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
       console.log(chosenDeck);
 
-      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${chosenDeck}`)
-        .then((res) => res.json())
-        .then((deckData: Card[]) => {
-
-          fetch(`${serverURL}/Duel/registerUser/${userName}/${gameID}`, {
+      Promise.all([
+        new Promise((res, rej) => {
+          fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${chosenDeck}`)
+            .then((res) => res.json())
+            .then((deckData: Card[]) => {
+              res(deckData);
+            }).catch((err) => {
+              console.log(err);
+              rej(err);
+            })
+        }),
+        new Promise((res, rej) => {
+          fetch(`${serverURL}/DeckBuilder/GetDeckFraction/${userName}/${chosenDeck}`)
+            .then((res) => res.text())
+            .then((deckFraction: string) => {
+              res(deckFraction);
+            }).catch((err) => {
+              console.log(err);
+              rej(err);
+            })
+        })  
+      ]).then((values) => {
+        console.log(values);
+          fetch(`${serverURL}/Duel/registerUser/${userName}/${gameID}/${values[1]}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(deckData),
+            body: JSON.stringify(values[0]),
           });
-        })
-        .catch(console.error);
+      });
     }
     else if(payload.body.includes("Get into duel page")) {
       navigate("/Duel");

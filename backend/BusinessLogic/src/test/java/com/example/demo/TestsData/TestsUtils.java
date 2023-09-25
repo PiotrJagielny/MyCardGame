@@ -56,16 +56,12 @@ public class TestsUtils {
 
     public static CardDuel createDuel(List<CardDisplay> deck){
         CardDuel result = CardDuel.createDuel();
-        result.registerPlayerToDuel(player2);
-        result.registerPlayerToDuel(player1);
+        result.registerPlayerToDuel(player2, "");
+        result.registerPlayerToDuel(player1, "");
         result.parseCardsFor(deck , player2);
         result.parseCardsFor(deck , player1);
         result.dealCards();
         return result;
-    }
-    public static void setHands(List<CardDisplay> hand1, List<CardDisplay> hand2, CardDuel duel) {
-        hand1 = duel.getHandOf(player1);
-        hand2 = duel.getHandOf(player2);
     }
 
 }

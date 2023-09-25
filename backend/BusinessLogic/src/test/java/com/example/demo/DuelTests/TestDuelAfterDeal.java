@@ -34,8 +34,8 @@ class TestDuelAfterDeal {
     @BeforeEach
     public void setUp(){
         duel = CardDuel.createDuel();
-        duel.registerPlayerToDuel(player2);
-        duel.registerPlayerToDuel(player1);
+        duel.registerPlayerToDuel(player2, "");
+        duel.registerPlayerToDuel(player1, "");
         List<CardDisplay> allCards = getCardsDisplay(createAllCards());
         List<CardDisplay> noEffectCards = allCards.stream()
                 .filter(c -> c.getCardInfo().equals(""))

@@ -117,8 +117,8 @@ public class CardDuel {
     }
 
 
-    public void registerPlayerToDuel(String player) {
-        players.put(player, new OnePlayerDuel());
+    public void registerPlayerToDuel(String player, String fraction) {
+        players.put(player, new OnePlayerDuel(fraction));
         whosTurn = player;
     }
 
@@ -126,9 +126,6 @@ public class CardDuel {
     public void endRoundFor(String player) {
         if(whosTurn.equals(player)){
             CardEffects effects = new CardEffects(players.get(player), players.get(getOpponentOf(player)));
-//            effects.invokeOnTurnEndEffect();
-//            effects.changePerspective(players.get(getOpponentOf(player)), players.get(player));
-//            effects.invokeOnTurnStartEffect();
             invokeOnTurnsEffects(effects, getOpponentOf(player), player);
             changeTurn();
             players.get(player).endRound();

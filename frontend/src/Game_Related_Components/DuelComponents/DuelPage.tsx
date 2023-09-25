@@ -206,12 +206,18 @@ const DuelPage = () => {
 
 
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
-    return fetch(url)
-      .then((res) => res.json())
-      .then((data: T) => {
-        setter(data);
-      })
-      .catch(console.error);
+    return new Promise((res,rej) => {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: T) => {
+          setter(data);
+          res(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          rej(err);
+        });
+    });
   }
 
   const fetchCardsData = () => {
@@ -240,6 +246,7 @@ const DuelPage = () => {
           fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus),
           fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize)
         ]).then((values) => { 
+          console.log(values);
           console.log("all fetched")
         })
         .catch((err) => console.log(err));

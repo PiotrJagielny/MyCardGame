@@ -111,16 +111,16 @@ public class DuelController {
     }
 
 
-    @PostMapping(path="registerUser/{userName}/{gameID}")
+    @PostMapping(path="registerUser/{userName}/{gameID}/{deckFraction}")
     @CrossOrigin
-    public void registerUser(@RequestBody List<CardDisplay> deck, @PathVariable String userName, @PathVariable String gameID) {
+    public void registerUser(@RequestBody List<CardDisplay> deck, @PathVariable String userName, @PathVariable String gameID, @PathVariable String deckFraction) {
         if(duels.containsKey(gameID) == false) {
             duels.put(gameID, CardDuel.createDuel());
-            duels.get(gameID).registerPlayerToDuel(userName);
+            duels.get(gameID).registerPlayerToDuel(userName, deckFraction);
             duels.get(gameID).parseCardsFor(deck, userName);
         }
         else {
-            duels.get(gameID).registerPlayerToDuel(userName);
+            duels.get(gameID).registerPlayerToDuel(userName,deckFraction);
             duels.get(gameID).parseCardsFor(deck, userName);
             duels.get(gameID).dealCards();
         }

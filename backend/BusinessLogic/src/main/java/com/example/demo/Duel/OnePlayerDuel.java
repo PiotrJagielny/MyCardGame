@@ -25,7 +25,7 @@ public class OnePlayerDuel {
 
     private Map<Integer, Integer> cardsTimers;
 
-    public OnePlayerDuel() {
+    public OnePlayerDuel(String fraction) {
         rows = new ArrayList<>();
         rows.add(new Row());
         rows.add(new Row());
@@ -37,7 +37,7 @@ public class OnePlayerDuel {
         hand = new ArrayList<Card>();
         isRoundOverForPlayer = false;
         wonRounds = 0;
-        this.fraction = "";
+        this.fraction = fraction;
     }
 
     public void setFraction(String fraction){this.fraction = fraction;}
@@ -213,7 +213,7 @@ public class OnePlayerDuel {
             clearRowsStatus();
         }
 
-        
+
         if(fraction.equals(Consts.Fraction.monsters)) {
             rows.get(cardsRows.get(randomCardIndex)).play(board.get(randomCardIndex));
         }
