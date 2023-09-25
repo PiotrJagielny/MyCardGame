@@ -71,8 +71,7 @@ are available with every fraction (not in production yet)<br>
 
 
 
-## Deck builder demo
-![ezgif com-video-to-gif](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/5d5b1d97-bfb9-4159-a3eb-fde6ac0c46d3)
+## Deck builder
 
 There is deck builder where you can add and remove cards from deck, add and remove decks. 
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/2b47af2e-84f5-41cb-82a5-351d2bb7c9e2)
