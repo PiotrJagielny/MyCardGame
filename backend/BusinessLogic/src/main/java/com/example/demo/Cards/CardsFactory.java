@@ -10,7 +10,7 @@ public class CardsFactory {
 
     public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2, Consts.bronze, Consts.Fraction.neutral);
     public static final CardDisplay knight = new CardDisplay("Knight", 3, Consts.bronze, Consts.Fraction.neutral);
-    public static final CardDisplay badDog = new CardDisplay("Thunder", 4, Consts.bronze, Consts.Fraction.monsters);
+    public static final CardDisplay badDog = new CardDisplay("Bad dog", 5, Consts.bronze, Consts.Fraction.monsters);
     public static final CardDisplay warrior = new CardDisplay("Warrior",5, Consts.bronze, Consts.Fraction.neutral);
     public static final CardDisplay viking = new CardDisplay("Viking",6, Consts.silver, Consts.Fraction.neutral);
     public static final CardDisplay capitan = new CardDisplay("Capitan",7, Consts.silver, Consts.Fraction.neutral);

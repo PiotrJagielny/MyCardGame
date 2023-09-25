@@ -356,14 +356,18 @@ class TestDuelAfterDeal {
 
     @Test
     public void testMonstersFractionAbility() {
-        duel = createDuel(List.of(badDog, giant));
+        duel = createDuel(List.of(badDog, giant, sharpshooter));
         setHands();
 
         duel.setFractionFor(player1, Consts.Fraction.monsters);
+        duel.setFractionFor(player2, Consts.Fraction.humans);
         playCardWithoutTargeting(duel,findByName(hand1, badDog), firstRow, player1);
-        duel.endRoundFor(player2);
+        playCardWithCardTargeting(duel, findByName(hand2, sharpshooter), firstRow,
+                findByName(board(duel, player1), badDog), player2);
+
         duel.endRoundFor(player1);
-        assertEquals(badDog.getPoints(), duel.getRowPointsOf(player1, firstRow));
+        duel.endRoundFor(player2);
+        assertEquals(badDog.getPoints() - sharpshooterDamage, duel.getRowPointsOf(player1, firstRow));
 
 
     }
