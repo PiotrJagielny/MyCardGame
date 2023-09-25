@@ -8,6 +8,7 @@ For multiplayer messaging i used Spring web sockets and SockJS. <br>
 To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 Frontend is hosted via Vercel <br>
 Backend is hosted via AWS. Server is running on EC2 instance and database is running on AWS RDS <br>
+Also frontend is secured by vercel automatically, but for backend i had to get SSL cerfificate to get HTTPS <br>
 
 ## Rules
 Game consists of 3 rounds, player who wins 2 rounds wins game. When both players end round, one with more points on board wins round. <br>
