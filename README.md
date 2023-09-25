@@ -72,7 +72,8 @@ are available with every fraction (not in production yet)<br>
 
 
 ## Deck builder demo
-![ezgif com-video-to-gif (2)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/184c090c-fc48-420c-ab7a-1867fa4c421e)
+![ezgif com-video-to-gif (3)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/b0575655-54c8-4e7c-adbb-eb686bbc594a)
+
 
 
 
