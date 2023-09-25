@@ -301,7 +301,8 @@ const DuelPage = () => {
       .then((targetableRows: number[]) => {
         makeMove(targetableRows);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
+      console.log("getting possible rows to affect --------------");
 
   }, [cardAffected]);
   

@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
     private static Map<String,String> playerEnemy = new HashMap<>();
     private static List<String> waitingPlayers= new ArrayList<>();
+    private static Map<String,Integer> playerGameId = new HashMap<>();
     private static int maxGameId = 0;
 
     @MessageMapping("/findEnemy")
@@ -34,25 +36,23 @@ public class ChatController {
             waitingPlayers.remove(0);
 
             maxGameId++;
+            playerGameId.put(firstPlayer, maxGameId);
+            playerGameId.put(secondPlayer, maxGameId);
+
             simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Found enemy:" + maxGameId);
-            wait(50);
-            //If message will be send one right after another, then two games will be created
-            simpMessagingTemplate.convertAndSendToUser(firstPlayer, "/private", "Found enemy:" + maxGameId);
-            wait(50);
-            simpMessagingTemplate.convertAndSendToUser(firstPlayer, "/private", "Get into duel page");
-            simpMessagingTemplate.convertAndSendToUser(secondPlayer, "/private", "Get into duel page");
-
-
-
         }
         return userName;
     }
-    public void wait(int milis) {
-        try {
-            Thread.sleep(milis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    @MessageMapping("/enemyFound")
+    public String sendToEnemyThatIsReadyForDuel(@Payload String username) {
+        simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(username), "/registerAfterEnemy", "Found enemy:" + playerGameId.get(username));
+        return username;
+    }
+    @MessageMapping("/getIntoDuelPage")
+    public String getIntoDuelPage(@Payload String username) {
+        simpMessagingTemplate.convertAndSendToUser(username, "/private", "Get into duel page");
+        simpMessagingTemplate.convertAndSendToUser(playerEnemy.get(username), "/private", "Get into duel page");
+        return username;
     }
     @MessageMapping("/sendToEnemy")
     public String sendMessageToEnemy(@Payload String userName) {

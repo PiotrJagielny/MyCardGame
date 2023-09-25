@@ -194,35 +194,8 @@ public class OnePlayerDuel {
 
 
     private void clearRows(){
-        List<Card> board = new ArrayList<>();
-        List<Integer> cardsRows = new ArrayList<>();
-        for (int row = 0; row < rows.size(); row++) {
-            for (int j = 0; j < rows.get(row).getCards().size(); j++) {
-                board.add(new Card(rows.get(row).get(j)));
-                cardsRows.add(row);
-            }
-        }
-        int randomCardIndex = -1;
-        if(board.size() > 0) {
-            randomCardIndex = Utils.getRandomNumber(0, board.size() - 1);
-        }
-
         Card randomCard = new Card(getRandomCardFromBoardWithout(new CardDisplay()));
         int randomCardRow = getCardRow(randomCard.getDisplay());
-
-
-//        for(int row = 0 ; row < rows.size(); ++row){
-//            List<Card> cardsOnRow = new ArrayList<>(rows.get(row).getCards());
-//            for (int i = 0; i < cardsOnRow.size(); i++) {
-//                Card card = cardsOnRow.get(i);
-//                if(!(card.equals(board.get(randomCardIndex)) && fraction.equals(Consts.Fraction.monsters))) {
-//                    addCardToGraveyard(card);
-//                }
-//            }
-//            rows.get(row).clearRow();
-//            rows.get(row).clearStatus();
-//            clearRowsStatus();
-//        }
 
         for(int row = 0 ; row < rows.size(); ++row){
             List<Card> cardsOnRow = new ArrayList<>(rows.get(row).getCards());
@@ -240,9 +213,6 @@ public class OnePlayerDuel {
         if(fraction.equals(Consts.Fraction.monsters)) {
             rows.get(randomCardRow).play(randomCard);
         }
-//        if(fraction.equals(Consts.Fraction.monsters)) {
-//            rows.get(cardsRows.get(randomCardIndex)).play(board.get(randomCardIndex));
-//        }
     }
     public int getWonRounds(){
         return wonRounds;

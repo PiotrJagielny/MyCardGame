@@ -68,11 +68,23 @@ const MainPage = () => {
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
+    stompClient.subscribe('/user/' + userName + '/registerAfterEnemy', registerAfterEnemy);
     stompClient.send('/app/findEnemy', {}, userName);
+  }
+  const registerAfterEnemy = async(payload: any) => {
+      registerUser(payload, "getIntoDuelPage");
+
   }
   const onMessageReceived = async (payload: any) => {
     if(payload.body.includes("Found enemy") ) {
+      registerUser(payload, "enemyFound");
+    }
+    else if(payload.body.includes("Get into duel page")) {
+      navigate("/Duel");
+    }
+  }
 
+  const registerUser = (payload:any, topicToSendMessageTo: string) => {
       let gameID = payload.body.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
       console.log(chosenDeck);
@@ -104,12 +116,14 @@ const MainPage = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(values[0]),
+          }).then(() => {
+            console.log("user registered-----------------------------------");
+            stompClient.send(`/app/${topicToSendMessageTo}`, {}, userName);
+            // stompClient.send(`/app/enemyFound`, {}, userName);
+            
           });
       });
-    }
-    else if(payload.body.includes("Get into duel page")) {
-      navigate("/Duel");
-    }
+
   }
 
   const [isSearching, setIsSearching] = useState<boolean>(false);
