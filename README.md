@@ -76,6 +76,10 @@ are available with every fraction (not in production yet)<br>
 
 
 ## Duel demo
+
+![ezgif com-video-to-gif](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/a1a46143-7bed-4ded-ae2b-05c257c2fc0b)
+
+
 This is duel page where battle is taking place. <br>
 There will be quick demo of how whole game runs. <br>
 <br>
