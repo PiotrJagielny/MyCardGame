@@ -135,12 +135,17 @@ const CardComponent: React.FC<CardComponentProps> = ({  card, isOnRow = false}) 
         <div className="name" style={{color:getCardFractionNameColor(card.fraction)}}>{card.name}</div>
          }
 
-        {card.points === 0 ?
-        <div>.</div>
-        :
-        <div style={{color: getCardPointsColor(card.points, card.basePoints)}}>{card.points}</div>
-        }
-        {card.timer !== -1 && <div><FontAwesomeIcon icon={faHourglassHalf} /> {card.timer}</div>}
+
+
+        <div style={{display:'flex'}}>
+          {card.points === 0 ?
+
+          <div>.</div>
+          :
+          <div style={{color: getCardPointsColor(card.points, card.basePoints)}}>{card.points}</div>
+          }
+          {card.timer !== -1 && <div><FontAwesomeIcon icon={faHourglassHalf} /> {card.timer}</div>}
+        </div>
   </div>
 };
 

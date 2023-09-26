@@ -246,8 +246,8 @@ const DuelPage = () => {
           fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus),
           fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize)
         ]).then((values) => { 
-          console.log(values);
-          console.log("all fetched")
+          // console.log(values);
+          // console.log("all fetched")
         })
         .catch((err) => console.log(err));
 

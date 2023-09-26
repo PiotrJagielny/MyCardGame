@@ -102,7 +102,7 @@ public class OnePlayerDuel {
             if(possiblePlace.remove(cc))
                 break;
         }
-        if(fraction.equals(Consts.Fraction.humans) ) {
+        if(fraction.equals(Consts.Fraction.humans) && cc.getDisplay().getColor().equals(Consts.gold) ) {
             cc.boostPointsBy(Consts.Fraction.humansGoldBoost);
         }
         rows.get(playMade.playedOnRow()).play(cc);

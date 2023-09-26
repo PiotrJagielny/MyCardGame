@@ -347,11 +347,14 @@ class TestDuelAfterDeal {
 
     @Test
     public void testHumansFractionAbility() {
-        duel = createDuel(List.of(giant));
+        duel = createDuel(List.of(sharpshooter, capitan));
         setHands();
         duel.setFractionFor(player1, Consts.Fraction.humans);
-        playCardWithoutTargeting(duel, findByName(hand1,giant), firstRow, player1);
-        assertEquals(giant.getPoints() + Consts.Fraction.humansGoldBoost, duel.getRowPointsOf(player1, firstRow));
+        playCardWithoutTargeting(duel, findByName(hand1,sharpshooter), firstRow, player1);
+        duel.endRoundFor(player2);
+        playCardWithoutTargeting(duel, findByName(hand1, capitan), secondRow, player1);
+        assertEquals(sharpshooter.getPoints() + Consts.Fraction.humansGoldBoost, duel.getRowPointsOf(player1, firstRow));
+        assertEquals(capitan.getPoints() , duel.getRowPointsOf(player1, secondRow));
     }
 
     @Test
