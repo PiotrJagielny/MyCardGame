@@ -64,6 +64,9 @@ archer cant shoot Priest <br>
 
 I added two fractions: Monsters, Humans. You can build deck with only one fraction and only neutral cards
 are available with every fraction <br>
+Every fraction has special fraction ability. <br>
+Humans - Has +2 points for gold cards <br>
+Monsters - Random card stays on board after round ends <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/82891e53-d20c-48e6-95a0-aa027e553bde)
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/094b976c-6ba7-4129-a99f-e3c04618fe8c)
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/0cc04074-9f49-4e9d-ac9c-66c4517ce172)
