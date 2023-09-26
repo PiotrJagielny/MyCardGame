@@ -19,7 +19,6 @@ In each move, a player can either play card or end round.<br>
 Currently, there are about 30 cards. Most of them dont have any effects.<br>
 
 Here are cards with effect. 
-(Some of these cards might not be available in production yet)
 
 Spells: <br>
 Fireball - Deals damage to an enemy card.<br>
