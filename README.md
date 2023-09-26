@@ -70,6 +70,11 @@ Monsters - Random card stays on board after round ends <br>
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/094b976c-6ba7-4129-a99f-e3c04618fe8c)
 ![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/0cc04074-9f49-4e9d-ac9c-66c4517ce172)
 
+<br> Cards with turn effects has hourglass icon with number that tells how many turns there are left to trigger effect <br>
+<br> This effect can be triggered on round start or end <br>
+![image](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/09efbfa4-061c-4a8d-ac0c-5f0fcfa32778)
+
+
 
 
 
