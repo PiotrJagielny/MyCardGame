@@ -78,8 +78,8 @@ Monsters - Random card stays on board after round ends <br>
 
 
 ## Duel demo
-Quick duel demo
-![ezgif com-video-to-gif (1)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/27a04121-5294-48a9-adea-92601d2e1f2d)
+Quick duel demo <br>
+![ezgif com-video-to-gif (1)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/27a04121-5294-48a9-adea-92601d2e1f2d) <br>
 <br>
 <br>
 I can play cards on board <br>
