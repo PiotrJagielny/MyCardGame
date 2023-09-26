@@ -82,13 +82,13 @@ Quick duel demo
 ![ezgif com-video-to-gif (1)](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/27a04121-5294-48a9-adea-92601d2e1f2d)
 <br>
 <br>
-I can play cards on board
+I can play cards on board <br>
 ![play card](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/816886d2-7e18-46a5-83b6-19f107f18671) <br>
-I can target my card
+I can target my card <br>
 ![target my card](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/def2bafb-c98b-4ec1-8bbd-d481ab9d15a5) <br>
-I can target and destroy enemy card
+I can target and destroy enemy card <br>
 ![target enemy card](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/c7a174bd-9b3a-463a-bf6b-901bea94cf48) <br>
-I can play cards in chain, target enemy row and make weather effects
+I can play cards in chain, target enemy row and make weather effects <br>
 ![chain and weather](https://github.com/PiotrJagla/GwentClone-MainProj/assets/76881722/a8ef3a38-1111-4da0-a1e4-9295592ee5ba) <br>
 <br>
 
