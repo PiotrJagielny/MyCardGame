@@ -21,7 +21,7 @@ public class CardDuel {
 
     public CardDuel() {
         whosTurn = "";
-        players = new HashMap<String, OnePlayerDuel>();
+        players = new HashMap<>();
     }
 
     public boolean didWon(String player) {

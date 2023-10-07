@@ -23,7 +23,7 @@ public class CardEffects {
     public CardEffects(OnePlayerDuel player, OnePlayerDuel enemy) {
         this.player = player;
         this.enemy = enemy;
-        this.playMade = null;
+        this.playMade = new PlayerPlay(new CardDisplay());
     }
     public void changePerspective(OnePlayerDuel newPlayer, OnePlayerDuel newEnemy) {
         player = newPlayer;

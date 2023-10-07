@@ -33,8 +33,8 @@ public class OnePlayerDuel {
         graveyard = new ArrayList<>();
         cardsTimers = new HashMap<>();
 
-        deck = new ArrayList<Card>();
-        hand = new ArrayList<Card>();
+        deck = new ArrayList<>();
+        hand = new ArrayList<>();
         isRoundOverForPlayer = false;
         wonRounds = 0;
         this.fraction = fraction;

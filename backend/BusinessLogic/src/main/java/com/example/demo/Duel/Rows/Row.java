@@ -5,9 +5,7 @@ import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardsFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Row {
 
