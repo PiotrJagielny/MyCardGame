@@ -1,6 +1,8 @@
 package com.example.demo.TestsData;
 
-public class TestConsts {
+
+public final class TestConsts {
+    private TestConsts() {}
     public static final String player1 = "first";
     public static final String player2 = "second";
 

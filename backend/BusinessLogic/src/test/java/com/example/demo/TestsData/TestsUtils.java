@@ -12,7 +12,8 @@ import java.util.stream.IntStream;
 
 import static com.example.demo.TestsData.TestConsts.*;
 
-public class TestsUtils {
+public final class TestsUtils {
+    private TestsUtils() {}
     public static int getBoardPointsOf(String player, CardDuel duel) {
         return IntStream.range(0, Consts.rowsNumber)
                 .mapToObj(i -> duel.getRowPointsOf(player, i)).collect(Collectors.toList())

@@ -6,7 +6,9 @@ import com.example.demo.Duel.OnePlayerDuel;
 
 import java.util.*;
 
-public class CardsFactory {
+public final class CardsFactory {
+
+    private CardsFactory() {}
 
     public static final CardDisplay hotdog = new CardDisplay("Hot dog", 2, Consts.bronze, Consts.Fraction.neutral);
     public static final CardDisplay knight = new CardDisplay("Knight", 3, Consts.bronze, Consts.Fraction.neutral);

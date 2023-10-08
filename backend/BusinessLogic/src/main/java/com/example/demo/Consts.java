@@ -1,6 +1,9 @@
 package com.example.demo;
 
-public class Consts {
+public final class Consts {
+
+    private Consts() {}
+
     public class Fraction{
         public static final String neutral = "neutral";
         public static final String monsters= "monsters";
