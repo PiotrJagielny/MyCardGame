@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping(path = "getGet")
-    @CrossOrigin
     public String testMapping() {
         return "This spring boot app works";
     }

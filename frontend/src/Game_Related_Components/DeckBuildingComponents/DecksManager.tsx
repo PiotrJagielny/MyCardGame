@@ -20,7 +20,7 @@ export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck})
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
 
   const fetchDecksNames = () => {
-    return fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
+    return fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`, {headers: {'Access-Control-Allow-Origin' :'*'}})
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecksNames(decksNames);
@@ -29,7 +29,7 @@ export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck})
   }
 
   useEffect(() => {
-    fetch(`${serverURL}/DeckBuilder/GetFractions`)
+    fetch(`${serverURL}/DeckBuilder/GetFractions`, {headers: {'Access-Control-Allow-Origin' :'*'}})
     .then((res) => res.json())
     .then((fractionsRes: string[]) => {
       setFractions(fractionsRes);
@@ -52,7 +52,8 @@ export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck})
     fetch(`${serverURL}/DeckBuilder/CreateDeck/${userName}/${choosenFraction}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: inputNewDeckName
     }).then(() => {
@@ -66,7 +67,8 @@ export const DecksManager: React.FC<Props> = ({ currentDeckSetter, currentDeck})
     fetch(`${serverURL}/DeckBuilder/DeleteDeck/${userName}/${currentDeck}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: "" 
     }).then(() => {

@@ -27,14 +27,14 @@ const DeckBuilderPage = () => {
 
   const fetchCardsData = () => {
     Promise.all([
-    fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`)
+    fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`, {headers: {'Access-Control-Allow-Origin' :'*'}})
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
         setCardsData(cardsData);
       })
       .catch(console.error),
 
-      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${currentDeck}`)
+      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${currentDeck}`, {headers: {'Access-Control-Allow-Origin' :'*'}})
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
@@ -48,7 +48,8 @@ const DeckBuilderPage = () => {
     fetch(PostURL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin' : '*'
       },
       body: JSON.stringify(cardToPost.name)
     }).then(() => {
@@ -56,7 +57,7 @@ const DeckBuilderPage = () => {
     });
   };
 
-
+        
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
     
@@ -82,10 +83,11 @@ const DeckBuilderPage = () => {
   }
 
 
+
   const sortAddableCardsBy = (criteria: string) => {
     fetch(`${serverURL}/DeckBuilder/SortAddableCardsBy/${userName}/${currentDeck}/${criteria}`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'},
       body: JSON.stringify("")
     }).then((response) => response.json())
     .then((sortedCards: Card[]) => {
@@ -100,7 +102,7 @@ const DeckBuilderPage = () => {
 
     fetch(postURL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'},
       body: JSON.stringify("")
     }).then((response) => response.json())
     .then((foundCards: Card[]) => {
