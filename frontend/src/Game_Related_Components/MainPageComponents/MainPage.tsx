@@ -47,7 +47,8 @@ const MainPage = () => {
   useEffect(() => {
     if(chosenDeck !== "") {
       console.log(chosenDeck);
-      let Sock = new SockJS(serverURL + '/ws');
+      // let Sock = new SockJS(serverURL + '/ws');
+      let Sock = new SockJS("cgi15let6d.execute-api.eu-north-1.amazonaws.com/prod/ws");
       stompClient = over(Sock);
       stompClient.connect({}, onConnect);
       setIsSearching(true);
