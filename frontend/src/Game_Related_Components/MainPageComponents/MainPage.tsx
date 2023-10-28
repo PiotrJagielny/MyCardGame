@@ -31,7 +31,9 @@ const MainPage = () => {
 
 
   const handleModalClose= (deck:string) => {
-    fetch(`${serverURL}/DeckBuilder/ValidateDeck/${userName}/${deck}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
+    fetch(`${serverURL}/DeckBuilder/ValidateDeck/${userName}/${deck}`, 
+    {headers: {'Access-Control-Allow-Origin' : '*'}}
+    )
     .then((res) => res.json())
     .then((isDeckValid: boolean) => {
       if(isDeckValid) {
