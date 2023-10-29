@@ -49,13 +49,34 @@ const MainPage = () => {
   useEffect(() => {
     if(chosenDeck !== "") {
       console.log(chosenDeck);
-      let Sock = new SockJS(serverURL + '/ws');
-      stompClient = over(Sock);
-      stompClient.connect({}, onConnect);
+      // let Sock = new SockJS(serverURL + '/ws');
+      // let Sock = new SockJS("cgi15let6d.execute-api.eu-north-1.amazonaws.com/prod/ws");
+
+      const socket = new WebSocket('wss://63mgnuyfr6.execute-api.eu-north-1.amazonaws.com/production/');
+      socket.addEventListener('open', e => {
+        console.log('WebSocket is connected');
+        const payload = {
+          action: 'message',
+          chosenDeck
+        }
+        socket.send(JSON.stringify(payload))
+
+      })
+      socket.addEventListener('close', e => {
+        console.log('WebSocket is disconnected');
+      })
+      socket.addEventListener('message', e => {
+        console.log('your back message is:', JSON.parse(e.data).message);
+      })
+
+      // stompClient = over(Sock);
+      // stompClient.connect({}, onConnect);
       setIsSearching(true);
       setIsModalOpen(false);
     }
   }, [chosenDeck])
+
+
 
 
   const RedirectToDuel = () =>{

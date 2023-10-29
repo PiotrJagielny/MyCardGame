@@ -15,7 +15,11 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PL"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-19\bin"/>
+<<<<<<< HEAD
     <property name="sun.java.command" value="C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430\surefirebooter10248936747480014921.jar C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430 2023-10-28T11-19-26_481-jvmRun1 surefire12906120283668453595tmp surefire_02926117576560368169tmp"/>
+=======
+    <property name="sun.java.command" value="C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769\surefirebooter10955930269812888532.jar C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769 2023-10-28T11-29-33_187-jvmRun1 surefire4803621050521691083tmp surefire_015644891510401047057tmp"/>
+>>>>>>> ws-integration
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\target\test-classes;D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\target\classes;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.2\junit-jupiter-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\piotr\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\piotr\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\piotr\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +34,11 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
+<<<<<<< HEAD
     <property name="surefire.real.class.path" value="C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430\surefirebooter10248936747480014921.jar"/>
+=======
+    <property name="surefire.real.class.path" value="C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769\surefirebooter10955930269812888532.jar"/>
+>>>>>>> ws-integration
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="19.0.2+7-44"/>
@@ -61,9 +69,14 @@
   <testcase name="testDeckDelete" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.033"/>
   <testcase name="testAddingCardToFullDeck" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
   <testcase name="testCardsPossibleToAddWhenSwitchingDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0"/>
-  <testcase name="testDeckCreation" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0"/>
+  <testcase name="testDeckCreation" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
   <testcase name="testAddingDeckWithExistingName" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0"/>
+<<<<<<< HEAD
   <testcase name="testPuttingCardFromCorrectDeckBack" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
   <testcase name="testDifferentFractionDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
+=======
+  <testcase name="testPuttingCardFromCorrectDeckBack" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0"/>
+  <testcase name="testDifferentFractionDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.002"/>
+>>>>>>> ws-integration
   <testcase name="testAddingCardsToDifferentDecks" classname="com.example.demo.DeckBuilder.TestDeckBuilder" time="0.001"/>
 </testsuite>

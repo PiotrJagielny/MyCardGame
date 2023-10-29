@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.021" tests="36" errors="0" skipped="0" failures="0">
+=======
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.027" tests="36" errors="0" skipped="0" failures="0">
+>>>>>>> ws-integration
   <properties>
     <property name="java.specification.version" value="19"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +19,11 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PL"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-19\bin"/>
+<<<<<<< HEAD
     <property name="sun.java.command" value="C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430\surefirebooter10248936747480014921.jar C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430 2023-10-28T11-19-26_481-jvmRun1 surefire12906120283668453595tmp surefire_02926117576560368169tmp"/>
+=======
+    <property name="sun.java.command" value="C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769\surefirebooter10955930269812888532.jar C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769 2023-10-28T11-29-33_187-jvmRun1 surefire4803621050521691083tmp surefire_015644891510401047057tmp"/>
+>>>>>>> ws-integration
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\target\test-classes;D:\Program Files (x86)\GitHub\GwentClone\backend\BusinessLogic\target\classes;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.2\junit-jupiter-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\piotr\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\piotr\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\piotr\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\piotr\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +38,11 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
+<<<<<<< HEAD
     <property name="surefire.real.class.path" value="C:\Users\piotr\AppData\Local\Temp\surefire2425514779386816430\surefirebooter10248936747480014921.jar"/>
+=======
+    <property name="surefire.real.class.path" value="C:\Users\piotr\AppData\Local\Temp\surefire14461317697029100769\surefirebooter10955930269812888532.jar"/>
+>>>>>>> ws-integration
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="19.0.2+7-44"/>
@@ -61,37 +73,61 @@
   <testcase name="testKillingAllMinPointsCards" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testCallingAllCardCopiesFromDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBoostingEveryTurn" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+<<<<<<< HEAD
   <testcase name="afterBasePowerEqualsZero_cardIsTotallyDestroyed" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBoostingWholeBoard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+=======
+  <testcase name="afterBasePowerEqualsZero_cardIsTotallyDestroyed" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+  <testcase name="testBoostingWholeBoard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+>>>>>>> ws-integration
   <testcase name="testUnlockingCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testIncreasingBasePower" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testEatingOwnCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testDoublingCardPoints" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testDecreasingBasePower" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testCardResurrectionFromGraveyard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
-  <testcase name="testLockingCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
-  <testcase name="testDamageDealtByNumberOfWeakenedCards" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="testLockingCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+  <testcase name="testDamageDealtByNumberOfWeakenedCards" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="cardWithPointsBelowOneIsRemoved" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testStrikingEnemyCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+<<<<<<< HEAD
   <testcase name="testPlayingCopyOfCardOnBoardFromDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testMakingCopyOfCardInDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+=======
+  <testcase name="testPlayingCopyOfCardOnBoardFromDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="testMakingCopyOfCardInDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+>>>>>>> ws-integration
   <testcase name="testClearingAllRowsStatus" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="dealDamageToCard_boostIfItDies" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testPlyingCardFromDeck" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testUsingStrikingSpell" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testCardsTargeting" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.002"/>
+<<<<<<< HEAD
   <testcase name="testDealingDamageEveryTwoTurns" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testSpawningNewUnitsOnDeath" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBoostingSingleCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBoostingCardEveryTwoTurns" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testTargetingGoldCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+=======
+  <testcase name="testDealingDamageEveryTwoTurns" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="testSpawningNewUnitsOnDeath" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+  <testcase name="testBoostingSingleCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="testBoostingCardEveryTwoTurns" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+  <testcase name="testTargetingGoldCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+>>>>>>> ws-integration
   <testcase name="testCallingCardFromDeckAfterTurns" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testSpyThatDrawsCard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testDealingDamageToWholeRow" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBoostingByNumberOfCardsOnGraveyard" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="testBoostingSingleRow" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testBurningOppositeRow" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+<<<<<<< HEAD
   <testcase name="testBurningAllMaxPointsCards" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
   <testcase name="lockedCards_dontTriggerOnDeathEffects" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
   <testcase name="testRainRowStatus" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+=======
+  <testcase name="testBurningAllMaxPointsCards" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="lockedCards_dontTriggerOnDeathEffects" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0"/>
+  <testcase name="testRainRowStatus" classname="com.example.demo.DuelTests.TestSpecificBehaviours" time="0.001"/>
+>>>>>>> ws-integration
 </testsuite>
