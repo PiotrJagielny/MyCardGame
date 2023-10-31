@@ -26,7 +26,11 @@ public class DeckBuilder {
     }
 
     public void sortCardsPossibleToAddBy(String deckName, String criteria) {
-        decks.get(deckName).sortCardsPossibleToAddBy(criteria);
+        try{
+            decks.get(deckName).sortCardsPossibleToAddBy(criteria);
+        } catch(Exception e) {
+            System.out.print("Deck not created yet");
+        }
     }
 
 

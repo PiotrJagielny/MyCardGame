@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping(path = "/Duel")
+@CrossOrigin
 public class DuelController {
 
     private Map<String, CardDuel> duels = new HashMap<>();

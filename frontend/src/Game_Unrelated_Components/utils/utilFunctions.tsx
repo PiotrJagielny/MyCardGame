@@ -19,3 +19,11 @@ export const getEnemyHandBlankCards = (blankCardsSize: number) => {
     }
     return cards;
   }
+
+export const sendMessage = (msg:string, socket: WebSocket) => {
+    const payload = {
+        action: 'message',
+        msg
+    }
+    socket.send(JSON.stringify(payload))
+}

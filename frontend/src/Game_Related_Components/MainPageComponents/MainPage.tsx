@@ -1,14 +1,12 @@
 import React,{useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
-import SockJS from 'sockjs-client';
-import {over} from 'stompjs';
 import {useSelector, useDispatch} from 'react-redux';
 import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import {Card} from './../Interfaces/Card';
 import './MainPage.css';
 import Modal from 'react-modal';
+import {sendMessage} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
-var stompClient: any = null;
 const MainPage = () => {
 
   const userName = useSelector<StateData, string>((state) => state.userName);
@@ -49,66 +47,36 @@ const MainPage = () => {
   useEffect(() => {
     if(chosenDeck !== "") {
       console.log(chosenDeck);
-      // let Sock = new SockJS(serverURL + '/ws');
-      // let Sock = new SockJS("cgi15let6d.execute-api.eu-north-1.amazonaws.com/prod/ws");
-
       const socket = new WebSocket('wss://63mgnuyfr6.execute-api.eu-north-1.amazonaws.com/production/');
+      dispatch({type:"CONNECT_TO_SOCKET", payload: "", createdSocket: socket});
       socket.addEventListener('open', e => {
         console.log('WebSocket is connected');
-        const payload = {
-          action: 'message',
-          chosenDeck
-        }
-        socket.send(JSON.stringify(payload))
-
+        sendMessage("findEnemy", socket);
       })
       socket.addEventListener('close', e => {
         console.log('WebSocket is disconnected');
       })
       socket.addEventListener('message', e => {
-        console.log('your back message is:', JSON.parse(e.data).message);
+        let msg:string  = JSON.parse(e.data).message;
+        if(msg.includes("gameid:")){
+          registerUser(msg,"enemyFound", socket);
+        }
+        else if(msg.includes("to_duel_page")){
+          console.log("to duel page");
+          registerUser(msg,"getIntoDuelPage", socket);
+        }
+        else if(msg.includes("Go into duel page")) {
+          navigate("/Duel");
+        }
       })
 
-      // stompClient = over(Sock);
-      // stompClient.connect({}, onConnect);
       setIsSearching(true);
       setIsModalOpen(false);
     }
   }, [chosenDeck])
 
-
-
-
-  const RedirectToDuel = () =>{
-    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
-    .then((res) => res.json())
-    .then((decksNames: string[]) => {
-      setDecks(decksNames);
-    }).then(() => {
-      setIsModalOpen(true);
-    })
-    .catch(console.error);
-  }
-  const onConnect = () => {
-    stompClient.subscribe('/user/' + userName + '/private', onMessageReceived );
-    stompClient.subscribe('/user/' + userName + '/registerAfterEnemy', registerAfterEnemy);
-    stompClient.send('/app/findEnemy', {}, userName);
-  }
-  const registerAfterEnemy = async(payload: any) => {
-      registerUser(payload, "getIntoDuelPage");
-
-  }
-  const onMessageReceived = async (payload: any) => {
-    if(payload.body.includes("Found enemy") ) {
-      registerUser(payload, "enemyFound");
-    }
-    else if(payload.body.includes("Get into duel page")) {
-      navigate("/Duel");
-    }
-  }
-
-  const registerUser = (payload:any, topicToSendMessageTo: string) => {
-      let gameID = payload.body.split(":")[1]; 
+  const registerUser = (payload:string,topic: string,  socket: WebSocket) => {
+      let gameID = payload.split(":")[1]; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
       console.log(chosenDeck);
 
@@ -141,13 +109,29 @@ const MainPage = () => {
             body: JSON.stringify(values[0]),
           }).then(() => {
             console.log("user registered-----------------------------------");
-            stompClient.send(`/app/${topicToSendMessageTo}`, {}, userName);
-            // stompClient.send(`/app/enemyFound`, {}, userName);
+            sendMessage(topic, socket);
             
           });
       });
 
   }
+
+
+
+
+
+
+  const RedirectToDuel = () =>{
+    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
+    .then((res) => res.json())
+    .then((decksNames: string[]) => {
+      setDecks(decksNames);
+    }).then(() => {
+      setIsModalOpen(true);
+    })
+    .catch(console.error);
+  }
+
 
   const [isSearching, setIsSearching] = useState<boolean>(false);
 

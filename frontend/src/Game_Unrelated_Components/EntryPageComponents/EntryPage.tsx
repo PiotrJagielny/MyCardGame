@@ -31,7 +31,8 @@ const EntryPage = () => {
         </h1>
         <h6>To test duel you have to first build your deck. When deck is read click find enemy two times and you will start game with yourself.</h6>
         <h6>Sometimes you have to refresh page and click load data if there are any bugs to load most recent updates</h6>
-        <h6>I work on this project almost every day so if something doesn't work that means i am trying to fix that</h6>
+        <h6>for now this website dont work because i am enhancing it</h6>
+        {/* <h6>but deck builder is still working</h6> */}
         {/* <h6>(I am so sorry but i have problems with server and i am fixing this right now)</h6> */}
 
       </div>

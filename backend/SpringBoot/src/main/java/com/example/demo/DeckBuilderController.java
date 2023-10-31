@@ -13,6 +13,7 @@ import java.util.Map;
 @RestController
 @Service
 @RequestMapping(path = "/DeckBuilder")
+@CrossOrigin
 public class DeckBuilderController {
 
     private Map<String, DeckBuilder> deckBuilders = new HashMap<>();

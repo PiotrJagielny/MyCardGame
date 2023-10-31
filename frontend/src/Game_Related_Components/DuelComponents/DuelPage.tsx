@@ -12,7 +12,7 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
-import {renderWonRounds, getEnemyHandBlankCards} from '../../Game_Unrelated_Components/utils/utilFunctions';
+import {sendMessage, renderWonRounds, getEnemyHandBlankCards} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
 var stompClient:any = null;
 var firstRow: number = 0;
@@ -120,6 +120,7 @@ const DuelPage = () => {
   const gameID = useSelector<StateData, string>((state) => state.gameID);
   const userName= useSelector<StateData, string>((state) => state.userName);
   const serverURL= useSelector<StateData, string>((state) => state.serverURL);
+  const socket = useSelector<StateData, WebSocket | null>((state) => state.webSocket);
 
 
 
@@ -134,9 +135,41 @@ const DuelPage = () => {
 
 
   const connectToSocket= () =>{
-    let Sock = new SockJS(serverURL + '/ws');
-    stompClient = over(Sock);
-    stompClient.connect({}, onConnect);
+    if(socket != null) {
+      socket.addEventListener('message', e => {
+        let msg:string  = JSON.parse(e.data).message;
+        if(msg.includes("Get data from server:")) {
+          fetchCardsData();
+        }
+        else if(msg.includes("mulligan")) {
+          mulliganMessage();
+        }
+        else if(msg.includes("game")) {
+          fetchCardsData();
+        }
+        else if(msg.includes("New round started")) {
+          alert("New round has started", "https://images.pexels.com/photos/326333/pexels-photo-326333.jpeg?cs=srgb&dl=pexels-pixabay-326333.jpg&fm=jpg", 3000, false);
+          fetchCardsData();
+          setEnemyEndRoundBackground('');
+          setEnemyEndRoundMessage('');
+          setPlayerEndRoundBackground('');
+          setPlayerEndRoundMessage('');
+        }
+        else if(msg.includes("Enemy ended round")) {
+          fetchCardsData();
+          setEnemyEndRoundBackground('rgba(0,0,0,0.4');
+          setEnemyEndRoundMessage("Enemy ended round");
+        }
+        else if(msg.includes("Player ended round")) {
+          fetchCardsData();
+          setPlayerEndRoundBackground('rgba(0,0,0,0.4');
+          setPlayerEndRoundMessage("You ended round");
+        }
+        
+
+      })
+    }
+    
   }
   const onConnect = () => {
     stompClient.subscribe('/user/' + userName + '/game', onMessageReceived );
@@ -174,7 +207,7 @@ const DuelPage = () => {
   const [didEnemyEndedMulligan, setDidEnemyEndedMulligan] = useState<boolean>(false);
   const [didPlayerEndedMulligan, setDidPlayerEndedMulligan] = useState<boolean>(false);
   const [isMulliganModalOpen, setIsMulliganModalOpen] = useState(false);
-  const mulliganMessage= (payload: any) => {
+  const mulliganMessage= () => {
     setDidEnemyEndedMulligan(true);
   }
   useEffect(() => {
@@ -198,7 +231,10 @@ const DuelPage = () => {
   }
   useEffect(() => {
     if (mulliganedCards === 3) {
-      stompClient.send("/app/mulliganEnded", {}, userName);
+      // stompClient.send("/app/mulliganEnded", {}, userName);
+      if(socket != null) {
+        sendMessage('mulliganEnded', socket)
+      }
       setDidPlayerEndedMulligan(true);
     }
   }, [mulliganedCards]);
@@ -394,7 +430,10 @@ const DuelPage = () => {
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
         setPlayChainCard(cardChained);
-        stompClient.send('/app/sendTrigger', {}, userName, userName);
+        // stompClient.send('/app/sendTrigger', {}, userName, userName);
+        if(socket != null) {
+          sendMessage('sendTrigger', socket)
+        }
         fetchCardsData();
       });
   }
