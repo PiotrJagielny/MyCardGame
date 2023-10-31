@@ -4,10 +4,10 @@
 This is a Gwent: The Witcher card game clone. <br>
 Backend is built with Spring boot with Java and frontend is made using React with Typescript. <br>
 To store important data on frontend such as username, i used react redux. <br>
-For multiplayer messaging i used Spring web sockets and SockJS. <br>
+For multiplayer messaging i used web sockets. <br>
 To store users decks i used PostgreSQL and JPA/Hibernate. <br>
 Frontend is hosted via Vercel <br>
-Backend is hosted via AWS. Server is running on EC2 instance and database is running on AWS RDS <br>
+AWS: EC2, RDS, API gateway, Lambda <br>
 Also frontend is secured by vercel automatically, but for backend i had to get SSL cerfificate to get HTTPS <br>
 
 ## Rules
