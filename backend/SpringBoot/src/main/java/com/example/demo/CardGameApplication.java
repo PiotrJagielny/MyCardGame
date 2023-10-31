@@ -10,15 +10,14 @@ import java.util.Collections;
 public class CardGameApplication {
 
 	public static void main(String[] args) {
-		if(args.length == 1) {
-			DecksDatabase.setProdDbPassword(args[0]);
-		}
-		else {
-			DecksDatabase.setProdDbPassword("1234");
-		}
+		//I disable database for production because i ran out of RDS free tier
+//		if(args.length == 1) {
+//			DecksDatabase.setProdDbPassword(args[0]);
+//		}
+//		else {
+//			DecksDatabase.setProdDbPassword("1234");
+//		}
 		SpringApplication app = new SpringApplication(CardGameApplication.class);
-//		app.setDefaultProperties(Collections
-//				.singletonMap("server.port", "8000"));
 		app.run(args);
 	}
 

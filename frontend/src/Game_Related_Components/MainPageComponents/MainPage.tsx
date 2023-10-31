@@ -5,7 +5,6 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import {Card} from './../Interfaces/Card';
 import './MainPage.css';
 import Modal from 'react-modal';
-import {sendMessage} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
 const MainPage = () => {
 
@@ -47,36 +46,38 @@ const MainPage = () => {
   useEffect(() => {
     if(chosenDeck !== "") {
       console.log(chosenDeck);
-      const socket = new WebSocket('wss://63mgnuyfr6.execute-api.eu-north-1.amazonaws.com/production/');
-      dispatch({type:"CONNECT_TO_SOCKET", payload: "", createdSocket: socket});
-      socket.addEventListener('open', e => {
-        console.log('WebSocket is connected');
-        sendMessage("findEnemy", socket);
-      })
-      socket.addEventListener('close', e => {
-        console.log('WebSocket is disconnected');
-      })
-      socket.addEventListener('message', e => {
-        let msg:string  = JSON.parse(e.data).message;
-        if(msg.includes("gameid:")){
-          registerUser(msg,"enemyFound", socket);
-        }
-        else if(msg.includes("to_duel_page")){
-          console.log("to duel page");
-          registerUser(msg,"getIntoDuelPage", socket);
-        }
-        else if(msg.includes("Go into duel page")) {
-          navigate("/Duel");
-        }
-      })
+      //I disabled web sockets to be able to test duel with yourself
+      // const socket = new WebSocket('wss://63mgnuyfr6.execute-api.eu-north-1.amazonaws.com/production/');
+      // dispatch({type:"CONNECT_TO_SOCKET", payload: "", createdSocket: socket});
+      // socket.addEventListener('open', e => {
+      //   console.log('WebSocket is connected');
+      //   sendMessage("findEnemy", socket);
+      // })
+      // socket.addEventListener('close', e => {
+      //   console.log('WebSocket is disconnected');
+      // })
+      // socket.addEventListener('message', e => {
+      //   let msg:string  = JSON.parse(e.data).message;
+      //   if(msg.includes("gameid:")){
+      //     registerUser(msg,"enemyFound", socket);
+      //   }
+      //   else if(msg.includes("to_duel_page")){
+      //     console.log("to duel page");
+      //     registerUser(msg,"getIntoDuelPage", socket);
+      //   }
+      //   else if(msg.includes("Go into duel page")) {
+      //     navigate("/Duel");
+      //   }
+      // })
 
-      setIsSearching(true);
+      // setIsSearching(true);
+      registerUser(userName);
       setIsModalOpen(false);
     }
   }, [chosenDeck])
 
-  const registerUser = (payload:string,topic: string,  socket: WebSocket) => {
-      let gameID = payload.split(":")[1]; 
+  const registerUser = (payload:string) => {
+      let gameID = payload; 
       dispatch({type:"SET_GAME_ID", payload: gameID});
       console.log(chosenDeck);
 
@@ -109,8 +110,7 @@ const MainPage = () => {
             body: JSON.stringify(values[0]),
           }).then(() => {
             console.log("user registered-----------------------------------");
-            sendMessage(topic, socket);
-            
+            navigate("/Duel");
           });
       });
 

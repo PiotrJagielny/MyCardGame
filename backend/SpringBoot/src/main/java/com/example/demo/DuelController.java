@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.Duel.ClientAPI.CardDuel;
 import com.example.demo.Duel.PlayerPlay;
@@ -60,10 +61,19 @@ public class DuelController {
     @PostMapping(path = "playCard")
     public CardDisplay playCard(@RequestBody List<CardDisplay> specificCards, @RequestParam String userName, @RequestParam int affectedRow,@RequestParam int rowNumber,
                          @RequestParam String gameID){
-        int cardPlayedIndex = 0;
-        int cardTargetedIndex = 1;
-        if(specificCards.get(cardPlayedIndex).getName().isEmpty() == false)
-            return duels.get(gameID).playCardAs(new PlayerPlay(specificCards.get(cardPlayedIndex), rowNumber, specificCards.get(cardTargetedIndex), affectedRow), userName);
+        CardDisplay cardPlayed = specificCards.get(0);
+        CardDisplay cardTargeted= specificCards.get(1);
+        if(cardPlayed.getName().isEmpty() == false) {
+            CardDisplay cardChain = duels.get(gameID).playCardAs(
+                    new PlayerPlay(cardPlayed, rowNumber, cardTargeted, affectedRow), userName
+            );
+            String enemy = duels.get(gameID).getOpponentOf(userName);
+            CardDisplay mirrorPlayerCard = duels.get(gameID).getHandOf(enemy).stream()
+                    .filter(c -> c.getName().equals(cardPlayed.getName()))
+                    .findFirst().orElse(new CardDisplay());
+            duels.get(gameID).playCardAs(new PlayerPlay(mirrorPlayerCard, rowNumber, new CardDisplay(), affectedRow), enemy);
+            return cardChain;
+        }
         return new CardDisplay();
     }
 
@@ -104,13 +114,23 @@ public class DuelController {
     public void registerUser(@RequestBody List<CardDisplay> deck, @PathVariable String userName, @PathVariable String gameID, @PathVariable String deckFraction) {
         if(duels.containsKey(gameID) == false) {
             duels.put(gameID, CardDuel.createDuel());
+
+            //Enemy bot
+            String botName = userName + " bot";
+            duels.get(gameID).registerPlayerToDuel(botName, deckFraction);
+            duels.get(gameID).parseCardsFor(deck, botName);
+
+            //Player
             duels.get(gameID).registerPlayerToDuel(userName, deckFraction);
             duels.get(gameID).parseCardsFor(deck, userName);
+
+            duels.get(gameID).dealCards();
         }
         else {
-            duels.get(gameID).registerPlayerToDuel(userName,deckFraction);
-            duels.get(gameID).parseCardsFor(deck, userName);
-            duels.get(gameID).dealCards();
+            //Web socket communication diabled
+//            duels.get(gameID).registerPlayerToDuel(userName,deckFraction);
+//            duels.get(gameID).parseCardsFor(deck, userName);
+//            duels.get(gameID).dealCards();
         }
     }
     @GetMapping(path="getEnemyOf/{userName}/{gameID}")

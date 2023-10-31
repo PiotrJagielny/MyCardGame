@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 @Service
 @RequestMapping(path = "/DeckBuilder")
-@CrossOrigin
+@CrossOrigin(originPatterns = "*")
 public class DeckBuilderController {
 
     private Map<String, DeckBuilder> deckBuilders = new HashMap<>();
@@ -21,8 +21,10 @@ public class DeckBuilderController {
     @PostMapping("setupBuilder")
     public void setupBuilder(@RequestBody String userName) {
         //TODO add a feature so that there cant be two same user names
-        if(deckBuilders.containsKey(userName) == false)
-            deckBuilders.put(userName, DecksDatabase.load(userName));
+        if(deckBuilders.containsKey(userName) == false) {
+//            deckBuilders.put(userName, DecksDatabase.load(userName));
+            deckBuilders.put(userName, new DeckBuilder());
+        }
 
     }
 
@@ -64,14 +66,14 @@ public class DeckBuilderController {
     @PostMapping(path = "PutCardToDeck/{userName}/{deckName}")
     public String AddCardToDeck(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName) {
         deckBuilders.get(userName).addCardToDeck(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
+//        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
         return "";
     }
 
     @PostMapping(path = "PutCardFromDeckBack/{userName}/{deckName}")
     public void PutCardFromDeckBack(@RequestBody CardDisplay cardDisplay, @PathVariable String userName, @PathVariable String deckName){
         deckBuilders.get(userName).putCardFromDeckBack(cardDisplay, deckName);
-        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
+//        DecksDatabase.saveDeck(userName,deckName, deckBuilders.get(userName).getDeckFraction(deckName),deckBuilders.get(userName).getCurrentDeck(deckName));
     }
 
     @PostMapping(path = "CreateDeck/{userName}/{fraction}")
@@ -79,7 +81,7 @@ public class DeckBuilderController {
         deckBuilders.get(userName).createDeck(deckName, fraction);
         List<String> decks = deckBuilders.get(userName).getDecksNames();
         if(decks.contains(deckName)) {
-            DecksDatabase.createDeck(userName,fraction,deckName);
+//            DecksDatabase.createDeck(userName,fraction,deckName);
         }
     }
 
@@ -90,7 +92,7 @@ public class DeckBuilderController {
 
     @PostMapping(path = "DeleteDeck/{userName}/{deckName}")
     public String DeleteDeck(@PathVariable String userName, @PathVariable String deckName) {
-        DecksDatabase.deleteDeck(userName, deckName);
+//        DecksDatabase.deleteDeck(userName, deckName);
         String response = deckBuilders.get(userName).deleteCurrentDeck(deckName);
         return response;
     }

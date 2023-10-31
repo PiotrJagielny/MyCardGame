@@ -12,7 +12,7 @@ import StateData from './../../Game_Unrelated_Components/reactRedux/reducer';
 import SockJS from 'sockjs-client';
 import {over} from 'stompjs';
 import {useNavigate} from "react-router-dom";
-import {sendMessage, renderWonRounds, getEnemyHandBlankCards} from '../../Game_Unrelated_Components/utils/utilFunctions';
+import { renderWonRounds, getEnemyHandBlankCards} from '../../Game_Unrelated_Components/utils/utilFunctions';
 
 var stompClient:any = null;
 var firstRow: number = 0;
@@ -126,7 +126,9 @@ const DuelPage = () => {
 
 
   useEffect(() => {
-    connectToSocket();
+    //Web socket communication disabled
+    // connectToSocket();
+    fetchCardsData();
     const controller = new AbortController();
       return () => {
         controller.abort();
@@ -233,7 +235,8 @@ const DuelPage = () => {
     if (mulliganedCards === 3) {
       // stompClient.send("/app/mulliganEnded", {}, userName);
       if(socket != null) {
-        sendMessage('mulliganEnded', socket)
+          //web socket comunication disabled
+        // sendMessage('mulliganEnded', socket)
       }
       setDidPlayerEndedMulligan(true);
     }
@@ -257,10 +260,13 @@ const DuelPage = () => {
   }
 
   const fetchCardsData = () => {
+    console.log(userName);
+    console.log(gameID);
     fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`, {headers: {'Access-Control-Allow-Origin': '*'}})
       .then((res) => res.text())
       .then((userEnemy: string) => {
         setEnemyName(userEnemy);
+        console.log("There is fetching");
         Promise.all([
           fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand),
           fetchData<Card[]>(`${serverURL}/Duel/getCardsOnRow/${userName}/${firstRow}/${gameID}`,cardsOnBoard ,setCardsOnBoard),
@@ -282,8 +288,8 @@ const DuelPage = () => {
           fetchData<string[]>(`${serverURL}/Duel/getRowsStatus/${userEnemy}/${gameID}`, rowsStatus,setRowsStatus),
           fetchData<number>(`${serverURL}/Duel/getHandSize/${userEnemy}/${gameID}`, enemyHandSize,setEnemyHandSize)
         ]).then((values) => { 
-          // console.log(values);
-          // console.log("all fetched")
+          console.log(values);
+          console.log("all fetched")
         })
         .catch((err) => console.log(err));
 
@@ -432,7 +438,8 @@ const DuelPage = () => {
         setPlayChainCard(cardChained);
         // stompClient.send('/app/sendTrigger', {}, userName, userName);
         if(socket != null) {
-          sendMessage('sendTrigger', socket)
+          //web socket comunication disabled
+          // sendMessage('sendTrigger', socket)
         }
         fetchCardsData();
       });

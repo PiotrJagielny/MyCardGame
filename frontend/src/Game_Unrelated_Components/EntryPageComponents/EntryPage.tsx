@@ -17,8 +17,8 @@ const EntryPage = () => {
 
 
     dispatch({type:"SET_USERNAME", payload: userName});
-    dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
-    // dispatch({type: "SET_SERVER_URL", payload: 'https://fsv0gtenbe.execute-api.eu-north-1.amazonaws.com'});
+    // dispatch({type: "SET_SERVER_URL", payload: 'http://localhost:8000'});
+    dispatch({type: "SET_SERVER_URL", payload: 'https://fsv0gtenbe.execute-api.eu-north-1.amazonaws.com'});
     
     navigate("/Main");
   }  
@@ -31,7 +31,7 @@ const EntryPage = () => {
         </h1>
         <h6>To test duel you have to first build your deck. When deck is read click find enemy two times and you will start game with yourself.</h6>
         <h6>Sometimes you have to refresh page and click load data if there are any bugs to load most recent updates</h6>
-        <h6>for now this website dont work because i am enhancing it</h6>
+        {/* <h3>for now this website doesn't work because i am enhancing it</h3> */}
         {/* <h6>but deck builder is still working</h6> */}
         {/* <h6>(I am so sorry but i have problems with server and i am fixing this right now)</h6> */}
 

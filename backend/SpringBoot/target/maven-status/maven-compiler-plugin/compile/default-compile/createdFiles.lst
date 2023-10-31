@@ -3,4 +3,6 @@ com\example\demo\DeckBuilderController.class
 com\example\demo\ChatController.class
 com\example\demo\TestController.class
 com\example\demo\DuelController.class
+com\example\demo\Configuration.class
 com\example\demo\CardGameApplication.class
+com\example\demo\Configuration$1.class
