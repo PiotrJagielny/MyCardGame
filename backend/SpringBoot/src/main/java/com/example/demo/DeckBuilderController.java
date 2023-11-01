@@ -3,7 +3,6 @@ package com.example.demo;
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import com.example.demo.cardsPersistence.DecksDatabase;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -11,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Service
 @RequestMapping(path = "/DeckBuilder")
-@CrossOrigin(originPatterns = "*")
+@CrossOrigin(origins = {"http://localhost:3000", "https://cardgame-piotrjagla.vercel.app/"},
+        allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST})
 public class DeckBuilderController {
 
     private Map<String, DeckBuilder> deckBuilders = new HashMap<>();
@@ -24,6 +23,8 @@ public class DeckBuilderController {
         if(deckBuilders.containsKey(userName) == false) {
 //            deckBuilders.put(userName, DecksDatabase.load(userName));
             deckBuilders.put(userName, new DeckBuilder());
+            deckBuilders.get(userName).createDeck("deck", Consts.Fraction.monsters);
+            deckBuilders.get(userName).addCardToDeck(deckBuilders.get(userName).getCardsPossibleToAdd("deck").get(0), "deck");
         }
 
     }

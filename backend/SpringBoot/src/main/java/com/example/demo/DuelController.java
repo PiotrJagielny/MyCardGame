@@ -16,8 +16,8 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping(path = "/Duel")
-@CrossOrigin
-public class DuelController {
+@CrossOrigin(origins = {"http://localhost:3000", "https://cardgame-piotrjagla.vercel.app"})
+ public class DuelController {
 
     private Map<String, CardDuel> duels = new HashMap<>();
 
