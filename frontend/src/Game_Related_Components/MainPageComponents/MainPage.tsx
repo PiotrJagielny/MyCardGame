@@ -19,7 +19,6 @@ const MainPage = () => {
 
       fetch(serverURL + '/DeckBuilder/setupBuilder', {
         method: 'POST',
-        headers: {'Content-Type': 'text/plain','Access-Control-Allow-Origin': '*'},
         body: userName,
       }).then(() => {
         navigate("/DeckBuilder");
@@ -29,7 +28,6 @@ const MainPage = () => {
 
   const handleModalClose= (deck:string) => {
     fetch(`${serverURL}/DeckBuilder/ValidateDeck/${userName}/${deck}`, 
-    {headers: {'Access-Control-Allow-Origin' : '*'}}
     )
     .then((res) => res.json())
     .then((isDeckValid: boolean) => {
@@ -83,7 +81,7 @@ const MainPage = () => {
 
       Promise.all([
         new Promise((res, rej) => {
-          fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${chosenDeck}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
+          fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${chosenDeck}` )
             .then((res) => res.json())
             .then((deckData: Card[]) => {
               res(deckData);
@@ -93,7 +91,7 @@ const MainPage = () => {
             })
         }),
         new Promise((res, rej) => {
-          fetch(`${serverURL}/DeckBuilder/GetDeckFraction/${userName}/${chosenDeck}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
+          fetch(`${serverURL}/DeckBuilder/GetDeckFraction/${userName}/${chosenDeck}`)
             .then((res) => res.text())
             .then((deckFraction: string) => {
               res(deckFraction);
@@ -106,7 +104,7 @@ const MainPage = () => {
         console.log(values);
           fetch(`${serverURL}/Duel/registerUser/${userName}/${gameID}/${values[1]}`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(values[0]),
           }).then(() => {
             console.log("user registered-----------------------------------");
@@ -122,7 +120,7 @@ const MainPage = () => {
 
 
   const RedirectToDuel = () =>{
-    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`, {headers: {'Access-Control-Allow-Origin' : '*'}})
+    fetch(`${serverURL}/DeckBuilder/GetDecksNames/${userName}`)
     .then((res) => res.json())
     .then((decksNames: string[]) => {
       setDecks(decksNames);

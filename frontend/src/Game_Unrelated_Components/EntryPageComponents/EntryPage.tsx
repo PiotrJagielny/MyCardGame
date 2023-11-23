@@ -29,8 +29,9 @@ const EntryPage = () => {
         <h1>
           Welcome to my card game!! <br />
         </h1>
-        <h6>To test duel you have to first build your deck. When deck is read click find enemy two times and you will start game with yourself.</h6>
         <h6>Sometimes you have to refresh page and click load data if there are any bugs to load most recent updates</h6>
+        <h6>Server is available from about 8 a.m. to 4 p.m.</h6>
+        <h4>To play this game you have to create deck, go back and click find enemy</h4>
         {/* <h3>for now this website doesn't work because i am enhancing it</h3> */}
         {/* <h6>but deck builder is still working</h6> */}
         {/* <h6>(I am so sorry but i have problems with server and i am fixing this right now)</h6> */}

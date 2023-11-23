@@ -27,14 +27,14 @@ const DeckBuilderPage = () => {
 
   const fetchCardsData = () => {
     Promise.all([
-    fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`, {headers: {'Access-Control-Allow-Origin' :'*'}})
+    fetch(`${serverURL}/DeckBuilder/GetAllCards/${userName}/${currentDeck}`)
       .then((res) => res.json())
       .then((cardsData: Card[]) => {
         setCardsData(cardsData);
       })
       .catch(console.error),
 
-      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${currentDeck}`, {headers: {'Access-Control-Allow-Origin' :'*'}})
+      fetch(`${serverURL}/DeckBuilder/GetCardsInDeck/${userName}/${currentDeck}`)
       .then((res) => res.json())
       .then((cardsInDeck: Card[]) => {
         setCardsInDeck(cardsInDeck);
@@ -49,7 +49,6 @@ const DeckBuilderPage = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin' : '*'
       },
       body: JSON.stringify(cardToPost.name)
     }).then(() => {
@@ -87,7 +86,7 @@ const DeckBuilderPage = () => {
   const sortAddableCardsBy = (criteria: string) => {
     fetch(`${serverURL}/DeckBuilder/SortAddableCardsBy/${userName}/${currentDeck}/${criteria}`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify("")
     }).then((response) => response.json())
     .then((sortedCards: Card[]) => {
@@ -102,7 +101,7 @@ const DeckBuilderPage = () => {
 
     fetch(postURL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify("")
     }).then((response) => response.json())
     .then((foundCards: Card[]) => {

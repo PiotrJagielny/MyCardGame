@@ -223,7 +223,7 @@ const DuelPage = () => {
     if(cardToMulligan.name !== "" && mulliganedCards <= 3) {
       fetch(serverURL + `/Duel/mulliganCard/${userName}/${gameID}`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(cardToMulligan)
       }).then(() => {
         fetchData<Card[]>(`${serverURL}/Duel/getHandCards/${userName}/${gameID}`, cardsInHand ,setCardsInHand);
@@ -246,7 +246,7 @@ const DuelPage = () => {
 
   const fetchData = <T,>(url: string,data: T ,setter: React.Dispatch<React.SetStateAction<T>>) => {
     return new Promise((res,rej) => {
-      fetch(url, {headers:{'Access-Control-Allow-Origin': '*'}})
+      fetch(url)
         .then((res) => res.json())
         .then((data: T) => {
           setter(data);
@@ -262,7 +262,7 @@ const DuelPage = () => {
   const fetchCardsData = () => {
     console.log(userName);
     console.log(gameID);
-    fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`, {headers: {'Access-Control-Allow-Origin': '*'}})
+    fetch(`${serverURL}/Duel/getEnemyOf/${userName}/${gameID}`)
       .then((res) => res.text())
       .then((userEnemy: string) => {
         setEnemyName(userEnemy);
@@ -336,8 +336,7 @@ const DuelPage = () => {
       fetch(`${serverURL}/Duel/getPossibleRowsToAffect/${gameID}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(cardDragged)
       }).then((response) => response.json())
@@ -397,8 +396,7 @@ const DuelPage = () => {
     fetch(`${serverURL}/Duel/getPossibleTargets/${userName}/${gameID}`, {
       method: 'POST',
       headers:  {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(cardDragged)
     }).then((response) => response.json())
@@ -430,8 +428,7 @@ const DuelPage = () => {
     fetch(postURL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(args)
       }).then((res) => res.json()).then( (cardChained: Card) => {
@@ -449,14 +446,13 @@ const DuelPage = () => {
     fetch(`${serverURL}/Duel/endRound/${player}/${gameID}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       body: null
     });
   }
   const handleGraveyardOpen = () => {
-    fetch(serverURL + `/Duel/getGraveyardCards/${userName}/${gameID}`, {headers: {'Access-Control-Allow-Origin': '*'}})
+    fetch(serverURL + `/Duel/getGraveyardCards/${userName}/${gameID}`)
       .then((res) => res.json())
       .then((data: Card[]) => {
         setGraveyardCards(data);
@@ -465,7 +461,7 @@ const DuelPage = () => {
       }).catch(console.error);
   }
   const handleDeckCardsOpen = () => {
-    fetch(serverURL + `/Duel/getDeckCards/${userName}/${gameID}`, {headers: {'Access-Control-Allow-Origin': '*'}})
+    fetch(serverURL + `/Duel/getDeckCards/${userName}/${gameID}`)
       .then((res) => res.json())
       .then((data: Card[]) => {
         setCardsInDeck(data);
