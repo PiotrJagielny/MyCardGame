@@ -120,6 +120,7 @@ const MainPage = () => {
             console.log("user registered-----------------------------------");
             stompClient.send(`/app/${topicToSendMessageTo}`, {}, userName);
             // stompClient.send(`/app/enemyFound`, {}, userName);
+
             
           });
       });
