@@ -53,6 +53,7 @@ const MainPage = () => {
       setIsSearching(true);
       setIsModalOpen(false);
     }
+
   }, [chosenDeck])
 
 
