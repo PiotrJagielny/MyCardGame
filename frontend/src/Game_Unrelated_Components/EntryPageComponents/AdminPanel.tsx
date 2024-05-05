@@ -5,6 +5,7 @@ import './AdminPanel.css'
 import Modal from 'react-modal';
 import {User} from './User';
 import StateData from './../reactRedux/reducer';
+import {Card} from '../../Game_Related_Components/Interfaces/Card'
 
 
 const AdminPanel = () => {
@@ -21,6 +22,20 @@ const AdminPanel = () => {
         .then((usersResponse: User[]) => {
             setUsers(usersResponse);
             setUserDeleteModalOpen(true);
+        })
+        .catch(console.error);
+    }
+
+    const saveCards = () => {
+        fetch(`${serverURL}/DeckBuilder/saveCards`)
+        .catch(console.error);
+    }
+
+    const getAllCards = () => {
+        fetch(`${serverURL}/DeckBuilder/getAllCards`)
+        .then((res) => res.json())
+        .then((usersResponse: Card[]) => {
+          console.log(usersResponse)
         })
         .catch(console.error);
     }
@@ -56,6 +71,12 @@ const AdminPanel = () => {
       </div>
       <div>
         <button className="connectBtn" onClick={fetchUsers}>Delete user</button>
+      </div>
+      {/* <div>
+        <button className="connectBtn" onClick={saveCards}>Save cards</button>
+      </div> */}
+      <div>
+        <button className="connectBtn" onClick={getAllCards}>Get all cards</button>
       </div>
     </div>
     

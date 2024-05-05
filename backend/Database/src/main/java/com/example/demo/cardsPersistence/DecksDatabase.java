@@ -1,7 +1,8 @@
 package com.example.demo.cardsPersistence;
 
+import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardDisplay;
-import com.example.demo.Consts;
+import com.example.demo.Cards.CardsFactory;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import org.hibernate.Session;
 
@@ -21,6 +22,47 @@ public class DecksDatabase {
         }};
 //        emf = Persistence.createEntityManagerFactory("production",dbProperties_prod);
         emf = Persistence.createEntityManagerFactory("development");
+    }
+
+    public static List<Card> getAllCards() {
+        Session s = emf.createEntityManager().unwrap(Session.class);
+
+        s.getTransaction().begin();
+        TypedQuery<CardInDatabseModel> tq = s.createQuery("SELECT c FROM CardInDatabseModel c");
+        List<CardInDatabseModel> foundCards = tq.getResultList();
+        System.out.println("SIZE OF FOUND CARDS :::::::::::::::::: " + foundCards.size());
+
+        List<Card> result = new ArrayList<>();
+        for(CardInDatabseModel c : foundCards) {
+            result.add(
+                    Card.createCard(
+                            new CardDisplay(c.getName(), c.getPoints(), c.getColor(), c.getFraction())
+                    )
+            );
+        }
+        s.getTransaction().commit();
+        return result;
+    }
+
+    public static void saveAllCards() {
+        List<Card> allCards = CardsFactory.createAllCards();
+        List<CardInDatabseModel> allPersistableCards = new ArrayList<>();
+
+        for(Card c : allCards) {
+            CardInDatabseModel toInsert = new CardInDatabseModel();
+            toInsert.setName(c.getDisplay().getName());
+            toInsert.setPoints(c.getDisplay().getPoints());
+            toInsert.setColor(c.getDisplay().getColor());
+            toInsert.setFraction(c.getDisplay().getFraction());
+            allPersistableCards.add(toInsert);
+        }
+
+        Session s = emf.createEntityManager().unwrap(Session.class);
+        s.getTransaction().begin();
+        for(CardInDatabseModel c : allPersistableCards) {
+            s.persist(c);
+        }
+        s.getTransaction().commit();
     }
 
     public static boolean registerUser(String username, String password) {

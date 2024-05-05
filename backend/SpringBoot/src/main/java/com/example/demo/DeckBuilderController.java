@@ -1,11 +1,13 @@
 package com.example.demo;
 
+import com.example.demo.Cards.Card;
 import com.example.demo.Cards.CardDisplay;
 import com.example.demo.DeckBuilding.DeckBuilder;
 import com.example.demo.cardsPersistence.DecksDatabase;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,23 @@ public class DeckBuilderController {
     @CrossOrigin
     public List<CardDisplay> GetAllCards(@PathVariable String userName, @PathVariable String deckName){
         return deckBuilders.get(userName).getCardsPossibleToAdd(deckName);
+    }
+
+    @GetMapping(path ="saveCards")
+    @CrossOrigin
+    public void saveCards(){
+        DecksDatabase.saveAllCards();
+    }
+
+    @GetMapping(path ="getAllCards")
+    @CrossOrigin
+    public List<CardDisplay> getAllCards(){
+        List<Card> allCards =  DecksDatabase.getAllCards();
+        List<CardDisplay> allCardsDisplays = new ArrayList<>();
+        for(Card c : allCards) {
+            allCardsDisplays.add(c.getDisplay());
+        }
+        return allCardsDisplays;
     }
 
     @PostMapping(path = "SortAddableCardsBy/{userName}/{deckName}/{criteria}")
